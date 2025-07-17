@@ -69,6 +69,19 @@
       -webkit-text-fill-color: white !important;
     }
 
+    /* Autofill fix for Chrome, Edge, Safari */
+    input.form-control:-webkit-autofill,
+    input.form-control:-webkit-autofill:focus,
+    input.form-control:-webkit-autofill:hover,
+    input.form-control:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
+      box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
+      -webkit-text-fill-color: white !important;
+      color: white !important;
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+
     .form-control::placeholder {
       color: rgba(255, 255, 255, 0.7) !important;
     }
