@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Packages</title>
+    <link rel="stylesheet" href="/vendors/feather/feather.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="/js/select.dataTables.min.css">
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-light: #a29bfe;
+        --secondary: #00cec9;
+        --success: #198754;
+        --success-light: #198754;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --dark: #2d3436;
+        --light: #f5f6fa;
+        --gray: #dfe6e9;
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --glass-effect: rgba(255, 255, 255, 0.15);
+      }
+  
+      .custom-container {
+        border: 2px solid #4b49ac;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f8f9fa;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 7px;
+        border-radius: 20px;
+      }
+  
+      .card-info h3 {
+        font-weight: 700;
+        font-family: 'arial';
+        padding: 9px 0px;
+      }
+  
+      .buy {
+        gap: 17px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+      }
+  
+      .subscribe-btn {
+        margin-left: 5px;
+        border-radius: 24px;
+        font-size: 16px;
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 8px 4px 8px 4px;
+        width: 100%;
+        max-width: 162px;
+        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        background: #4b49ac;
+        transition: all 0.3s;
+        outline: 0;
+        border: 0;
+      }
+  
+      .subscribe {
+        margin-left: 5px;
+        border-radius: 24px;
+        font-size: 16px;
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 10px 5px 10px 5px;
+        width: 100%;
+        min-width: 110px;
+        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        background: #f82804;
+        transition: all 0.3s;
+        outline: 0;
+        border: 0;
+      }
+  
+      .discount {
+        margin-left: 5px;
+        border-radius: 24px;
+        font-size: 16px;
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 10px 5px 10px 5px;
+        width: 100%;
+        max-width: 133px;
+        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
+        background: #4B49AC;
+        transition: all 0.3s;
+        outline: 0;
+        border: 0;
+      }
+  
+      .buy-btn:hover {
+        background-color: #A5CC4D;
+      }
+  
+      .img-txt-1 {
+        position: absolute;
+        top: 2%;
+        left: 10%;
+        color: #eeeaea;
+        font-size: 40px;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 500;
+      }
+  
+      .img-txt-2 {
+        position: absolute;
+        top: 6%;
+        left: 10%;
+        color: #FFFFFF;
+        font-size: 56px;
+      }
+  
+      .img-txt-3 {
+        position: absolute;
+        top: 23%;
+        left: 54%;
+        color: #FFFFFF;
+        font-size: 50px;
+        font-weight: 500;
+      }
+  
+      .img-fluids {
+        max-width: 100%;
+        height: 200px;
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+      }
+  
+      @media (max-width: 768px) {
+        .custom-container {
+          margin-top: 7px;
+        }
+      }
+  
+      @media (max-width: 405px) {
+        .buy {
+          flex-direction: column-reverse;
+          align-items: center;
+        }
+  
+        .discount {
+          font-weight: 600;
+          padding: 10px 5px 10px 5px;
+          width: 100%;
+          max-width: 150px;
+        }
+  
+        .subscribe {
+          font-weight: 600;
+          padding: 10px 5px 10px 5px;
+          width: 100%;
+          min-width: 150px;
+        }
+  
+        .img-txt-3 {
+          position: absolute;
+          top: 24%;
+          left: 53%;
+        }
+  
+        .img-txt-2 {
+          position: absolute;
+          top: 8%;
+        }
+      }
+  
+      .payment-logo {
+        cursor: pointer;
+        width: 70px;
+      }
+  
+      .payment-qr {
+        border-radius: 0;
+        width: 180px;
+      }
+  
+      .custom-cardimg {
+        background-image: url('../images/Packagesimg.jpg');
+        object-fit: contain;
+        background-position: center;
+        width: 100%;
+        height: 200px;
+        border-top-right-radius: 15px;
+        border-top-left-radius: 15px;
+      }
+  
+      /* form css */
+      .modal {
+        z-index: 1055;
+      }
+  
+      .modal-backdrop {
+        z-index: 1050;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+  
+      .modal-backdrop.show {
+        opacity: 0.5;
+      }
+  
+      .form-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 10px 17px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        animation: slideUp 0.8s ease forwards;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+  
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+  
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      .form-header {
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        color: white;
+        padding: 12px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 23px;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+      }
+  
+      .form-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shine 2s infinite;
+      }
+  
+      @keyframes shine {
+        0% {
+          left: -100%;
+        }
+  
+        100% {
+          left: 100%;
+        }
+      }
+  
+      .form-group {
+        position: relative;
+        margin-bottom: 30px;
+      }
+  
+      .form-control,
+      .form-select {
+        width: 100%;
+        border-bottom: 2px solid var(--gray);
+        background: transparent;
+        padding: 9px 3px;
+        font-size: 1rem;
+        color: var(--dark);
+        transition: all 0.3s ease;
+      }
+  
+      .form-control:focus,
+      .form-select:focus {
+        border-bottom-color: var(--primary);
+        outline: none;
+      }
+  
+      .form-label {
+        position: absolute;
+        top: 12px;
+        left: 0;
+        font-weight: 500;
+        color: black;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+  
+      .form-control:focus~.form-label,
+      .form-control:not(:placeholder-shown)~.form-label,
+      .form-select:focus~.form-label,
+      .form-select:not([value=""])~.form-label {
+        top: -20px;
+        left: 0;
+        font-size: 0.85rem;
+        color: var(--primary);
+      }
+  
+      .form-control:focus~.form-label::after,
+      .form-control:not(:placeholder-shown)~.form-label::after,
+      .form-select:focus~.form-label::after,
+      .form-select:not([value=""])~.form-label::after {
+        content: '*';
+        color: var(--danger);
+        margin-left: 5px;
+      }
+  
+      .form-select option {
+        background: var(--light);
+        color: var(--dark);
+      }
+  
+      .btn-success {
+        background: linear-gradient(90deg, var(--success), var(--success-light));
+        border: none;
+        padding: 15px;
+        border-radius: 50px;
+        font-weight: 600;
+        color: white;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+  
+      .btn-success:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+      }
+  
+      .btn-success::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shine 2s infinite;
+      }
+  
+      .error-message {
+        color: var(--danger);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+      }
+  
+      .input-error .error-message {
+        display: block;
+      }
+  
+      .input-error .form-control,
+      .input-error .form-select {
+        border-bottom-color: var(--danger);
+      }
+  
+      .form-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        transition: color 0.3s ease;
+      }
+  
+      .form-control:focus~.form-icon,
+      .form-select:focus~.form-icon {
+        color: var(--primary);
+      }
+  
+      .btn-primary {
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        color: white;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+  
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+      }
+  
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shine 2s infinite;
+      }
+  
+      /* form css */
+    </style>  
+</head>
+<body>
+    <div class="container-scroller">
+        <%- include ('../partials/_navbar.ejs') %>
+        <div class="container-fluid page-body-wrapper" style="padding-left: 0%; padding-right: 0%;">
+            <%- include ('../partials/SettingsDow.ejs') %>
+            <%- include ('../partials/Sidebar.ejs') %>
+            <div class="card col-md-10 col-lg-10 mx-auto" style="padding-left: 0%;background-color: #F3F3F9;">
+                <% if (messages.success) { %>
+                    <div style="display: flex; justify-content: end;">
+                        <div id="pusher-message-box" style="display: flex; border-left: 8px solid #45439e; color: green; font-weight: bold; font-size: 16px; justify-content: end; align-items: center; height: 70px;" class="mt-3 alert alert-primary">
+                            <%= messages.success %>
+                        </div>
+                    </div>
+                <% } %>
+                <% if (messages.error) { %>
+                    <div style="display: flex; justify-content: end;">
+                        <div id="pusher-message-box" style="display: flex; border-left: 8px solid #dc3545; color: red; font-weight: bold; font-size: 16px; justify-content: end; align-items: center; height: 70px;" class="mt-3 alert alert-danger">
+                            <%= messages.error %>
+                        </div>
+                    </div>
+                <% } %>
+                <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const msgBox = document.getElementById('pusher-message-box');
+                        if (msgBox) {
+                            setTimeout(() => {
+                                msgBox.style.transition = "opacity 0.5s";
+                                msgBox.style.opacity = 0;
+                                setTimeout(() => msgBox.style.display = "none", 500);
+                            }, 4000);
+                        }
+                    });
+                </script>
+                <div class="card-body" style="padding-right: 25px !important; padding-bottom: 0px; padding-left: 0%;">
+                  <div class="d-flex justify-content-between" class="crr">
+                    <h1 class="card-title ml-3 " style="font-size: 25px;"> Packages</h1>
+                    <% if (isAdmin) { %>
+                      <div>
+                        <a href="/AddPackages" class="btn" style="background-color: #45439e; color:white;
+                              border-radius: 11px;
+                              ">Add Package</a>
+
+                        <button type="button" class="btn " style="background-color: #45439e; color:white;
+                              border-radius: 11px;" data-bs-toggle="modal" data-bs-target="#addPackageModal">
+                          Add Dashboard Package
+                        </button>
+                        <% } %>
+                      </div>
+                  </div>
+                     <!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START -->
+                     <div class="modal fade come-from-modal pr-0" id="addPackageModal" tabindex="-1" role="dialog"
+                     aria-labelledby="addPackageModalLabel">
+                     <div class="modal-dialog modal-lg modal-dialog-centered">
+                       <div class="modal-content form-card">
+
+                         <!-- Modal Header -->
+                         <div class="form-header">
+                           <h5 class="modal-title" id="addPackageModalLabel">
+                             <i class="fas fa-box-open me-2"></i> Add Custom Package
+                           </h5>
+                         </div>
+
+                         <!-- Modal Body with Form -->
+                         <div class="modal-body">
+                           <form action="/Cards" method="POST">
+
+                             <!-- First Row -->
+                             <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
+                               <div class="form-group w-100">
+                                 <input type="text" name="Package" id="addPackage" class="form-control" required
+                                   placeholder="Enter your Package">
+                                 <label for="addPackage" class="form-label">Package Name</label>
+                               </div>
+                               <div class="form-group w-100">
+                                 <input type="number" name="Price" id="addPrice" class="form-control" required
+                                   placeholder="Enter your Price">
+                                 <label for="addPrice" class="form-label">Price</label>
+                               </div>
+                             </div>
+
+                             <!-- Second Row -->
+                             <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
+                               <div class="form-group w-100">
+                                 <input type="text" name="Speed" id="addSpeed" class="form-control" required
+                                   placeholder="Enter your Speed">
+                                 <label for="addSpeed" class="form-label">Speed</label>
+                               </div>
+                               <div class="form-group w-100">
+                                 <input type="text" name="Data_Used" id="addDataUsed" class="form-control" required
+                                   placeholder="Total Data Used">
+                                 <label for="addDataUsed" class="form-label">Data Used</label>
+                               </div>
+                             </div>
+
+                             <!-- Third Row -->
+                             <div class="d-flex  mb-4" style="gap: 8px !important;">
+                               <div class="form-group w-100">
+                                 <input type="date" name="Offer_Valid" id="addOfferValid" class="form-control" required
+                                   placeholder="Enter your Offer Valid">
+                                 <label for="addOfferValid" class="form-label">Offer Valid Until</label>
+                               </div>
+                               <div class="form-group w-100">
+                                 <input type="text" name="limits" id="addLimits" class="form-control" required
+                                   placeholder="Enter your limit">
+                                 <label for="addLimits" class="form-label">Limit</label>
+                               </div>
+                             </div>
+
+                             <!-- Submit Button -->
+                             <button type="submit" class="btn btn-primary">
+                               <i class="mdi mdi-package-variant me-2"></i> Add Package
+                             </button>
+                           </form>
+                         </div>
+
+                         <!-- Close Button -->
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                           style="position: absolute; top: 23px; right: 24px; font-size: 18px;"></button>
+                       </div>
+                     </div>
+                   </div>
+
+                   <!-- ADD the CARD ONALY THE ADMIN END --><!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START -->
+
+                    <div class="row ml-0 mr-0 mt-2 mb-2">
+                        <% packages.forEach(function(package){ %>
+                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                <div class="custom-container">
+                                    <div class="custom-cardimg">
+                                        <% if (isAdmin) { %>
+                                            <div style="display: flex; justify-content: flex-end; position: relative;">
+                                                <div class="icon" style="background-color: #EEA006; display: flex; justify-content: center; font-size: 25px; font-weight: 700; height:40px; width:40px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); margin-right: 10px;">
+                                                    <%= package.userCount %>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                    <span class="img-txt-2"><%= package.Package %></span>
+                                    <div class="card-info pl-3 pr-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>Rs. <%= package.Price %></h3>
+                                            <% if (package.discountPercentage > 0) { %>
+                                                <h4 class="text-success text-sm">Discount: <%= package.discountPercentage %>%</h4>
+                                            <% } %>
+                                        </div>
+                                        <% if (subscription && subscription.package_name === package.Package && user.invoice === "Paid") { %>
+                                            <div class="alert alert-success text-center">
+                                                <span style="color: green;"><span style="color: #FFFFFF;">Status: Activated</span></span>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="alert alert-warning text-center" style="border: 1px solid #45439e;">
+                                                No active plan for this package.
+                                            </div>
+                                        <% } %>
+                                        <div class="mbs d-flex pt-1">
+                                            <img src="/images/wifi1.png" alt="">
+                                            <span class="ml-3 font-weight-bold">Upto <%= package.Speed %> speed</span>
+                                        </div>
+                                        <div class="phone d-flex pt-2">
+                                            <img src="/images/speedometer1.png" alt="">
+                                            <span class="ml-3 font-weight-bold">Data Usage in month <%= package.Data_Used %></span>
+                                        </div>
+                                        <div class="stream d-flex pt-2">
+                                            <img src="/images/open-hand1.png" alt="">
+                                            <span class="ml-3 pt-1 font-weight-bold">Offer valid till <%= package.Offer_Valid %></span>
+                                        </div>
+                                        <div class="App d-flex pt-2">
+                                            <img src="/images/smarthome1.png" alt="">
+                                            <span class="ml-3 font-weight-bold"><%= package.limits %></span>
+                                        </div>
+                                        <p class="pt-3 font-weight-bold" style="font-size: 17px; margin-bottom: 20px;">
+                                            Internet Bundles prices are inclusive of all taxes
+                                        </p>
+                                        <div class="buy d-flex align-items-center">
+                                          <% if (isAdmin) { %>
+                                            <% if (packages.length> 0) { %>
+                                              <form action="/package/<%= package.id %>?_method=DELETE" method="POST"
+                                                style="display:inline;"
+                                                onsubmit="return confirm('Are you sure you want to delete this package?');">
+                                                <button
+                                                  style="border-radius: 20px; background:#DC3545; border: none;width: 40px; height: 40px; font-size: 19px;"
+                                                  type="submit" class="btn-action  view" title="Delete">
+                                                  <i class="bi bi-trash text-white"></i>
+                                                </button>
+                                              </form>
+                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
+                                              <!-- ssss -->
+                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
+                                              <!-- ssss -->
+    
+                                              <!-- Edit Modal  -->
+                                              <button
+                                                style="border-radius: 20px; width: 40px; height: 40px; background: green; border: none; color: white; font-size: 19px;"
+                                                data-bs-toggle="modal" data-bs-target="#updateModal<%= package.id %>">
+                                                <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+                                              </button>
+                                              <!-- Edit Modal  -->
+    
+                                              <!-- discountModal -->
+                                              <button
+                                                style="border-radius: 20px; width: 40px; height: 40px; background:#4B49AC;border: none; color:white;font-size: 19px;"
+                                                data-toggle="modal" data-target="#discountModal<%= package.id %>">
+                                                <i class="mdi mdi-tag-text-outline"></i>
+                                              </button>
+                                              <!-- discountModal -->
+    
+                                              <!-- Modal -->
+                                              <div class="modal fade" id="discountModal<%= package.id %>" tabindex="-1"
+                                                role="dialog" aria-labelledby="discountModalLabel<%= package.id %>"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="discountModalLabel<%= package.id %>">
+                                                        Give Any Discount</h5>
+                                                      <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form action="/discount/<%= package.id %>" method="POST">
+                                                        <!-- Hidden input for the id -->
+                                                        <input type="hidden" name="id" value="<%= package.id %>">
+    
+                                                        <!-- Input for the new price -->
+                                                        <input type="text" class="form-control mb-2"
+                                                          value="<%= package.Price %>" placeholder="Discount Price"
+                                                          name="Price" required>
+    
+                                                        <!-- Input for the discount percentage -->
+                                                        <input type="text" class="form-control mb-2"
+                                                          placeholder="Discount Percentage" name="discountPercentage"
+                                                          step="0.01" min="0" max="100">
+    
+                                                        <button type="submit" class="btn btn-primary">Give
+                                                          Discount</button>
+    
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+    
+                                              <!-- sss --> <!-- ssss --> <!-- ssss -->
+                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
+                                              <!-- ssss -->
+                                              <% } %>
+                                                <!-- Update Package --><!-- Update Package -->
+                                                <% packages.forEach(package=> { %>
+                                                  <div class="modal fade come-from-modal pr-0"
+                                                    id="updateModal<%= package.id %>" tabindex="-1" role="dialog"
+                                                    aria-labelledby="updateModal<%= package.id %>">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                      <div class="modal-content form-card">
+                                                        <div class="form-header">
+                                                          <h5 class="modal-title" id="updatePackageModalLabel">
+                                                            <i class="fas fa-box-open me-2"></i> Update Package
+                                                          </h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <form action="/package/<%= package.id %>" method="POST">
+                                                            <div class="d-flex gap-4 mb-3">
+                                                              <div class="form-group w-100">
+                                                                <input type="text" name="Package"
+                                                                  id="updatePackage<%= package.id %>" class="form-control"
+                                                                  value="<%= package.Package %>" required
+                                                                  placeholder="Update Package Name">
+                                                                <label for="updatePackage<%= package.id %>"
+                                                                  class="form-label">Package Name</label>
+                                                              </div>
+                                                              <div class="form-group w-100">
+                                                                <input type="number" name="Price"
+                                                                  id="updatePrice<%= package.id %>" class="form-control"
+                                                                  value="<%= package.Price %>" required
+                                                                  placeholder="Update Price">
+                                                                <label for="updatePrice<%= package.id %>"
+                                                                  class="form-label">Price</label>
+                                                              </div>
+                                                            </div>
+                                                            <div class="d-flex gap-4 mb-3">
+                                                              <div class="form-group w-100">
+                                                                <input type="text" name="Speed"
+                                                                  id="updateSpeed<%= package.id %>" class="form-control"
+                                                                  value="<%= package.Speed %>" required
+                                                                  placeholder="Update Speed">
+                                                                <label for="updateSpeed<%= package.id %>"
+                                                                  class="form-label">Speed</label>
+                                                              </div>
+                                                              <div class="form-group w-100">
+                                                                <input type="text" name="Data_Used"
+                                                                  id="updateDataUsed<%= package.id %>" class="form-control"
+                                                                  value="<%= package.Data_Used %>" required
+                                                                  placeholder="Update Data Used">
+                                                                <label for="updateDataUsed<%= package.id %>"
+                                                                  class="form-label">Data Used</label>
+                                                              </div>
+                                                            </div>
+                                                            <div class="d-flex gap-4 mb-3">
+                                                              <div class="form-group w-100">
+                                                                <input type="date" name="Offer_Valid"
+                                                                  id="updateOfferValid<%= package.id %>"
+                                                                  class="form-control" value="<%= package.Offer_Valid  %>"
+                                                                  required placeholder="Update Offer Valid">
+                                                                <label for="updateOfferValid<%= package.id %>"
+                                                                  class="form-label">Offer Valid Until</label>
+                                                              </div>
+                                                              <div class="form-group w-100">
+                                                                <input type="text" name="limits"
+                                                                  id="updateLimits<%= package.id %>" class="form-control"
+                                                                  value="<%= package.limits %>" required
+                                                                  placeholder="Update Limits">
+                                                                <label for="updateLimits<%= package.id %>"
+                                                                  class="form-label">Limits</label>
+                                                              </div>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success">
+                                                              <i class="fas fa-save me-2"></i> Update Package
+                                                            </button>
+                                                          </form>
+                                                        </div>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                          aria-label="Close"
+                                                          style="position: absolute; top: 23px; right: 24px; font-size: 18px;"></button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <% }) %>
+                                                    <!-- Update Package --><!-- Update Package -->
+                                                    <% } else { %>
+                                                      <button style="padding: 5px 8px;"
+                                                        class="subscribe-btn btn btn-primary"
+                                                        data-package="<%= package.Package %>"
+                                                        data-price="<%= package.Price %>">
+                                                        <i class="mdi mdi-shopping"></i>
+                                                        subscribe Now
+                                                      </button>
+                                                      <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Subscribe your Package</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="paymentChoice" class="text-center">
+                        <p><strong style="font-size: 20px;">Please select a payment method:</strong></p>
+                        <button id="manualPayBtn" class="btn btn-primary mx-2" style="width: fit-content;">Online Pay</button>
+                        <button id="customPayBtn" class="btn btn-success mx-2" style="width: fit-content; padding: 7px 13px;">Offline Pay</button>
+                    </div>
+                    <div id="customPaySection" style="display:none;">
+                        <p><strong>Selected Package:</strong> <span id="selectedPackage"></span></p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3">
+                            <a href="#" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo">
+                                <img src="/images/Jazz cash logo.svg" alt="JazzCash" class="img-fluid payment-logo" />
+                            </a>
+                            <a href="#" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo">
+                                <img src="/images/EASYPAISA logo.svg" alt="Easypaisa" class="img-fluid payment-logo" />
+                            </a>
+                            <a href="#" data-bs-toggle="collapse" data-bs-target="#raastInfo">
+                                <img src="/images/Raast-Logo.png" alt="Raast" class="img-fluid payment-logo" />
+                            </a>
+                        </div>
+                        <div id="jazzCashInfo" class="collapse text-center mt-2">
+                            <img src="/images/JAZZCASH QR.png" alt="JazzCash QR" class="payment-qr" />
+                            <p><strong>JazzCash:</strong> +92 306 9753003</p>
+                        </div>
+                        <div id="easypaisaInfo" class="collapse text-center mt-2">
+                            <img src="/images/EASYPAISA QR.png" alt="Easypaisa QR" class="payment-qr" />
+                            <p><strong>Easypaisa:</strong> +92 306 9753003</p>
+                        </div>
+                        <div id="raastInfo" class="collapse text-center mt-2">
+                            <p><strong>Raast:</strong> +92 306 9753003</p>
+                        </div>
+                        <% if (user) { %>
+                            <form id="paymentForm" action="/subscription" method="POST">
+                                <input type="hidden" id="package_active" name="active" value="Pending">
+                                <input type="hidden" id="package_name" name="package_name">
+                                <input type="hidden" id="user_id" name="user_id" value="<%= user.id %>">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" value="<%= user.Username %>" readonly>
+                                <label for="transaction_id">Transaction ID:</label>
+                                <input type="text" id="transaction_id" name="transaction_id" class="form-control" required>
+                                <label for="amount">Amount:</label>
+                                <input type="number" id="amount" name="amount" class="form-control" required readonly>
+                                <label for="custom_amount">Custom Amount (Optional):</label>
+                                <input type="number" id="custom_amount" name="custom_amount" class="form-control">
+                                <button type="submit" class="btn btn-success mt-3" style="padding: 10px 18px;">Submit</button>
+                            </form>
+                        <% } %>
+                    </div>
+                    <div id="manualPaySection" style="display:none;">
+                        <form id="PayFast_payment_form" method="post" action="https://ipg1.apps.net.pk/Ecommerce/api/Transaction/PostTransaction">
+                            <input type="hidden" name="CURRENCY_CODE" id="currency_code" />
+                            <input type="hidden" name="MERCHANT_ID" id="merchant_id" />
+                            <input type="hidden" name="TOKEN" id="token" />
+                            <div>
+                             
+                                <input type="hidden" name="BASKET_ID" class="form-control" id="basket_id" readonly />
+                            </div>
+                            <div>
+                                <label>Package Amount:</label>
+                                <input type="text" name="TXNAMT" class="form-control" id="txnAmtInput" readonly />
+                            </div>
+                            <div>
+                                <label>Active Date:</label>
+                                <input type="text" name="ORDER_DATE" class="form-control" id="order_date" readonly />
+                            </div>
+                            <div>
+                    
+                                <input type="hidden" name="SUCCESS_URL" class="form-control" value="https://app.clickopticx.com/success" readonly />
+                            </div>
+
+                            <div>
+                           
+                                <input type="hidden" name="FAILURE_URL" class="form-control" value="https://app.clickopticx.com/failure" readonly />
+                            </div>
+                            <div>
+                                <input type="hidden" name="NOTIFICATION_URL" class="form-control" value="https://app.clickopticx.com/payfast-itn" readonly />
+                            </div>
+                            <div>
+                                <input type="hidden" name="SIGNATURE" class="form-control" id="signature" readonly />
+                            </div>
+                            <div class="text-center mt-3">
+                                <input type="submit"  id="submitBtn" value="Submit Now" style="padding: 10px 18px;" class="btn btn-success">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include ('../partials/_footer.ejs') %>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+
+            subscribeButtons.forEach(button => {
+                button.addEventListener('click', async function () {
+                    const packageId = this.dataset.packageId;
+                    const packageName = this.dataset.package;
+                    const packagePrice = parseFloat(this.dataset.price).toFixed(2);
+
+                    console.log(`Selected Package: ${packageName}, Price: ${packagePrice}, ID: ${packageId}`);
+
+                    // Update modal fields
+                    document.getElementById('selectedPackage').textContent = packageName;
+                    document.getElementById('package_name').value = packageName;
+                    document.getElementById('amount').value = packagePrice;
+
+                    // Fetch PayFast token
+                    try {
+                        const response = await fetch('/get-payfast-token', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ packagePrice }),
+                        });
+
+                        const data = await response.json();
+                        console.log('PayFast Token Response:', data);
+
+                        if (!data.success) {
+                            alert('Failed to retrieve PayFast token: ' + data.message);
+                            return;
+                        }
+
+                        // Update PayFast form
+                        document.getElementById('currency_code').value = data.currency_code;
+                        document.getElementById('merchant_id').value = data.merchant_id;
+                        document.getElementById('token').value = data.token;
+                        document.getElementById('basket_id').value = data.basket_id;
+                        document.getElementById('txnAmtInput').value = data.trans_amount;
+                        document.getElementById('order_date').value = data.order_date;
+                        document.getElementById('signature').value = data.signature;
+
+                        // Store BASKET_ID in session or pass to success route
+                        sessionStorage.setItem('basket_id', data.basket_id);
+
+                        // Show payment modal
+                        document.getElementById('paymentChoice').style.display = 'block';
+                        document.getElementById('manualPaySection').style.display = 'none';
+                        document.getElementById('customPaySection').style.display = 'none';
+
+                        const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                        modal.show();
+                    } catch (error) {
+                        console.error('Error fetching PayFast token:', error);
+                        alert('An error occurred while processing your request.');
+                    }
+                });
+            });
+
+            document.getElementById('manualPayBtn').addEventListener('click', () => {
+                console.log('PayFast selected');
+                document.getElementById('paymentChoice').style.display = 'none';
+                document.getElementById('manualPaySection').style.display = 'block';
+                document.getElementById('customPaySection').style.display = 'none';
+            });
+
+            document.getElementById('customPayBtn').addEventListener('click', () => {
+                console.log('Custom Pay selected');
+                document.getElementById('paymentChoice').style.display = 'none';
+                document.getElementById('manualPaySection').style.display = 'none';
+                document.getElementById('customPaySection').style.display = 'block';
+            });
+
+            document.getElementById('PayFast_payment_form').addEventListener('submit', (e) => {
+                console.log('Submitting PayFast form with data:', {
+                    currency_code: document.getElementById('currency_code').value,
+                    merchant_id: document.getElementById('merchant_id').value,
+                    token: document.getElementById('token').value,
+                    basket_id: document.getElementById('basket_id').value,
+                    txnAmt: document.getElementById('txnAmtInput').value,
+                    order_date: document.getElementById('order_date').value,
+                    signature: document.getElementById('signature').value,
+                });
+            });
+        });
+    </script>
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/chart.js/Chart.min.js"></script>
+    <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="/js/dataTables.select.min.js"></script>
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/hoverable-collapse.js"></script>
+    <script src="/js/template.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/Chart.roundedBarCharts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

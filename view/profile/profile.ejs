@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Profile</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .user-profile {
+      padding-bottom: 30px;
+    }
+
+    .profile-header-background {
+      margin: -30px -30px 0 -30px;
+    }
+
+    .profile-header-background img {
+      width: 100%;
+      height: 135px;
+    }
+
+    .profile-info-left {
+      position: relative;
+      top: -92px;
+    }
+
+    .profile-info-left h2 {
+      font-family: "josefinslab-semibold";
+      margin-bottom: 30px;
+    }
+
+    .profile-info-left .section {
+      margin-top: 50px;
+    }
+
+    .profile-info-left .section h3 {
+      font-size: 1.1em;
+      font-weight: 700;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+
+    .profile-info-left ul.list-social>li {
+      line-height: 2.3;
+    }
+
+    .profile-info-left ul.list-social>li i {
+      font-size: 16px;
+      min-width: 16px;
+      line-height: 1;
+      position: relative;
+      top: 1px;
+    }
+
+    .profile-info-left ul.list-social>li a {
+      color: #696565;
+    }
+
+    .profile-info-right .tab-content {
+      padding: 30px 8px;
+      background-color: transparent;
+      border-radius: 23px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .profile-info-right {
+        position: relative;
+        top: -70px;
+      }
+    }
+
+    /* Followers & Following */
+    .user-follower,
+    .user-following {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .user-follower img,
+    .user-following img {
+      border-radius: 2px;
+      width: 40px;
+    }
+
+    .user-follower a,
+    .user-following a {
+      font-size: 1.1em;
+    }
+
+    .user-follower .username,
+    .user-following .username {
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    .user-follower .btn,
+    .user-following .btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 92px;
+    }
+
+    /* Follow Button */
+    .btn-toggle-following {
+      background-color: #7bae16;
+      color: #fff;
+    }
+
+    .btn-toggle-following:hover {
+      background-color: #ef2020;
+      color: #fff;
+    }
+
+    .btn-toggle-following:hover span {
+      display: none;
+    }
+
+    .btn-toggle-following:hover:after {
+      content: 'Unfollow';
+    }
+
+    .btn-toggle-following:hover i:before {
+      content: '\f129';
+    }
+
+    /* Icons List */
+    .list-icons-demo li {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .list-icons-demo li i {
+      font-size: 24px;
+    }
+
+    .list-icons-demo2 li {
+      margin-bottom: 10px;
+    }
+
+    /* Activity Section */
+    .activity-item {
+      position: relative;
+      margin: 15px 0;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+    }
+
+    .activity-item:first-child {
+      border-top: none;
+    }
+
+    .activity-item .avatar {
+      border-radius: 2px;
+      width: 32px;
+    }
+
+    .activity-item>i {
+      font-size: 18px;
+    }
+
+    .activity-item .activity-title {
+      line-height: 1.3;
+    }
+
+    .activity-item .activity-attachment {
+      padding-top: 20px;
+    }
+
+    .activity-item .well {
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      border-left: 2px solid #cfcfcf;
+      background: #fff;
+      margin-left: 20px;
+      font-size: 0.85em;
+    }
+
+    .activity-item .thumbnail {
+      display: inline;
+      border: none;
+      padding: 0;
+    }
+
+    .activity-item .thumbnail img {
+      border-radius: 2px;
+      width: auto;
+      margin: 0;
+    }
+
+    .activity-item .activity-actions {
+      position: absolute;
+      top: 15px;
+      right: 0;
+    }
+
+    .activity-item .activity-actions .btn i {
+      margin: 0;
+    }
+
+    .activity-item .activity-actions .dropdown-menu>li>a {
+      font-size: 0.9em;
+      padding: 3px 10px;
+    }
+
+    .activity-item+.btn {
+      margin-bottom: 15px;
+    }
+
+    /* Tabs and Pills */
+    .nav-tabs>li>a {
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+    }
+
+    .nav-tabs>li.active>a,
+    .nav-tabs>li.active>a:hover,
+    .nav-tabs>li.active>a:focus {
+      cursor: pointer;
+    }
+
+    .nav-pills>li>a {
+      border-radius: 2px;
+    }
+
+    .nav-pills>li.active>a,
+    .nav-pills>li.active>a:hover,
+    .nav-pills>li.active>a:focus {
+      background-color: #4B49AC !important;
+    }
+
+    /* Tabs Iconized */
+    .nav-tabs.tabs-iconized>li a,
+    .nav-pills.tabs-iconized>li a {
+      padding-top: 0;
+      padding-bottom: 5px;
+    }
+
+    .nav-tabs.tabs-iconized>li i,
+    .nav-pills.tabs-iconized>li i {
+      margin-right: 3px;
+      top: 4px;
+      font-size: 24px;
+      position: relative;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      padding: 30px 15px 15px;
+      background-color: #fff;
+    }
+
+    /* Custom Colored Tabs */
+    .nav.nav-tabs-custom-colored>li>a {
+      border-color: #ccc;
+      border-bottom: transparent;
+    }
+
+    .nav.nav-tabs-custom-colored>li>a:hover,
+    .nav.nav-tabs-custom-colored>li>a:focus {
+      background-color: #4B49AC;
+    }
+
+    .nav-tabs.nav-tabs-custom-colored {
+      border-bottom-color: #4B49AC;
+    }
+
+    .nav-tabs.nav-tabs-custom-colored>li {
+      margin-bottom: 0;
+      background-color: #fff;
+    }
+
+    .nav-tabs.nav-tabs-custom-colored>li>a {
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      color: #696565;
+    }
+
+    .nav-tabs.nav-tabs-custom-colored>li>a:hover,
+    .nav-tabs.nav-tabs-custom-colored>li>a:focus {
+      color: #fff;
+      border-color: #1688ae;
+    }
+
+    .nav-tabs.nav-tabs-custom-colored>li.active>a,
+    .nav-tabs.nav-tabs-custom-colored>li.active>a:hover,
+    .nav-tabs.nav-tabs-custom-colored>li.active>a:focus {
+      color: #fff;
+      background-color: #1688ae;
+      border-color: #1688ae;
+      border-bottom: transparent;
+    }
+
+    .nav-tabs>li.active {
+      z-index: 1;
+    }
+
+    /* Custom Minimal Pills */
+    .nav-pills-custom-minimal {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .nav-pills-custom-minimal>li>a {
+      border-radius: 0;
+      padding: 10px;
+      border-top: 4px solid transparent;
+      color: #696565;
+    }
+
+    .nav-pills-custom-minimal>li>a:hover,
+    .nav-pills-custom-minimal>li>a:focus {
+      background-color: transparent;
+      color: #4f4c4c;
+    }
+
+    .nav-pills-custom-minimal>li.active>a,
+    .nav-pills-custom-minimal>li.active>a:hover,
+    .nav-pills-custom-minimal>li.active>a:focus {
+      background-color: transparent;
+      border-top-color: #94c632;
+    }
+
+    .nav-pills-custom-minimal>li+li {
+      margin-left: 30px;
+    }
+
+    @media screen and (max-width: 480px) {
+      .nav-pills-custom-minimal>li+li {
+        margin-left: 0;
+      }
+    }
+
+    .nav-pills-custom-minimal.custom-minimal-bottom>li a {
+      border-top: none;
+      border-bottom: 4px solid transparent;
+    }
+
+    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a,
+    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a:hover,
+    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a:focus {
+      border-bottom-color: #94c632;
+    }
+
+    .avatar-lg {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    @media (min-width: 992px) {
+      .avatar-lg {
+        width: 304px;
+        height: 304px;
+      }
+    }
+
+    .container,
+    .user-profile {
+      min-height: 100vh;
+      /* Full screen height */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-profile {
+
+      padding: 20px 0;
+    }
+
+    .modal-custom {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      background-color: #4e73df;
+      color: white;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      padding: 1rem 1.5rem;
+    }
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .btn-close {
+      filter: invert(1);
+    }
+
+    .profile-img {
+      border-radius: 50%;
+      border: 3px solid #4e73df;
+      object-fit: cover;
+      height: 77px;
+    }
+
+    .custom-file-btn {
+      background-color: #4e73df;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .custom-file-btn:hover {
+      background-color: #2e59d9;
+      transform: translateY(-2px);
+    }
+
+    .form-control {
+      border: 1px solid #d1d3e2;
+      border-radius: 5px;
+      padding: 8px 12px;
+    }
+
+    .form-control:focus {
+      border-color: #bac8f3;
+      box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #5a5c69;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-success {
+      background-color: #1cc88a;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+
+    .btn-success:hover {
+      background-color: #17a673;
+    }
+
+    .custom-cancel-btn {
+      background-color: #e74a3b;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+
+    .custom-cancel-btn:hover {
+      background-color: #be2617;
+      color: white;
+    }
+
+    .text-secondary {
+      color: #858796 !important;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_settings-panel.html -->
+        <%- include ('../partials/SettingsDow.ejs') %>
+
+          <!-- partial:partials/_sidebar.html Start-->
+          <%- include ('../partials/Sidebar.ejs') %>
+            <!-- partial:partials/_sidebar.html End -->
+            <!-- Account Setting Start -->
+
+
+
+
+
+            <!-- User Profile -->
+            <div class="card-body">
+
+
+
+
+              <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+              <% if (messages.success) { %>
+                <div style="display: flex; justify-content: end;">
+                  <div id="pusher-message-box" style="
+      display: flex;
+      border-left: 8px solid #45439e;
+      color: green;
+      font-weight: bold;
+      font-size: 16px;
+      justify-content: end;
+      align-items: center;
+      height: 70px;
+    " class="mt-3 alert alert-primary">
+                    <%= messages.success %>
+                  </div>
+                </div>
+                <% } %>
+                  <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                      const msgBox = document.getElementById('pusher-message-box');
+                      if (msgBox) {
+                        setTimeout(() => {
+                          msgBox.style.transition = "opacity 0.5s";
+                          msgBox.style.opacity = 0;
+                          setTimeout(() => msgBox.style.display = "none", 500);
+                        }, 4000);
+                      }
+                    });
+                  </script>
+                  <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+
+                  <div class="container">
+                    <div class="user-profile">
+                      <div class="profile-header-background mb-3">
+                        <img src="images\profile1.jpg" alt="Profile Header Background" class="img-fluid w-100" />
+                      </div>
+
+                      <div class="row">
+                        <!-- Left Column: Profile Info -->
+                        <div class="col-lg-4 col-md-5 mb-4">
+                          <div class="profile-info-left text-center p-3 rounded shadow-sm">
+
+                            <img
+                              src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                              alt="Avatar" class="avatar rounded-circle img-fluid mb-3 avatar-lg" />
+                            <h2>
+                              <%= user.Username %>
+                                <%= user.lastName %>
+                            </h2>
+                            <div class="action-buttons mt-3">
+                              <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#updateModal" style=" background-color: #4B49AC !important;"><i
+                                  class="bi bi-person-bounding-box"></i> Update Profile
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Right Column: Tabs & Content -->
+                        <div class="col-lg-8 col-md-7">
+                          <div class="profile-info-right">
+                            <!-- Navigation Tabs -->
+                            <ul class="nav nav-pills flex-column flex-sm-row nav-pills-custom-minimal mb-3">
+                              <li class="nav-item flex-fill text-center">
+                                <a class="nav-link active " href="#activities" data-bs-toggle="tab"
+                                  style="border-radius: 10px; "><i class="bi bi-info-circle"></i> User Info</a>
+                              </li>
+                              <li class="nav-item flex-fill text-center">
+                                <a class="nav-link" href="#followers" data-bs-toggle="tab"
+                                  style="border-radius: 10px;"><i class="bi bi-shield-lock-fill"></i> Change Profile
+                                  Password</a>
+                              </li>
+                              <li class="nav-item flex-fill text-center">
+                                <a class="nav-link" href="#following" data-bs-toggle="tab"
+                                  style="border-radius: 10px;"><i class="bi bi-tools"></i> Equipment</a>
+                              </li>
+                            </ul>
+
+                            <!-- Tab Contents -->
+                            <div class="tab-content">
+                              <!-- Change Wifi Password -->
+                              <div class="tab-pane fade show active" id="activities">
+                                <div class="card profile-detail-card">
+                                  <div class="card-header bg-light">
+                                    <h5 class="card-title mb-0">
+                                      <i class="bi bi-person-lines-fill me-2"></i>Personal Information
+                                    </h5>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row mb-3 align-items-center">
+                                      <div class="col-md-4 fw-bold text-muted">
+                                        <i class="bi bi-person-circle me-2"></i>Full Name
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="p-2 bg-light rounded">
+                                          <%= user.Username %>
+                                            <%= user.lastName %>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                      <div class="col-md-4 fw-bold text-muted">
+                                        <i class="bi bi-envelope-check-fill me-2"></i>Email
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="p-2 bg-light rounded">
+                                          <%= user.Email %>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                      <div class="col-md-4 fw-bold text-muted">
+                                        <i class="bi bi-telephone-fill me-2"></i>Mobile Number
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="p-2 bg-light rounded">
+                                          <%= user.phoneNumber %>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                      <div class="col-md-4 fw-bold text-muted">
+                                        <i class="bi bi-person-vcard-fill me-2"></i>CNIC
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="p-2 bg-light rounded">
+                                          <%= user.cnic %>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                      <div class="col-md-4 fw-bold text-muted">
+                                        <i class="bi bi-geo-alt-fill me-2"></i>Address
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="p-2 bg-light rounded">
+                                          <%= user.address %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <!-- User Info -->
+                              <div class="tab-pane fade" id="followers">
+                                <div class="card p-4 shadow-sm" style="border-radius: 10px; border: none;">
+                                  <div class="card-header bg-white border-0 px-0 pt-0">
+                                    <h4 class="card-title fw-bold mb-1">Change Your Profile Password</h4>
+                                    <p class="card-subtitle text-muted">🔑 "One Click to Keep Your Internet Safe!"</p>
+                                  </div>
+
+                                  <div class="card-body px-0 py-3">
+                                    <form action="/sett" method="POST">
+                                      <!-- Current Password -->
+                                      <div class="mb-3">
+                                        <label for="password" class="form-label fw-medium">Current Password</label>
+                                        <div class="input-group">
+                                          <input type="password" class="form-control py-2" id="password" name="password"
+                                            required>
+                                          <button class="btn btn-outline-secondary toggle-password" type="button"
+                                            data-target="password">
+                                            <i class="bi bi-eye"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <!-- New Password -->
+                                      <div class="mb-3">
+                                        <label for="newPassword" class="form-label fw-medium">New Password</label>
+                                        <div class="input-group">
+                                          <input type="password" class="form-control py-2" id="newPassword"
+                                            name="newPassword" required>
+                                          <button class="btn btn-outline-secondary toggle-password" type="button"
+                                            data-target="newPassword">
+                                            <i class="bi bi-eye"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <!-- Confirm Password -->
+                                      <div class="mb-4">
+                                        <label for="confirmPassword" class="form-label fw-medium">Confirm
+                                          Password</label>
+                                        <div class="input-group">
+                                          <input type="password" class="form-control py-2" id="confirmPassword"
+                                            name="confirmPassword" required>
+                                          <button class="btn btn-outline-secondary toggle-password" type="button"
+                                            data-target="confirmPassword">
+                                            <i class="bi bi-eye"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <button type="submit" class="btn btn-primary w-100 py-2 fw-medium"
+                                        style="background-color: #4B49AC; border: none; border-radius: 8px;">
+                                        Update Password
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <script>
+                                // Simple password visibility toggle
+                                document.querySelectorAll('.toggle-password').forEach(button => {
+                                  button.addEventListener('click', function () {
+                                    const target = document.getElementById(this.dataset.target);
+                                    const icon = this.querySelector('i');
+                                    if (target.type === 'password') {
+                                      target.type = 'text';
+                                      icon.classList.replace('bi-eye', 'bi-eye-slash');
+                                    } else {
+                                      target.type = 'password';
+                                      icon.classList.replace('bi-eye-slash', 'bi-eye');
+                                    }
+                                  });
+                                });
+                              </script>
+
+                              <!-- Equipment Tab -->
+                              <div class="tab-pane fade" id="following">
+                                <% if (fibreData.length && fibreData[0].formType==='fibre' ) { let fibreGrandTotal=0; %>
+                                  <div class="card mt-3 p-3 shadow-sm">
+                                    <h4 class="text-center text-primary mb-3">Fibre Equipment Details</h4>
+                                    <div class="table-responsive">
+                                      <table class="table table-bordered table-sm">
+                                        <tbody>
+                                          <% fibreData.forEach((item)=> {
+                                            const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g,
+                                            '').trim()) || 0;
+                                            const totalPrice =
+                                            parsePrice(item.device_price) +
+                                            parsePrice(item.first_package_price) +
+                                            parsePrice(item.fibre_power_price) +
+                                            parsePrice(item.cable_price) +
+                                            parsePrice(item.duck_patti_price) +
+                                            parsePrice(item.patch_card_price);
+                                            fibreGrandTotal += totalPrice;
+                                            %>
+                                            <tr>
+                                              <th>Form Type</th>
+                                              <td>
+                                                <%= item.formType %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Device Label</th>
+                                              <td>
+                                                <%= item.device_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Device Price</th>
+                                              <td>
+                                                <%= item.device_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Power Label</th>
+                                              <td>
+                                                <%= item.fibre_power_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>First Package Price</th>
+                                              <td>
+                                                <%= item.first_package_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Power Price</th>
+                                              <td>
+                                                <%= item.fibre_power_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Color</th>
+                                              <td>
+                                                <%= item.fibre_color_value %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Supplying Value</th>
+                                              <td>
+                                                <%= item.fibre_supplying_value %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Cable Label</th>
+                                              <td>
+                                                <%= item.cable_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Cable Price</th>
+                                              <td>
+                                                <%= item.cable_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Splitter</th>
+                                              <td>
+                                                <%= item.splitter_value %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Duck Patti Label</th>
+                                              <td>
+                                                <%= item.duck_patti_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Duck Patti Price</th>
+                                              <td>
+                                                <%= item.duck_patti_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Patch Card Label</th>
+                                              <td>
+                                                <%= item.patch_card_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Patch Card Quantity</th>
+                                              <td>
+                                                <%= item.patch_card_custom_quantity %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Patch Card Price</th>
+                                              <td>
+                                                <%= item.patch_card_price %>
+                                              </td>
+                                            </tr>
+                                            <tr class="table-success">
+                                              <th>Total Price</th>
+                                              <td><strong>Rs: <%= totalPrice.toFixed(2) %></strong></td>
+                                            </tr>
+                                            <% }); %>
+                                              <tr class="table-info">
+                                                <th>Grand Total</th>
+                                                <td><strong>Rs: <%= fibreGrandTotal.toFixed(2) %></strong></td>
+                                              </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  <% } %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+            </div>
+      </div>
+  </div>
+
+
+
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-custom">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Update User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/update-profile" method="POST" enctype="multipart/form-data">
+            <!-- Hidden fields for userId and existing image -->
+            <input type="hidden" name="userId" value="<%= user.id %>">
+            <input type="hidden" name="existing_img" value="<%= user.user_img %>">
+            <div class="modal-body">
+              <div class="d-flex align-items-center gap-3 mb-4">
+                <img src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                  alt="Profile" class="profile-img" style="width: 77px !important;">
+                <label class="custom-file-btn bg-primary text-white btn btn-outline-secondary">
+                  Choose file
+                  <input type="file" name="profilePic" hidden>
+                </label>
+                <span class="text-secondary">No file chosen</span>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="Username" name="Username" value="<%= user.Username %>"">
+              </div>
+              <div class=" col-md-6">
+                  <label class="form-label">last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" id="Email" name="Email" value="<%= user.Email %>">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Mobile Number</label>
+                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                    value="<%= user.phoneNumber %>">
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <label class="form-label">Identity Number (CNIC)</label>
+                  <input type="number" class="form-control" id="cnic" name="cnic" value="<%= user.cnic %>">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" value="<%= user.address %>">
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn text-white " style="background: #198754;">Update</button>
+                <button type="button" class="btn custom-cancel-btn" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <!-- end of item -->
+  <script>
+    const apiKey = "f2d781b13e5a447892774059252105";
+    const apiUrl = "http://api.weatherapi.com/v1/current.json?key=" + apiKey + "&q=";
+
+    const searchBox = document.querySelector(".search input");
+    const searchBtn = document.querySelector(".search button");
+    const weatherIcon = document.querySelector(".weather-icon");
+
+    async function checkWeather(city) {
+      try {
+        const response = await fetch(apiUrl + city + "&aqi=yes");
+
+        if (!response.ok) {
+          throw new Error("City not found or invalid API key");
+        }
+
+        const data = await response.json();
+        console.log(data); // See the result in browser console
+
+        document.querySelector(".city").innerHTML = data.location.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.current.temp_c) + "°C";
+        document.querySelector(".humidity").innerHTML = data.current.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.current.wind_kph + " km/h";
+
+        // Weather condition for icon
+        const condition = data.current.condition.text.toLowerCase();
+
+        if (condition.includes("cloud")) {
+          weatherIcon.src = "images/clouds.png";
+        } else if (condition.includes("clear")) {
+          weatherIcon.src = "images/clear.png";
+        } else if (condition.includes("rain")) {
+          weatherIcon.src = "images/rain.png";
+        } else if (condition.includes("drizzle")) {
+          weatherIcon.src = "images/drizzle.png";
+        } else if (condition.includes("mist") || condition.includes("fog")) {
+          weatherIcon.src = "images/mist.png";
+        } else {
+          weatherIcon.src = "images/clear.png";
+        }
+
+      } catch (error) {
+        console.error("Error fetching weather:", error.message);
+        alert("Error: " + error.message);
+      }
+    }
+
+    searchBtn.addEventListener("click", () => {
+      const city = searchBox.value.trim();
+      if (city !== "") {
+        checkWeather(city);
+      }
+    });
+
+  </script>
+  <%- include('../partials/_footer.ejs') %>
+
+    <!-- plugins:js -->
+    <script src="vendors\js\vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors\chart.js/Chart.min.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="js/dataTables.select.min.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="js/dashboard.js"></script>
+    <script src="js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <!-- Bootstrap  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

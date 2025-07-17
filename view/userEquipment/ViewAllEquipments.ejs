@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>All Stock</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS (single version) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-light: #a29bfe;
+      --secondary: #00cec9;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --gray: #dfe6e9;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --glass-effect: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f6fa;
+      color: var(--dark);
+    }
+
+    .container-fluid.page-body-wrapper {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 20px;
+      border-radius: 15px 15px 0 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .search-input {
+      width: 300px;
+      border: none;
+      border-bottom: 2px solid var(--gray);
+      background: transparent;
+      padding: 10px 0;
+      font-size: 1rem;
+      color: var(--dark);
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-bottom-color: var(--primary);
+      outline: none;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .equipment-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .equipment-table th,
+    .equipment-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--gray);
+    }
+
+    .equipment-table th {
+      background: var(--light);
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .equipment-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .equipment-table tr:hover {
+      background: rgba(108, 92, 231, 0.05);
+    }
+
+    .status-in-stock {
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .status-low-stock {
+      color: var(--warning);
+      font-weight: 500;
+    }
+
+    .status-out-of-stock {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .action-btn:hover {
+      color: var(--primary-light);
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Main Card Styling */
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      /* background: linear-gradient(135deg, #1a73e8, #4285f4); */
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-header i {
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+
+    .header-actions .btn-refresh {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .header-actions .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    /* Alert Styling */
+    .alert {
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .alert-success {
+      background-color: rgba(52, 168, 83, 0.1);
+      color: #155724;
+      border-left: 4px solid #34a853;
+    }
+
+    .alert-danger {
+      background-color: rgba(234, 67, 53, 0.1);
+      color: #721c24;
+      border-left: 4px solid #ea4335;
+    }
+
+    .alert i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Toolbar Styling */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      /* min-width: 250px; */
+      max-width: 400px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #1a73e8;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .form-select {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #1a73e8, #4285f4);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+    }
+
+    .btn-add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(203, 204, 206, 0.3);
+    }
+
+    /* Table Styling */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .equipment-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 800px;
+    }
+
+    .equipment-table th {
+      background-color: #f5f8ff;
+      color: #1a73e8;
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      white-space: nowrap;
+    }
+
+    .equipment-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .equipment-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .equipment-table tr:hover {
+      background-color: #f9fbff;
+    }
+
+    /* Equipment Info Column */
+    .equipment-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .equipment-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .equipment-name {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .equipment-id {
+      font-size: 0.8rem;
+      color: #9e9e9e;
+      margin-top: 3px;
+    }
+
+    /* Category Badge */
+    .category-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      background-color: #e8f0fe;
+      color: #1a73e8;
+      font-weight: 500;
+    }
+
+    /* Quantity Display */
+    .quantity-display {
+      position: relative;
+      width: 80px;
+    }
+
+    .quantity-value {
+      position: relative;
+      z-index: 2;
+      font-weight: 500;
+    }
+
+    .quantity-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-color: rgba(66, 133, 244, 0.1);
+      border-radius: 4px;
+      z-index: 1;
+      transition: width 0.5s ease;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .status-badge i {
+      margin-right: 5px;
+      font-size: 0.9rem;
+    }
+
+    .in-stock {
+      background-color: rgba(52, 168, 83, 0.1);
+      color: #34a853;
+    }
+
+    .low-stock {
+      background-color: rgba(249, 171, 0, 0.1);
+      color: #f9ab00;
+    }
+
+    .out-of-stock {
+      background-color: rgba(234, 67, 53, 0.1);
+      color: #ea4335;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      color: #5f6368;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background-color: #f1f3f4;
+      color: #1a73e8;
+    }
+
+    .btn-action.view:hover {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+    }
+
+    .btn-action.edit:hover {
+      background-color: #fff8e1;
+      color: #f9ab00;
+    }
+
+    .btn-action.more:hover {
+      background-color: #f1f3f4;
+      color: #5f6368;
+    }
+
+    /* Empty State */
+    .empty-state td {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .empty-content {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .empty-content i {
+      font-size: 3rem;
+      color: #e0e0e0;
+      margin-bottom: 15px;
+    }
+
+    .empty-content h4 {
+      color: #5f6368;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .empty-content p {
+      color: #9e9e9e;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      background-color: #1a8754;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-primary i {
+      margin-right: 8px;
+    }
+
+    /* Table Footer */
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      color: #5f6368;
+    }
+
+    .showing-entries {
+      color: #5f6368;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 5px;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e0e0e0;
+      background-color: white;
+      color: #5f6368;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .page-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .page-btn.active {
+      background-color: #1a73e8;
+      color: white;
+      border-color: #1a73e8;
+    }
+
+    .page-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Modal Styling */
+    .modal {
+      z-index: 1055;
+    }
+
+    .modal-backdrop {
+      z-index: 1050;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop.show {
+      opacity: 0.5;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 10px 17px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideUp 0.8s ease forwards;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 23px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      border-bottom: 2px solid var(--gray);
+      background: transparent;
+      padding: 9px 3px;
+      font-size: 1rem;
+      color: var(--dark);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-bottom-color: var(--primary);
+      outline: none;
+    }
+
+    .form-label {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      font-weight: 500;
+      color: black;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus~.form-label,
+    .form-control:not(:placeholder-shown)~.form-label,
+    .form-select:focus~.form-label,
+    .form-select:not([value=""])~.form-label {
+      top: -20px;
+      left: 0;
+      font-size: 0.85rem;
+      color: var(--primary);
+    }
+
+    .form-control:focus~.form-label::after,
+    .form-control:not(:placeholder-shown)~.form-label::after,
+    .form-select:focus~.form-label::after,
+    .form-select:not([value=""])~.form-label::after {
+      content: '*';
+      color: var(--danger);
+      margin-left: 5px;
+    }
+
+    .form-select option {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .btn-primary {
+      background-color: #1a8754;
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: white;
+      /* width: 100%; */
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    .form-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: color 0.3s ease;
+    }
+
+    .form-control:focus~.form-icon,
+    .form-select:focus~.form-icon {
+      color: var(--primary);
+    }
+
+    .equipment-image {
+      max-height: 100px;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Modal Styling */
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        max-width: 100%;
+      }
+
+      .filter-options {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-add {
+        justify-content: center;
+      }
+
+      .table-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar -->
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial:partials/_navbar -->
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- NavBar Start -->
+        
+          <%- include ('../partials/Sidebar.ejs') %>
+            <!-- NavBar End -->
+
+            <!-- Main Content -->
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-tools mr-2"></i> Equipment Inventory
+                    <div class="header-actions">
+                      <button class="btn-refresh">
+                        <i class="fas fa-sync-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                    <!-- Calculate pagination display variables -->
+                    <% const currentPage=parseInt(page) || 1; const startIndex=(currentPage - 1) * entriesPerPage + 1;
+                      const endIndex=Math.min(startIndex + equipment.length - 1, totalEntries); const
+                      buildQueryString=(pageNum)=>
+                      {
+                      const params = new URLSearchParams();
+                      if (search) params.set('search', search);
+                      if (category) params.set('category', category);
+                      params.set('page', pageNum);
+                      return `/ViewAllEquipments?${params.toString()}`;
+                      };
+                      %>
+
+                      <% if (locals.flash && locals.flash.success) { %>
+                        <div class="alert alert-success">
+                          <i class="fas fa-check-circle mr-2"></i>
+                          <%= locals.flash.success %>
+                        </div>
+                        <% } %>
+
+                          <% if (error) { %>
+                            <div class="alert alert-danger">
+                              <i class="fas fa-exclamation-circle mr-2"></i>
+                              <%= error %>
+                            </div>
+                            <% } %>
+
+                              <div class="toolbar">
+                                <div class="search-box">
+                                  <i class="fas fa-search"></i>
+                                  <form action="/ViewAllEquipments" method="GET">
+                                    <input type="text" name="search" placeholder="Search equipment..."
+                                      value="<%= search %>" class="search-input">
+                                    <input type="hidden" name="category" value="<%= category %>">
+                                    <input type="hidden" name="page" value="<%= currentPage %>">
+                                  </form>
+                                </div>
+
+                                <div class="filter-options">
+                                  <form action="/ViewAllEquipments" method="GET" id="categoryFilterForm">
+                                    <div class="d-flex flex-wrap gap-2">
+                                      <!-- Category Filter -->
+                                      <select name="category" class="form-select" onchange="this.form.submit()">
+                                        <option value="">All Categories</option>
+                                        <option value="Fibre Optics" <%=category==='Fibre Optics' ? 'selected' : '' %>
+                                          >Fibre
+                                          Optics</option>
+                                        <option value="Wireless Devices" <%=category==='Wireless Devices' ? 'selected'
+                                          : '' %>>Wireless Devices</option>
+                                      </select>
+
+                                      <!-- Stock Status Filter -->
+                                      <select name="stockStatus" class="form-select" onchange="this.form.submit()">
+                                        <option value="">All Stock</option>
+                                        <option value="In Stock" <%=stockStatus==='In Stock' ? 'selected' : '' %>>In
+                                          Stock
+                                        </option>
+                                        <option value="Low Stock" <%=stockStatus==='Low Stock' ? 'selected' : '' %>>Low
+                                          Stock</option>
+                                        <option value="Out of Stock" <%=stockStatus==='Out of Stock' ? 'selected' : ''
+                                          %>
+                                          >Out of Stock</option>
+                                      </select>
+                                    </div>
+
+                                    <!-- Preserve search and page -->
+                                    <input type="hidden" name="search" value="<%= search %>">
+                                    <input type="hidden" name="page" value="<%= currentPage %>">
+                                  </form>
+
+                                  <!-- Add Equipment Button -->
+                                  <a href="/AddNewEquipment">
+                                    <button class="btn-add">
+                                      <i class="fas fa-plus mr-2"></i> Add Equipment
+                                    </button>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="table-responsive">
+                                <table class="equipment-table">
+                                  <thead>
+                                    <tr>
+                                      <th class="name-col">Equipment Name</th>
+                                      <th class="type-col">Type</th>
+                                      <th class="category-col">Category</th>
+                                      <th class="quantity-col">Quantity</th>
+                                      <th class="status-col">Status</th>
+                                      <th class="actions-col">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% if (equipment.length> 0) { %>
+                                      <% equipment.forEach(item=> { %>
+                                        <% // Parse the numeric part of the quantity for status and bar calculations let
+                                          quantityNumber=0; if (item.quantity) { const match=item.quantity.match(/\d+/);
+                                          quantityNumber=match ? parseInt(match[0]) : 0; } %>
+                                          <tr>
+                                            <td class="name-col">
+                                              <div class="equipment-info">
+                                                <img class="equipment-image"
+                                                  src="<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>">
+                                                <div>
+                                                  <div class="equipment-name">
+                                                    <%= item.name || 'Unnamed' %>
+                                                  </div>
+                                                  <div class="equipment-id">ID: <%= item.id || 'N/A' %>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td class="type-col">
+                                              <%= item.type || 'N/A' %>
+                                            </td>
+                                            <td class="category-col">
+                                              <span class="category-badge">
+                                                <%= item.category || 'N/A' %>
+                                              </span>
+                                            </td>
+                                            <td class="quantity-col">
+                                              <div class="quantity-display">
+                                                <div class="quantity-value">
+                                                  <%= item.quantity || '0' %>
+                                                </div>
+                                                <% if (quantityNumber> 0) { %>
+                                                  <div class="quantity-bar"
+                                                    style="width: <%= Math.min(100, (quantityNumber / 20) * 100) %>%">
+                                                  </div>
+                                                  <% } %>
+                                              </div>
+                                            </td>
+                                            <td class="status-col">
+                                              <% if (quantityNumber> 10) { %>
+                                                <span class="status-badge in-stock">
+                                                  <i class="fas fa-check-circle"></i> In Stock
+                                                </span>
+                                                <% } else if (quantityNumber> 0) { %>
+                                                  <span class="status-badge low-stock">
+                                                    <i class="fas fa-exclamation-triangle"></i> Low Stock
+                                                  </span>
+                                                  <% } else { %>
+                                                    <span class="status-badge out-of-stock">
+                                                      <i class="fas fa-times-circle"></i> Out of Stock
+                                                    </span>
+                                                    <% } %>
+                                            </td>
+                                            <td class="actions-col">
+                                              <div class="action-buttons">
+                                                <form action="/deleteEquipment/<%= item.id %>" method="POST"
+                                                  onsubmit="return confirm('Are you sure you want to delete this equipment?');">
+                                                  <button type="submit" class="btn-action view" title="Delete">
+                                                    <i class="bi bi-trash" style="color:red" ;></i>
+                                                  </button>
+                                                </form>
+                                                <!-- Update equipment -->
+                                                <button class="btn-action edit" title="Edit" data-bs-toggle="modal"
+                                                  data-bs-target="#editEquipmentModal" data-id="<%= item.id %>"
+                                                  data-type="<%= item.type %>" data-name="<%= item.name %>"
+                                                  data-quantity="<%= item.quantity %>"
+                                                  data-category="<%= item.category %>" data-image="<%= item.image %>">
+                                                  <i class="fas fa-edit" style="color:green;"></i>
+                                                </button>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <% }); %>
+                                            <% } else { %>
+                                              <tr class="empty-state">
+                                                <td colspan="6">
+                                                  <div class="empty-content">
+                                                    <i class="fas fa-box-open"></i>
+                                                    <h4>No Equipment Found</h4>
+                                                    <p>Add new equipment to get started</p>
+                                                    <a href="/AddNewEquipment">
+                                                      <button class="btn-primary">
+                                                        <i class="fas fa-plus mr-2"></i> Add Equipment
+                                                      </button>
+                                                    </a>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                              <% } %>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div class="table-footer">
+                                <div class="showing-entries">
+                                  Showing <%= startIndex %> to <%= endIndex %> of <%= totalEntries %> entries
+                                </div>
+                                <div class="pagination">
+                                  <a href="<%= currentPage > 1 ? buildQueryString(currentPage - 1) : '#' %>"
+                                    class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>">
+                                    <i class="fas fa-chevron-left"></i>
+                                  </a>
+                                  <% for (let i=1; i <=totalPages; i++) { %>
+                                    <a href="<%= buildQueryString(i) %>"
+                                      class="page-btn <%= currentPage === i ? 'active' : '' %>">
+                                      <%= i %>
+                                    </a>
+                                    <% } %>
+                                      <a href="<%= currentPage < totalPages ? buildQueryString(currentPage + 1) : '#' %>"
+                                        class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                        <i class="fas fa-chevron-right"></i>
+                                      </a>
+                                </div>
+                              </div>
+                  </div>
+                </div>
+
+                <!-- Edit Equipment Modal -->
+                <div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-labelledby="editEquipmentModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content form-card">
+                      <div class="form-header">
+                        <h5 class="modal-title" id="editEquipmentModalLabel">Edit Equipment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/updateEquipment" method="POST" enctype="multipart/form-data">
+                          <input type="hidden" name="id" id="edit-id">
+
+                          <div class="form-group">
+                            <select name="type" id="edit-type" class="form-select" required>
+                              <option value="" disabled selected hidden></option>
+                              <option value="fibre">Fibre</option>
+                              <option value="wireless">Wireless</option>
+                            </select>
+                            <label for="edit-type" class="form-label">Type</label>
+                            <i class="fas fa-chevron-down form-icon"></i>
+                          </div>
+
+                          <div class="form-group">
+                            <input type="text" name="name" id="edit-name" class="form-control" placeholder=" " required>
+                            <label for="edit-name" class="form-label">Equipment Name</label>
+                            <i class="fas fa-tag form-icon"></i>
+                          </div>
+
+                          <div class="form-group">
+                            <input type="text" name="quantity" id="edit-quantity" class="form-control" placeholder=" "
+                              required>
+                            <label for="edit-quantity" class="form-label">Quantity</label>
+                            <i class="fas fa-box form-icon"></i>
+                          </div>
+
+                          <div class="form-group">
+                            <input type="text" name="category" id="edit-category" class="form-control" placeholder=" "
+                              readonly>
+                            <label for="edit-category" class="form-label">Category</label>
+                            <i class="fas fa-list form-icon"></i>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="edit-image" class="form-label">Image (optional)</label>
+                            <input type="file" name="image" id="edit-image" class="form-control" accept="image/*">
+                            <div id="current-image-container" class="mt-2">
+                              <img id="current-image" class="equipment-image" alt="Current Equipment Image">
+                            </div>
+                          </div>
+
+                          <button type="submit" class="btn-primary">
+                            <i class="fas fa-save mr-2"></i> Update Equipment
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+  </div>
+
+  <!-- category changes automatically -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const typeSelect = document.getElementById('edit-type');
+      const categoryInput = document.getElementById('edit-category');
+
+      // Function to update category based on selected type
+      function updateCategory() {
+        if (typeSelect.value === 'fibre') {
+          categoryInput.value = 'Fibre Optics';
+        } else if (typeSelect.value === 'wireless') {
+          categoryInput.value = 'Wireless Devices';
+        } else {
+          categoryInput.value = '';
+        }
+      }
+
+      // Trigger on change
+      typeSelect.addEventListener('change', updateCategory);
+
+      // Also run once on page load (or modal open)
+      updateCategory();
+
+      // Search functionality
+      const searchInput = document.querySelector('.search-input');
+      searchInput.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+          this.closest('form').submit();
+        }
+      });
+
+      // Refresh button functionality
+      document.querySelector('.btn-refresh').addEventListener('click', function () {
+        location.reload();
+      });
+
+      // Populate edit modal with data
+      const editButtons = document.querySelectorAll('.btn-action.edit');
+      editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          const id = this.getAttribute('data-id');
+          const type = this.getAttribute('data-type');
+          const name = this.getAttribute('data-name');
+          const quantity = this.getAttribute('data-quantity');
+          const category = this.getAttribute('data-category');
+          const image = this.getAttribute('data-image');
+
+          document.getElementById('edit-id').value = id;
+          document.getElementById('edit-type').value = type || '';
+          document.getElementById('edit-name').value = name || '';
+          document.getElementById('edit-quantity').value = quantity || '';
+          document.getElementById('edit-category').value = category || '';
+
+          // Handle image preview
+          const currentImage = document.getElementById('current-image');
+          const currentImageContainer = document.getElementById('current-image-container');
+          if (image) {
+            currentImage.src = '/' + image;
+            currentImageContainer.style.display = 'block';
+          } else {
+            currentImageContainer.style.display = 'none';
+          }
+
+          // Update category based on type
+          updateCategory();
+        });
+      });
+
+      // Validate form on submit
+      const editForm = document.querySelector('#editEquipmentModal form');
+      editForm.addEventListener('submit', function (e) {
+        const nameInput = document.getElementById('edit-name');
+        const quantityInput = document.getElementById('edit-quantity');
+        const imageInput = document.getElementById('edit-image');
+        let errorMessage = '';
+
+        if (!nameInput.value.trim()) {
+          errorMessage = 'Equipment name is required';
+          nameInput.focus();
+          e.preventDefault();
+        } else if (!quantityInput.value.match(/^\d+\s*(?:\w+)?$/)) {
+          errorMessage = 'Quantity must be a number, optionally followed by a unit (e.g., "44" or "44 meter")';
+          quantityInput.focus();
+          e.preventDefault();
+        } else if (imageInput.files.length > 0) {
+          const file = imageInput.files[0];
+          if (!file.type.startsWith('image/')) {
+            errorMessage = 'Please upload a valid image';
+            imageInput.focus();
+            e.preventDefault();
+          } else if (file.size > 5 * 1024 * 1024) {
+            errorMessage = 'Image size must be less than 5MB';
+            imageInput.focus();
+            e.preventDefault();
+          }
+        }
+
+        if (errorMessage) {
+          alert(errorMessage);
+        }
+      });
+    });
+
+  </script>
+
+  <!-- Bootstrap JS and Popper.js (single version) -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+
+  <!-- Vendor and Custom Scripts -->
+  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <script src="vendors/chart.js/Chart.min.js"></script>
+  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="js/dataTables.select.min.js"></script>
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/Chart.roundedBarCharts.js"></script>
+  <!-- jQuery (single version, placed last to avoid conflicts) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</body>
+
+</html>

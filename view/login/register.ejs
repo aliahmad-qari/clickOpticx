@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Sing Up</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    /* Video Background Styling */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Improved form styling */
+    .auth-form-light {
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 30px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Text and icon visibility */
+    .auth-form-light,
+    .auth-form-light h2,
+    .auth-form-light p,
+    .auth-form-light a {
+      color: white !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+
+
+    /* Input group icons */
+    .input-group-text {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    /* Logo styling */
+    .brand-logo img {
+      max-width: 150px;
+      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    }
+
+    a.text-info {
+      /* color: inherit !important; */
+      text-decoration: none !important;
+    }
+
+    a.text-info:hover {
+      /* color: inherit !important; */
+      /* Prevent blue hover */
+      text-decoration: underline !important;
+      /* Optional: add underline on hover */
+    }
+
+    .form-control::placeholder {
+      color: #fff;
+    }
+
+    .form-control {
+      color: white;
+    }
+
+    .fa-eye {
+      color: black;
+    }
+  </style>
+
+</head>
+
+<body>
+  <video autoplay loop muted class="video-bg">
+    <source src="/images/1234.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light px-4 px-sm-5 d-flex flex-column align-items-center text-center">
+              <!-- Logo -->
+              <div class="brand-logo mb-3">
+                <% if (bg_result && bg_result[0] && bg_result[0].nav_imgs) { %>
+                  <img src="/uploads/<%= bg_result[0].nav_imgs %>" alt="Company Logo" class="mt-3">
+                  <% } else { %>
+                    <div class="logo-placeholder d-flex align-items-center justify-content-center"
+                      style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
+                      <span class="text-white fw-bold">LOGO</span>
+                    </div>
+                    <% } %>
+              </div>
+
+              <!-- Headings -->
+              <h4>Create Your Account</h4>
+              <h6 class="font-weight-light mb-4">Join us in just a few simple steps</h6>
+
+              <!-- Signup Form -->
+              <form action="/register" method="post" class="pt-3 w-100" style="max-width: 400px;">
+                <!-- Username -->
+                <div class="form-group position-relative mb-3">
+
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-person-fill text-white"></i>
+                    </span>
+                    <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" name="Username"
+                      placeholder="User Name" required autocomplete="username">
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group position-relative mb-3">
+
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-envelope-fill text-white"></i>
+                    </span>
+                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="Email"
+                      placeholder="Email address" required autocomplete="Email">
+                  </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group position-relative mb-3">
+
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-lock-fill text-white"></i>
+                    </span>
+                    <input type="password" class="form-control form-control-lg pe-5" id="exampleInputPassword1"
+                      name="password" placeholder="Password" required autocomplete="current-password">
+                    <button type="button" class="btn  text-black btn-link position-absolute end-0 top-50 translate-middle-y me-2"
+                      id="togglePasswordBtn" aria-label="Show password">
+                      <i class="fas fa-eye-slash" id="togglePasswordIcon"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary btn-lg py-3 fw-medium"
+                    style="border-radius: 23px; background-color: #4B49AC;">
+                    CREATE ACCOUNT
+                  </button>
+                </div>
+
+                <!-- Login Link -->
+                <div class="text-center mt-4 font-weight-light">
+                  Already have an account? <a href="/" class="text-info"
+                    style="color: inherit; text-decoration: none;">Sign In</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleButton = document.getElementById('togglePasswordBtn');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
+    const passwordInput = document.getElementById('exampleInputPassword1');
+
+    toggleButton.addEventListener('click', function () {
+      const isText = passwordInput.type === 'text';
+      passwordInput.type = isText ? 'password' : 'text';
+
+      toggleIcon.classList.toggle('fa-eye', isText);
+      toggleIcon.classList.toggle('fa-eye-slash', !isText);
+    });
+  </script>
+
+  <!-- plugins:js -->
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <!-- endinject -->
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+# Ignore node_modules for both client and server
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Ignore build and log files
+build/
+client/build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+client/.env
+server/.env
+
+# Ignore coverage reports
+coverage/
+client/coverage/
+server/coverage/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore editor folders
+.vscode/
+.idea/
+
+# Ignore local database files
+*.local.db
+*.sqlite
+
+# Ignore compiled files
+dist/
+client/dist/
+server/dist/
+
+# Ignore OS junk files
+*.swp
+*.swo
+
+# Ignore test output
+*.out
+
+# Ignore optional npm cache
+.npm/
+
+# Ignore yarn files
+.yarn/
+.pnp.*

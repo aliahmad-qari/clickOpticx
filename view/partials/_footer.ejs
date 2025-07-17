@@ -1,0 +1,66 @@
+<style>
+  .footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    margin: 0 10px;
+    color: #6c757d;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+  }
+
+  .footer-links a:hover {
+    color: #000;
+    transform: translateY(-5px);
+  }
+
+  .footer-links a.active {
+    color: #4b49ac;
+    font-weight: bold;
+  }
+
+  .footer-links i {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .footer-links span {
+    font-size: 14px;
+  }
+</style>
+
+<footer class="footer">
+  <div class="footer-links text-center py-1">
+   
+    <a href="/package" class="active">
+      <img width="28" height="28" src="images\package.png" alt="big-parcel"/>
+    </a>
+    <a href="/History" class="active">
+      <img width="28" height="28" src="images\history2.png" alt="time-machine"/>
+    </a>
+    <a href="/index" class="active">
+      <img width="28" height="28" src="images\home.png" alt="caretaker"/>
+    </a>
+    <a href="/contactUs" class="active">
+      <img width="28" height="28" src="images\customer-service.png" alt="phone-message"/>
+    </a>
+    <a href="/profile" class="active">
+      <img width="28" height="28" src="images\profile.png" alt="person-male--v2"/>
+    </a>
+  </div>
+</footer>
+

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Equipment Status</title>
+    <!-- Icon Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png" />
+
+  <style>
+    :root {
+        --primary: #4948ab;
+        --primary-light: #6a69c2;
+        --primary-dark: #343389;
+        --secondary: #ff7e33;
+        --accent: #ffb833;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #4cc9f0;
+        --warning: #f72585;
+        --gray: #6c757d;
+        --light-gray: #f1f3f9;
+    }
+
+    body {
+        background-color: #f5f7ff;
+    }
+
+    /* Fix for sidebar and main content layout */
+    .container-scroller {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    .main-panel {
+        flex-grow: 1;
+        width: calc(100% - 260px);
+        margin-top: 20px;
+    }
+
+    @media (max-width: 991px) {
+        .sidebar {
+            width: 0;
+            overflow: hidden;
+        }
+
+        .main-panel {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .sidebar.sidebar-offcanvas.active {
+            width: 260px;
+        }
+    }
+
+    .page-header {
+        padding: 20px 0;
+    }
+
+    .page-header h4 {
+        color: black;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+    }
+
+    .page-header h4::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--secondary);
+        border-radius: 3px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(73, 72, 171, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(73, 72, 171, 0.15);
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    /* Status filter buttons */
+    .status-filter {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+
+    .status-btn {
+        flex: 1;
+        min-width: 150px;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .status-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: all 0.5s ease;
+    }
+
+    .status-btn:hover::after {
+        left: 100%;
+    }
+
+    .status-btn.active {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-active {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .btn-active:hover {
+        background-color: var(--primary-dark);
+    }
+
+    .btn-inactive {
+        background-color: var(--gray);
+        color: white;
+    }
+
+    .btn-inactive:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-faulty {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-faulty:hover {
+        background-color: #c82333;
+    }
+
+    /* Equipment cards */
+    .equipment-card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .equipment-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+        padding: 15px;
+        font-weight: 600;
+        color: white;
+        display: flex;
+        align-items: center;
+    }
+
+    .active .card-header {
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    }
+
+    .inactive .card-header {
+        background: linear-gradient(135deg, var(--gray), #868e96);
+    }
+
+    .faulty .card-header {
+        background: linear-gradient(135deg, #dc3545, #e4606d);
+    }
+
+    .equipment-icon {
+        font-size: 20px;
+        margin-right: 10px;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Search input */
+    .search-container {
+        margin-bottom: 25px;
+        max-width: 350px;
+        position: relative;
+    }
+
+    .search-container i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+    }
+
+    .search-container input {
+        padding-left: 40px;
+        border-radius: 8px;
+        border: 1px solid var(--light-gray);
+        transition: all 0.3s ease;
+    }
+
+    .search-container input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(73, 72, 171, 0.1);
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(73, 72, 171, 0.1);
+        margin-top: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .empty-state:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(73, 72, 171, 0.15);
+    }
+
+    .empty-icon {
+        font-size: 3.5rem;
+        color: var(--primary-light);
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .empty-title {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-text {
+        color: var(--gray);
+        max-width: 400px;
+        margin: 0 auto 1.5rem;
+    }
+
+    /* Table styling for faulty equipment */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    .table thead th {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 15px;
+        font-weight: 500;
+    }
+
+    .table tbody td {
+        padding: 12px 15px;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--light-gray);
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover td {
+        background: rgba(73, 72, 171, 0.03);
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Action buttons */
+    .action-btn {
+        margin-right: 5px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+
+    /* Modal styles */
+    .modal-content {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(73, 72, 171, 0.2);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .modal-header {
+        border-bottom: none;
+        padding: 1.5rem 1.5rem 0;
+    }
+
+    .modal-title {
+        color: var(--primary);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-body {
+        padding: 1rem 1.5rem;
+        color: var(--dark);
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .modal-footer {
+        border-top: none;
+        padding: 0 1.5rem 1.5rem;
+        justify-content: center;
+    }
+
+    .modal-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .modal-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .success-modal .modal-header {
+        background: linear-gradient(135deg, #28a745, #34c759);
+        color: white;
+    }
+
+    .recovery-modal .modal-header {
+        background: linear-gradient(135deg, #dc3545, #e4606d);
+        color: white;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .status-filter {
+            flex-direction: column;
+        }
+
+        .status-btn {
+            width: 100%;
+        }
+
+        .search-container {
+            max-width: 100%;
+        }
+
+        .equipment-card {
+            animation-delay: 0s !important;
+        }
+    }
+
+    /* Animation delays for cards */
+    .equipment-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .equipment-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .equipment-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .equipment-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .equipment-card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .equipment-card:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+
+    .equipment-card:nth-child(7) {
+        animation-delay: 0.7s;
+    }
+
+    .equipment-card:nth-child(8) {
+        animation-delay: 0.8s;
+    }
+
+    .equipment-card:nth-child(9) {
+        animation-delay: 0.9s;
+    }
+
+    .equipment-card:nth-child(10) {
+        animation-delay: 1.0s;
+    }
+</style>
+
+</head>
+
+<body>
+  <div class="container-scroller">
+
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper" style="padding-left: 0px;">
+        <!-- partial:partials/_settings-panel.html -->
+        <%- include ('../partials/SettingsDow.ejs') %>
+
+                  <!-- NavBar Start -->
+                  <%- include ('../partials/Sidebar.ejs') %>
+                  <!-- NavBar End -->
+
+                <!-- aaaaaaaaaaaaaaaaaaaaaaa -->
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row">
+                            <div class="col-12 grid-margin" style="padding-left: 22px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="page-header">
+                                            <h4><i class="bi bi-activity me-2"></i>Equipment Status</h4>
+                                        </div>
+    
+                                        <!-- Filter Buttons -->
+                                        <div class="status-filter">
+                                            <button id="active-btn" class="status-btn btn-active active">
+                                                <i class="fas fa-check-circle equipment-icon"></i>
+                                                Active (<%= activeEquipment.length %>)
+                                            </button>
+                                            <button id="inactive-btn" class="status-btn btn-inactive">
+                                                <i class="fas fa-box equipment-icon"></i>
+                                                Inactive (<%= inactiveEquipment.length %>)
+                                            </button>
+                                            <button id="faulty-btn" class="status-btn btn-faulty">
+                                                <i class="fas fa-exclamation-triangle equipment-icon"></i>
+                                                Faulty
+                                            </button>
+                                        </div>
+    
+                                        <!-- Active Section -->
+                                        <div id="active-equipment" class="equipment-section">
+                                            <div class="search-container">
+                                                <i class="fas fa-search"></i>
+                                                <input type="text" id="active-search" class="form-control"
+                                                    placeholder="Search active equipment...">
+                                            </div>
+                                            <div class="row">
+                                                <% if (activeEquipment.length> 0) { %>
+                                                    <% activeEquipment.forEach((e, index)=> { %>
+                                                        <div class="col-md-6 col-lg-4">
+                                                            <div class="equipment-card active"
+                                                                style="animation-delay: <%= (index * 0.1) + 0.1 %>s">
+                                                                <div class="card-header">
+                                                                    <i class="fas fa-desktop equipment-icon"></i>
+                                                                    <%= e.equipment_name %>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <p class="mb-2"><i class="fas fa-user me-2"></i>Assigned
+                                                                        to: User</p>
+                                                                    <p class="mb-0"><i class="fas fa-calendar me-2"></i>Last
+                                                                        checked: Today</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% }) %>
+                                                            <% } else { %>
+                                                                <div class="col-12">
+                                                                    <div class="empty-state">
+                                                                        <div class="empty-icon"><i
+                                                                                class="fas fa-box-open"></i></div>
+                                                                        <h5 class="empty-title">No Active Equipment</h5>
+                                                                        <p class="empty-text">No equipment is currently
+                                                                            assigned to users.</p>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Inactive Section -->
+                                        <div id="inactive-equipment" class="equipment-section" style="display: none;">
+                                            <div class="search-container">
+                                                <i class="fas fa-search"></i>
+                                                <input type="text" id="inactive-search" class="form-control"
+                                                    placeholder="Search inactive equipment...">
+                                            </div>
+                                            <div class="row">
+                                                <% if (inactiveEquipment.length> 0) { %>
+                                                    <% inactiveEquipment.forEach((e, index)=> { %>
+                                                        <div class="col-md-6 col-lg-4">
+                                                            <div class="equipment-card inactive"
+                                                                style="animation-delay: <%= (index * 0.1) + 0.1 %>s">
+                                                                <div class="card-header">
+                                                                    <i class="fas fa-box equipment-icon"></i>
+                                                                    <%= e.name %>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <p class="mb-2"><i
+                                                                            class="fas fa-layer-group me-2"></i>Quantity:
+                                                                        <%= e.quantity %>
+                                                                    </p>
+                                                                    <p class="mb-0"><i class="fas fa-warehouse me-2"></i>In
+                                                                        storage</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% }) %>
+                                                            <% } else { %>
+                                                                <div class="col-12">
+                                                                    <div class="empty-state">
+                                                                        <div class="empty-icon"><i
+                                                                                class="fas fa-box-open"></i></div>
+                                                                        <h5 class="empty-title">No Inactive Equipment</h5>
+                                                                        <p class="empty-text">No equipment is available in
+                                                                            stock.</p>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Faulty Section -->
+                                        <div id="faulty-equipment" class="equipment-section" style="display: none;">
+                                            <% if (faultyEquipment.length> 0) { %>
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Team Name</th>
+                                                                <th>User</th>
+                                                                <th>Equipment</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% faultyEquipment.forEach(item=> { %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="team-cell">
+                                                                            <div class="team-icon"><i
+                                                                                    class="bi bi-people-fill"></i></div>
+                                                                            <div>
+                                                                                <%= item.teamName %>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= item.Username %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= item.equipment %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= item.currentDate %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= item.status || 'Faulty' %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button
+                                                                            class="btn btn-sm btn-success action-btn repair-btn"
+                                                                            data-id="<%= item.id %>"
+                                                                            data-equipment="<%= item.equipment %>">
+                                                                            Repairable
+                                                                        </button>
+                                                                        <button
+                                                                            class="btn btn-sm btn-danger action-btn permanent-damage-btn"
+                                                                            data-id="<%= item.id %>"
+                                                                            data-equipment="<%= item.equipment %>"
+                                                                            data-team="<%= item.teamName %>">
+                                                                            Permanent Damage
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                <% }) %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="empty-state">
+                                                        <div class="empty-icon"><i class="fas fa-exclamation-circle"></i>
+                                                        </div>
+                                                        <h5 class="empty-title">No Faulty Equipment Found</h5>
+                                                        <p class="empty-text">All equipment is functioning properly.</p>
+                                                    </div>
+                                                    <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Modals -->
+                    <!-- Success Modal for Repairable -->
+                    <div class="modal fade" id="repairSuccessModal" tabindex="-1" aria-labelledby="repairSuccessModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content success-modal">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="repairSuccessModalLabel">
+                                        <i class="fas fa-check-circle"></i> Success
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Equipment added to stock successfully!
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="modal-btn" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Recovery Modal for Permanent Damage -->
+                    <div class="modal fade" id="recoveryModal" tabindex="-1" aria-labelledby="recoveryModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content recovery-modal">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="recoveryModalLabel">
+                                        <i class="fas fa-exclamation-triangle"></i> Sent to Recovery
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Equipment has been sent to the recovery section.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="modal-btn" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                <!-- aaaaaaaaaaaaaaaaaaaaaaa -->
+                  </div>
+                    <!-- plugins:js -->
+      
+                      
+           <!-- Vendor Scripts -->
+           <script src="/vendors/js/vendor.bundle.base.js"></script>
+           <script src="/js/off-canvas.js"></script>
+           <script src="/js/hoverable-collapse.js"></script>
+           <script src="/js/template.js"></script>
+           <script src="/js/settings.js"></script>
+           <!-- Bootstrap and jQuery -->
+           <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+           <!-- Page Scripts -->
+           <script>
+               $(document).ready(function () {
+                   // Highlight active menu item
+                   $('a[href="/EquipmentStatus"]').parent().addClass('active');
+
+                   // Status filter button functionality
+                   $('.status-btn').click(function () {
+                       $('.status-btn').removeClass('active');
+                       $(this).addClass('active');
+                       $('.equipment-section').hide();
+
+                       var btnId = $(this).attr('id');
+                       if (btnId === 'active-btn') {
+                           $('#active-equipment').show();
+                           $('#active-equipment .equipment-card').each(function (index) {
+                               $(this).css('animation', 'fadeInUp 0.5s ease forwards ' + (index * 0.1 + 0.1) + 's');
+                           });
+                       } else if (btnId === 'inactive-btn') {
+                           $('#inactive-equipment').show();
+                           $('#inactive-equipment .equipment-card').each(function (index) {
+                               $(this).css('animation', 'fadeInUp 0.5s ease forwards ' + (index * 0.1 + 0.1) + 's');
+                           });
+                       } else if (btnId === 'faulty-btn') {
+                           $('#faulty-equipment').show();
+                       }
+                   });
+
+                   // Search functionality for Active section
+                   $('#active-search').on('input', function () {
+                       var searchTerm = $(this).val().toLowerCase();
+                       $('#active-equipment .equipment-card').each(function () {
+                           var deviceName = $(this).find('.card-header').text().toLowerCase();
+                           if (deviceName.includes(searchTerm)) {
+                               $(this).parent().show();
+                           } else {
+                               $(this).parent().hide();
+                           }
+                       });
+                   });
+
+                   // Search functionality for Inactive section
+                   $('#inactive-search').on('input', function () {
+                       var searchTerm = $(this).val().toLowerCase();
+                       $('#inactive-equipment .equipment-card').each(function () {
+                           var deviceName = $(this).find('.card-header').text().toLowerCase();
+                           if (deviceName.includes(searchTerm)) {
+                               $(this).parent().show();
+                           } else {
+                               $(this).parent().hide();
+                           }
+                       });
+                   });
+
+                   // Repairable button handler
+                   $('.repair-btn').click(function () {
+                       const id = $(this).data('id');
+                       const equipment = $(this).data('equipment');
+                       const $statusCell = $(this).closest('tr').find('td:nth-child(5)');
+
+                       $.ajax({
+                           url: `/repair-equipment/${id}`,
+                           method: 'POST',
+                           data: { equipment },
+                           success: function (response) {
+                               if (response.success) {
+                                   $statusCell.text('Repaired');
+                                   const modal = new bootstrap.Modal(document.getElementById('repairSuccessModal'));
+                                   modal.show();
+                                   setTimeout(() => modal.hide(), 2000); // Auto-close after 2 seconds
+                               } else {
+                                   alert('Error: ' + response.message);
+                               }
+                           },
+                           error: function () {
+                               alert('Error processing repair request');
+                           }
+                       });
+                   });
+
+                   // Permanent Damage button handler
+                   $('.permanent-damage-btn').click(function () {
+                       const id = $(this).data('id');
+                       const equipment = $(this).data('equipment');
+                       const teamName = $(this).data('team');
+                       const $statusCell = $(this).closest('tr').find('td:nth-child(5)');
+
+                       $.ajax({
+                           url: `/mark-permanent-damage/${id}`,
+                           method: 'POST',
+                           data: { equipment, teamName },
+                           success: function (response) {
+                               if (response.success) {
+                                   $statusCell.text('Permanent Damage');
+                                   const modal = new bootstrap.Modal(document.getElementById('recoveryModal'));
+                                   modal.show();
+                                   setTimeout(() => modal.hide(), 2000); // Auto-close after 2 seconds
+                               } else {
+                                   alert('Error: ' + response.message);
+                               }
+                           },
+                           error: function () {
+                               alert('Error processing permanent damage request');
+                           }
+                       });
+                   });
+                   $('#active-equipment').show();
+               });
+           </script>
+</body>
+
+</html>

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Add Users</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+    <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/favicon.png" />
+
+    <!-- Material Design Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container-scroller">
+
+        <%- include ('../partials/_navbar.ejs') %>
+            <!-- partial -->
+            <div class="container-fluid page-body-wrapper" style="padding-left:0% !important; ">                <!-- partial:partials/_settings-panel.html -->
+    
+                <%- include ('../partials/SettingsDow.ejs') %>
+                  <!-- NavBar Start -->
+                  <%- include ('../partials/SettingsDow.ejs') %>
+                  <%- include ('../partials/Sidebar.ejs') %>
+                  <!-- NavBar End -->
+
+                    <div class="card col-md-10 col-lg-10 mx-auto">
+                        <div class="card-body">
+                                    <!-- sss -->  <!-- sss -->  <!-- sss -->  <!-- sss -->
+        <% if (messages.success) { %>
+            <div style="display: flex; justify-content: end;"> 
+              <div id="pusher-message-box" style="
+                display: flex;
+                border-left: 8px solid #45439e;
+                color: green;
+                font-weight: bold;
+                font-size: 16px;
+                justify-content: end;
+                align-items: center;
+                height: 70px;
+              " class="mt-3 alert alert-primary">
+                <%= messages.success %>
+              </div>
+            </div>
+          <% } %>
+          <script>
+            window.addEventListener('DOMContentLoaded', () => {
+              const msgBox = document.getElementById('pusher-message-box');
+              if (msgBox) {
+                setTimeout(() => {
+                  msgBox.style.transition = "opacity 0.5s";
+                  msgBox.style.opacity = 0;
+                  setTimeout(() => msgBox.style.display = "none", 500);
+                }, 4000);
+              }
+            });
+          </script>
+          <!-- sss -->  <!-- sss -->  <!-- sss -->  <!-- sss -->
+                            <!-- Hero End -->
+                            <!-- fibre form submissions-->
+                            <div class="container mt-5">
+                                <h2 class="mb-4 text-center">All Fibre Form Submissions</h2>
+                                <div class="table-responsive shadow rounded p-3 bg-light">
+                                    <table
+                                        class="table table-bordered table-hover table-striped align-middle text-center">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Email</th>
+                                                <th>Device</th>
+                                                <th>Device Price</th>
+                                                <th>First Package Price</th>
+                                                <th>Optical Power</th>
+                                                <th>Optical Power Price</th>
+                                                <th>Fibre Color</th>
+                                                <th>Supplysing</th>
+                                                <th> Fibre Cable (core + meter)</th>
+                                                <th>Fibre Cable Price </th>
+                                                <th>Signal from/Splitter</th>
+                                                <th>Duck Patti</th>
+                                                <th>Duck Patti Price</th>
+                                                <th>Patch Card</th>
+                                                <th>Patch Card Price</th>
+                                                <th>Custom quantity of patch</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% submissions.forEach((s, i)=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= i + 1 %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.device_label %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.device_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.first_package_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.fibre_power_label %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.fibre_power_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.fibre_color_value %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.fibre_supplying_value %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.cable_label %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.cable_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.splitter_value %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.duck_patti_label %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.duck_patti_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.patch_card_label %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.patch_card_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.patch_card_custom_quantity %>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-warning"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editModal<%= s.id %>">
+                                                            Edit
+                                                        </button>
+
+                                                        <form action="/delete-fibre/<%= s.id %>" method="POST"
+                                                            style="display:inline;">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <!-- // modal for edit -->
+                                                <!-- Edit fibre Modal -->
+                                                <div class="modal fade" id="editModal<%= s.id %>" tabindex="-1"
+                                                    aria-labelledby="editModalLabel<%= s.id %>" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <form action="/update-fibre/<%= s.id %>" method="POST">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-warning text-dark">
+                                                                    <h5 class="modal-title"
+                                                                        id="editModalLabel<%= s.id %>">Edit Fibre
+                                                                        Submission (ID: <%= s.id %>)</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body row g-3">
+
+                                                                    <div class="col-md-6">
+                                                                        <label for="email"
+                                                                            class="form-label">Email</label>
+                                                                        <input type="email" name="email"
+                                                                            class="form-control" value="<%= s.email %>"
+                                                                            required>
+                                                                    </div>
+                                                                    <!-- formType -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">User form type</label>
+                                                                        <input type="text" name="formType"
+                                                                            class="form-control"
+                                                                            value="<%= s.formType %>">
+                                                                    </div>
+                                                                    <!-- formType -->
+                                                                    <!-- first package price  -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">First Package
+                                                                            Price</label>
+                                                                        <input type="text" name="first_package_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.first_package_price %>">
+                                                                    </div>
+                                                                    <!-- first package price  -->
+                                                                    <!-- Device -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Device Name</label>
+                                                                        <input list="deviceOptions" name="device_label"
+                                                                            class="form-control"
+                                                                            value="<%= s.device_label %>" required>
+                                                                        <datalist id="deviceOptions">
+                                                                            <option value="X-pon">
+                                                                            <option value="E-pon">
+                                                                            <option value="G-pon">
+                                                                        </datalist>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Device Price</label>
+                                                                        <input type="text" name="device_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.device_price %>">
+                                                                    </div>
+
+                                                                    <!-- Fibre Power -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Fibre Optical
+                                                                            Power</label>
+                                                                        <select name="fibre_power_label"
+                                                                            class="form-select" required>
+                                                                            <option value="-10 to -5 dBm"
+                                                                                <%=s.fibre_power_label==="-10 to -5 dBm"
+                                                                                ? " selected" : "" %>>-10 to -5 dBi
+                                                                            </option>
+                                                                            <option value="-5 to 0 dBm"
+                                                                                <%=s.fibre_power_label==="-5 to 0 dBm"
+                                                                                ? " selected" : "" %>>-5 to 0 dBi
+                                                                            </option>
+                                                                            <option value="0 to +5 dBm"
+                                                                                <%=s.fibre_power_label==="0 to +5 dBm"
+                                                                                ? " selected" : "" %>>0 to +5 dBi
+                                                                            </option>
+                                                                            <option value="Custom"
+                                                                                <%=s.fibre_power_label==="Custom"
+                                                                                ? " selected" : "" %>>Custom</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Power Price</label>
+                                                                        <input type="text" name="fibre_power_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.fibre_power_price %>">
+                                                                    </div>
+
+                                                                    <!-- Fibre Color -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Fibre Color</label>
+                                                                        <input type="text" name="fibre_color_value"
+                                                                            class="form-control"
+                                                                            value="<%= s.fibre_color_value %>">
+                                                                    </div>
+
+                                                                    <!-- Supplying -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Fibre
+                                                                            Supplying</label>
+                                                                        <input type="text" name="fibre_supplying_value"
+                                                                            class="form-control"
+                                                                            value="<%= s.fibre_supplying_value %>">
+                                                                    </div>
+
+                                                                    <!-- Cable -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Cable (Label)</label>
+                                                                        <input type="text" name="cable_label"
+                                                                            class="form-control"
+                                                                            value="<%= s.cable_label %>">
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Cable Price</label>
+                                                                        <input type="text" name="cable_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.cable_price %>">
+                                                                    </div>
+
+                                                                    <!-- Splitter -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Splitter</label>
+                                                                        <select name="splitter_value"
+                                                                            class="form-select">
+                                                                            <option value="2way"
+                                                                                <%=s.splitter_value==="2way"
+                                                                                ? "selected" : "" %>>2 Way</option>
+                                                                            <option value="4way"
+                                                                                <%=s.splitter_value==="4way"
+                                                                                ? "selected" : "" %>>4 Way</option>
+                                                                            <option value="8way"
+                                                                                <%=s.splitter_value==="8way"
+                                                                                ? "selected" : "" %>>8 Way</option>
+                                                                            <option value="12way"
+                                                                                <%=s.splitter_value==="12way"
+                                                                                ? "selected" : "" %>>12 Way</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <!-- Duck Patti -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Duck Patti
+                                                                            Quantity</label>
+                                                                        <input type="text" name="duck_patti_label"
+                                                                            class="form-control"
+                                                                            value="<%= s.duck_patti_label %>">
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Duck Patti
+                                                                            Price</label>
+                                                                        <input type="text" name="duck_patti_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.duck_patti_price %>">
+                                                                    </div>
+
+                                                                    <!-- Patch Card -->
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Patch Card
+                                                                            Quantity</label>
+                                                                        <input type="text" name="patch_card_label"
+                                                                            class="form-control"
+                                                                            value="<%= s.patch_card_label %>">
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Patch Card
+                                                                            Price</label>
+                                                                        <input type="text" name="patch_card_price"
+                                                                            class="form-control"
+                                                                            value="<%= s.patch_card_price %>">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label"> Custom Patch Card
+                                                                            Price</label>
+                                                                        <input type="text" name="patch_card_custom_quantity"
+                                                                            class="form-control"
+                                                                            value="<%= s.patch_card_custom_quantity %>">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit"
+                                                                        class="btn btn-warning w-100 fw-bold">Update
+                                                                        Fibre Submission</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- Edit fibre Modal -->
+
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- fibre form submissions-->
+                            <!-- wireless form submissions  -->
+                            <div class="container mt-5">
+                                <h3>Wireless Form Submissions</h3>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped text-nowrap">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Email</th>
+                                                <th>Cat 6 Meter</th>
+                                                <th>Cat 6 Price</th>
+                                                <th>First Package Price</th>
+                                                <th>Clips Count</th>
+                                                <th>Clips Price</th>
+                                                <th>Raval Bold Pair</th>
+                                                <th>Raval Bold Price</th>
+                                                <th>Poll Height</th>
+                                                <th>Poll Price</th>
+                                                <th>Signal Strength</th>
+                                                <th>Home Tower Height</th>
+                                                <th>Signal Receiver</th>
+                                                <th>Receiver Price</th>
+                                                <th>Receiver Model</th>
+                                                <th>WiFi ONU</th>
+                                                <th>ONU Price</th>
+                                                <th>ONU Model</th>
+                                                <th>Tower AP Device</th>
+                                                <th>Wireless Field</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% wirelessForms.forEach(form=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= form.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.cat6_meter %>
+                                                    </td>
+                                                    <td>Rs.<%= form.cat6_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.first_package_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.clips_count %>
+                                                    </td>
+                                                    <td>Rs.<%= form.clips_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.raval_bold_pair %>
+                                                    </td>
+                                                    <td>Rs.<%= form.raval_bold_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.poll_height %>
+                                                    </td>
+                                                    <td>Rs.<%= form.poll_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.signal_strength %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.home_tower_height %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.signal_receiver %>
+                                                    </td>
+                                                    <td>Rs.<%= form.receiver_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.receiver_model %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.wifi_onu %>
+                                                    </td>
+                                                    <td>Rs.<%= form.onu_price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.onu_model %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.tower_ap_device %>
+                                                    </td>
+                                                    <td>
+                                                        <%= form.wireless_field %>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                            data-bs-target="#editWirelessModal<%= form.id %>">Edit</button>
+                                                        <form action="/delete-wireless/<%= form.id %>" method="POST"
+                                                            class="d-inline">
+                                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <!-- wireless modal form -->
+                                                <!-- Edit Wireless Modal -->
+                                                <div class="modal fade" id="editWirelessModal<%= form.id %>"
+                                                    tabindex="-1" aria-labelledby="editModalLabel<%= form.id %>"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                                                        <form action="/update-wireless/<%= form.id %>" method="POST">
+                                                            <div class="modal-content border-0 shadow-lg rounded-4">
+                                                                <div
+                                                                    class="modal-header bg-primary text-white rounded-top-4">
+                                                                    <h5 class="modal-title">Edit Wireless Form</h5>
+                                                                    <button type="button"
+                                                                        class="btn-close btn-close-white"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+
+                                                                <div class="modal-body p-4">
+                                                                    
+                                                                    <input type="hidden" name="email"
+                                                                        value="<%= form.email %>">
+
+                                                                    <!-- Row 1: Cat 6 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Cat 6 Wire
+                                                                                (Meters)</label>
+                                                                            <input type="number" name="cat6_meter"
+                                                                                class="form-control"
+                                                                                value="<%= form.cat6_meter %>">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Cat 6 Price
+                                                                                (Rs)</label>
+                                                                            <input type="number" name="cat6_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.cat6_price %>">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">User form
+                                                                            type</label>
+                                                                        <input type="text" name="formType"
+                                                                            class="form-control"
+                                                                            value="<%= form.formType %>">
+                                                                   </div>
+                                                                    <!-- First Package Price -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">First Package
+                                                                                Price (Rs)</label>
+                                                                            <input type="number"
+                                                                                name="first_package_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.first_package_price %>">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Row 2: Clips -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Number of
+                                                                                Clips</label>
+                                                                            <input type="number" name="clips_count"
+                                                                                class="form-control"
+                                                                                value="<%= form.clips_count %>">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Clips Price
+                                                                                (Rs)</label>
+                                                                            <input type="number" name="clips_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.clips_price %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 3: Raval Bold -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Raval Bold
+                                                                                Pair</label>
+                                                                            <select name="raval_bold_pair"
+                                                                                class="form-select">
+                                                                                <% for(let i=1; i <=10; i++) { %>
+                                                                                    <option value="<%= i %>"
+                                                                                        <%=form.raval_bold_pair==i
+                                                                                        ? 'selected' : '' %>><%= i %>
+                                                                                            Pair</option>
+                                                                                    <% } %>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Raval Bold Price
+                                                                                (Rs)</label>
+                                                                            <input type="number" name="raval_bold_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.raval_bold_price %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 4: Poll -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Poll
+                                                                                Height</label>
+                                                                            <select name="poll_height"
+                                                                                class="form-select">
+                                                                                <% ["10 feet", "20 feet" , "30 feet"
+                                                                                    , "40 feet" , "50 feet"
+                                                                                    ].forEach(height=> { %>
+                                                                                    <option value="<%= height %>"
+                                                                                        <%=form.poll_height===height
+                                                                                        ? 'selected' : '' %>><%= height
+                                                                                            %>
+                                                                                    </option>
+                                                                                    <% }) %>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Poll Price
+                                                                                (Rs)</label>
+                                                                            <input type="number" name="poll_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.poll_price %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 5: Signal + Tower Height -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Signal Strength
+                                                                                (dBi)</label>
+                                                                            <div class="input-group">
+                                                                                <input type="number"
+                                                                                    name="signal_strength"
+                                                                                    class="form-control"
+                                                                                    value="<%= form.signal_strength %>">
+                                                                                <span
+                                                                                    class="input-group-text">-dBi</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="form-label">Home Tower
+                                                                                Height</label>
+                                                                            <select name="home_tower_height"
+                                                                                class="form-select">
+                                                                                <% for(let i=20; i <=70; i +=5) { %>
+                                                                                    <option value="<%= i %>-<%= i+5 %>"
+                                                                                        <%=form.home_tower_height===`${i}-${i+5}`
+                                                                                        ? 'selected' : '' %>><%= i %>-
+                                                                                            <%= i+5 %>
+                                                                                    </option>
+                                                                                    <% } %>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 6: Receiver -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Signal
+                                                                                Receiver</label>
+                                                                            <select name="signal_receiver"
+                                                                                class="form-select">
+                                                                                <% ["Light Beam-M5", "Light Beam-AC"
+                                                                                    , "Power Beam-M5" , "Power Beam-AC"
+                                                                                    , "Nano-station" , "Outdoor Router"
+                                                                                    , "Other" ].forEach(r=> { %>
+                                                                                    <option value="<%= r %>"
+                                                                                        <%=form.signal_receiver===r
+                                                                                        ? 'selected' : '' %>><%= r %>
+                                                                                    </option>
+                                                                                    <% }) %>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Receiver Price
+                                                                                (Rs)</label>
+                                                                            <input type="text" name="receiver_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.receiver_price %>">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Receiver
+                                                                                Model</label>
+                                                                            <input type="text" name="receiver_model"
+                                                                                class="form-control"
+                                                                                value="<%= form.receiver_model %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 7: ONU -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">WiFi ONU</label>
+                                                                            <select name="wifi_onu" class="form-select">
+                                                                                <% ["TP-Link", "China" , "Net gear"
+                                                                                    , "Other" ].forEach(o=> { %>
+                                                                                    <option value="<%= o %>"
+                                                                                        <%=form.wifi_onu===o
+                                                                                        ? 'selected' : '' %>><%= o %>
+                                                                                    </option>
+                                                                                    <% }) %>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">ONU Price
+                                                                                (Rs)</label>
+                                                                            <input type="text" name="onu_price"
+                                                                                class="form-control"
+                                                                                value="<%= form.onu_price %>">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">ONU Model</label>
+                                                                            <input type="text" name="onu_model"
+                                                                                class="form-control"
+                                                                                value="<%= form.onu_model %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 8: Tower AP Device -->
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Tower AP
+                                                                            Device</label>
+                                                                        <select name="tower_ap_device"
+                                                                            class="form-select">
+                                                                            <% ["Fibrish", "Click Opticx" , "D-11"
+                                                                                , "Other" ].forEach(d=> { %>
+                                                                                <option value="<%= d %>"
+                                                                                    <%=form.tower_ap_device===d
+                                                                                    ? 'selected' : '' %>><%= d %>
+                                                                                </option>
+                                                                                <% }) %>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <!-- Optional Notes -->
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Optional Notes</label>
+                                                                        <input type="text" name="wireless_field"
+                                                                            class="form-control"
+                                                                            value="<%= form.wireless_field %>">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="modal-footer bg-light">
+                                                                    <button type="submit"
+                                                                        class="btn btn-success w-100">Update Wireless
+                                                                        Form</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                                <!-- wireless modal form -->
+
+                                                <!-- Include Edit Modal -->
+                                                <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!-- wireless form submissions  -->
+                        </div>
+                    </div>
+            </div>
+
+
+
+
+    </div>
+    <!-- Update Modal End --><!-- Update Modal End -->
+
+    <!-- plugins:js -->
+    <script src="vendors\js\vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors\chart.js/Chart.min.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="js/dataTables.select.min.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="js/dashboard.js"></script>
+    <script src="js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <!-- Bootstrap  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

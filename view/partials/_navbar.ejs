@@ -1,0 +1,214 @@
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+    <img src="/uploads/<%= bg_result[0].nav_imgs %>" class="mr-2" alt="logo" id="navImgPreview"
+      style="width: 50px; height: 50px; cursor: pointer;" />
+    <% if (isAdmin) { %>
+      <form action="/index" method="POST" enctype="multipart/form-data" id="navImgForm">
+        <label for="navImgInput" style="cursor: pointer;">
+          <input type="file" name="navImg" id="navImgInput" style="display: none;"
+            onchange="document.getElementById('navImgForm').submit();" />
+        </label>
+      </form>
+      <% } %>
+  </div>
+
+  <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+      <span class="icon-menu"></span>
+    </button>
+    <ul class="navbar-nav mr-lg-2">
+      <li class="nav-item nav-search d-none d-lg-block">
+        <div class="input-group">
+          <form action="/logoTextChange" method="post">
+            <!-- <input type="text" name="logo_text">
+            <button type="submit">submit</button> -->
+            <h4 class="font-weight-bold m-0 mx-auto">
+              <%= bg_result[0].logo_text %>
+            </h4>
+          </form>
+        </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav navbar-nav-right">
+      <% if (isAdmin) { %>
+        <li class="nav-item dropdown">
+          <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+            <i class="icon-bell mx-0"></i>
+            <% if (totalNotifactions> 0) { %>
+              <span class="count" style="left: 36%;top:-10px;width: 27px;height: 27px; color: white;">
+                <%= totalNotifactions %>
+              </span>
+              <% } %>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+            aria-labelledby="notificationDropdown">
+            <h2 class="mb-0 font-weight-bold dropdown-header">Notifications</h2>
+
+            <div class="notif-scrollable" style="max-height: 300px; overflow-y: auto;">
+              <% if (password_datass.length===0) { %>
+                <p class="text-muted text-center">No new notifications</p>
+                <% } %>
+
+                  <% password_datass.forEach((notif)=> { %>
+                    <a href="#" class="dropdown-item preview-item mark-read" data-id="<%= notif.id %>">
+                      <div class="preview-thumbnail">
+                        <div class="preview-icon bg-primary">
+                          <i class="icon-bell mx-0"></i>
+                        </div>
+                      </div>
+                      <div class="preview-item-content">
+                        <p class="font-weight-light small-text mb-0 text-muted">
+                          <%= notif.username %>
+                        </p>
+                        <%= notif.message %><br>
+                          <%= notif.field2 %>
+                            <%= notif.package_name %>
+                              <%= notif.Complaint %>
+                      </div>
+                    </a>
+                    <% }); %>
+            </div>
+          </div>
+        </li>
+        <% } %>
+          <script>
+            document.querySelectorAll(".mark-read").forEach(item => {
+              item.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const notifId = item.getAttribute("data-id");
+
+                try {
+                  const response = await fetch("/mark-one-read", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: notifId })
+                  });
+
+                  if (response.ok) {
+                    console.log(`Notification ${notifId} marked as read`);
+                    item.style.transition = "opacity 0.5s ease";
+                    item.style.opacity = "0";
+                    setTimeout(() => item.remove(), 500);
+                  } else {
+                    console.error("Failed to mark as read");
+                  }
+                } catch (error) {
+                  console.error("Fetch error:", error);
+                }
+              });
+            });
+          </script>
+
+          <!-- User Dropdown -->
+          <% if (isUser) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
+                data-toggle="dropdown">
+                <i class="icon-bell mx-0"></i>
+                <% if (Notifactions> 0) { %>
+                  <span class="count" style="left: 36%;top:-10px;width: 27px;height: 27px; color: white;">
+                    <%= Notifactions %>
+                  </span>
+                  <% } %>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="notificationDropdown">
+                <h2 class="mb-0 font-weight-bold dropdown-header">Notifications</h2>
+
+                <div class="notif-scrollable" style="max-height: 300px; overflow-y: auto;">
+                  <% if (notifications_users.length===0) { %>
+                    <p class="text-muted text-center">No new notifications</p>
+                    <% } %>
+
+                      <% notifications_users.forEach((notif)=> { %>
+                        <a href="#" class="dropdown-item preview-item mark-read" data-id="<%= notif.id %>">
+                          <div class="preview-thumbnail">
+                            <div class="preview-icon bg-primary">
+                              <i class="icon-bell mx-0"></i>
+                            </div>
+                          </div>
+                          <div class="preview-item-content">
+                            <p class="font-weight-light small-text mb-0 text-muted"></p>
+                            <%= notif.message %>
+                          </div>
+                        </a>
+                        <% }); %>
+                </div>
+              </div>
+            </li>
+            <% } %>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  document.querySelectorAll(".mark-read").forEach((element) => {
+                    element.addEventListener("click", function (e) {
+                      e.preventDefault();
+                      const id = this.getAttribute("data-id");
+
+                      fetch("/mark-one", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ id }),
+                      })
+                        .then(response => {
+                          if (response.ok) {
+                            // Optionally redirect or update UI
+                            this.classList.add("text-muted");
+                            this.querySelector(".preview-item-content").innerHTML +=
+                              ' <span class="badge badge-secondary">Read</span>';
+                          } else {
+                            console.error("Failed to mark notification as read");
+                          }
+                        })
+                        .catch((error) => {
+                          console.error("Error:", error);
+                        });
+                    });
+                  });
+                });
+              </script>
+              <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <img
+                      src="<%= user && user.user_img ? '/uploads/' + user.user_img : 'https://img.icons8.com/bubbles/100/standing-man.png' %>"
+                      alt="profile" />
+                  </a>
+                 
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                      <% if (isUser) { %>
+                    <a class="dropdown-item" href="/profile">
+                      <i class="ti-settings text-primary"></i> Settings
+                    </a>
+                     <% } %>
+                    <a class="dropdown-item" href="/">
+                      <i class="ti-power-off text-primary"></i> Logout
+                    </a>
+                  </div>
+                </li>
+              </ul>
+              <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+              </button>
+  </div>
+</nav>
+
+<script>
+  document.getElementById("navImgPreview").addEventListener("click", function () {
+    document.getElementById("navImgInput").click();
+  });
+
+  document.getElementById("navImgInput").addEventListener("change", function () {
+    document.getElementById("navImgForm").submit();
+  });
+</script>
+
+<style>
+  .notif-scrollable {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+</style>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Skydash Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .contact-header {
+      background-color: #494987;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+      position: relative;
+      box-shadow: -4px 11px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-container {
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .contact-btn {
+      width: 100%;
+      border: none;
+      font-weight: bold;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .social-icons {
+      text-align: center;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 24px;
+      margin: 0 10px;
+    }
+
+    .shadow-box {
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      background: white;
+
+    }
+
+    .contact-icon {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      margin: auto;
+    }
+
+    .social-container {
+      background: #e9ecef;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .social-icons a {
+      font-size: 24px;
+      margin: 10px;
+      color: #333;
+      transition: 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #007bff;
+    }
+
+
+
+    #phone-number {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    #phone-number.show {
+      display: block;
+      opacity: 1;
+      animation: fadeInScale 0.5s ease;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    /* Ensure they stay side by side on all screen sizes */
+    @media (max-width: 576px) {
+      .button-wrapper {
+        flex-direction: row !important;
+        margin-left: 153px;
+      }
+
+      .button-wrapper .btn {
+        width: auto !important;
+      }
+    }
+
+    :root {
+      --primary: #6c5ce7;
+      --primary-light: #a29bfe;
+      --secondary: #00cec9;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --gray: #dfe6e9;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --glass-effect: rgba(255, 255, 255, 0.15);
+    }
+
+    .container-fluid.page-body-wrapper {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+      margin-left: 110px;
+      transition: margin-left 0.3s ease;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+      }
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideUp 0.8s ease forwards;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 12px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 23px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid var(--gray);
+      background: transparent;
+      padding: 12px 0;
+      font-size: 1rem;
+      color: var(--dark);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-bottom-color: var(--primary);
+      outline: none;
+    }
+
+    .form-label {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      font-weight: 500;
+      color: black;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus~.form-label,
+    .form-control:not(:placeholder-shown)~.form-label,
+    .form-select:focus~.form-label,
+    .form-select:not([value=""])~.form-label {
+      top: -20px;
+      left: 0;
+      font-size: 0.85rem;
+      color: var(--primary);
+    }
+
+    .form-control:focus~.form-label::after,
+    .form-control:not(:placeholder-shown)~.form-label::after,
+    .form-select:focus~.form-label::after,
+    .form-select:not([value=""])~.form-label::after {
+      content: '*';
+      color: var(--danger);
+      margin-left: 5px;
+    }
+
+    .form-select option {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .input-error .error-message {
+      display: block;
+    }
+
+    .input-error .form-control,
+    .input-error .form-select {
+      border-bottom-color: var(--danger);
+    }
+
+    .form-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: color 0.3s ease;
+    }
+
+    .form-control:focus~.form-icon,
+    .form-select:focus~.form-icon {
+      color: var(--primary);
+    }
+
+    .form-header {
+      font-size: 1.5rem;
+      /* default size */
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      /* space between icon and text */
+      padding: 10px 15px;
+    }
+
+    /* Responsive adjustment for smaller screens */
+    @media (max-width: 576px) {
+      .form-header {
+        font-size: 1.2rem;
+        justify-content: center;
+        /* center on mobile */
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body style="background-color: #F3F3F9;">
+  <div class="container-scroller">
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper" style="padding-left: 0 !important; padding-right: 0 !important;">
+        <!-- partial:partials/_settings-panel.html -->
+        <%- include ('../partials/SettingsDow.ejs') %>
+
+          <!-- partial:partials/_sidebar.html Start-->
+          <%- include ('../partials/Sidebar.ejs') %>
+
+            <!-- partial -->
+
+            <div class="container" style="padding-left: 0% !important; padding-right: 0% !important;">
+              <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+              <% if (messages.success) { %>
+                <div class="position-relative" style="z-index: 1055;">
+                  <div class="d-flex justify-content-end position-absolute w-100"
+                    style="top: 10px; right: 0; z-index: 1055;">
+                    <div id="pusher-message-box" class="alert alert-success alert-dismissible fade show mt-3"
+                      role="alert" style="color: white;">
+                      <strong>Success:</strong>
+                      <%= messages.success %>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+
+                  <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                      const msgBox = document.getElementById('pusher-message-box');
+                      if (msgBox) {
+                        setTimeout(() => {
+                          msgBox.classList.remove('show');
+                          msgBox.classList.add('fade');
+                          setTimeout(() => msgBox.style.display = "none", 500);
+                        }, 4000);
+                      }
+                    });
+                  </script>
+
+                  <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+                  <img src="images\HemeonLearning-Page-Banner-Contact-1024x256.png" alt="cover image" class="w-100"
+                    style="border-radius: 39px;">
+
+
+                  <div class="container mt-4" style="padding-left: 0% !important; padding-right: 0% !important;">
+                    <!-- Contact Us Section -->
+                    <div class="contact-container p-3" style="border: 1px solid #E9ECEF;">
+
+                      <div class="row mt-3">
+                        <div class="col-4">
+                          <div class="contact-icon">
+                            <a href="https://api.whatsapp.com/send?phone=447751553879">
+                              <img width="54" height="54" src="https://img.icons8.com/3d-fluency/94/whatsapp.png"
+                                alt="whatsapp" />
+                            </a>
+                          </div>
+                          <p class="mt-2 text-dark">Whatsapp</p>
+                        </div>
+                        <div class="col-4">
+                          <div class="contact-icon">
+                            <!-- Image Trigger -->
+                            <img width="70" height="70"
+                              src="https://img.icons8.com/3d-fluency/100/phone-disconnected.png"
+                              alt="phone-disconnected" style="cursor: pointer;" data-bs-toggle="modal"
+                              data-bs-target="#phoneModal" />
+                            <!-- Modal -->
+                            <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title text-dark" id="phoneModalLabel">Contact Number</h5>
+                                    <!-- Correct Close Button -->
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                      aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body text-center text-dark">
+                                    <p style="font-size: 1.5rem;">📞 0306-9753003</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <p class="mt-2 text-dark">Call us </p>
+                        </div>
+                        <div class="col-4">
+                          <div class="contact-icon">
+                            <a
+                              href="https://www.google.com/maps/place/ClickTake+Technologies/@30.0070286,71.5400609,17z/data=!3m1!4b1!4m6!3m5!1s0x393b3fb4470ae1c5:0x95b5e7dd986d4241!8m2!3d30.0070286!4d71.5400609!16s%2Fg%2F11s99_fc9t?entry=ttu&g_ep=EgoyMDI1MDIyNi4xIKXMDSoASAFQAw%3D%3D">
+                              <img width="66" height="66" src="https://img.icons8.com/emoji/96/round-pushpin-emoji.png"
+                                alt="round-pushpin-emoji" />
+                            </a>
+                          </div>
+                          <p class="mt-2 text-dark"> Find Us</p>
+                        </div>
+                      </div>
+                      <!--complinet section-->
+                      <div class="row mt-3">
+                        <div class="col-4">
+                          <div class="contact-icon">
+                            <!-- Changed to BS5 data attributes -->
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#myModal">
+                              <img width="60" height="60" src="images/contect us icon1.png" alt="contact" />
+                            </a>
+                          </div>
+                          <p class="mt-2 text-dark">Complaint</p>
+                        </div>
+
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
+                          aria-hidden="true" style="padding-left: 0% !important; padding-right: 0% !important;">
+                          <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content p-4"
+                              style="background-color: #e9ecef00 !important; border: none; padding: 0% !important;">
+                              <div class="main-panel position-relative" style="padding: 0% !important;">
+
+                                <!-- Fixed Close Button -->
+                                <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                  style="top: -32px; right: 8px; padding: 4px; z-index: 1050;"></button>
+
+
+                                <div class="content-wrapper">
+                                  <div class="form-card" style="margin-top: -39px;">
+                                    <!-- Rest of your form remains exactly the same -->
+                                    <div class="form-header">
+                                      <i class="bi bi-bookmark-star-fill"></i>Add Complaint
+                                    </div>
+
+                                    <form action="/complaint" method="POST">
+                                      <!-- First Row -->
+                                      <div class="d-flex gap-4 mb-3">
+                                        <div class="form-group w-100">
+                                          <input type="text" name="username" id="username" class="form-control" required
+                                            placeholder=" ">
+                                          <label for="username" class="form-label">Your Name</label>
+                                        </div>
+
+                                        <div class="form-group w-100">
+                                          <input type="number" name="number" id="number" class="form-control" required
+                                            placeholder=" ">
+                                          <label for="number" class="form-label"> Number</label>
+                                        </div>
+                                      </div>
+                                      <!-- Second Row -->
+                                      <div class="d-flex gap-4 mb-3">
+                                        <div class="form-group w-100">
+                                          <select name="Plane" id="Plane" class="form-select" required>
+                                            <option value="" disabled selected>Select your type</option>
+                                            <option value="">Select your type</option>
+                                            <option value="Billing">Billing</option>
+                                            <option value="Sales">Sales</option>
+                                            <option value="Technical">Technical</option>
+                                            <option value="New Connection">New Connection</option>
+                                            <option value="Other">Other</option>
+                                          </select>
+                                          <label for="Plane" class="form-label">Type</label>
+                                        </div>
+
+                                        <div class="form-group w-100">
+                                          <input type="text" name="Address" id="Address" class="form-control" required
+                                            placeholder=" ">
+                                          <label for="Address" class="form-label">Address</label>
+                                        </div>
+                                      </div>
+
+                                      <!-- Fourth Row -->
+                                      <div class="form-group mb-4"
+                                        style=" border: 1px solid #272626;  border-radius: 4px;">
+                                        <textarea type="text" name="Complaint" id="Complaint" class="form-control"
+                                          placeholder=" "> </textarea>
+                                        <label for="Complaint" class="form-label">Complaint</label>
+                                      </div>
+
+                                      <!-- Submit Button -->
+                                      <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                          <i class="bi bi-check2-circle"></i> Submit
+                                        </button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <script>
+                          const urlParams = new URLSearchParams(window.location.search);
+                          if (urlParams.get("submitted") === "true") {
+                            alert("Complaint submitted successfully!");
+                          }
+                        </script>
+
+                        <div class="col-4">
+                          <div class="contact-icon cursor-pointer" id="openFeedback" style="cursor:pointer;"
+                            data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                            <img width="65" height="65" src="images\feedback.png" alt="communication" />
+                          </div>
+                          <p class="mt-2 text-dark">Feedback </p>
+                        </div>
+                        <div class="col-4">
+                          <a href="https://tawk.to/chat/659fdbaf0ff6374032bedfad/1hjs74a1c" target="_blank">
+                            <div class="contact-icon">
+                              <img width="65" height="65" src="images\chat.png" alt="communication" />
+                            </div>
+                          </a>
+                          <p class="mt-2 text-dark">chat</p>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                    <!-- feedback pop -->
+                    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel"
+                      aria-hidden="true" style="padding-right: 0% !important;">
+                      <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content p-4"
+                          style="background-color: #e9ecef00 !important; border: none; padding: 0% !important;">
+                          <div class="main-panel position-relative" style="padding: 0% !important;">
+
+                            <!-- Close Icon with Professional Padding -->
+                            <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal"
+                              aria-label="Close" style="top: -32px; right: 8px; padding: 4px; z-index: 1050;"></button>
+
+                            <div class="content-wrapper">
+                              <div class="form-card" style="margin-top: -39px;">
+                                <div class="form-header">
+                                  <i class="bi bi-bookmark-star-fill"></i>Feedback Form
+                                </div>
+
+                                <form action="/submit-feedback" method="POST" class="container">
+
+                                  <!-- First Row: User Details -->
+                                  <div class="row mb-3">
+                                    <div class="col-md-6 mb-3">
+                                      <input type="text" name="first_name" id="first_name" class="form-control" required
+                                        placeholder=" ">
+                                      <label for="first_name" class="form-label">First Name</label>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <input type="text" name="last_name" id="last_name" class="form-control" required
+                                        placeholder=" ">
+                                      <label for="last_name" class="form-label">Last Name</label>
+                                    </div>
+                                  </div>
+
+                                  <!-- Email Row -->
+                                  <div class="row mb-3">
+                                    <div class="col-md-12">
+                                      <input type="email" name="email" id="email" class="form-control" required
+                                        placeholder=" ">
+                                      <label for="email" class="form-label">Email</label>
+                                    </div>
+                                  </div>
+
+                                  <!-- Second Row -->
+                                  <div class="mb-3">
+                                    <p class="text-muted">We would love to hear your thoughts, suggestions, concerns or
+                                      problems with anything so we can improve!</p>
+                                  </div>
+
+                                  <!-- Third Row -->
+                                  <div class="mb-3">
+                                    <label class="fw-semibold">Rate Your Experience:</label>
+                                    <div class="text-warning fs-4" id="starRating" style="cursor:pointer;">
+                                      <i class="fa-regular fa-star" data-rating="1"></i>
+                                      <i class="fa-regular fa-star" data-rating="2"></i>
+                                      <i class="fa-regular fa-star" data-rating="3"></i>
+                                      <i class="fa-regular fa-star" data-rating="4"></i>
+                                      <i class="fa-regular fa-star" data-rating="5"></i>
+                                    </div>
+                                    <input type="hidden" id="rating" name="rating" value="0">
+                                  </div>
+
+                                  <!-- Fourth Row -->
+                                  <div class="form-group mb-4" style=" border: 1px solid #272626;  border-radius: 4px;">
+                                    <textarea type="text" name="feedback_text" id="feedback_text" class="form-control"
+                                      placeholder=" "> </textarea>
+                                    <label for="feedback_text" class="form-label">Compliment</label>
+                                  </div>
+
+                                  <!-- Submit Button -->
+                                  <div class="mt-4">
+                                    <button type="submit" class="btn btn-primary">
+                                      <i class="bi bi-check2-circle"></i> Submit
+                                    </button>
+                                  </div>
+                                </form>
+
+                              </div>
+                            </div>
+                          </div> <!-- End .main-panel -->
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <script>
+                      const stars = document.querySelectorAll('#starRating i');
+                      const ratingInput = document.getElementById('rating');
+
+                      // Set default rating to 5 if not selected
+                      if (+ratingInput.value === 0) {
+                        ratingInput.value = 5;
+
+                        // Also visually show 5 stars filled
+                        stars.forEach((s, i) => {
+                          if (i < 5) {
+                            s.classList.remove('fa-regular');
+                            s.classList.add('fa-solid');
+                          } else {
+                            s.classList.remove('fa-solid');
+                            s.classList.add('fa-regular');
+                          }
+                        });
+                      }
+
+                      stars.forEach((star, index) => {
+                        star.addEventListener('click', () => {
+                          const ratingValue = index + 1;
+                          ratingInput.value = ratingValue;
+
+                          stars.forEach((s, i) => {
+                            if (i < ratingValue) {
+                              s.classList.remove('fa-regular');
+                              s.classList.add('fa-solid');
+                            } else {
+                              s.classList.remove('fa-solid');
+                              s.classList.add('fa-regular');
+                            }
+                          });
+                        });
+                      });
+                    </script>
+
+                    <!-- Social Media Section -->
+                    <div class="social-container mt-3">
+                      <h5 class="fw-bold text-dark">Social Channels</h5>
+                      <div class="social-icons mt-3">
+                        <a href="https://www.facebook.com/clicktaketechnologies"><i class="fab fa-facebook"></i></a>
+
+                        <a href="https://www.instagram.com/clicktaketech/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@clicktaketechnologies/featured"><i
+                            class="fab fa-youtube"></i></a>
+                        <a href="https://pk.linkedin.com/company/click-take-technologies"><i
+                            class="fab fa-linkedin"></i></a>
+                        <a href="https://www.tiktok.com/@clicktaketechnologiesuk"><i class="fab fa-tiktok"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+      </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <%- include('../partials/_footer.ejs') %>
+
+
+    <!-- plugins:js -->
+    <script src="vendors\js\vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors\chart.js/Chart.min.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="js/dataTables.select.min.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="js/dashboard.js"></script>
+    <script src="js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <!-- Bootstrap  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 5.3 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap 5 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

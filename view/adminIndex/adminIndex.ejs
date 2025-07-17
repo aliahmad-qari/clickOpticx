@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin Dashboard</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-light: #a29bfe;
+      --secondary: #00cec9;
+      --success: #198754;
+      --success-light: #198754;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --gray: #dfe6e9;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --glass-effect: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      background-color: #F3F3F9;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      filter: drop-shadow(0 0 1px #00aaff)
+    }
+
+    /* Card Left Right Style Start*/
+    .card-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      cursor: grab;
+      perspective: 1000px;
+    }
+
+    .deal-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #72c6ef, #5442f5);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s ease;
+      transform-origin: center;
+      will-change: transform, opacity, z-index;
+    }
+
+    .deal-card:nth-child(1) {
+      z-index: 6;
+      transform: rotate(-5deg) scale(1);
+    }
+
+    .deal-card:nth-child(2) {
+      z-index: 5;
+      transform: rotate(-3deg) scale(0.95);
+      top: 15px;
+      background: #091123;
+    }
+
+    .deal-card:nth-child(3) {
+      z-index: 4;
+      transform: rotate(0deg) scale(0.9);
+      top: 25px;
+      background: #222;
+    }
+
+    .deal-card:nth-child(4) {
+      z-index: 3;
+      transform: rotate(2deg) scale(0.85);
+      top: 35px;
+      background: #333;
+    }
+
+    .deal-card:nth-child(5) {
+      z-index: 2;
+      transform: rotate(4deg) scale(0.8);
+      top: 45px;
+      background: #444;
+    }
+
+    .deal-card:nth-child(6) {
+      z-index: 1;
+      transform: rotate(6deg) scale(0.75);
+      top: 55px;
+      background: #555;
+    }
+
+    .deal-card h5 {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .price-old {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .price-new {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .buy-btn {
+      background-color: #ffc107;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .product-img {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 120px;
+      border-radius: 10px;
+    }
+
+    .swiped {
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    /* Card Left Right Style End*/
+
+    /* Package Card Start */
+
+    .carousel {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .slider-imgss {
+        max-width: 90%;
+        height: auto;
+      }
+
+      .carousel {
+        margin-top: 20px;
+      }
+    }
+
+    section {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .row {
+      justify-content: center;
+    }
+
+    .pricing-card a:hover {
+      text-decoration: none;
+    }
+
+    /* There */
+    .cards-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .custom-cardd {
+      background: #222;
+      color: white;
+      border-radius: 20px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      flex: 0 0 30%;
+      max-width: 300px;
+      min-width: 260px;
+      width: 100%;
+
+    }
+
+    .card-top {
+      padding: 15px 10px 60px;
+      text-align: center;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 54% 100%, 0 45%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .basic .card-top {
+      background: linear-gradient(135deg, #00f5c9, #00b8ff);
+    }
+
+    .standard .card-top {
+      background: linear-gradient(135deg, #ff00aa, #9f00ff);
+    }
+
+    .premium .card-top {
+      background: linear-gradient(135deg, #ffc400, #ff6a00);
+    }
+
+    .stars {
+      color: #eee;
+      font-size: 16px;
+      letter-spacing: 4px;
+    }
+
+    .price-circle {
+      background: #111;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      font-size: 12px;
+      z-index: 2;
+    }
+
+    .basic .price-circle {
+      border: 4px solid #00f5c9;
+    }
+
+    .standard .price-circle {
+      border: 4px solid #ff00aa;
+    }
+
+    .premium .price-circle {
+      border: 4px solid #ffc400;
+    }
+
+    .features {
+      padding: 100px 20px 10px;
+      text-align: left;
+    }
+
+    .features p {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .features span {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .basic .features span {
+      color: #00ff00;
+    }
+
+    .standard .features span {
+      color: #ff0066;
+    }
+
+    .premium .features span {
+      color: #ffc400;
+    }
+
+    .card-button {
+      text-align: center;
+      padding: 15px;
+    }
+
+    .card-button button {
+      background: linear-gradient(to right, #00f5c9, #00b8ff);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 25px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .standard .card-button button {
+      background: linear-gradient(to right, #ff00aa, #9f00ff);
+    }
+
+    .premium .card-button button {
+      background: linear-gradient(to right, #ffc400, #ff6a00);
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 992px) {
+      .custom-card {
+        flex: 0 0 45%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .custom-card {
+        flex: 0 0 80%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .custom-card {
+        flex: 0 0 95%;
+        max-width: 95%;
+        min-width: 260px;
+      }
+
+      .price-circle {
+        width: 90px;
+        height: 90px;
+        font-size: 10px;
+      }
+
+      .card-top h2 {
+        font-size: 18px;
+      }
+
+      .features p {
+        font-size: 13px;
+      }
+
+      .card-button button {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+    }
+
+    /* There End*/
+
+    /* Package Card End */
+    .slider-imgss,
+    .slider-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* profile */
+    .slider-imgss,
+    .slider-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* profile */
+    #cont1 {
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      object-fit: cover;
+      height: 320px;
+      width: 100%;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom-right-radius: 25px;
+      border-bottom-left-radius: 25px;
+    }
+
+    .header-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    .header-section h2 {
+      color: white;
+    }
+
+    .head-icons a i {
+      color: white;
+    }
+
+    .head-icons {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    /* top section */
+    .content-section {
+      color: white;
+      margin-top: 30px;
+      display: flex;
+      gap: 1vw;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      /* Ensures it adapts on smaller screens */
+      padding: 1rem;
+    }
+
+    /* Flexible spacing */
+    .test,
+    .user-content .loyal {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Typography adjustment */
+    .loyal p {
+      margin-bottom: -0.16rem;
+      font-size: clamp(12px, 1vw, 16px);
+    }
+
+    /* Media Queries for better responsiveness */
+    @media (max-width: 1024px) {
+      .content-section {
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .test,
+      .user-content .loyal {
+        flex-direction: row;
+        text-align: center;
+      }
+
+      .content-section {
+        margin-top: 20px;
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-section {
+        margin-top: 15px;
+        padding: 0.1rem;
+      }
+
+      .loyal p {
+        font-size: 14px;
+      }
+    }
+
+    /* top section */
+    .login-btn {
+      background-color: transparent;
+      border: 0;
+      color: orange;
+      font-size: 26px;
+      outline: 0;
+      margin-top: 20px;
+    }
+
+    .login-btn:hover {
+      color: white !important;
+    }
+
+    /* sssssssssss */
+    .icon-slider {
+      display: block;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      position: relative;
+      padding: 10px 0px;
+    }
+
+    .icon-track {
+      display: flex;
+      width: max-content;
+      animation: scrollIcons 20s linear infinite;
+      gap: 40px;
+      font-size: 2.5rem;
+      padding-left: 100%;
+    }
+
+    .icon-slider:hover .icon-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollIcons {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* form css */
+    .modal {
+      z-index: 1055;
+    }
+
+    .modal-backdrop {
+      z-index: 1050;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop.show {
+      opacity: 0.5;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 10px 17px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideUp 0.8s ease forwards;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 12px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 23px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      border-bottom: 2px solid var(--gray);
+      background: transparent;
+      padding: 9px 3px;
+      font-size: 1rem;
+      color: var(--dark);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-bottom-color: var(--primary);
+      outline: none;
+    }
+
+    .form-label {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      font-weight: 500;
+      color: black;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus~.form-label,
+    .form-control:not(:placeholder-shown)~.form-label,
+    .form-select:focus~.form-label,
+    .form-select:not([value=""])~.form-label {
+      top: -20px;
+      left: 0;
+      font-size: 0.85rem;
+      color: var(--primary);
+    }
+
+    .form-control:focus~.form-label::after,
+    .form-control:not(:placeholder-shown)~.form-label::after,
+    .form-select:focus~.form-label::after,
+    .form-select:not([value=""])~.form-label::after {
+      content: '*';
+      color: var(--danger);
+      margin-left: 5px;
+    }
+
+    .form-select option {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .btn-success {
+      background: linear-gradient(90deg, var(--success), var(--success-light));
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-success::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .input-error .error-message {
+      display: block;
+    }
+
+    .input-error .form-control,
+    .input-error .form-select {
+      border-bottom-color: var(--danger);
+    }
+
+    .form-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: color 0.3s ease;
+    }
+
+    .form-control:focus~.form-icon,
+    .form-select:focus~.form-icon {
+      color: var(--primary);
+    }
+
+    /* form css */
+    /* ssssssssssssss */
+    /* table */
+    .container-fluid.page-body-wrapper {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 10px;
+      transition: margin-left 0.3s ease;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+      }
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+      margin-left: 14px;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 0 10px;
+      margin-top: 10px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #1a73e8;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .form-select {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+
+    .btn-add {
+      background: #4b49ac;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+    }
+
+    .btn-add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .equipment-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 800px;
+    }
+
+    .equipment-table th {
+      background-color: #f5f8ff;
+      color: #1a73e8;
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      white-space: nowrap;
+    }
+
+    .equipment-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .equipment-table tr:hover {
+      background-color: #f9fbff;
+    }
+
+    .equipment-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      background-color: #e8f0fe;
+      color: #1a73e8;
+      font-weight: 500;
+    }
+
+    .quantity-display {
+      position: relative;
+      width: 80px;
+    }
+
+    .quantity-value {
+      position: relative;
+      z-index: 2;
+      font-weight: 500;
+    }
+
+    .quantity-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-color: rgba(66, 133, 244, 0.1);
+      border-radius: 4px;
+      z-index: 1;
+      transition: width 0.5s ease;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .status-badge i {
+      margin-right: 5px;
+      font-size: 0.9rem;
+    }
+
+    .in-stock {
+      background-color: rgba(52, 168, 83, 0.1);
+      color: #34a853;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      color: #5f6368;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background-color: #f1f3f4;
+      color: #1a73e8;
+    }
+
+    .btn-action.edit:hover {
+      background-color: #fff8e1;
+      color: #f9ab00;
+    }
+
+    /* table */
+
+    .card1 {
+      background-color: #fff;
+      border-radius: 10px;
+      border: none;
+      position: relative;
+      margin-bottom: 30px;
+      box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1),
+        0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1),
+        0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12),
+        0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
+    }
+
+    .card .card-statistic-3 .card-icon-large .fas {
+      font-size: 110px;
+    }
+
+    .card .card-statistic-3 .card-icon {
+      text-align: center;
+      line-height: 50px;
+      margin-left: 15px;
+      color: #000;
+      position: absolute;
+      right: -5px;
+      top: 20px;
+      opacity: 0.1;
+    }
+
+    /* Background Gradients */
+    .l-bg-purple {
+      background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+      color: #fff;
+    }
+
+    .l-bg-blue-dark {
+      background: linear-gradient(to right, #373b44, #4286f4) !important;
+      color: #fff;
+    }
+
+    .l-bg-green-dark {
+      background: linear-gradient(to right, #0a504a, #38ef7d) !important;
+      color: #fff;
+    }
+
+    .l-bg-red {
+      background: linear-gradient(to right, #e53935, #e35d5b) !important;
+      color: #fff;
+    }
+
+    .l-bg-orange {
+      background: linear-gradient(to right, #f9900e, #ffba56) !important;
+      color: #fff;
+    }
+
+    .l-bg-cyan {
+      background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+      color: #fff;
+    }
+
+    .l-bg-yellow {
+      background: linear-gradient(to right, #f7971e, #ffd200) !important;
+      color: #fff;
+    }
+
+    .l-bg-brown {
+      background: linear-gradient(to right, #795548, #a1887f) !important;
+      color: #fff;
+    }
+      .status-badge.in-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #e6ffed;
+  color: #28a745;
+  border-radius: 12px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  font-size: 14px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status-col {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+    
+  </style>
+
+</head>
+<body">
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar -->
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial:partials/_navbar -->
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper pl-0">
+
+        <!-- NavBar Start -->
+        <%- include ('../partials/Sidebar.ejs') %>
+          <!-- NavBar End -->
+
+          <div class="main-panel" style="padding-left: 0px !important; padding-right: 0px !important;">
+            <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+            <% if (messages.success) { %>
+              <div style="display: flex; justify-content: end;">
+                <div id="pusher-message-box" style="
+            display: flex;
+            border-left: 8px solid #45439e;
+            color: green;
+            font-weight: bold;
+            font-size: 16px;
+            justify-content: end;
+            align-items: center;
+            height: 70px;
+          " class="mt-3 alert alert-primary">
+                  <%= messages.success %>
+                </div>
+              </div>
+              <% } %>
+                <script>
+                  window.addEventListener('DOMContentLoaded', () => {
+                    const msgBox = document.getElementById('pusher-message-box');
+                    if (msgBox) {
+                      setTimeout(() => {
+                        msgBox.style.transition = "opacity 0.5s";
+                        msgBox.style.opacity = 0;
+                        setTimeout(() => msgBox.style.display = "none", 500);
+                      }, 4000);
+                    }
+                  });
+                </script>
+                <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
+                <div class="content-wrapper">
+                  <!-- Hero start -->
+                  <div class="container-fluid" style="padding-left: 0px !important; padding-right: 0px !important;">
+
+                    <!-- ssss -->
+                    <div class="container-fluid" style="padding-left: 0px !important; padding-right: 0px !important;">
+
+                      <div class="container-fluid" style="padding-left: 0px !important; padding-right: 0px !important;">
+
+                        <!-- Dashboard Cards: First Row -->
+                        <div class="container-fluid mt-4">
+                          <div class="row d-flex flex-lg-nowrap flex-wrap flex-column flex-sm-row">
+                            <!-- Total Team -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                              <a href="/AdminTeam" class="text-white text-decoration-none">
+                                <div class="card l-bg-purple">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-users-cog"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Total Team</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= totalTeam %>
+                                        </h2>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Total Users -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                              <a href="/AdminUser" class="text-white text-decoration-none">
+                                <div class="card l-bg-blue-dark">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-user-friends"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Total Users</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= totalUsers %>
+                                        </h2>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Total Request -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                              <a href="/request" class="text-white text-decoration-none">
+                                <div class="card l-bg-green-dark">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-tasks"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Total Request</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= totalRequests %>
+                                        </h2>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Total Complaints -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                              <a href="/UserComplaint" class="text-white text-decoration-none">
+                                <div class="card l-bg-red">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Total Complaints</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= totalComplaints %>
+                                        </h2>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <!-- Dashboard Cards: Second Row -->
+                        <div class="container-fluid mt-4">
+                          <div class="row d-flex flex-lg-nowrap flex-wrap flex-column flex-sm-row">
+                            <!-- Unpaid Users -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                              <a href="/AdminUser" class="text-white text-decoration-none">
+                                <div class="card l-bg-orange">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-user-slash"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Unpaid Users</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= unpaidUsers %>
+                                        </h2>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Completed Requests -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                              <a href="/UserComplaint" class="text-white text-decoration-none">
+                                <div class="card l-bg-cyan">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-check-circle"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Completed Requests</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= CompletedCount %>
+                                        </h2>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Pending Requests -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                              <a href="/UserComplaint" class="text-white text-decoration-none">
+                                <div class="card l-bg-yellow">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-hourglass-half"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white">Pending Requests</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= pendingCount %>
+                                        </h2>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+
+                            <!-- Packages Expiring -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                              <a href="/AdminUser" class="text-white text-decoration-none">
+                                <div class="card l-bg-brown">
+                                  <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-calendar-times"></i></div>
+                                    <div class="mb-4">
+                                      <h5 class="card-title mb-0 text-white" style="font-size: 14px;">Packages Expiring
+                                        in 7 Days</h5>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                      <div class="col-8">
+                                        <h2 class="d-flex align-items-center mb-0">
+                                          <%= expiringSoon %>
+                                        </h2>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+                      <!-- Sale & Revenue End -->
+
+
+                      <!-- Sales Chart Start -->
+                      <div class="container-fluid p-4">
+                        <div class="row justify-content-center">
+                          <div class="col-md-3 mb-4">
+                            <div class="custom-card1 text-white text-center"
+                              style="background-color: #1b263b; border: none; border-radius: 15px; padding: 20px; height: 400px;">
+                              <h5 class="mb-3">Website Visitors</h5>
+                              <div class="d-flex justify-content-center align-items-center mb-3">
+                                <svg width="150" height="150" class="mx-auto">
+                                  <circle cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="75"
+                                    stroke="#4caf50" stroke-width="10" fill="none"></circle>
+                                  <circle cx="75" cy="75" r="50" stroke-dasharray="314" stroke-dashoffset="125"
+                                    stroke="#2196f3" stroke-width="10" fill="none"></circle>
+                                  <circle cx="75" cy="75" r="40" stroke-dasharray="251" stroke-dashoffset="125"
+                                    stroke="#00bcd4" stroke-width="10" fill="none"></circle>
+                                </svg>
+                              </div>
+                              <h2 class="my-3">150k</h2>
+                              <ul class="list-unstyled">
+                                <li><span class="text-success">&#9679;</span> Organic - 80%</li>
+                                <li><span class="text-white">&#9679;</span> Social - 60%</li>
+                                <li><span class="text-info">&#9679;</span> Direct - 50%</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="col-md-9 mb-4">
+                            <div class="custom-card text-white"
+                              style="background-color: #1b263b; border: none; border-radius: 15px; padding: 20px; height: 400px;">
+                              <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Revenue by Customer Type</h5>
+                                <h4>240.8K <span class="badge bg-success">14.8% &#x2191;</span></h4>
+                              </div>
+
+                              <div class="chart-container" style="position: relative; height: 250px;">
+                                <canvas id="revenueChart"></canvas>
+                              </div>
+
+                              <div class="mt-4 d-flex justify-content-between align-items-center">
+                                <div>
+                                  <span class="text-purple">&#9679; Current clients</span>
+                                  <span class="text-white">&#9679; Subscribers</span>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Scripts -->
+                      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                      <script>
+                        const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+                        const revenueChart = new Chart(ctxRevenue, {
+                          type: 'bar',
+                          data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                            datasets: [
+                              { label: 'Current clients', data: [10, 30, 40, 35, 20, 25, 10, 40, 20, 10, 15, 20], backgroundColor: '#c084fc' },
+                              { label: 'Subscribers', data: [15, 20, 25, 15, 10, 30, 5, 10, 15, 10, 15, 10], backgroundColor: '#60a5fa' },
+                              { label: 'New customers', data: [10, 25, 25, 20, 5, 15, 5, 40, 5, 20, 15, 25], backgroundColor: '#22d3ee' }
+                            ]
+                          },
+                          options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                              y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#334155' } },
+                              x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+                            },
+                            plugins: { legend: { display: false } }
+                          }
+                        });
+
+                        const ctxTasks = document.getElementById('tasksChart').getContext('2d');
+                        const tasksChart = new Chart(ctxTasks, {
+                          type: 'line',
+                          data: {
+                            labels: ['Jan 1', 'Jan 8', 'Jan 16', 'Jan 24', 'Jan 31', 'Feb 1', 'Feb 8', 'Feb 16', 'Feb 24'],
+                            datasets: [{ label: 'Completed Tasks', data: [0, 120, 120, 300, 90, 210, 180, 230, 90], borderColor: '#00b4d8', backgroundColor: 'rgba(0, 180, 216, 0.2)', tension: 0.4, fill: true, borderWidth: 2 }]
+                          },
+                          options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                              y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#334155' } },
+                              x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+                            },
+                            plugins: { legend: { display: false } }
+                          }
+                        });
+                      </script>
+
+
+                      <!-- table For the user -->
+                      <div class="content-wrapper">
+                        <div class="card">
+                          <div class="card-header" style="display: flex; justify-content: center;">
+                            All Users
+                          </div>
+
+
+                          <div class="toolbar">
+                            <!-- <div class="search-box">
+                          <i class="fas fa-search"></i>
+                          <form action="/AdminUser" method="GET">
+                            <input type="text" name="search" placeholder="Search by username..." value="<%= typeof search !== 'undefined' ? search : '' %>" class="search-input">
+                            <input type="hidden" name="page" value="1">
+                          </form>
+                        </div> -->
+                            <div class="filter-options">
+
+                              <a href="/AddUser" style="text-decoration: none;">
+                                <button class="btn-add">
+                                  <i class="fas fa-plus mr-2"></i>Add User
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                          <div class="table-responsive">
+                            <table class="equipment-table">
+                              <thead>
+                                <tr>
+                                  <th class="name-col">Image</th>
+                                  <th class="name-col">Username</th>
+                                  <th class="type-col">Email</th>
+                                  <th class="category-col">Role</th>
+                                  <th class="quantity-col">Package</th>
+                                  <th class="status-col">Expiry Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% user.forEach(user=> { %>
+                                  <tr>
+                                    <td class="name-col">
+                                      <div class="equipment-info">
+                                        <img class="equipment-image"
+                                          src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                                          alt="User">
+                                      </div>
+                                    </td>
+                                    <td class="type-col">
+                                      <%= user.username %>
+                                    </td>
+                                    <td class="category-col"><span class="category-badge">
+                                        <%= user.Email %>
+                                      </span></td>
+                                    <td class="quantity-col">
+                                      <div class="quantity-display">
+                                        <div class="quantity-value">
+                                          <%= user.role %>
+                                        </div>
+                                        <div class="quantity-bar" style="width: 60%"></div>
+                                      </div>
+                                    </td>
+                                    <td class="status-col">
+                                      <span class="status-badge in-stock">
+                                        <i class="fas fa-check-circle"></i>
+                                        <%= user.plan %> GB
+                                      </span>
+                                    </td>
+                                    <td class="type-col">
+                                      <% if (user.expiry) { %>
+                                        <%= new Date(user.expiry).toISOString().split('T')[0] %>
+                                          <% } else { %>
+                                            N/A
+                                            <% } %>
+                                    </td>
+
+                                  </tr>
+                                  <% }) %>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- table For the user -->
+
+                          <!-- update the CARD ONALY THE ADMIN -->
+                          <% cards.forEach(card=> { %>
+                            <div class="modal fade come-from-modal pr-0" id="myModalss<%= card.id %>" tabindex="-1"
+                              role="dialog" aria-labelledby="myModalLabel<%= card.id %>">
+                              <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content form-card">
+
+                                  <!-- Modal Header -->
+                                  <div class="form-header">
+                                    <h5 class="modal-title" id="myModalLabel<%= card.id %>">
+                                      <i class="fas fa-box-open me-2"></i> Update Package
+                                    </h5>
+                                  </div>
+
+                                  <!-- Modal Body with Form -->
+                                  <div class="modal-body">
+                                    <form action="/Cards/update/<%= card.id %>" method="POST">
+
+                                      <!-- First Row -->
+                                      <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
+                                        <div class="form-group w-100">
+                                          <input type="text" name="Package" id="Package" class="form-control"
+                                            value="<%= card.Package %>" required placeholder="Update your Package">
+                                          <label for="Package" class="form-label">Package Name</label>
+                                        </div>
+                                        <div class="form-group w-100">
+                                          <input type="number" name="Price" id="Price" class="form-control"
+                                            value="<%= card.Price %>" required placeholder="Update your Price">
+                                          <label for="Price" class="form-label">Price</label>
+                                        </div>
+                                      </div>
+
+                                      <!-- Second Row -->
+                                      <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
+                                        <div class="form-group w-100">
+                                          <input type="text" name="Speed" id="Speed" class="form-control"
+                                            value="<%= card.Speed %>" required placeholder="Update your Speed">
+                                          <label for="Speed" class="form-label">Speed</label>
+                                        </div>
+                                        <div class="form-group w-100">
+                                          <input type="text" name="Data_Used" id="Data_Used" class="form-control"
+                                            value="<%= card.Data_Used %>" required placeholder="Update your Data Used">
+                                          <label for="Data_Used" class="form-label">Data Used</label>
+                                        </div>
+                                      </div>
+
+                                      <!-- Third Row -->
+                                      <div class="d-flex mb-4" style="gap: 8px !important;">
+                                        <div class="form-group w-100">
+                                          <input type="date" name="Offer_Valid" id="Offer_Valid" class="form-control"
+                                            value="<%= card.Offer_Valid %>" required placeholder="Update Offer Valid">
+                                          <label for="Offer_Valid" class="form-label">Offer Valid Until</label>
+                                        </div>
+                                        <div class="form-group w-100">
+                                          <input type="text" name="limits" id="limits" class="form-control"
+                                            value="<%= card.limits %>" required placeholder="Update your limits">
+                                          <label for="limits" class="form-label">Limits</label>
+                                        </div>
+                                      </div>
+
+                                      <!-- Submit Button -->
+                                      <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-2"></i> Update Package
+                                      </button>
+                                    </form>
+                                  </div>
+
+                                  <!-- Close Button -->
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                    style="position: absolute; top: 23px; right: 24px; font-size: 18px;"></button>
+                                </div>
+                              </div>
+                            </div>
+                            <% }) %>
+
+                              <!-- update the CARD ONALY THE ADMIN -->
+                        </div>
+
+                        <!-- Main Card Start -->
+                        <div class="container mt-3">
+                          <div class="row">
+                            <!-- Right Section (Cards Slider) -->
+                            <section>
+                              <div class="container-fluid" style="padding-right: 0px;padding-left: 0px;">
+                                <div class="container">
+
+                                  <div class="cards-main">
+                                    <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' :
+                                      index===1 ? 'standard' : 'premium' ; %>
+                                      <div class="card custom-cardd <%= cardType %>" style="border: none;">
+                                        <div class="card-top">
+                                          <% if (index===0) { %>
+                                            <h2>BASIC</h2>
+                                            <div class="stars">★★</div>
+                                            <% } else if (index===1) { %>
+                                              <h2>STANDARD</h2>
+                                              <div class="stars">★★★</div>
+                                              <% } else if (index===2) { %>
+                                                <h2>PREMIUM</h2>
+                                                <div class="stars">★★★★</div>
+                                                <% } %>
+                                        </div>
+                                        <div class="price-circle">
+                                          <div style="text-align: center;">
+                                            <%= card.Package %>
+                                              </sup>Mbps</h4>
+                                          </div>
+                                          <div>PER MONTH</div>
+                                        </div>
+                                        <div class="features">
+                                          <p><span>✔</span>
+                                            Rs. <%= card.Price %>
+                                          </p>
+                                          <p><span>✔</span>
+                                            <%= card.Speed %> Mbs speed
+                                          </p>
+                                          <p><span>✔</span>
+                                            <%= card.Offer_Valid %>
+                                          </p>
+                                          <p><span>✔</span>
+                                            <%= card.Data_Used %> GB Usage
+                                          </p>
+                                          <p><span>✔</span>
+                                            <%= card.limits %> GB Limits
+                                          </p>
+                                        </div>
+                                        <% if (isAdmin) { %>
+                                          <div class="d-flex justify-content-center mb-2">
+                                            <button class="btn btn-success mt-3 rounded-pill" data-toggle="modal"
+                                              data-target="#myModalss<%= card.id %>"
+                                              style="background: #008000 !important; border:none; width: 55%; padding: 10px;">
+                                              <i class="fa fa-edit" aria-hidden="true"></i> Edit Package
+                                            </button>
+                                          </div>
+                                          <% } %>
+                                      </div>
+                                      <% }); %>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                        </div>
+                        <div class="icon-slider">
+                          <div class="icon-track">
+                            <% Iconresult.forEach((icon)=> { %>
+                              <a href="<%= icon.Link %>" target="_blank">
+                                <img src="/uploads/<%= icon.Icon %>" width="50px" height="40px" alt="">
+                              </a>
+                              <% }); %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <SCript>
+                      document.addEventListener('DOMContentLoaded', function () {
+                        const iconSlider = document.querySelector('#iconSlider');
+
+                        iconSlider.addEventListener('mouseenter', function () {
+                          $('#iconSlider').carousel('pause');
+                        });
+
+                        iconSlider.addEventListener('mouseleave', function () {
+                          $('#iconSlider').carousel('cycle');
+                        });
+                      });
+                    </SCript>
+
+                    <!-- plugins:js -->
+                    <script src="vendors\js\vendor.bundle.base.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <!-- endinject -->
+                    <!-- Plugin js for this page -->
+                    <script src="vendors\chart.js/Chart.min.js"></script>
+                    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+                    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+                    <script src="js/dataTables.select.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                    <!-- End plugin js for this page -->
+                    <!-- inject:js -->
+                    <script src="js/off-canvas.js"></script>
+                    <script src="js/hoverable-collapse.js"></script>
+                    <script src="js/template.js"></script>
+                    <script src="js/settings.js"></script>
+                    <!-- endinject -->
+                    <!-- Custom js for this page-->
+                    <script src="js/dashboard.js"></script>
+                    <script src="js/Chart.roundedBarCharts.js"></script>
+                    <!-- End custom js for this page-->
+                    <!-- Bootstrap  -->
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+                    </body>
+
+</html>

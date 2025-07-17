@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Time Form Selection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-image: url('images/first.jpg');
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-skip {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+        }
+
+        .btn-select {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+        }
+
+        .form-options {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            pointer-events: none;
+            margin-top: 40px;
+        }
+
+        .form-options.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .form-options .btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-options .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: #4B49AC;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+        }
+
+        .modal-footer .btn {
+            border-radius: 8px;
+        }
+
+        @media (max-width: 767px) {
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-custom {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .custom-btn {
+            color: white;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .custom-btn .icon {
+            margin-right: 8px;
+            animation: pulseIcon 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulseIcon {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome, <%= username %>
+        </h2>
+        <p>Please select a connection type or skip to your dashboard.</p>
+        <div class="button-group">
+            <button class="btn btn-custom btn-skip" onclick="skipToDashboard()">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Get Started</span>
+            </button>
+            <button class="btn btn-custom btn-select" onclick="showFormOptions()">
+                <i class="bi bi-plug-fill"></i>
+                <span>Select Connection Type</span>
+            </button>
+        </div>
+        <div id="formOptions" class="form-options">
+            <form id="formSelection" method="POST" action="/select-form">
+                <input type="hidden" name="email" value="<%= userEmail %>">
+                <input type="hidden" id="formTypeInput" name="formType" value="">
+                <div class="d-flex justify-content-center gap-4 flex-wrap">
+                    <button type="button" class="btn custom-btn btn-outline-primary" onclick="submitWithType('fibre')">
+                        <i class="bi bi-lightning-fill icon"></i> Fibre Submission
+                    </button>
+
+                    <button type="button" class="btn custom-btn btn-outline-success"
+                        onclick="submitWithType('wireless')">
+                        <i class="bi bi-broadcast icon"></i> Wireless Submission
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Fibre Form Modal -->
+        <div class="modal fade" id="fibreFormModal" tabindex="-1" aria-labelledby="fibreFormModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <form action="/submit-fibre-form" method="POST" id="fibreForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="fibreFormModalLabel">User Fibre Submission</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body row g-3">
+                            <input type="hidden" name="email" value="<%= userEmail %>">
+                            <!-- Device -->
+                            <div class="col-md-6">
+                                <label class="form-label">Device Name</label>
+                                <input list="deviceOptions" name="device_label" class="form-control"
+                                    placeholder="Device name">
+                                <datalist id="deviceOptions">
+                                    <option value="X-pon">
+                                    <option value="E-pon">
+                                    <option value="G-pon">
+                                    <option value="tyty">
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Device Price</label>
+                                <input type="text" name="device_price" class="form-control" placeholder="Device price">
+                            </div>
+                            <!-- First Package -->
+                            <div class="col-md-6">
+                                <label class="form-label">First Package Price</label>
+                                <input type="text" name="first_package_price" class="form-control">
+                            </div>
+                            <!-- Fibre Power -->
+                            <div class="col-md-6">
+                                <label class="form-label">Fibre Optical Power</label>
+                                <select name="fibre_power_label" class="form-select" id="fibrePowerSelect"
+                                    onchange="togglePowerInput()">
+                                    <option value="" disabled selected>Select Power Range</option>
+                                    <option value="-7 to -10 dBm">-7 to -10 dBm</option>
+                                    <option value="-11 to -13 dBm">-11 to -13 dBm</option>
+                                    <option value="-14 to -17 dBm">-14 to -17 dBm</option>
+                                    <option value="-18 to -21 dBm">-18 to -21 dBm</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6" id="customPowerField" style="display: none;">
+                                <label class="form-label">Custom Power</label>
+                                <input type="text" name="fibre_power_label" id="customFibrePower" class="form-control"
+                                    placeholder="e.g. -3.1 dBm">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Optical Power</label>
+                                <input type="text" name="fibre_power_price" class="form-control"
+                                    placeholder="Optical power price">
+                            </div>
+                            <!-- Fibre Color -->
+                            <div class="col-md-6">
+                                <label class="form-label">Fibre Color</label>
+                                <select name="fibre_color_value" id="fibreColorSelect" class="form-select">
+                                    <option value="Blue">Blue</option>
+                                    <option value="Orange">Orange</option>
+                                    <option value="Green">Green</option>
+                                    <option value="Brown">Brown</option>
+                                    <option value="Gray">Gray</option>
+                                    <option value="White">White</option>
+                                    <option value="Red">Red</option>
+                                    <option value="Black">Black</option>
+                                    <option value="Yellow">Yellow</option>
+                                    <option value="Violet">Violet</option>
+                                    <option value="Rose">Rose</option>
+                                    <option value="Aqua">Aqua</option>
+                                </select>
+                            </div>
+                            <!-- Fibre Supplying -->
+                            <div class="col-md-6">
+                                <label class="form-label">Fibre Supplying</label>
+                                <input type="text" name="fibre_supplying_value" class="form-control">
+                            </div>
+                            <!-- Cable -->
+                            <div class="col-md-6">
+                                <label class="form-label">Cable (Core + Meter)</label>
+                                <div class="input-group">
+                                    <select name="cable_core" class="form-select" id="cableCoreSelect"
+                                        onchange="updateCableQuantity()">
+                                        <option value="">Core</option>
+                                        <option value="2">2 Core</option>
+                                        <option value="4">4 Core</option>
+                                        <option value="6">6 Core</option>
+                                        <option value="12">12 Core</option>
+                                    </select>
+                                    <input type="number" name="cable_meter" id="cableMeterInput" class="form-control"
+                                        placeholder="Meters" onchange="updateCableQuantity()">
+                                </div>
+                                <input type="hidden" name="cable_quantity" id="cable_quantity">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Cable Price</label>
+                                <input type="text" name="cable_price" id="cable_price" class="form-control" readonly>
+                            </div>
+                            <!-- Splitter -->
+                            <div class="col-md-6">
+                                <label class="form-label">Splitter</label>
+                                <select name="splitter_value" class="form-select">
+                                    <option value="2way">2 Way</option>
+                                    <option value="4way">4 Way</option>
+                                    <option value="6way">6 Way</option>
+                                    <option value="8way">8 Way</option>
+                                </select>
+                            </div>
+                            <!-- Duck Patti -->
+                            <div class="col-md-6">
+                                <label class="form-label">Duck Patti Quantity</label>
+                                <input type="number" name="duck_patti_quantity" id="duck_patti_quantity"
+                                    class="form-control" placeholder="e.g., 2" onchange="updateDuckPattiPrice()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Duck Patti Price</label>
+                                <input type="text" name="duck_patti_price" id="duck_patti_price" class="form-control"
+                                    readonly>
+                            </div>
+                            <!-- Patch Card -->
+                            <div class="col-md-6">
+                                <label class="form-label">Patch Card Quantity</label>
+                                <input type="number" name="patch_card_quantity" id="patch_card_quantity"
+                                    class="form-control" placeholder="e.g., 2" onchange="updatePatchCardPrice()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Patch Card Price</label>
+                                <input type="text" name="patch_card_price" id="patch_card_price" class="form-control"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            <button type="submit" class="btn btn-outline-secondary w-100 mt-2"
+                                onclick="document.getElementById('fibreForm').skip.value = 'true'">Skip</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="skip" value="false">
+                </form>
+            </div>
+        </div>
+
+        <!-- Wireless Form Modal -->
+        <div class="modal fade" id="wirelessFormModal" tabindex="-1" aria-labelledby="wirelessFormModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="/submit-wireless-form" method="POST" id="wirelessForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="wirelessFormModalLabel">Wireless Form</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body row g-3">
+                            <input type="hidden" name="email" value="<%= userEmail %>">
+                            <!-- Cat 6 Wire -->
+                            <div class="col-md-6">
+                                <label class="form-label">Cat 6 Wire (meters)</label>
+                                <input type="text" name="cat6_quantity" id="cat6_quantity" class="form-control"
+                                    placeholder="e.g., 100 meter">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Cat 6 Wire Price (Rs)</label>
+                                <input type="number" name="cat6_price" id="cat6_price" class="form-control"
+                                    placeholder="Enter price">
+                            </div>
+                            <!-- First Package Price -->
+                            <div class="col-6">
+                                <label class="form-label">First Package Price</label>
+                                <input type="text" name="first_package_price" class="form-control"
+                                    placeholder="Enter package price">
+                            </div>
+                            <!-- Clips -->
+                            <div class="col-md-6">
+                                <label class="form-label">Clips Quantity</label>
+                                <input type="text" name="clips_quantity" id="clips_quantity" class="form-control"
+                                    placeholder="e.g., 50 clips" oninput="updateClipsPrice()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Clips Price (Rs)</label>
+                                <input type="number" name="clips_price" id="clips_price" class="form-control" readonly>
+                            </div>
+                            <!-- Raval Bold -->
+                            <div class="col-md-6">
+                                <label class="form-label">Raval Bold (Pairs)</label>
+                                <select name="raval_bold_pair" id="raval_bold_pair" class="form-select"
+                                    onchange="updateRavalBoldPrice()">
+                                    <option selected disabled>Select Pairs</option>
+                                    <% for(let i=1; i <=10; i++) { %>
+                                        <option value="<%= i %>">
+                                            <%= i %> Pair
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Raval Bold Price (Rs)</label>
+                                <input type="number" name="raval_bold_price" id="raval_bold_price" class="form-control"
+                                    readonly>
+                            </div>
+                            <!-- Poll -->
+                            <div class="col-md-6">
+                                <label class="form-label">Poll Height</label>
+                                <select name="poll_height" class="form-select">
+                                    <option selected disabled>Select Poll Height</option>
+                                    <option>10 feet</option>
+                                    <option>20 feet</option>
+                                    <option>30 feet</option>
+                                    <option>40 feet</option>
+                                    <option>50 feet</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Poll Price (Rs)</label>
+                                <input type="number" name="poll_price" class="form-control" placeholder="Enter price">
+                            </div>
+                            <!-- Signal Strength -->
+                            <div class="col-12">
+                                <label class="form-label">Signal Strength</label>
+                                <div class="input-group">
+                                    <select id="signal_strength_select" class="form-select"
+                                        onchange="toggleSignalInput()">
+                                        <option selected disabled>Select Signal Strength</option>
+                                        <option value="-10 to -5 dBm">-10 to -5 dBi</option>
+                                        <option value="-5 to 0 dBm">-5 to 0 dBi</option>
+                                        <option value="0 to +5 dBm">0 to +5 dBi</option>
+                                        <option value="manual">Other (Enter manually)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12" id="signal_manual_wrapper" style="display: none;">
+                                <div class="input-group">
+                                    <input type="text" name="signal_strength" id="signal_strength_input"
+                                        class="form-control" placeholder="Enter Signal Strength">
+                                    <span class="input-group-text">-dBi</span>
+                                </div>
+                            </div>
+                            <!-- Home-Tower Height -->
+                            <div class="col-12">
+                                <label class="form-label">Home Tower Height</label>
+                                <select name="home_tower_height" class="form-select">
+                                    <option selected disabled>Select Home Tower Height</option>
+                                    <% for(let i=20; i <=70; i +=5) { %>
+                                        <option>
+                                            <%= i %>-<%= i+5 %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <!-- Signal Receiver -->
+                            <div class="col-md-4">
+                                <label class="form-label">Signal Receiver</label>
+                                <select name="signal_receiver" class="form-select">
+                                    <option selected disabled>Select Signal Receiver</option>
+                                    <option>Light Beam-M5</option>
+                                    <option>Light Beam-AC</option>
+                                    <option>Power Beam-M5</option>
+                                    <option>Power Beam-AC</option>
+                                    <option>Nano-station</option>
+                                    <option>Outdoor Router</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Receiver Price (Rs)</label>
+                                <input type="text" name="receiver_price" class="form-control" placeholder="Enter price">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Receiver Model</label>
+                                <input type="text" name="receiver_model" class="form-control" placeholder="Enter model">
+                            </div>
+                            <!-- Wifi ONU -->
+                            <div class="col-md-4">
+                                <label class="form-label">WiFi ONU</label>
+                                <select name="wifi_onu" class="form-select">
+                                    <option selected disabled>Select WiFi ONU</option>
+                                    <option>TP-Link</option>
+                                    <option>China</option>
+                                    <option>Net gear</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">ONU Price (Rs)</label>
+                                <input type="text" name="onu_price" class="form-control" placeholder="Enter price">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">ONU Model</label>
+                                <input type="text" name="onu_model" class="form-control" placeholder="Enter model">
+                            </div>
+                            <!-- Tower AP Connected Device -->
+                            <div class="col-12">
+                                <label class="form-label">Tower AP Connected Device</label>
+                                <select name="tower_ap_device" class="form-select">
+                                    <option selected disabled>Select Device</option>
+                                    <option>Fibrish</option>
+                                    <option>Click Opticx</option>
+                                    <option>D-11</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <!-- Optional existing field -->
+                            <div class="col-12">
+                                <label class="form-label">Wireless Field</label>
+                                <input type="text" name="wireless_field" class="form-control" placeholder="Enter notes">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            <button type="submit" class="btn btn-outline-secondary w-100 mt-2"
+                                onclick="document.getElementById('wirelessForm').skip.value = 'true'">Skip</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="skip" value="false">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function skipToDashboard() {
+            fetch('/skip-forms', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: '<%= userEmail %>' })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/index';
+                    } else {
+                        return response.text().then(msg => alert('Failed: ' + msg));
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Something went wrong while skipping!');
+                });
+        }
+
+        function showFormOptions() {
+            const formOptions = document.getElementById('formOptions');
+            formOptions.classList.add('show');
+        }
+
+        function submitWithType(type) {
+            document.getElementById('formTypeInput').value = type;
+            if (type === 'fibre') {
+                $('#fibreFormModal').modal('show');
+            } else if (type === 'wireless') {
+                $('#wirelessFormModal').modal('show');
+            }
+        }
+
+        function updateCableQuantity() {
+            const coreSelect = document.getElementById('cableCoreSelect');
+            const meterInput = document.getElementById('cableMeterInput');
+            const quantityInput = document.getElementById('cable_quantity');
+            const priceInput = document.getElementById('cable_price');
+            const selectedCore = coreSelect.value;
+            const meters = parseFloat(meterInput.value) || 0;
+            const pricePerMeter = { '2': 32, '4': 36, '6': 48, '12': 96 };
+            if (selectedCore && meters > 0) {
+                quantityInput.value = `${selectedCore} core ${meters} meter`;
+                const price = pricePerMeter[selectedCore] * meters;
+                priceInput.value = price.toFixed(2) + ' Rs';
+            } else {
+                quantityInput.value = '';
+                priceInput.value = '';
+            }
+        }
+
+        function updateDuckPattiPrice() {
+            const quantityInput = document.getElementById('duck_patti_quantity');
+            const priceInput = document.getElementById('duck_patti_price');
+            const quantity = parseInt(quantityInput.value) || 0;
+            const pricePerUnit = 130;
+            if (quantity > 0) {
+                priceInput.value = (pricePerUnit * quantity) + ' Rs';
+            } else {
+                priceInput.value = '';
+            }
+        }
+
+        function updatePatchCardPrice() {
+            const quantityInput = document.getElementById('patch_card_quantity');
+            const priceInput = document.getElementById('patch_card_price');
+            const quantity = parseInt(quantityInput.value) || 0;
+            const pricePerUnit = 350;
+            if (quantity > 0) {
+                priceInput.value = (pricePerUnit * quantity) + ' Rs';
+            } else {
+                priceInput.value = '';
+            }
+        }
+
+        function updateClipsPrice() {
+            const quantityInput = document.getElementById('clips_quantity');
+            const priceInput = document.getElementById('clips_price');
+            const count = quantityInput.value.match(/(\d+)\s*clips/)?.[1] || 0;
+            priceInput.value = count * 100;
+        }
+
+        function updateRavalBoldPrice() {
+            const pairSelect = document.getElementById('raval_bold_pair');
+            const priceInput = document.getElementById('raval_bold_price');
+            const pair = parseInt(pairSelect.value) || 0;
+            priceInput.value = pair * 980;
+        }
+
+        function togglePowerInput() {
+            const select = document.getElementById('fibrePowerSelect');
+            const customField = document.getElementById('customPowerField');
+            const customInput = document.getElementById('customFibrePower');
+            customField.style.display = select.value === 'custom' ? 'block' : 'none';
+            if (select.value !== 'custom') {
+                customInput.value = '';
+            }
+        }
+
+        function toggleSignalInput() {
+            const select = document.getElementById('signal_strength_select');
+            const manualWrapper = document.getElementById('signal_manual_wrapper');
+            const signalInput = document.getElementById('signal_strength_input');
+            if (select.value === 'manual') {
+                manualWrapper.style.display = 'block';
+                signalInput.required = true;
+            } else {
+                manualWrapper.style.display = 'none';
+                signalInput.required = false;
+                signalInput.value = select.value;
+            }
+        }
+
+        document.getElementById('fibreForm').addEventListener('submit', function (e) {
+            const cableQuantity = document.getElementById('cable_quantity');
+            if (cableQuantity.value && !cableQuantity.value.match(/^\d+\s*core\s*\d+\s*meter$/)) {
+                e.preventDefault();
+                alert('Cable quantity must be in the format "X core Y meter"');
+                return;
+            }
+            const quantityFields = ['duck_patti_quantity', 'patch_card_quantity'];
+            for (const field of quantityFields) {
+                const input = document.getElementById(field);
+                if (input.value && !input.value.match(/^\d+$/)) {
+                    e.preventDefault();
+                    alert(`${field.replace('_', ' ')} must be a number`);
+                    return;
+                }
+            }
+        });
+
+        document.getElementById('wirelessForm').addEventListener('submit', function (e) {
+            const cat6Quantity = document.getElementById('cat6_quantity');
+            if (cat6Quantity.value && !cat6Quantity.value.match(/^\d+\s*meter$/)) {
+                e.preventDefault();
+                alert('Cat 6 quantity must be in the format "X meter"');
+                return;
+            }
+            const clipsQuantity = document.getElementById('clips_quantity');
+            if (clipsQuantity.value && !clipsQuantity.value.match(/^\d+\s*clips$/)) {
+                e.preventDefault();
+                alert('Clips quantity must be in the format "X clips"');
+                return;
+            }
+        });
+    </script>
+</body>
+
+</html>

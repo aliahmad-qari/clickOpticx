@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Isp ClickTakeTech</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* profile */
+    #cont1 {
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      object-fit: cover;
+      height: 320px;
+      width: 100%;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom-right-radius: 18px;
+      border-bottom-left-radius: 18px;
+    }
+
+    .header-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    .head-icons a i {
+      color: white;
+    }
+
+    .head-icons {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    /* top section */
+    /* Base styles */
+    .content-section {
+      display: flex;
+      gap: 1vw;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Flexible spacing */
+    .test,
+    .user-content .loyal {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Typography adjustment */
+    .loyal p {
+      margin-bottom: -0.16rem;
+      font-size: clamp(12px, 1vw, 16px);
+    }
+
+    /* Media Queries for better responsiveness */
+    @media (max-width: 1024px) {
+      .content-section {
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .test,
+      .user-content .loyal {
+        flex-direction: row;
+      }
+
+      .content-section {
+        margin-top: 20px;
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-section {
+        margin-top: 15px;
+        padding: 0.1rem;
+      }
+
+      .loyal p {
+        font-size: 20px;
+      }
+    }
+
+    /* top section */
+
+    .login-btn {
+      background-color: transparent;
+      border: 0;
+      color: orange;
+      font-size: 26px;
+      outline: 0;
+      margin-top: 20px;
+    }
+
+    .login-btn:hover {
+      color: white !important;
+    }
+
+    /* profile */
+    .custom-card {
+      display: flex;
+      color: white;
+      border-radius: 78px;
+      padding: 4px;
+      width: 100%;
+    }
+
+    .right-side,
+    .left-side {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .left-side {
+      border-right: 2px solid white;
+      border-top-left-radius: 76px;
+      border-bottom-left-radius: 76px;
+    }
+
+    .right-side {
+      border-top-right-radius: 76px;
+      border-bottom-right-radius: 76px;
+    }
+
+    .left-side img,
+    .right-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* sssssssss */
+    .main-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-slider {
+      height: 330px;
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 30px;
+      padding: 0px 10px;
+    }
+
+    .slider {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+
+    .slider-img {
+      max-width: 100%;
+      height: auto;
+      width: 100%;
+      object-fit: fill;
+      border-radius: 15px;
+    }
+
+    .slider-imgss {
+      max-width: 100%;
+      height: auto;
+      width: 100%;
+      object-fit: fill;
+      border-radius: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .slider-img {
+        max-width: 90%;
+        height: 140px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slider-imgss {
+        max-width: 90%;
+        height: 140px;
+      }
+    }
+
+    /* icon Card css */
+    .grid-container {
+      background: transparent;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      /* margin-top: 25px; */
+    }
+
+    @media (max-width: 400px) {
+      .grid-container {
+        padding: 2px;
+      }
+    }
+
+    .grid-item {
+      background: #6c8ce6;
+      padding: 12px 13px 15px 13px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    @media (max-width: 400px) {
+      .grid-item img {
+        width: 5px;
+      }
+    }
+
+    .grid-item:hover {
+      transform: scale(1.05);
+    }
+
+    .grid-item img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .profile-card {
+      background: white;
+      padding: 15px;
+      color: black;
+      border-bottom-right-radius: 40px;
+      border-bottom-left-radius: 40px;
+    }
+
+    .samll-img {
+      height: 60px;
+      width: 60px;
+    }
+
+    .credit-main {
+      width: 100%;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .credit-box {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      width: 100%;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .credit-icon i {
+      font-size: 40px;
+      color: black;
+    }
+
+    .boost {
+      width: 100%;
+      border-radius: 50%;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .boost-content p {
+      font-size: 19px;
+      line-height: 1.5;
+    }
+
+    .wifi-icon {
+      color: orange;
+    }
+
+    @media (max-width: 354px) {
+
+      .boost-content p {
+        font-size: 14px;
+        /* line-height: 1; */
+      }
+    }
+
+    .boost-btn {
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      border: 10px solid #9bb0ddde;
+      color: black;
+      font-weight: 800;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: white;
+      outline: 0;
+      font-size: 22px;
+    }
+
+    @media (max-width: 440px) {
+      .boost-btn {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        font-size: 12px;
+      }
+    }
+
+    .credit-content h5,
+    small {
+      color: black;
+      font-size: 1.5rem;
+    }
+
+    .total-data {
+      height: 100px;
+      width: 78vw;
+      background-color: rgb(255, 255, 255);
+      margin: 20px 0px;
+      border-radius: 15px;
+    }
+
+    .data-content small {
+      font-size: 12px;
+    }
+
+    section {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .carousel {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .slider-imgss {
+        max-width: 90%;
+        height: auto;
+      }
+    }
+
+    .row {
+      justify-content: center;
+    }
+
+    .col-sm-4 {
+      display: flex;
+      justify-content: center;
+    }
+
+    .data-card {
+      width: 180px;
+      height: 330px;
+      background: #fffbf5;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Cards */
+    /* A card start */
+    .crudd-container {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-evenly;
+
+      gap: 20px;
+      width: 100%;
+      margin: 25px 0px;
+      position: relative;
+
+    }
+
+    @media (max-width: 600px) {
+      .crudd-container {
+        flex-wrap: nowrap;
+
+      }
+    }
+
+    .crudd {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 10px 50px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      border-bottom: 30px solid #E97451;
+      height: 165px;
+      position: relative;
+      /* Needed for absolute positioning */
+      overflow: visible;
+      margin-top: 39px;
+    }
+
+    @media (max-width: 600px) {
+      .crudd {
+        padding: 10px 30px;
+        gap: 5px;
+        height: 152px;
+      }
+
+      .imgicon-1 {
+        top: -41% !important;
+        left: 11px !important;
+      }
+
+      .imgicon-2 {
+        top: -41% !important;
+        left: 17px !important;
+      }
+
+      .imgicon-3 {
+        top: -41% !important;
+        left: 11px !important;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .crudd {
+        padding: 10px 12px;
+        height: 135px;
+        gap: 8px;
+      }
+
+      .imgicon-1 {
+        top: -41% !important;
+        left: 11px !important;
+      }
+
+      .imgicon-2 {
+        top: -41% !important;
+        left: 7px !important;
+      }
+
+      .imgicon-3 {
+        top: -41% !important;
+        left: 11px !important;
+      }
+
+      .crudd img {
+        width: 64px;
+        position: absolute !important;
+      }
+    }
+
+    .rem {
+      font-size: 12px;
+      color: #333;
+      margin-top: 58px;
+    }
+
+    .crudd img {
+      position: absolute;
+
+    }
+
+    .icone {
+      /* position: absolute; */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      /* Make sure it's big enough */
+      height: 60px;
+    }
+
+    /* A card End */
+
+    /* payments start */
+    .payment-section {
+      width: 100%;
+      background: #c6cfdb;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 3%;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .payment-header {
+      font-weight: bold;
+      color: #1f3b82;
+      font-size: 22px;
+      text-align: left;
+      margin-bottom: 5px;
+    }
+
+    .payment-details {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 5px;
+      gap: 5px;
+    }
+
+    .payment-labels {
+      display: flex;
+      color: #666;
+      font-size: 14px;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .paid-status {
+      color: green;
+      font-weight: bold;
+      margin-right: 35px;
+    }
+
+    .payy-btn {
+      width: 30%;
+      background: #1f3b82;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin: auto;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      /* margin-top: 10px; */
+
+    }
+
+    .payy-btn:hover {
+      background: #16306c;
+    }
+
+    @media (max-width: 768px) {
+      .payment-section {
+        width: 100%;
+        /* Adjust width to fit smaller screens */
+        padding: 15px;
+        /* Reduce padding */
+        flex-direction: row;
+        /* Keep row layout */
+        justify-content: space-between;
+        /* Maintain space between items */
+      }
+
+      .payy-btn {
+        width: 100%;
+        /* Full width for the payment button */
+        margin-top: 10px;
+        /* Add margin for spacing */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .payment-section {
+        width: 100%;
+        /* Full width */
+        padding: 10px;
+        /* Reduce padding */
+        flex-direction: row;
+        /* Keep in row layout */
+        justify-content: space-between;
+        /* Maintain space between items */
+      }
+
+      .payy-btn {
+        width: 100%;
+        margin-top: 10px;
+
+      }
+    }
+
+    /* payments end */
+    /* ads */
+    .card-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      cursor: grab;
+      perspective: 1000px;
+    }
+
+    .deal-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #72c6ef, #5442f5);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s ease;
+      transform-origin: center;
+      will-change: transform, opacity, z-index;
+    }
+
+    .deal-card:nth-child(1) {
+      z-index: 6;
+      transform: rotate(-5deg) scale(1);
+    }
+
+    .deal-card:nth-child(2) {
+      z-index: 5;
+      transform: rotate(-3deg) scale(0.95);
+      top: 15px;
+      background: #091123;
+    }
+
+    .deal-card:nth-child(3) {
+      z-index: 4;
+      transform: rotate(0deg) scale(0.9);
+      top: 25px;
+      background: #222;
+    }
+
+    .deal-card:nth-child(4) {
+      z-index: 3;
+      transform: rotate(2deg) scale(0.85);
+      top: 35px;
+      background: #333;
+    }
+
+    .deal-card:nth-child(5) {
+      z-index: 2;
+      transform: rotate(4deg) scale(0.8);
+      top: 45px;
+      background: #444;
+    }
+
+    .deal-card:nth-child(6) {
+      z-index: 1;
+      transform: rotate(6deg) scale(0.75);
+      top: 55px;
+      background: #555;
+    }
+
+    .deal-card h5 {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .price-old {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .price-new {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .buy-btn {
+      background-color: #ffc107;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .product-img {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      height: 150px;
+      /* width: 200px; */
+      border-radius: 10px;
+    }
+
+    /* Reduce height for tablets */
+    @media (max-width: 768px) {
+      .product-img {
+        height: 120px;
+      }
+    }
+
+    /* Reduce height for medium-sized phones */
+    @media (max-width: 480px) {
+      .product-img {
+        height: 100px;
+      }
+    }
+
+    /* Reduce height for small phones */
+    @media (max-width: 360px) {
+      .product-img {
+        height: 70px;
+      }
+    }
+
+    /* Reduce height for very small screens */
+    @media (max-width: 338px) {
+      .product-img {
+        height: 60px;
+      }
+    }
+
+    .swiped {
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .pass {
+      padding-right: 2px;
+      padding-left: 10px;
+    }
+
+    /* ads-end */
+    .progress-circle {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .progress-circle svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-circle circle {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.3s ease;
+    }
+
+    .progress-circle .bg {
+      stroke: #ddd;
+    }
+
+    .progress-circle .progress {
+      stroke: #007bff;
+      stroke-dasharray: 0, 283;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #007bff;
+    }
+
+    /* Custom Modal Styling */
+    .modal-content {
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .modal-footer {
+      border-top: none;
+    }
+
+    #loader-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+
+
+
+    @keyframes spin {
+
+      0%,
+      25% {
+        transform: scaleX(var(--direction)) rotate(0);
+      }
+
+      75%,
+      100% {
+        transform: scaleX(var(--direction)) rotate(1turn);
+      }
+    }
+
+    @keyframes diamonds {
+
+      0%,
+      20% {
+        transform: var(--transform-start);
+      }
+
+      50% {
+        clip-path: polygon(75% 25%, 100% 50%, 75% 75%, 0% 50%);
+        transform: translate3d(calc(cos(var(--deg)) * var(--radius) * var(--pull)),
+            calc(sin(var(--deg)) * var(--radius) * var(--pull)),
+            5rem) rotate(calc(var(--deg) + 90deg));
+      }
+    }
+
+    .main-div {
+      color: <%=bg_result[0].text_color %> !important;
+    }
+
+    .btn-class-name {
+      --primary: 255, 90, 120;
+      --secondary: 150, 50, 60;
+      width: 60px;
+      height: 50px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      outline: 10px solid rgb(var(--primary), .5);
+      border-radius: 100%;
+      position: relative;
+      transition: .3s;
+    }
+
+    .btn-class-name .back {
+      background: rgb(var(--secondary));
+      border-radius: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn-class-name .front {
+      background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
+      box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
+      border-radius: 100%;
+      position: absolute;
+      border: 1px solid rgb(var(--secondary));
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.6rem;
+      font-weight: 600;
+      font-family: inherit;
+      transform: translateY(-15%);
+      transition: .15s;
+      color: rgb(var(--secondary));
+      text-transform: uppercase;
+    }
+
+    .btn-class-name:active .front {
+      transform: translateY(0%);
+      box-shadow: 0 0;
+    }
+
+    @media (max-width: 400px) {
+      .crod p {
+        padding-top: 45px;
+      }
+    }
+
+    /* new cards */
+    .cards-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .custom-cardd {
+      background: #222;
+      color: white;
+      border-radius: 20px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      flex: 0 0 30%;
+      max-width: 300px;
+      min-width: 307px;
+      width: 100%;
+
+    }
+
+    .card-top {
+      padding: 15px 10px 60px;
+      text-align: center;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 54% 100%, 0 45%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .basic .card-top {
+      background: linear-gradient(135deg, #00f5c9, #00b8ff);
+    }
+
+    .standard .card-top {
+      background: linear-gradient(135deg, #ff00aa, #9f00ff);
+    }
+
+    .premium .card-top {
+      background: linear-gradient(135deg, #ffc400, #ff6a00);
+    }
+
+    .stars {
+      color: #eee;
+      font-size: 16px;
+      letter-spacing: 4px;
+    }
+
+    .price-circle {
+      background: #111;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      font-size: 12px;
+      z-index: 2;
+    }
+
+    .basic .price-circle {
+      border: 4px solid #00f5c9;
+    }
+
+    .standard .price-circle {
+      border: 4px solid #ff00aa;
+    }
+
+    .premium .price-circle {
+      border: 4px solid #ffc400;
+    }
+
+    .features {
+      padding: 100px 20px 10px;
+      text-align: left;
+    }
+
+    .features p {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .features span {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .basic .features span {
+      color: #00ff00;
+    }
+
+    .standard .features span {
+      color: #ff0066;
+    }
+
+    .premium .features span {
+      color: #ffc400;
+    }
+
+    .card-button {
+      text-align: center;
+      padding: 15px;
+    }
+
+    .card-button button {
+      background: linear-gradient(to right, #00f5c9, #00b8ff);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 25px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .standard .card-button button {
+      background: linear-gradient(to right, #ff00aa, #9f00ff);
+    }
+
+    .premium .card-button button {
+      background: linear-gradient(to right, #ffc400, #ff6a00);
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 992px) {
+      .custom-card {
+        flex: 0 0 45%;
+      }
+    }
+
+    @media (max-width: 638px) {
+      .custom-card {
+        flex: 0 0 80%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .custom-card {
+        flex: 0 0 95%;
+        max-width: 95%;
+        min-width: 260px;
+      }
+
+      .price-circle {
+        width: 90px;
+        height: 90px;
+        font-size: 10px;
+      }
+
+      .card-top h2 {
+        font-size: 18px;
+      }
+
+      .features p {
+        font-size: 13px;
+      }
+
+      .card-button button {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+    }
+
+    /* new cards */
+
+    /* Billing sec */
+    .billing-sec {
+      width: 100%;
+      background-color: #f5f7ff;
+      height: 200px;
+      margin-top: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-radius: 10px;
+    }
+
+    /* Heading Animation */
+    .billing-sec h2 {
+      animation: bounceFade 1.2s ease forwards;
+    }
+
+    /* Card block (individual .rs divs) */
+    .billing-sec .rs {
+      animation: cardPop 1s ease forwards;
+      transition: transform 0.3s ease;
+    }
+
+    .billing-sec .rs:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(73, 72, 171, 0.2);
+    }
+
+    /* Button hover enhancement */
+    .billing-sec a.btn {
+      animation: fadeInUp 1.5s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .billing-sec a.btn:hover {
+      transform: scale(1.02);
+      background: #3534a0 !important;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounceFade {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      60% {
+        opacity: 0.6;
+        transform: scale(1.03);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes cardPop {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Billing sec */
+
+    /* sssssssssss */
+    .icon-slider {
+      display: block;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      position: relative;
+      padding: 10px 0px;
+    }
+
+    .icon-track {
+      display: flex;
+      width: max-content;
+      animation: scrollIcons 20s linear infinite;
+      gap: 40px;
+      font-size: 2.5rem;
+      padding-left: 100%;
+    }
+
+    .icon-slider:hover .icon-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollIcons {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* ssssssssssssss */
+
+    /* From Uiverse.io by ilkhoeri */
+    .card123 {
+      --black: 0, 0%, 0%;
+      --white-smoke: 0, 0%, 89%;
+      --black-muted: 0, 0%, 13%;
+      --green-light: 87, 73%, 63%;
+      --gap: 12px;
+      --h-card: 280px;
+      --p-card: 1rem;
+      --gap-action: 6px;
+      --sz-action: 58px;
+      --round-card: calc(var(--sz-action) / 2 + calc(var(--gap-action) / 2));
+
+      height: var(--h-card);
+      border-radius: var(--round-card);
+      position: relative;
+      background-color: hsl(var(--green-light));
+      padding: var(--p-card);
+      box-shadow: rgba(0, 0, 0, 0.15) -1.95px 1.95px 2.6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .corner {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      right: 0;
+      top: 0;
+      background-color: hsl(var(--white-smoke));
+      z-index: 2;
+      border-bottom-left-radius: var(--round-card);
+      padding-bottom: var(--gap-action);
+      padding-left: var(--gap-action);
+      gap: var(--gap-action);
+    }
+
+
+    .corner .action {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      height: var(--sz-action);
+      width: var(--sz-action);
+      border: none;
+      outline: none;
+      transition: all 0.5s ease;
+      background-color: hsl(var(--white-smoke));
+      color: hsl(var(--black-muted));
+      box-shadow:
+        rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0.07) 0px 1px 2px,
+        rgba(0, 0, 0, 0.07) 0px 2px 4px;
+    }
+
+    .corner .action:hover {
+      background-color: #4B49AC;
+    }
+
+
+
+    .corner .action:hover i {
+      color: white;
+    }
+
+    .box-body {
+      --sz-img: 32px;
+      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 9;
+    }
+
+    .box-body .box-content {
+      gap: 16px;
+      display: flex;
+      align-items: start;
+      justify-content: flex-start;
+      flex-direction: row;
+      position: relative;
+    }
+
+    .box-body .caption {
+      gap: 4px;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      font-weight: 400;
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .box-foot {
+      position: relative;
+      z-index: 9;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .box-foot::before {
+      content: attr(data-title);
+      position: absolute;
+      bottom: calc(100% + 4px);
+      color: hsl(var(--black-muted));
+      min-width: max-content;
+      font-size: 14px;
+    }
+
+    .box-foot-actions {
+      gap: var(--gap);
+      display: grid;
+      grid-auto-flow: column;
+    }
+
+    .img {
+      font-size: 24px;
+      font-weight: 800;
+      border-radius: 9999px;
+      height: var(--sz-img);
+      width: var(--sz-img);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: hsl(var(--black-muted), 0);
+      border: 1px solid hsl(var(--black-muted), 0);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .box-body .img {
+      border-radius: 0;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .text-sm {
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .card123 {
+        padding: 0 !important;
+      }
+    }
+
+    figure {
+      --size: 15vmin;
+      --duration: 4s;
+      --direction: 1;
+      --pull: -1.25;
+      perspective: 30rem;
+      display: grid;
+      grid-template-areas: "figure";
+      place-items: center;
+      inline-size: var(--size);
+      aspect-ratio: 1;
+      animation: spin var(--duration) ease-in-out infinite;
+    }
+
+    figure>* {
+      --radius: calc(var(--size) / 2);
+      --deg: calc(var(--i) * (360deg / 12));
+      --hs: 225 100%;
+      --transform-start: translate3d(calc(cos(var(--deg)) * var(--radius)),
+          calc(sin(var(--deg)) * var(--radius)),
+          0) rotate(calc(var(--deg)));
+      grid-area: figure;
+      background-color: hsl(var(--hs) var(--l, 60%));
+      inline-size: calc(var(--size) / 4);
+      aspect-ratio: 1;
+      clip-path: polygon(25% 25%, 100% 50%, 25% 75%, 0% 50%);
+      transform: var(--transform-start);
+      transform-style: preserve-3d;
+      animation: diamonds var(--duration) cubic-bezier(0.87, 0, 0.13, 1) infinite;
+    }
+
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip-text {
+      position: absolute;
+      top: 120%;
+      /* Show below the icon */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      font-size: 12px;
+      z-index: 1;
+      opacity: 1;
+      /* Always visible */
+    }
+
+    /* Downward arrow */
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      /* top of tooltip box */
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent transparent #333 transparent;
+    }
+
+    .status-container {
+      text-align: left;
+    }
+
+    .status-label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .status-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #6C8CE6;
+      border: 1px solid #6C8CE6;
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid #ccc;
+    }
+
+    .status-text {
+      font-weight: bold;
+      margin-right: 6px;
+    }
+
+    .status-arrow {
+      font-size: 16px;
+    }
+
+    @keyframes fadeSlide {
+      0% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+    }
+
+    .wifi-boost-animate {
+      animation: fadeSlide 2s ease-in-out infinite;
+    }
+
+    /* From Uiverse.io by adamgiebl */
+    .dots-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    .dot {
+      height: 20px;
+      width: 20px;
+      margin-right: 10px;
+      border-radius: 10px;
+      background-color: #b3d4fc;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .dot:last-child {
+      margin-right: 0;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: -0.3s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: -0.1s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.8);
+        background-color: #b3d4fc;
+        box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+      }
+
+      50% {
+        transform: scale(1.2);
+        background-color: #6793fb;
+        box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+      }
+
+      100% {
+        transform: scale(0.8);
+        background-color: #b3d4fc;
+        box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+      }
+    }
+  </style>
+</head>
+
+<body style="background-color: #F3F3F9;">
+  <div class="container-scroller">
+    <!-- Navbar Partial -->
+    <%- include ('./partials/_navbar.ejs') %>
+
+      <div class="container-fluid  page-body-wrapper"
+        style="padding-left: 0px !important; padding-right: 0px !important;">
+        <!-- Sidebar Start -->
+         <%- include('./partials/Sidebar.ejs') %>
+
+        <!-- Main Content -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <!-- Hero Section -->
+            <form action="/textChange" method="post">
+              <div class="card123 main-div"
+                style="background-image: url('/uploads/<%= bg_result[0].background_img %>'); background-color: <%= bg_result[0].background_color %>; background-size: cover; padding: 20px; position: relative;">
+                <!-- Loader inside card123 -->
+                <div id="loader-container"
+                  style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 999;">
+                  <figure class="loader">
+                    <div style="--i: 1"></div>
+                    <div style="--i: 2"></div>
+                    <div style="--i: 3"></div>
+                    <div style="--i: 4"></div>
+                    <div style="--i: 5"></div>
+                    <div style="--i: 6"></div>
+                    <div style="--i: 7"></div>
+                    <div style="--i: 8"></div>
+                    <div style="--i: 9"></div>
+                    <div style="--i: 10"></div>
+                    <div style="--i: 11"></div>
+                    <div style="--i: 12"></div>
+                  </figure>
+                </div>
+
+                <div class="content-section">
+                  <div class="test d-flex align-items-center">
+                    <div class="profile">
+                      <a href="/profile">
+                        <img
+                          src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                          alt="Profile" width="65px" height="65px" style="border-radius: 50%;">
+                      </a>
+                    </div>
+                    <div class="user-content">
+                      <h6 style="font-size: 20px;">
+                        <%= user.Username %>
+                          <%= user.lastName %>
+                      </h6>
+                      <div class="loyal d-flex align-items-center">
+                        <p class="invoice-status" style="font-size: 20px;">
+                          <%= user.invoice %>
+                        </p>
+                        <script>
+                          document.addEventListener("DOMContentLoaded", function () {
+                            const invoiceElement = document.querySelector(".invoice-status");
+                            if (invoiceElement) {
+                              if (invoiceElement.textContent.trim().toLowerCase() === "unpaid") {
+                                invoiceElement.style.color = "red";
+                              } else if (invoiceElement.textContent.trim().toLowerCase() === "paid") {
+                                invoiceElement.style.color = "green";
+                              }
+                            }
+                          });
+                        </script>
+                        <p class="ml-2 mb-0">
+                          <%= user.plan %> Mbps
+                        </p>
+                        <a href="/package">
+                          <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="corner" style="background-color: #F3F3F9 !important; border-radius: 50px;">
+                  <div class="tooltip-container">
+                    <div data-action="notif" class="action">
+                      <i class="bi bi-rocket-takeoff" style="font-size: xx-large;"></i>
+                    </div>
+                    <div class="tooltip-text">
+                      <section class="dots-container" style="display: none;">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                      </section>
+                      Boost WiFi
+                    </div>
+                  </div>
+
+                  <script>
+                    const actionBtn = document.querySelector('[data-action="notif"]');
+                    const dotsContainer = document.querySelector('.dots-container');
+
+                    actionBtn.addEventListener('click', () => {
+                      dotsContainer.style.display = 'flex'; // Show dots
+                      setTimeout(() => {
+                        dotsContainer.style.display = 'none'; // Hide after 10 seconds
+                      }, 10000);
+                    });
+                  </script>
+
+                  <div data-action="more" class="action">
+                    <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
+                  </div>
+                </div>
+
+                <div class="box-body">
+                  <div class="box-content">
+                    <span class="img"></span>
+                    <div class="caption">
+                      <div>
+                        <p class="text-sm">
+
+                          <time class="font-semibold"></time>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="box-foot-actions"
+                  style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="status-container">
+                    <div class="status-button">
+                      <a href="/complaint" style="color: white; text-decoration: none;">
+                      <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1" class="status-avatar">
+                      <span class="status-text">Wallet</span>
+                      <span class="status-arrow">→</span>
+                    </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Stats Cards -->
+            <div class="crudd-container">
+              <% if(user) { %>
+                <a href="/History" style="text-decoration: none;">
+                  <div class="crudd" style="background-color: #6D8DE6; border-bottom: 30px solid #4A69C9;">
+                    <img class="imgicon-1" width="100" height="100"
+                      src="https://img.icons8.com/3d-fluency/188/wi-fi-logo.png" style="top: -50px; left: 28px;">
+                    <div class="icone"></div>
+                    <h3 class="rem zem">Total GB</h3>
+                    <p id="numberDisplay"
+                      style="font-size: 14px; font-weight: bold; margin-top: 12%;text-decoration: none;color:black;">
+                      0
+                    </p>
+                    <script>
+                      const display = document.getElementById("numberDisplay");
+
+                      const START_VALUE = 1500;
+                      const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+                      const THIRTY_DAYS_MS = 30 * ONE_DAY_MS;
+
+                      let data = JSON.parse(localStorage.getItem("counterData")) || {
+                        number: START_VALUE,
+                        startTime: Date.now(),
+                        lastUpdate: Date.now()
+                      };
+
+                      const now = Date.now();
+
+                      // Reset if 30 days passed since startTime
+                      if (now - data.startTime >= THIRTY_DAYS_MS) {
+                        data = {
+                          number: 0,
+                          startTime: now,
+                          lastUpdate: now
+                        };
+                      }
+
+                      // Check if a day passed since last update
+                      if (now - data.lastUpdate >= ONE_DAY_MS) {
+                        const daysPassed = Math.floor((now - data.lastUpdate) / ONE_DAY_MS);
+                        for (let i = 0; i < daysPassed; i++) {
+                          const increment = Math.random() < 0.5 ? 3 : 4;
+                          data.number += increment;
+                        }
+                        data.lastUpdate += daysPassed * ONE_DAY_MS;
+                      }
+
+                      // Save updated data
+                      localStorage.setItem("counterData", JSON.stringify(data));
+
+                      // Display the number
+                      display.innerText = data.number;
+                    </script>
+                  </div>
+                </a>
+                <a href="/changepassword" style="text-decoration: none;">
+                  <div class="crudd crod" style="background-color: #E0AFA0; border-bottom: 30px solid #C87941;">
+                    <img class="imgicon-2" width="76" height="76" src="images/wifi4.png"
+                      style="top: -50px; right: 48px;">
+                    <div class="icone"></div>
+                    <p style="font-size: 14px; font-weight: bold; color: black;">
+                      Change <br>wifi <br> Password
+                    </p>
+                  </div>
+                </a>
+                <a href="/package" style="text-decoration: none;">
+                  <div class="crudd" style="background-color: #2C2C29; border-bottom: 30px solid #555555;">
+                    <img class="imgicon-3" width="96" height="96" src="images\router-img.png"
+                      style="top: -50px;right: 33px;">
+                    <div class="icone"></div>
+                    <h3 class="rem text-white">Speed</h3>
+                    <p style="font-size: 14px; font-weight: bold; color: white;">
+                      <%= user.plan %> Mbps
+                    </p>
+                    <% }; %>
+                  </div>
+                </a>
+            </div>
+
+            <!-- Icon Grid -->
+            <h3 style="text-align: center; color: black;"> Quick look</h3>
+            <div class="container" style="background: #f5f7ff; border-radius: 15px;padding-top: 19px;">
+              <div class="row">
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/prayer">
+                    <div class="grid-item"><img src="/images/namaz1.png" alt="Prayer"></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/quran">
+                    <div class="grid-item"><img src="/images/quran1.png" alt="Quran"></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/tasbeeh" style="text-decoration: none;">
+                    <div class="grid-item"><img src="https://img.icons8.com/3d-fluency/94/praying-beads.png" alt="Tasbeeh"></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/weather" style="text-decoration: none;">
+                    <div class="grid-item"><img width="64" height="64" src="https://img.icons8.com/fluency/96/partly-cloudy-day.png" alt="partly-cloudy-day"/></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/package">
+                    <div class="grid-item"><img width="48" height="48"
+                        src="https://img.icons8.com/external-those-icons-flat-those-icons/48/external-WiFi-mobile-and-telephone-those-icons-flat-those-icons-3.png"
+                        alt="external-WiFi-mobile-and-telephone-those-icons-flat-those-icons-3" /></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/History">
+                    <div class="grid-item"><img width="100" height="100" src="images\history1.png" alt="history" />
+                    </div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/contactUs">
+                    <div class="grid-item"><img src="images\customer-support.png" alt="Contact"></div>
+                  </a>
+                </div>
+                <div class="col-3 col-sm-3 p-2 text-center">
+                  <a href="/profile" style="text-decoration: none;">
+                    <div class="grid-item"><img width="96" height="96" src="https://img.icons8.com/color/48/admin-settings-male.png" alt="admin-settings-male"/></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Adds Section -->
+            <div>
+              <!-- Promotion Image Modal -->
+              <div class="modal fade" id="imageModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                  <div class="modal-content border-0 p-0 overflow-hidden rounded"
+                    style="max-height: 600px; margin: auto; width: 72%; height: 500px;">
+
+                    <!-- Close button with black icon -->
+                    <button type="button" class="btn-close black position-absolute top-0 end-0 m-2 z-3"
+                      data-bs-dismiss="modal" aria-label="Close" style="font-size: 2rem;"></button>
+
+                   
+                     <div class="w-100 h-100 position-relative">
+  <% if (promotionresult.length > 0) { 
+       const recent = promotionresult[0]; %>
+    <img src="/uploads/<%= recent.img1 %>" alt="Promotion Image"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
+  <% } %>
+</div>
+
+                  
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add this style block somewhere in your <head> or main CSS file -->
+              <style>
+                .btn-close.black {
+                  filter: none;
+                  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3e%3cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+                }
+              </style>
+
+
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  let imageModalShown = false;
+                  const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), { keyboard: false });
+
+                  const promotionresultExists = <%= typeof promotionresult !== 'undefined' && promotionresult.length > 0 && promotionresult[0].img1 ? 'true' : 'false' %>;
+
+                  const createdAtString = "<%= promotionresult && promotionresult[0] && promotionresult[0].created_at ? promotionresult[0].created_at.toISOString ? promotionresult[0].created_at.toISOString() : promotionresult[0].created_at : '' %>";
+                  const promotionCreatedAt = new Date(createdAtString);
+                  const now = new Date();
+                  const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+                  const isNewPromotion = (now - promotionCreatedAt) < threeDaysInMs;
+                        
+                              <% if (typeof userJustLoggedIn !== 'undefined' && userJustLoggedIn) { %>
+                                if (promotionresultExists && isNewPromotion && !imageModalShown) {
+                      imageModal.show();
+                      imageModalShown = true;
+                    }
+                              <% } %>
+                            });
+              </script>
+            </div>
+
+
+
+            <!-- Adds Section -->
+
+            <!-- Billing Section -->
+            <div class="billing-sec">
+              <h2 style="text-align:center;">Payment</h2>
+              <div class="paid" style="display: flex;align-items: center;justify-content: space-evenly;">
+                <div class="rs">
+                  <% if (subscription && user.invoice==="Paid" ) { %>
+                    <% const matchedPackage=packages.find(p=> p.Package === subscription.package_name); %>
+                      <% if (matchedPackage) { %>
+                        <h4 style="font-weight: 900;">Rs. <%= matchedPackage.Price %>
+                        </h4>
+                        <p>Net Package</p>
+                        <% } else { %>
+                          <h4 style="font-weight: 900;">Rs. --</h4>
+                          <p>Package info not found</p>
+                          <% } %>
+                            <% } else { %>
+                              <h4 style="font-weight: 900;">Rs. --</h4>
+                              <p>Not active </p>
+                              <% } %>
+                </div>
+
+                <div class="rs">
+                  <h4 style="font-weight: 900;">
+                    <% if (user.invoice==="Paid" ) { %>
+                      <h4>
+                        <% if (subscription && subscription.created_at) { %>
+                          <h4>
+                            <%= new Date(subscription.created_at).toLocaleDateString('en-CA') %>
+                          </h4>
+                          <% } else { %>
+                            <h4 style="color: red;">You haven't subscribed to any plan yet.</h4>
+                            <% } %>
+                      </h4>
+                      <% } else { %>
+                        <h4 style="color: red; font-size:16px;"> No package subscribed yet</h4>
+                        <% } %>
+                  </h4>
+                  <p>Net na..</p>
+                </div>
+                <div class="rs">
+                  <h4 class="invoice-status"
+                    style="font-weight: 900;color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
+                    <%= user.invoice %>
+                  </h4>
+                  <p>Net na..</p>
+                </div>
+              </div>
+              <a href="/package" class="btn w-100"
+                style="text-align: center; color:#fff; font-weight:bold; background-color:#6c8ce6;">Change your package
+                plan</a>
+            </div>
+
+            <!-- Custom Card Section -->
+            <div class="container mt-4" style="padding-right: 15px;">
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-12">
+                  <div class="custom-card d-flex">
+                    <a href="https://www.clicktaketech.com/" class="left-side" style="flex: 1;">
+                      <img src="/images/2.png" alt="Left Image" style="width: 100%; height: auto;">
+                    </a>
+                    <div class="right-side" style="flex: 1;">
+                      <img src="/images/1.png" alt="Right Image" style="width: 100%; height: auto;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <!-- Slider Column -->
+              <div class="col-md-6">
+                <div class="card position-relative">
+                  <div class="card-body p-0">
+                    <div id="detailedReports" class="carousel slide" data-ride="carousel" data-interval="2000">
+                      <ol class="carousel-indicators">
+                        <% slider.forEach(function(slider, index) { %>
+                          <li data-target="#detailedReports" data-slide-to="<%= index %>"
+                            class="<%= index === 0 ? 'active' : '' %>"></li>
+                          <% }); %>
+                      </ol>
+
+                      <div class="carousel-inner" style="border-radius: 15px;">
+                        <% slider.forEach(function(slider, index) { %>
+                          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <img src="/uploads/<%= slider.Slider_1 %>" alt="Slider Image"
+                              class="d-block w-100 img-fluid"
+                              style="object-fit: cover; width: 100%; height: 100%; border-radius: 15px;">
+                          </div>
+                          <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <style>
+                @media (max-width: 576px) {
+                  .carousel-inner img {
+                    height: 200px;
+                    /* smaller height for mobiles */
+                  }
+                }
+              </style>
+
+              <script>
+                function showLoader() {
+                  const loader = document.getElementById("loader-container");
+                  loader.style.display = "block";
+                  setTimeout(() => {
+                    loader.style.display = "none";
+                    alert("Internet Boost complete!");
+                  }, 10000); // 10 seconds
+                }
+
+                // Attach event listener to the notif action
+                document.querySelector('[data-action="notif"]').addEventListener("click", showLoader);
+              </script>
+
+              <!-- Other Services Column -->
+              <div class="col-md-6 mt-2">
+                <h3 style="text-align: center; color:black;">Our Other Services</h3>
+                <div class="card-container d-flex flex-wrap justify-content-center" id="cardContainer">
+                  <!-- Example card -->
+                  <div class="deal-card text-center m-2">
+                    <h2 class="fw-bold">Graphic Designing</h2>
+                    <p class="text-light" style="font-size: 20px;">Features</p>
+                    <p class="price-new">Letterhead Design, <br> Logo and Business Card Design</p>
+                    <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/graphic-design-services/"
+                        target="_blank">See more</a></button>
+                  </div>
+                  <div class="deal-card text-center">
+                    <h2 class="fw-bold">Web Development</h2>
+                    <p class="text-danger" style="font-size: 20px;">Features</p>
+                    <p class="price-new">E-Commerce Website, <br>Business Website</p>
+                    <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/web-development-services/">See
+                        more</a></button>
+                  </div>
+                  <div class="deal-card text-center">
+                    <h2 class="fw-bold">SEO Services <span class="fw-light"></span></h2>
+                    <p class="text-danger" style="font-size: 20px;">Features</p>
+                    <p class="price-new">Targeted Traffic, <br> Enhanced User <br> Experience</p>
+                    <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/seo-services/">See
+                        more</a></button>
+                  </div>
+                  <div class="deal-card text-center">
+                    <h2 class="fw-bold">Video Editing</h2>
+                    <p class="text-danger" style="font-size: 20px;">Features</p>
+                    <p class="price-new">Vlog Video Editing Services, <br> Real Estate Video Editing</p>
+                    <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/video-editing-services/">See
+                        more</a></button>
+                  </div>
+                  <div class="deal-card text-center">
+                    <h2 class="fw-bold">Social Media Marketing</h2>
+                    <p class="text-danger" style="font-size: 20px;">Features</p>
+                    <p class="price-new">Youtube Marketing, <br> Facebook Marketing</p>
+                    <button class="buy-btn mt-2"><a
+                        href="https://www.clicktaketech.com/marketing-solutions/social-media-marketing/">See
+                        more</a></button>
+                  </div>
+                  <div class="deal-card text-center">
+                    <h2 class="fw-bold">Wordpress Development</h2>
+                    <p class="text-danger" style="font-size: 20px;">Features</p>
+                    <p class="price-new">Strategic Planning, <br> Plugin Integration</p>
+                    <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/wordpress-development/">See
+                        more</a></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="container mt-5">
+              <h3 style="text-align: center;"> Popular package </h3>
+              <div class="row">
+                <!-- Right Section (Cards Slider) -->
+                <section>
+                  <div class="container-fluid" style="padding-right: 0px;padding-left: 0px;">
+                    <div class="container" style="padding:0px;">
+                      <div class="cards-main">
+                        <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' : index===1
+                          ? 'standard' : 'premium' ; %>
+                          <div class="card custom-cardd <%= cardType %>">
+                            <div class="card-top">
+                              <% if (index===0) { %>
+                                <h2>BASIC</h2>
+                                <div class="stars">★★★<span style="color: gray;">★★</span></div>
+                                <% } else if (index===1) { %>
+                                  <h2>STANDARD</h2>
+                                  <div class="stars">★★★★<span style="color: gray;">★</span></div>
+                                  <% } else { %>
+                                    <h2>PREMIUM</h2>
+                                    <div class="stars">★★★★★</div>
+                                    <% } %>
+                            </div>
+
+                            <div class="price-circle">
+                              <div>
+                                <%= card.Package %>
+                              </div>
+                              <div>PER MONTH</div>
+                            </div>
+
+                            <div class="features">
+                              <p><span>✔</span> Rs. <%= card.Price %>
+                              </p>
+                              <p><span>✔</span>
+                                <%= card.Speed %> Mbs speed
+                              </p>
+                              <p><span>✔</span>
+                                <%= card.Offer_Valid %>
+                              </p>
+                              <p><span>✔</span>
+                                <%= card.Data_Used %> GB Usage
+                              </p>
+                              <p><span>✔</span>
+                                <%= card.limits %> GB Limits
+                              </p>
+                            </div>
+
+                            <div class="card-button">
+                              <button data-bs-toggle="modal" data-bs-target="#paymentModal"
+                                data-package="<%= card.Package %>" data-price="<%= card.Price %>"
+                                data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
+                                data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE
+                                NOW</button>
+                            </div>
+                          </div>
+                          <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <div class="icon-slider">
+              <div class="icon-track">
+                <% Iconresult.forEach((icon)=> { %>
+                  <a href="<%= icon.Link %>" target="_blank">
+                    <img src="/uploads/<%= icon.Icon %>" width="50px" height="40px" alt="">
+                  </a>
+                  <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Payment Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p><strong>Selected Package:</strong> <span id="selectedPackage"></span></p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                  <a href="#" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo">
+                    <img src="/images/Jazz cash logo.svg" alt="JazzCash" class="img-fluid payment-logo"
+                      style="max-width: 80px;">
+                  </a>
+                  <a href="#" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo">
+                    <img src="/images/EASYPAISA logo.svg" alt="Easypaisa" class="img-fluid payment-logo"
+                      style="max-width: 80px;">
+                  </a>
+                  <a href="#" data-bs-toggle="collapse" data-bs-target="#raastInfo">
+                    <img src="/images/Raast-Logo.png" alt="Raast" class="img-fluid payment-logo"
+                      style="max-width: 80px;">
+                  </a>
+                </div>
+                <div id="jazzCashInfo" class="collapse text-center mt-2">
+                  <img src="/images/JAZZCASH QR.png" alt="JazzCash QR" class="payment-qr" style="max-width: 150px;">
+                  <p><strong>JazzCash:</strong> ‪+92 306 9753003‬</p>
+                </div>
+                <div id="easypaisaInfo" class="collapse text-center mt-2">
+                  <img src="/images/EASYPAISA QR.png" alt="Easypaisa QR" class="payment-qr" style="max-width: 150px;">
+                  <p><strong>Easypaisa:</strong> ‪+92 306 9753003‬</p>
+                </div>
+                <div id="raastInfo" class="collapse text-center mt-2">
+                  <p><strong>Raast:</strong> ‪+92 306 9753003‬</p>
+                </div>
+                <% if(user) { %>
+                  <form id="paymentForm" action="/process-payment" method="POST" class="mt-3">
+                    <input type="hidden" id="package_name" name="package_name">
+                    <input type="hidden" id="user_id" name="user_id" value="<%= user.id %>">
+                    <div class="mb-3">
+                      <label for="username">Username:</label>
+                      <input type="text" id="username" name="username" class="form-control" value="<%= user.Username %>"
+                        readonly>
+                    </div>
+                    <% } %>
+                      <% if(cards) { %>
+                        <div class="mb-3">
+                          <label for="transaction_id">Transaction ID:</label>
+                          <input type="text" id="transaction_id" name="transaction_id" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="amount">Amount:</label>
+                          <input type="number" id="amount" value="cards[0].Price" name="amount" class="form-control"
+                            readonly>
+                        </div>
+                        <% } %>
+                          <button type="submit" class="btn btn-success">Confirm</button>
+                  </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            var paymentModal = document.getElementById('paymentModal');
+            paymentModal.addEventListener('show.bs.modal', function (event) {
+              let button = event.relatedTarget; // Button that triggered the modal
+              let packageName = button.getAttribute('data-package');
+              let packagePrice = button.getAttribute('data-price');
+
+              // Update modal content
+              document.getElementById('selectedPackage').textContent = packageName;
+              document.getElementById('package_name').value = packageName;
+              document.getElementById('amount').value = packagePrice;
+            });
+          });
+        </script>
+
+
+
+      </div>
+  </div>
+  </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Icon Slider Script
+    document.addEventListener('DOMContentLoaded', function () {
+      const iconSlider = document.querySelector('#iconSlider');
+
+      iconSlider.addEventListener('mouseenter', function () {
+        $('#iconSlider').carousel('pause');
+      });
+
+      iconSlider.addEventListener('mouseleave', function () {
+        $('#iconSlider').carousel('cycle');
+      });
+    });
+    // Icon Slider Script
+
+    // Payment Modal Script
+    document.addEventListener("DOMContentLoaded", function () {
+      const subscribeButtons = document.querySelectorAll(".pricing-card a");
+      subscribeButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          const card = this.closest(".pricing-card");
+          const packageSpeed = card.querySelector(".pricing-price h4").textContent.replace("Mbps", "").trim();
+          const packagePrice = card.querySelector(".pricing-option ul li:nth-child(2)").textContent.replace("RS.", "").trim();
+          document.getElementById("selectedPackage").textContent = `Speed: ${packageSpeed} Mbps`;
+          document.getElementById("package_name").value = packageSpeed;
+          document.getElementById("amount").value = packagePrice;
+          const paymentModal = new bootstrap.Modal(document.getElementById("paymentModal"));
+          paymentModal.show();
+        });
+      });
+    });
+
+    // Card Container Swipe Script
+    const cardContainer = document.getElementById("cardContainer");
+    let cards = Array.from(document.querySelectorAll(".deal-card"));
+    let startX, draggedCard;
+    const initialCards = cards.map(card => card.outerHTML);
+
+    updateCardPositions();
+
+    cardContainer.addEventListener("mousedown", startDragging);
+    cardContainer.addEventListener("touchstart", startDragging);
+
+    function startDragging(e) {
+      draggedCard = cards[0];
+      startX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+      document.addEventListener("mousemove", onDrag);
+      document.addEventListener("touchmove", onDrag);
+      document.addEventListener("mouseup", onRelease);
+      document.addEventListener("touchend", onRelease);
+    }
+
+    function onDrag(e) {
+      const currentX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+      const moveX = currentX - startX;
+      draggedCard.style.transform = `translateX(${moveX}px) rotate(${moveX / 50}deg) scale(1)`;
+      draggedCard.style.zIndex = 10;
+    }
+
+    function onRelease(e) {
+      const currentX = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
+      const moveX = currentX - startX;
+      if (Math.abs(moveX) > 150) {
+        draggedCard.classList.add('swiped');
+        draggedCard.style.transform = `translateX(${moveX > 0 ? '100vw' : '-100vw'}) rotate(${moveX / 50}deg)`;
+        draggedCard.style.opacity = '0';
+        setTimeout(() => {
+          cardContainer.removeChild(draggedCard);
+          cards.shift();
+          if (cards.length === 0) {
+            refillCards();
+          }
+          updateCardPositions();
+        }, 500);
+      } else {
+        draggedCard.style.transform = `rotate(-5deg) scale(1)`;
+      }
+      cleanupEvents();
+    }
+
+    function refillCards() {
+      initialCards.forEach(cardHTML => {
+        const newCard = document.createElement('div');
+        newCard.innerHTML = cardHTML;
+        cardContainer.appendChild(newCard.firstChild);
+      });
+      cards = Array.from(document.querySelectorAll(".deal-card"));
+      updateCardPositions();
+    }
+
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    function updateCardPositions() {
+      cards.forEach((card, index) => {
+        card.style.transition = 'all 0.5s ease';
+        card.style.zIndex = cards.length - index;
+        card.style.top = `${index * 10}px`;
+        card.style.transform = `rotate(${-5 + (index * 2)}deg) scale(${1 - (index * 0.05)})`;
+        if (index === 0) {
+          card.style.background = `linear-gradient(135deg, ${getRandomColor()}, ${getRandomColor()})`;
+        } else {
+          card.style.background = `#${(111 + index * 111).toString(16).padStart(6, '0')}`;
+        }
+      });
+    }
+
+    function cleanupEvents() {
+      document.removeEventListener("mousemove", onDrag);
+      document.removeEventListener("touchmove", onDrag);
+      document.removeEventListener("mouseup", onRelease);
+      document.removeEventListener("touchend", onRelease);
+    }
+  </script>
+  <%- include('./partials/_footer.ejs') %>
+
+
+
+
+    <!-- plugins:js -->
+    <script src="vendors\js\vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors\chart.js/Chart.min.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="js/dataTables.select.min.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="js/dashboard.js"></script>
+    <script src="js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <!-- Bootstrap  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 5.3 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap 5 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

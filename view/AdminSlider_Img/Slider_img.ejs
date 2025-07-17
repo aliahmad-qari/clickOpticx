@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Slider Img</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+
+  <style>
+        #cont1 {
+
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+object-fit: cover;
+height: 320px;
+width: 100%;
+padding-top: 1rem;
+padding-bottom: 1rem;
+border-bottom-right-radius: 18px;
+border-bottom-left-radius: 18px;
+}
+
+    .drop-container {
+      position: relative;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 240px;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px dashed #555;
+      color: #444;
+      cursor: pointer;
+    }
+
+    .drop-container:hover,
+    .drop-container.drag-active {
+      background: #eee;
+      border-color: #111;
+    }
+
+    .drop-container:hover .drop-title,
+    .drop-container.drag-active .drop-title {
+      color: #222;
+    }
+
+    .drop-title {
+      color: #444;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      transition: color .2s ease-in-out;
+    }
+
+    input[type=file] {
+      width: 350px;
+      max-width: 100%;
+      color: #444;
+      padding: 5px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #555;
+    }
+
+    input[type=file]::file-selector-button {
+      margin-right: 20px;
+      border: none;
+      background: #084cdf;
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    input[type=file]::file-selector-button:hover {
+      background: #0d45a5;
+    }
+
+    .content-wrapper {
+      padding: 25px;
+    }
+
+
+    .neon-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #000000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .neon-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(197, 196, 196, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .neon-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* // Profile section */
+    .header-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .head-icons a i {
+      color: white;
+    }
+
+    .content-section {
+      /* color: white; */
+      margin-top: 30px;
+      display: flex;
+      gap: 1vw;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1rem;
+    }
+
+    @media (max-width: 1024px) {
+      .content-section {
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .test,
+      .user-content .loyal {
+        flex-direction: row;
+      }
+
+      .content-section {
+        margin-top: 20px;
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-section {
+        margin-top: 15px;
+        padding: 0.1rem;
+      }
+
+      .loyal p {
+        font-size: 20px;
+      }
+    }
+
+    .test,
+    .user-content .loyal {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1024px) {
+      .content-section {
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .test,
+      .user-content .loyal {
+        flex-direction: row;
+      }
+
+      .content-section {
+        margin-top: 20px;
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-section {
+        margin-top: 15px;
+        padding: 0.1rem;
+      }
+
+      .loyal p {
+        font-size: 20px;
+      }
+    }
+
+    .loyal p {
+      margin-bottom: -0.16rem;
+      font-size: clamp(12px, 1vw, 16px);
+    }
+
+    .boost {
+      width: 100%;
+      border-radius: 50%;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .boost-content p {
+      font-size: 19px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 354px) {
+
+      .boost-content p {
+        font-size: 14px;
+        /* line-height: 1; */
+      }
+    }
+
+    .boost-btn {
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      border: 10px solid #9bb0ddde;
+      color: black;
+      font-weight: 800;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: white;
+      outline: 0;
+      font-size: 22px;
+    }
+
+    @media (max-width: 440px) {
+      .boost-btn {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        font-size: 12px;
+      }
+    }
+
+    #loader-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    figure {
+      --size: 15vmin;
+      --duration: 4s;
+      --direction: 1;
+      --pull: -1.25;
+      perspective: 30rem;
+      display: grid;
+      grid-template-areas: "figure";
+      place-items: center;
+      inline-size: var(--size);
+      aspect-ratio: 1;
+      animation: spin var(--duration) ease-in-out infinite;
+    }
+
+    figure>* {
+      --radius: calc(var(--size) / 2);
+      --deg: calc(var(--i) * (360deg / 12));
+      --hs: 225 100%;
+      --transform-start: translate3d(calc(cos(var(--deg)) * var(--radius)),
+          calc(sin(var(--deg)) * var(--radius)),
+          0) rotate(calc(var(--deg)));
+      grid-area: figure;
+      background-color: hsl(var(--hs) var(--l, 60%));
+      inline-size: calc(var(--size) / 4);
+      aspect-ratio: 1;
+      clip-path: polygon(25% 25%, 100% 50%, 25% 75%, 0% 50%);
+      transform: var(--transform-start);
+      transform-style: preserve-3d;
+      animation: diamonds var(--duration) cubic-bezier(0.87, 0, 0.13, 1) infinite;
+    }
+
+    @keyframes spin {
+
+      0%,
+      25% {
+        transform: scaleX(var(--direction)) rotate(0);
+      }
+
+      75%,
+      100% {
+        transform: scaleX(var(--direction)) rotate(1turn);
+      }
+    }
+
+    @keyframes diamonds {
+
+      0%,
+      20% {
+        transform: var(--transform-start);
+      }
+
+      50% {
+        clip-path: polygon(75% 25%, 100% 50%, 75% 75%, 0% 50%);
+        transform: translate3d(calc(cos(var(--deg)) * var(--radius) * var(--pull)),
+            calc(sin(var(--deg)) * var(--radius) * var(--pull)),
+            5rem) rotate(calc(var(--deg) + 90deg));
+      }
+    }
+
+    /* // Text Change */
+    .main-div {
+      color: <%=bg_result[0].text_color %> !important;
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      /* background: #ffffff; */
+      border-radius: 12px;
+      /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); */
+      max-width: 400px;
+    }
+
+    .custom-color-input {
+      -webkit-appearance: none;
+      border: none;
+      width: 60px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .custom-color-input::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border: none;
+    }
+
+    .custom-color-input::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .submit-btn {
+      background: #6c63ff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #574fd6;
+    }
+
+    /* // Text Change */
+  </style>
+
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar -->
+    <%- include ('../partials/_navbar.ejs') %>
+      <!-- partial:partials/_navbar -->
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+
+        <!-- partial:partials/_sidebar.html Start-->
+         <%- include ('../partials/Sidebar.ejs') %>
+
+        <!-- partial:partials/_sidebar.html End -->
+        <div class="main-panel">
+
+    <!-- sss -->  <!-- sss -->  <!-- sss -->  <!-- sss -->
+    <% if (messages.success) { %>
+      <div style="display: flex; justify-content: end;"> 
+        <div id="pusher-message-box" style="
+          display: flex;
+          border-left: 8px solid #45439e;
+          color: green;
+          font-weight: bold;
+          font-size: 16px;
+          justify-content: end;
+          align-items: center;
+          height: 70px;
+        " class="mt-3 alert alert-primary">
+          <%= messages.success %>
+        </div>
+      </div>
+    <% } %>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const msgBox = document.getElementById('pusher-message-box');
+        if (msgBox) {
+          setTimeout(() => {
+            msgBox.style.transition = "opacity 0.5s";
+            msgBox.style.opacity = 0;
+            setTimeout(() => msgBox.style.display = "none", 500);
+          }, 4000);
+        }
+      });
+    </script>
+    <!-- sss -->  <!-- sss -->  <!-- sss -->  <!-- sss -->
+
+          <div class="container-profile">
+            <form action="/textChange" method="post">
+              <div class="customize d-flex align-items-center justify-content-between ">
+                <div class=" color-picker-wrapper">
+                  <input type="color" name="text_color" class="custom-color-input" title="Pick a color" />
+                  <button type="submit" class="submit-btn">🎨 Apply Color</button>
+                </div>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                  Update Background
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                  Update Background Color
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                  data-bs-target="#deleteBackgroundModal">
+                  Delete Background
+                </button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#logoTextModal">
+                  Change Logo Text
+                </button>
+                <button type="button" class="submit-btn text-white" data-bs-toggle="modal" data-bs-target="#uploadModalss">
+                  Add Icon 
+                </button>
+                <div>
+
+                </div>
+              </div>
+
+              <div class="container-fluid main-div" id="cont1"
+                style="background-image: url('/uploads/<%= bg_result[0].background_img %>');background-color: <%= bg_result[0].background_color %>; background-size: cover;  padding: 20px;">
+                <div class="row">
+                  <div class="col-md-12" style="padding-left: 15px;">
+                    <div class="header-section d-flex justify-content-between align-items-center">
+                      <h2>
+                        <%= bg_result[0].logo_text %>
+                      </h2>
+                      <div class="head-icons">
+                        <a href="/contactus" class="text-white"><img src="images\headset.png" style="width: 30px;">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="content-section mt-3">
+                      <div class="test d-flex align-items-center">
+                        <div class="profile">
+                          <a href="/profile">
+                            <img
+                              src="<%= user && user.user_img ? user.user_img : 'https://img.icons8.com/bubbles/100/standing-man.png' %>"
+                              alt="Profile" width="65px" height="65px" style="border-radius: 50%;">
+                          </a>
+                        </div>
+                        <div class="user-content ">
+                          <h6 style="font-size: 24px;">
+                            <%= user[0].Username %>
+                              <%= user[0].lastName %>
+                          </h6>
+                          <div class="loyal d-flex align-items-center">
+                            <p class="invoice-status" style=" font-size: 20px;">
+                              <%= user[0].invoice %>
+                            </p>
+                            <script>
+                              document.addEventListener("DOMContentLoaded", function () {
+                                const invoiceElement = document.querySelector(".invoice-status");
+                                if (invoiceElement) {
+                                  if (invoiceElement.textContent.trim().toLowerCase() === "unpaid") {
+                                    invoiceElement.style.color = "red";
+                                  } else if (invoiceElement.textContent.trim().toLowerCase() === "paid") {
+                                    invoiceElement.style.color = "green";
+                                  }
+                                }
+                              });
+                            </script>
+                            <p class="ml-2 mb-0">
+                              <%= user[0].plan %> Mbps
+                            </p>
+                            <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="boost">
+                      <button type="button" class="boost-btn" onclick="showLoader()"> Boost</button>
+                      <div class="boost-content">
+                        <h4>Optimize your wifi</h4>
+                        <p><i class="bi bi-wifi wifi-icon"></i>
+                          Wifi Interference</p>
+                        <p><i class="bi bi-wifi wifi-icon"></i>
+                          Wifi Signal Strength</p>
+                        <p><i class="bi bi-wifi wifi-icon"></i>
+                          Wifi Utilization</p>
+                      </div>
+                    </div>
+
+
+
+                    <div id="loader-container">
+                      <figure>
+                        <div style="--i: 1"></div>
+                        <div style="--i: 2"></div>
+                        <div style="--i: 3"></div>
+                        <div style="--i: 4"></div>
+                        <div style="--i: 5"></div>
+                        <div style="--i: 6"></div>
+                        <div style="--i: 7"></div>
+                        <div style="--i: 8"></div>
+                        <div style="--i: 9"></div>
+                        <div style="--i: 10"></div>
+                        <div style="--i: 11"></div>
+                        <div style="--i: 12"></div>
+                      </figure>
+                    </div>
+
+                    <script>
+                      function showLoader() {
+                        let loader = document.getElementById("loader-container");
+                        loader.style.display = "block";
+                        setTimeout(() => {
+                          loader.style.display = "none";
+                          alert("Internet Boost complete!");
+                        }, 10000);
+                      }
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+          <!-- background Image Update -->
+          <!-- Bootstrap Modal -->
+          <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content shadow-lg rounded">
+                <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title" id="uploadModalLabel">Upload Background</h5>
+                  <h4>height:495px and width:700px</h4>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                  <div class="modal-body">
+                    <input type="file" name="background_img" class="form-control" required accept="image/*" />
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- background Image Delete -->
+          <!-- Delete Background Modal -->
+          <div class="modal fade" id="deleteBackgroundModal" tabindex="-1" aria-labelledby="deleteBackgroundModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content shadow-lg rounded">
+                <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title" id="deleteBackgroundModalLabel">Delete Background Image</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete the background image? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                  <form action="/delete-background" method="POST">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- background Image Delete -->
+
+           <!-- Add Icon Slider -->
+           <div class="modal fade overflow-hidden" id="uploadModalss" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content shadow-lg rounded">
+                <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title" id="uploadModalLabel">Upload Icon Image</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <form action="/updateIcon" method="POST" enctype="multipart/form-data">
+                  <div class="modal-body">
+                    <label for="Icon">Uplode Image</label>
+                    <input style="width: 100%;" type="file" name="Icon" class="form-control" required accept="image/*" />
+                  </div>
+                  <div class="modal-body">
+                    <label for="Link">Add link</label>
+                    <input type="text" name="Link" class="form-control" required/>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Add Icon Slider  -->
+
+          <!-- Modal for Color Picker -->
+          <!-- Modal for Color Picker -->
+          <div class="modal fade" id="colorPickerModal" tabindex="-1" aria-labelledby="colorPickerModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title" id="colorPickerModalLabel">Select Background Color</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!-- Form to select color -->
+                  <form action="/update-background-color" method="POST" id="colorForm">
+                    <div class="form-group">
+                      <label for="backgroundColor">Select Color</label>
+                      <input type="color" id="backgroundColor" name="background_color" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <!-- Submit button should be inside the form now -->
+                      <button type="submit" class="btn btn-primary" form="colorForm">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Update background color -->
+          <h2 style=" text-align: center; padding: 10px 0px;">Update Slider Image</h2>
+
+          <!--Text Change-->
+          <div class="modal fade" id="logoTextModal" tabindex="-1" aria-labelledby="logoTextModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <div class="modal-header">
+                  <h5 class="modal-title" id="logoTextModalLabel">Update Logo Text</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/logoTextChange" method="post">
+                  <div class="modal-body">
+                    <input type="text" name="logo_text" class="form-control" placeholder="Enter new logo text" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          <!--Text Change-->
+          <div class="content-wrapper">
+            <!-- Hero start -->
+            <form action="/Slider_img" method="post" enctype="multipart/form-data">
+              <!-- Slider 1 Section -->
+              <label for="Slider_1" class="drop-container">
+                <span class="drop-title">Drop Slider-1 Images Size:950 Width and 400 Height</span> or
+                <input type="file" name="Slider_1" id="Slider_1" accept="image/*" required>
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                  <% slider.forEach(function(slider) { %>
+                    <div>
+                      <img style="width:80px; height:50px" src="/uploads/<%= slider.Slider_1 %>" alt="Slider 1 Image">
+                    </div>
+
+                    <button style="border: none ; background-color: transparent;"
+                      onclick="deleteSlider('<%= slider.id %>')"><i class="ti-trash"
+                        style="font-size: 20px; color: red;"></i></button>
+
+                    <% }); %>
+                </div>
+              </label>
+
+              <!-- Submit Button -->
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="neon-btn">Submit</button>
+              </div>
+            </form>
+            <!-- Hero End -->
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Start -->
+      <%- include ('../partials/_footer.ejs') %>
+        <!-- Footer End -->
+
+        <script>
+          function deleteSlider(id) {
+            if (confirm('Are you sure you want to delete this slider?')) {
+              fetch(`/Slider_img/${id}`, {
+                method: 'DELETE'
+              })
+                .then(response => {
+                  if (response.ok) {
+                    location.reload();
+                  } else {
+                    alert('Error deleting slider');
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert('Error deleting slider');
+                });
+            }
+          }
+        </script>
+        <!-- plugins:js -->
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page -->
+        <script src="vendors/chart.js/Chart.min.js"></script>
+        <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+        <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="js/dataTables.select.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- End plugin js for this page -->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/hoverable-collapse.js"></script>
+        <script src="js/template.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/todolist.js"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <script src="js/dashboard.js"></script>
+        <script src="js/Chart.roundedBarCharts.js"></script>
+        <!-- End custom js for this page-->
+</body>
+
+</html>
