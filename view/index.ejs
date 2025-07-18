@@ -849,8 +849,8 @@
     }
 
     .main-div {
-      color: <%=bg_result[0].text_color %> !important;
-    }
+  color: '<%= bg_result[0]?.text_color || "#000000" %>' !important;
+}
 
     .btn-class-name {
       --primary: 255, 90, 120;
@@ -1858,16 +1858,16 @@
                     <button type="button" class="btn-close black position-absolute top-0 end-0 m-2 z-3"
                       data-bs-dismiss="modal" aria-label="Close" style="font-size: 2rem;"></button>
 
-                   
-                     <div class="w-100 h-100 position-relative">
-  <% if (promotionresult.length > 0) { 
-       const recent = promotionresult[0]; %>
-    <img src="/uploads/<%= recent.img1 %>" alt="Promotion Image"
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
-  <% } %>
-</div>
-
-                  
+                    <% if (typeof promotresult !=='undefined' && promotresult.length> 0 && promotresult[0].img1) { %>
+                      <div class="w-100 h-100 position-relative">
+                        <img src="Uploads/<%= promotresult[0].img1 %>" alt="Promotion Image"
+                          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
+                      </div>
+                      <% } else { %>
+                        <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                          <p class="text-center m-0">No promotion image available.</p>
+                        </div>
+                        <% } %>
                   </div>
                 </div>
               </div>
@@ -1886,16 +1886,16 @@
                   let imageModalShown = false;
                   const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), { keyboard: false });
 
-                  const promotionresultExists = <%= typeof promotionresult !== 'undefined' && promotionresult.length > 0 && promotionresult[0].img1 ? 'true' : 'false' %>;
+                  const promotresultExists = <%= typeof promotresult !== 'undefined' && promotresult.length > 0 && promotresult[0].img1 ? 'true' : 'false' %>;
 
-                  const createdAtString = "<%= promotionresult && promotionresult[0] && promotionresult[0].created_at ? promotionresult[0].created_at.toISOString ? promotionresult[0].created_at.toISOString() : promotionresult[0].created_at : '' %>";
+                  const createdAtString = "<%= promotresult && promotresult[0] && promotresult[0].created_at ? promotresult[0].created_at.toISOString ? promotresult[0].created_at.toISOString() : promotresult[0].created_at : '' %>";
                   const promotionCreatedAt = new Date(createdAtString);
                   const now = new Date();
                   const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
                   const isNewPromotion = (now - promotionCreatedAt) < threeDaysInMs;
                         
                               <% if (typeof userJustLoggedIn !== 'undefined' && userJustLoggedIn) { %>
-                                if (promotionresultExists && isNewPromotion && !imageModalShown) {
+                                if (promotresultExists && isNewPromotion && !imageModalShown) {
                       imageModal.show();
                       imageModalShown = true;
                     }
@@ -2004,13 +2004,36 @@
               </div>
 
               <style>
-                @media (max-width: 576px) {
-                  .carousel-inner img {
-                    height: 200px;
-                    /* smaller height for mobiles */
-                  }
-                }
-              </style>
+  @media (max-width: 576px) {
+    .carousel-inner img {
+      height: 200px;
+    }
+
+   
+    .corner {
+      flex-direction: row;
+      padding: 6px;
+      gap: 10px;
+    }
+
+    .corner .action {
+      width: 44px;
+      height: 44px;
+    }
+
+    .corner .action i {
+      font-size: 18px;
+    }
+  }
+
+  /* ✅ Optional Tap Feedback */
+  .corner .action:active {
+    transform: scale(0.95);
+    background-color: #4B49AC;
+    transition: transform 0.2s ease;
+  }
+</style>
+
 
               <script>
                 function showLoader() {
