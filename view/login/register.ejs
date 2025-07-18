@@ -203,12 +203,6 @@
                     style="color: inherit; text-decoration: none;">Sign In</a>
                 </div>
               </form>
-
-              <!-- Popup Message -->
-              <div id="account-popup" class="alert alert-success text-center position-fixed top-0 start-50 translate-middle-x mt-5"
-     style="display:none; z-index:2000; min-width:300px;">
-  Please check your email for confirmation!
-</div>
             </div>
           </div>
         </div>
@@ -228,22 +222,6 @@
       toggleIcon.classList.toggle('fa-eye', isText);
       toggleIcon.classList.toggle('fa-eye-slash', !isText);
     });
-
-    const form = document.querySelector('form[action="/register"]');
-  const popup = document.getElementById('account-popup');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    popup.style.display = 'block';
-
-    setTimeout(() => {
-      popup.style.display = 'none';
-      window.location.href = 'https://mail.google.com/mail/u/0/'; // Redirect to sign-in page
-    }, 3000);
-
-    // Optionally, submit the form via AJAX here if needed
-    // Or remove e.preventDefault() if you want normal form submission after popup
-  });
   </script>
 
   <!-- plugins:js -->
