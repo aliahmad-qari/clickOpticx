@@ -232,18 +232,6 @@
     const form = document.querySelector('form[action="/register"]');
   const popup = document.getElementById('account-popup');
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    popup.style.display = 'block';
-
-    setTimeout(() => {
-      popup.style.display = 'none';
-      window.location.href = 'https://mail.google.com/mail/u/0/'; // Redirect to sign-in page
-    }, 3000);
-
-    // Optionally, submit the form via AJAX here if needed
-    // Or remove e.preventDefault() if you want normal form submission after popup
-  });
   </script>
 
   <!-- plugins:js -->

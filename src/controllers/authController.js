@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const async = require('async');
 const nodemailer = require('nodemailer');
-require("dotenv").config();
+const crypto = require("crypto");
+
 
 exports.loginPage = (req, res) => {
   const query = 'SELECT nav_imgs FROM your_table_name LIMIT 1';
@@ -15,8 +16,8 @@ exports.loginPage = (req, res) => {
       return res.status(500).send('Internal Server Error');
     }
 
-    // âœ… Render login.ejs and pass bg_result
-    res.render('login/login', { bg_result }); // ðŸ‘ˆ THIS IS IMPORTANT
+    // ✅ Render login.ejs and pass bg_result
+    res.render('login/login', { bg_result }); // 👈 THIS IS IMPORTANT
   });
 };
 exports.profile = (req, res) => {
@@ -39,7 +40,7 @@ exports.profile = (req, res) => {
         
         const isUser = req.session.user && req.session.user.role === "user";
 
-        // âœ… New: Total unread notifications in the past 2 days
+        // ✅ New: Total unread notifications in the past 2 days
         const NotifactionSql = `
           SELECT COUNT(*) AS totalNotifactions 
           FROM notifications 
@@ -54,7 +55,7 @@ exports.profile = (req, res) => {
 
           const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
-          // âœ… New: Detailed unread notifications
+          // ✅ New: Detailed unread notifications
           const passwordSql = `
             SELECT * FROM notifications 
             WHERE is_read = 0 
@@ -67,7 +68,7 @@ exports.profile = (req, res) => {
               return res.status(500).send("Server Error");
             }
 
-            // ðŸ‘‡ Flash messages here
+            // 👇 Flash messages here
             const successMsg = req.flash("success");
 
             res.render("login/login", {
@@ -108,7 +109,7 @@ exports.register = (req, res) => {
         
         const isUser = req.session.user && req.session.user.role === "user";
 
-        // âœ… New: Total unread notifications in the past 2 days
+        // ✅ New: Total unread notifications in the past 2 days
         const NotifactionSql = `
           SELECT COUNT(*) AS totalNotifactions 
           FROM notifications 
@@ -123,7 +124,7 @@ exports.register = (req, res) => {
 
           const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
-          // âœ… New: Detailed unread notifications
+          // ✅ New: Detailed unread notifications
           const passwordSql = `
             SELECT * FROM notifications 
             WHERE is_read = 0 
@@ -136,7 +137,7 @@ exports.register = (req, res) => {
               return res.status(500).send("Server Error");
             }
 
-            // ðŸ‘‡ Flash messages here
+            // 👇 Flash messages here
             const successMsg = req.flash("success");
 
             res.render("login/register", {
@@ -158,59 +159,136 @@ exports.register = (req, res) => {
 };
 
 // signup Controller
-exports.signup = [
-  (req, res) => {
-    const { Username, Email, password } = req.body;
 
-    // Check if email already exists
-    const checkEmailSql = "SELECT * FROM users WHERE Email = ?";
-    db.query(checkEmailSql, [Email], (err, results) => {
-      if (err) {
-        return res
-          .status(500)
-          .json({ error: "Database error during Email check." });
-      }
-      if (results.length > 0) {
-        return res.render("login/register", {
-          message: "Email already exists. Please choose another one.",
-        });
-      }
-        
-      //submission
 
-      // Hash the password before storing it in the database
-      bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-          return res.status(500).json({ error: "Error hashing password." });
+
+exports.signup = (req, res) => {
+  const { Username, Email, password } = req.body;
+
+  const checkSql = "SELECT * FROM users WHERE Email = ?";
+  db.query(checkSql, [Email], (err, results) => {
+    if (err) return res.status(500).send("Database error");
+
+    // If email already exists — fetch bg_result before rendering
+    if (results.length > 0) {
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (bgErr, bg_result) => {
+        if (bgErr) {
+          console.error("Error fetching background image:", bgErr);
+          return res.status(500).send("Internal Server Error");
         }
 
-        // Insert user details with hashed password
-        const sql =
-          "INSERT INTO users (Username, Email, password) VALUES (?, ?, ?)";
-        db.query(sql, [Username, Email, hashedPassword], (err) => {
-          if (err) {
-            return res.status(500).json({ error: "Error creating account." });
-          }
+        return res.render("login/register", {
+          message: "Email already registered",
+          bg_result,
+        });
+      });
+      return;
+    }
 
-          
+    // Continue if new user
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) return res.status(500).send("Password hashing failed");
+
+      const token = crypto.randomBytes(32).toString("hex");
+
+      const insertSql = `
+        INSERT INTO users (Username, Email, password, user_verified, verification_token)
+        VALUES (?, ?, ?, 0, ?)
+      `;
+
+      db.query(insertSql, [Username, Email, hashedPassword, token], (err) => {
+        if (err) return res.status(500).send("Signup failed");
+
+        // Setup nodemailer
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: "hamzahayat3029@gmail.com",
+            pass: "ceud ztsg vqwr lmtl", // Use Gmail App Password
+          },
+        });
+
+        const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+        const mailOptions = {
+          from: "hamzahayat3029@gmail.com",
+          to: Email,
+          subject: "Verify your email address",
+          html: `
+            <h3>Hello ${Username},</h3>
+            <p>Thanks for registering! Please verify your email address by clicking the link below:</p>
+            <a href="${verificationLink}">Verify Email</a>
+            <p>If you didn’t request this, ignore this email.</p>
+          `,
+        };
+
+        transporter.sendMail(mailOptions, (err) => {
+          // If email fails — fetch bg_result before showing message
+          if (err) {
+            console.error("Email error:", err);
             const backgroundSql = "SELECT * FROM nav_table";
-            db.query(backgroundSql, (err, bg_result) => {
-              if (err) {
-                console.error("Database query error:", err);
+            db.query(backgroundSql, (bgErr, bg_result) => {
+              if (bgErr) {
+                console.error("Error fetching background image:", bgErr);
                 return res.status(500).send("Internal Server Error");
               }
-        
 
-          res.render("login/login", {
-            message: "Account created successfully. Please sign in.",
-            bg_result,
+              return res.render("login/register", {
+                message: "Signup success, but verification email failed.",
+                bg_result,
+              });
+            });
+            return;
+          }
+
+          // If email sends successfully — fetch bg_result and show login page
+          const backgroundSql = "SELECT * FROM nav_table";
+          db.query(backgroundSql, (bgErr, bg_result) => {
+            if (bgErr) {
+              console.error("Error fetching background image:", bgErr);
+              return res.status(500).send("Internal Server Error");
+            }
+
+            res.render("login/login", {
+              message: "Verification email sent! Please check your inbox.",
+              bg_result,
+            });
           });
         });
       });
     });
+  });
+};
+
+// === ADD THIS FUNCTION just below signup / signin ===
+exports.verifyEmail = (req, res) => {
+  const { token } = req.query;
+  if (!token) {
+    return res.send("❌ Invalid or missing token.");
+  }
+
+  const sql = `
+    UPDATE users
+    SET user_verified = true, verification_token = NULL
+    WHERE verification_token = ?
+  `;
+  db.query(sql, [token], (err, result) => {
+    if (err) {
+      console.error("Email verification error:", err);
+      return res.status(500).send("Server error during verification.");
+    }
+
+    if (result.affectedRows === 0) {
+      return res.send("❌ Token is invalid or already used.");
+    }
+
+    // Success
+    res.render("login/login", {
+      message: "✅ Email verified! You can now log in.",
     });
-  },
-];
+  });
+};
+
 
 // Signin Controller
 exports.signin = [
@@ -246,7 +324,6 @@ exports.signin = [
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err || !isMatch) {
             req.flash("error", "Invalid password.");
-            
             return res.render("login/login", {
               message: req.flash("error"),
               bg_result
@@ -624,6 +701,7 @@ exports.logout = (req, res) => {
 
 
 // forget password // forget password
+// Forgot Password - Send OTP
 exports.forgotPassword = (req, res) => {
   const { email } = req.body;
 
@@ -763,5 +841,4 @@ exports.verifyOtpAndResetPassword = (req, res) => {
   });
 };
 
-
-
+// forget password // forget password

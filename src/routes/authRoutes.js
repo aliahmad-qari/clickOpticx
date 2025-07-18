@@ -3,38 +3,35 @@ const router = express.Router();
 
 const authController = require("../controllers/authController");
 
-// Serve sign-up form
-// router.get("/", (req, res) => {
-//   res.render("login/login", { message: null });
-// });
-router.get('/login', authController.loginPage);
-router.get("/", authController.profile);
+// Render login & register pages
+router.get("/login", authController.loginPage);
+router.get("/register", authController.register);
 
-// register route
+// Email verification route (NEW ✅)
+router.get("/verify-email", authController.verifyEmail);
+
+// Register user (sign up)
 router.post("/register", authController.signup);
 
-
-// login route
+// Login user
 router.post("/login", authController.signin);
-router.get("/register", authController.register);
-// slected form
+
+// Logout user
+router.get("/logout", authController.logout); // FIXED: was conflicting with home route
+
+// Dashboard/profile route
+router.get("/", authController.profile);
+
+// Form selection & skipping
 router.post("/select-form", authController.selectForm);
-// slected form
-// submit fibre form
-router.post("/submit-fibre-form", authController.submitFibreForm);
-// submit fibre form
-
-// submit wireless form
-router.post("/submit-wireless-form", authController.submitWirelessForm);
-
-// submit wireless form
-
 router.post("/skip-forms", authController.skipForms);
 
-// logout route
-router.get("/", authController.logout);
+// Fibre & Wireless form submissions
+router.post("/submit-fibre-form", authController.submitFibreForm);
+router.post("/submit-wireless-form", authController.submitWirelessForm);
 
+// Forgot password flow
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/verify-otp", authController.verifyOtpAndResetPassword);
 
-module.exports = router;
+module.exports = router;
