@@ -72,7 +72,7 @@
 
     /* Logo styling */
     .brand-logo img {
-      max-width: 150px;
+      max-width: 200px;
       filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     }
 
@@ -92,8 +92,24 @@
       color: #fff;
     }
 
-    .form-control {
-      color: white;
+    .form-control,
+    .form-control:focus,
+    .form-control:-webkit-autofill {
+      color: white !important;
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      -webkit-text-fill-color: white !important;
+    }
+
+    input.form-control:-webkit-autofill,
+    input.form-control:-webkit-autofill:focus,
+    input.form-control:-webkit-autofill:hover,
+    input.form-control:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
+      box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
+      -webkit-text-fill-color: white !important;
+      color: white !important;
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      transition: background-color 5000s ease-in-out 0s !important;
     }
 
     .fa-eye {
@@ -118,13 +134,13 @@
               <!-- Logo -->
               <div class="brand-logo mb-3">
                 <% if (bg_result && bg_result[0] && bg_result[0].nav_imgs) { %>
-                  <img src="/uploads/<%= bg_result[0].nav_imgs %>" alt="Company Logo" class="mt-3">
-                  <% } else { %>
-                    <div class="logo-placeholder d-flex align-items-center justify-content-center"
-                      style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
-                      <span class="text-white fw-bold">LOGO</span>
-                    </div>
-                    <% } %>
+                <img src="/images/profile-1743219091310.png" alt="Company Logo" class="mt-3">
+                <% } else { %>
+                <div class="logo-placeholder d-flex align-items-center justify-content-center"
+                  style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
+                  <span class="text-white fw-bold">LOGO</span>
+                </div>
+                <% } %>
               </div>
 
               <!-- Headings -->
@@ -165,9 +181,9 @@
                       <i class="bi bi-lock-fill text-white"></i>
                     </span>
                     <input type="password" class="form-control form-control-lg pe-5" id="exampleInputPassword1"
-                      name="password" placeholder="Password" required autocomplete="current-password">
+                      name="password" placeholder="Password" required autocomplete="current-password" style="z-index: 1;" >
                     <button type="button" class="btn  text-black btn-link position-absolute end-0 top-50 translate-middle-y me-2"
-                      id="togglePasswordBtn" aria-label="Show password">
+                      id="togglePasswordBtn" aria-label="Show password" style="z-index: 2;">
                       <i class="fas fa-eye-slash" id="togglePasswordIcon"></i>
                     </button>
                   </div>
@@ -187,6 +203,12 @@
                     style="color: inherit; text-decoration: none;">Sign In</a>
                 </div>
               </form>
+
+              <!-- Popup Message -->
+              <div id="account-popup" class="alert alert-success text-center position-fixed top-0 start-50 translate-middle-x mt-5"
+     style="display:none; z-index:2000; min-width:300px;">
+  Please check your email for confirmation!
+</div>
             </div>
           </div>
         </div>
@@ -206,6 +228,22 @@
       toggleIcon.classList.toggle('fa-eye', isText);
       toggleIcon.classList.toggle('fa-eye-slash', !isText);
     });
+
+    const form = document.querySelector('form[action="/register"]');
+  const popup = document.getElementById('account-popup');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    popup.style.display = 'block';
+
+    setTimeout(() => {
+      popup.style.display = 'none';
+      window.location.href = 'https://mail.google.com/mail/u/0/'; // Redirect to sign-in page
+    }, 3000);
+
+    // Optionally, submit the form via AJAX here if needed
+    // Or remove e.preventDefault() if you want normal form submission after popup
+  });
   </script>
 
   <!-- plugins:js -->
