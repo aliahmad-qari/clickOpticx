@@ -1918,14 +1918,14 @@
                       <% if (matchedPackage) { %>
                         <h4 style="font-weight: 900;">Rs. <%= matchedPackage.Price %>
                         </h4>
-                        <p>Net Package</p>
+                        <p>Package Cost</p>
                         <% } else { %>
                           <h4 style="font-weight: 900;">Rs. --</h4>
                           <p>Package info not found</p>
                           <% } %>
                             <% } else { %>
                               <h4 style="font-weight: 900;">Rs. --</h4>
-                              <p>Not active </p>
+                              <p>To be Activated </p>
                               <% } %>
                 </div>
 
@@ -1945,14 +1945,12 @@
                         <h4 style="color: red; font-size:16px;"> No package subscribed yet</h4>
                         <% } %>
                   </h4>
-                  <p>Net na..</p>
                 </div>
                 <div class="rs">
                   <h4 class="invoice-status"
                     style="font-weight: 900;color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
                     <%= user.invoice %>
                   </h4>
-                  <p>Net na..</p>
                 </div>
               </div>
               <a href="/package" class="btn w-100"
