@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Sing Up</title>
+  <title>Sign Up</title>
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
@@ -134,13 +134,13 @@
               <!-- Logo -->
               <div class="brand-logo mb-3">
                 <% if (bg_result && bg_result[0] && bg_result[0].nav_imgs) { %>
-                <img src="/images/profile-1743219091310.png" alt="Company Logo" class="mt-3">
-                <% } else { %>
-                <div class="logo-placeholder d-flex align-items-center justify-content-center"
-                  style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
-                  <span class="text-white fw-bold">LOGO</span>
-                </div>
-                <% } %>
+                  <img src="/images/profile-1743219091310.png" alt="Company Logo" class="mt-3">
+                  <% } else { %>
+                    <div class="logo-placeholder d-flex align-items-center justify-content-center"
+                      style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
+                      <span class="text-white fw-bold">LOGO</span>
+                    </div>
+                    <% } %>
               </div>
 
               <!-- Headings -->
@@ -181,8 +181,10 @@
                       <i class="bi bi-lock-fill text-white"></i>
                     </span>
                     <input type="password" class="form-control form-control-lg pe-5" id="exampleInputPassword1"
-                      name="password" placeholder="Password" required autocomplete="current-password" style="z-index: 1;" >
-                    <button type="button" class="btn  text-black btn-link position-absolute end-0 top-50 translate-middle-y me-2"
+                      name="password" placeholder="Password" required autocomplete="current-password"
+                      style="z-index: 1;">
+                    <button type="button"
+                      class="btn  text-black btn-link position-absolute end-0 top-50 translate-middle-y me-2"
                       id="togglePasswordBtn" aria-label="Show password" style="z-index: 2;">
                       <i class="fas fa-eye-slash" id="togglePasswordIcon"></i>
                     </button>
@@ -196,8 +198,9 @@
                       <i class="bi bi-credit-card-2-front-fill text-white"></i>
                     </span>
                     <input type="text" class="form-control form-control-lg" id="exampleInputCnic1" name="cnic"
-                      placeholder="CNIC (xxxxx-xxxxxxx-x)" required autocomplete="off">
+                      placeholder="CNIC (13 digits)" required autocomplete="off" maxlength="15">
                   </div>
+                  <small id="cnicError" class="text-danger d-none">CNIC must be 13 digits (without dashes)</small>
                 </div>
 
                 <!-- Phone Number -->
@@ -207,9 +210,12 @@
                       <i class="bi bi-telephone-fill text-white"></i>
                     </span>
                     <input type="tel" class="form-control form-control-lg" id="exampleInputPhone1" name="phone"
-                      placeholder="Phone Number (+92-xxx-xxxxxxx)" required  autocomplete="off">
+                      placeholder="PHONE (11 digits)" required autocomplete="off" maxlength="12">
                   </div>
+                  <small id="phoneError" class="text-danger d-none">Phone number must be 11 digits (without dashes or
+                    country code)</small>
                 </div>
+
 
                 <!-- Submit Button -->
                 <div class="d-grid mb-3">
@@ -227,10 +233,11 @@
               </form>
 
               <!-- Popup Message -->
-              <div id="account-popup" class="alert alert-success text-center position-fixed top-0 start-50 translate-middle-x mt-5"
-     style="display:none; z-index:2000; min-width:300px;">
-  Please check your email for confirmation!
-</div>
+              <div id="account-popup"
+                class="alert alert-success text-center position-fixed top-0 start-50 translate-middle-x mt-5"
+                style="display:none; z-index:2000; min-width:300px;">
+                Please check your email for confirmation!
+              </div>
             </div>
           </div>
         </div>
@@ -252,8 +259,78 @@
     });
 
     const form = document.querySelector('form[action="/register"]');
-  const popup = document.getElementById('account-popup');
+    const popup = document.getElementById('account-popup');
+    
+    // CNIC validation (13 digits)
+    const cnicInput = document.getElementById('exampleInputCnic1');
+    const cnicError = document.getElementById('cnicError');
 
+    cnicInput.addEventListener('input', function () {
+      // Remove any non-digit characters
+      let cnicValue = this.value.replace(/\D/g, '');
+
+      // Format with dashes if user is typing
+      if (cnicValue.length > 5) {
+        cnicValue = cnicValue.substring(0, 5) + '-' + cnicValue.substring(5);
+      }
+      if (cnicValue.length > 13) {
+        cnicValue = cnicValue.substring(0, 13) + '-' + cnicValue.substring(13);
+      }
+
+      this.value = cnicValue;
+
+      // Validate length (13 digits without counting dashes)
+      const digitsOnly = cnicValue.replace(/\D/g, '');
+      if (digitsOnly.length !== 13 && digitsOnly.length > 0) {
+        cnicError.classList.remove('d-none');
+      } else {
+        cnicError.classList.add('d-none');
+      }
+    });
+
+    // Phone number validation (11 digits)
+    const phoneInput = document.getElementById('exampleInputPhone1');
+    const phoneError = document.getElementById('phoneError');
+
+    phoneInput.addEventListener('input', function () {
+      // Remove any non-digit characters
+      let phoneValue = this.value.replace(/\D/g, '');
+
+      // Format with dashes if user is typing
+      if (phoneValue.length > 4) {
+        phoneValue = phoneValue.substring(0, 4) + '-' + phoneValue.substring(4);
+      }
+
+      this.value = phoneValue;
+
+      // Validate length (11 digits without counting dashes)
+      const digitsOnly = phoneValue.replace(/\D/g, '');
+      if (digitsOnly.length !== 11 && digitsOnly.length > 0) {
+        phoneError.classList.remove('d-none');
+      } else {
+        phoneError.classList.add('d-none');
+      }
+    });
+
+    // Form submission validation
+    document.querySelector('form').addEventListener('submit', function (e) {
+      const cnicDigits = cnicInput.value.replace(/\D/g, '');
+      const phoneDigits = phoneInput.value.replace(/\D/g, '');
+
+      if (cnicDigits.length !== 13) {
+        e.preventDefault();
+        cnicError.classList.remove('d-none');
+        cnicInput.focus();
+        return;
+      }
+
+      if (phoneDigits.length !== 11) {
+        e.preventDefault();
+        phoneError.classList.remove('d-none');
+        phoneInput.focus();
+        return;
+      }
+    });
   </script>
 
   <!-- plugins:js -->
