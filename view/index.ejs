@@ -1761,26 +1761,19 @@
 
 
                           <div class="loyal d-flex align-items-center">
-                            <p class="invoice-status" style="font-size: 20px;">
-                              <%= user.invoice %>
-                            </p>
-                            <script>
-                              document.addEventListener("DOMContentLoaded", function () {
-                                const invoiceElement = document.querySelector(".invoice-status");
-                                if (invoiceElement) {
-                                  if (invoiceElement.textContent.trim().toLowerCase() === "unpaid") {
-                                    invoiceElement.style.color = "red";
-                                  } else if (invoiceElement.textContent.trim().toLowerCase() === "paid") {
-                                    invoiceElement.style.color = "green";
-                                  }
-                                }
-                              });
+                            <div class="loyal d-flex align-items-center">
+  <p class="ml-2 mb-0">
+    <%= user.plan %> Mbps
+  </p>
+  <a href="/package">
+    <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i>
+  </a>
+</div>
+
                             </script>
-                            <p class="ml-2 mb-0">
-                              <%= user.plan %> Mbps
-                            </p>
+                            
                             <a href="/package">
-                              <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i>
+                              <!-- <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i> -->
                             </a>
                           </div>
                         </div>

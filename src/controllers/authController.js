@@ -206,14 +206,14 @@ exports.signup = (req, res) => {
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
-            user: "hamzahayat3029@gmail.com",
-            pass: "ceud ztsg vqwr lmtl",
+            user: "clickopticx@gmail.com",
+            pass: "qjnm esst kuxp kabq",   
           },
         });
 
         const verifyUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
         const mailOptions = {
-          from: "hamzahayat3029@gmail.com",
+          from: "clickopticx@gmail.com",
           to: Email,
           subject: "Verify Your Email",
           html: `<h2>Welcome, ${Username}!</h2>
@@ -225,7 +225,7 @@ exports.signup = (req, res) => {
           if (err) {
             console.error("Email error:", err);
             return res.status(500).send("Signup complete but email failed.");
-          }
+          } console.log("✅ Email sent:", info.response);
 
           // After email is sent, fetch bg_result for login page
           const bgSql = "SELECT * FROM nav_table";
