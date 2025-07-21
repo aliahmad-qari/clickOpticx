@@ -1,6 +1,8 @@
 const db = require("../config/db");
 const moment = require("moment");
-
+const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
 exports.profile = async (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
@@ -123,21 +125,154 @@ exports.profile = async (req, res) => {
 
 exports.deletePackageById = (req, res) => {
   const id = req.body.id;
+  const userId = req.session.userId;
 
-  if (!id) {
-    return res.status(400).send('Missing package ID');
+  if (!id || !userId) {
+    return res.status(400).send('Missing data');
   }
 
-  const query = 'DELETE FROM respits WHERE id = ?';
-
-  db.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Error deleting package:', err);
-      return res.status(500).send('Server Error');
+  // Make sure this invoice belongs to the logged-in user
+  const checkOwnershipSql = 'SELECT user_id FROM respits WHERE id = ?';
+  db.query(checkOwnershipSql, [id], (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(403).send('Unauthorized or invoice not found');
     }
 
-    res.redirect('/History'); 
+    if (results[0].user_id !== userId) {
+      return res.status(403).send('You cannot delete others\' invoices');
+    }
+
+    const deleteSql = 'DELETE FROM respits WHERE id = ?';
+    db.query(deleteSql, [id], (err) => {
+      if (err) return res.status(500).send('Server Error');
+      res.redirect('/History');
+    });
+  });
+};
+
+const PDFDocument = require('pdfkit');
+
+exports.downloadInvoiceById = (req, res) => {
+  const invoiceId = req.params.id;
+  const userId = req.session.userId;
+
+  if (!invoiceId || !userId) {
+    return res.status(400).send('Missing data');
+  }
+
+  // First verify if invoice belongs to this user
+  const query = `
+    SELECT r.*, u.Username, u.Email 
+    FROM respits r
+    JOIN users u ON r.user_id = u.id
+    WHERE r.id = ? AND u.id = ?
+  `;
+  db.query(query, [invoiceId, userId], (err, results) => {
+    if (err) {
+      console.error('DB error during invoice lookup:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (results.length === 0) {
+      return res.status(403).send('Invoice not found or access denied');
+    }
+
+    const invoice = results[0];
+
+    // Create PDF
+    const doc = new PDFDocument();
+    const filename = `invoice-${invoice.id}.pdf`;
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('INVOICE', { align: 'center' });
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Invoice ID: ${invoice.id}`);
+    doc.text(`Username: ${invoice.Username}`);
+    doc.text(`Email: ${invoice.Email}`);
+    doc.text(`Plan: ${invoice.plan || 'N/A'}`);
+    doc.text(`Date: ${moment(invoice.created_at).format("YYYY-MM-DD")}`);
+    doc.text(`Amount: ${invoice.amount || 'N/A'}`);
+
+    doc.end();
   });
 };
 
 
+exports.emailInvoiceById = (req, res) => {
+  const invoiceId = req.params.id;
+  const userId = req.session.userId;
+
+  if (!invoiceId || !userId) {
+    return res.status(400).send("Missing data");
+  }
+
+  const query = `
+    SELECT r.*, u.Username, u.Email 
+    FROM respits r
+    JOIN users u ON r.user_id = u.id
+    WHERE r.id = ? AND u.id = ?
+  `;
+
+  db.query(query, [invoiceId, userId], (err, results) => {
+    if (err || results.length === 0) {
+      console.error("Invoice fetch error:", err);
+      return res.status(403).send("Invoice not found or access denied");
+    }
+
+    const invoice = results[0];
+    const filename = `invoice-${invoice.id}.pdf`;
+    const filePath = path.join(__dirname, "../../invoices", filename);
+
+    if (!fs.existsSync(path.dirname(filePath))) {
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    }
+
+    // Generate PDF file
+    const doc = new PDFDocument();
+    const writeStream = fs.createWriteStream(filePath);
+    doc.pipe(writeStream);
+
+    doc.fontSize(20).text("INVOICE", { align: "center" });
+    doc.moveDown();
+    doc.fontSize(12).text(`Invoice ID: ${invoice.id}`);
+    doc.text(`Username: ${invoice.Username}`);
+    doc.text(`Email: ${invoice.Email}`);
+    doc.text(`Plan: ${invoice.plan || "N/A"}`);
+    doc.text(`Date: ${moment(invoice.created_at).format("YYYY-MM-DD")}`);
+    doc.text(`Amount: ${invoice.amount || "N/A"}`);
+    doc.end();
+
+    writeStream.on("finish", () => {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "hamzahayat3029@gmail.com",
+          pass: "ceud ztsg vqwr lmtl", // secure with env var
+        },
+      });
+
+      const mailOptions = {
+        from: "hamzahayat3029@gmail.com",
+        to: invoice.Email,
+        subject: "Your Invoice from ClickOpticx",
+        text: "Please find your invoice attached.",
+        attachments: [{ filename, path: filePath }],
+      };
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        fs.unlink(filePath, () => {}); // delete temp PDF
+
+        if (err) {
+          console.error("Email sending error:", err);
+          return res.status(500).send("Failed to send invoice email.");
+        }
+
+        res.send("✅ Invoice emailed successfully.");
+      });
+    });
+  });
+};
