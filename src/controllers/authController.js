@@ -161,16 +161,27 @@ exports.register = (req, res) => {
 
 
 exports.signup = (req, res) => {
-  const { Username, Email, password } = req.body;
+  const { Username, Email, password, cnic, phone } = req.body; // <-- add cnic, phone
 
   // Check if email already exists
   const checkEmailSql = "SELECT * FROM users WHERE Email = ?";
   db.query(checkEmailSql, [Email], (err, results) => {
     if (err) return res.status(500).json({ error: "DB error" });
+
+    // If email already exists — fetch bg_result before rendering
     if (results.length > 0) {
-      return res.render("login/register", {
-        message: "Email already exists. Try another one.",
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (bgErr, bg_result) => {
+        if (bgErr) {
+          console.error("Error fetching background image:", bgErr);
+          return res.status(500).send("Internal Server Error");
+        }
+        return res.render("login/register", {
+          message: "Email already exists. Try another one.",
+          bg_result,
+        });
       });
+      return;
     }
 
     // Generate verification token
@@ -180,11 +191,16 @@ exports.signup = (req, res) => {
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) return res.status(500).json({ error: "Hash error" });
 
-      // Insert user
-      const sql = `INSERT INTO users (Username, Email, password, verification_token, user_verified)
-                   VALUES (?, ?, ?, ?, 0)`;
-      db.query(sql, [Username, Email, hashedPassword, verificationToken], (err) => {
-        if (err) return res.status(500).json({ error: "User insert error" });
+      // Insert user with cnic and phone
+      const insertSql = `
+        INSERT INTO users (Username, Email, cnic, Number, password, verification_token, user_verified)
+        VALUES (?, ?, ?, ?, ?, ?, 0)
+      `;
+      db.query(insertSql, [Username, Email, cnic, phone, hashedPassword, verificationToken], (err) => {
+        if (err) {
+          console.error("Signup failed:", err);
+          return res.status(500).send("Signup failed");
+        }
 
         // Email setup
         const transporter = nodemailer.createTransport({
@@ -211,20 +227,19 @@ exports.signup = (req, res) => {
             return res.status(500).send("Signup complete but email failed.");
           }
 
-          // After email is sent
+          // After email is sent, fetch bg_result for login page
           const bgSql = "SELECT * FROM nav_table";
-db.query(bgSql, (err, bg_result) => {
-  if (err) {
-    console.error("Background error:", err);
-    return res.status(500).send("Internal Server Error");
-  }
+          db.query(bgSql, (err, bg_result) => {
+            if (err) {
+              console.error("Background error:", err);
+              return res.status(500).send("Internal Server Error");
+            }
 
-  res.render("login/login", {
-    message: "Account created! Check your email to verify.",
-    bg_result,
-  });
-});
-
+            res.render("login/login", {
+              message: "Account created! Check your email to verify.",
+              bg_result,
+            });
+          });
         });
       });
     });
