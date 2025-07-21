@@ -32,15 +32,18 @@
       }
   
       .custom-container {
-        border: 2px solid #4b49ac;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #f8f9fa;
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 7px;
-        border-radius: 20px;
-      }
-  
+  border: 2px solid #4b49ac;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  margin-top: 7px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+
       .card-info h3 {
         font-weight: 700;
         font-family: 'arial';
@@ -548,7 +551,7 @@
 
                    <!-- ADD the CARD ONALY THE ADMIN END --><!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START -->
 
-                    <div class="row ml-0 mr-0 mt-2 mb-2">
+                    <div class="row g-4 px-2 py-3">
                         <% packages.forEach(function(package){ %>
                             <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
                                 <div class="custom-container">
@@ -564,20 +567,58 @@
                                     <span class="img-txt-2"><%= package.Package %></span>
                                     <div class="card-info pl-3 pr-3">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <h3>Rs. <%= package.Price %></h3>
-                                            <% if (package.discountPercentage > 0) { %>
-                                                <h4 class="text-success text-sm">Discount: <%= package.discountPercentage %>%</h4>
-                                            <% } %>
+                            <% if (package.discountPercentage > 0) { 
+     const originalPrice = (package.Price / (1 - package.discountPercentage / 100)).toFixed(0);
+%>
+  <div>
+    <h4 style="font-weight: bold; color: red; margin: 0;">
+      New: Rs. <%= package.Price %>
+      <del style="color: gray; font-size: 15px; margin-left: 8px;">
+        Old: Rs. <%= originalPrice %>
+      </del>
+    </h4>
+    <div style="
+  font-size: 15px;
+  color: #28a745;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+  text-shadow: 0 0 1px #28a745;
+">
+  <i class="bi bi-tags-fill" style="margin-right: 4px;"></i>
+  Discount: <%= package.discountPercentage %>%
+</div>
+
+  </div>
+<% } else { %>
+  <h4 style="font-weight: bold;">Rs. <%= package.Price %></h4>
+<% } %>
+
+
                                         </div>
-                                        <% if (subscription && subscription.package_name === package.Package && user.invoice === "Paid") { %>
-                                            <div class="alert alert-success text-center">
-                                                <span style="color: green;"><span style="color: #FFFFFF;">Status: Activated</span></span>
-                                            </div>
-                                        <% } else { %>
-                                            <div class="alert alert-warning text-center" style="border: 1px solid #45439e;">
-                                                No active plan for this package.
-                                            </div>
-                                        <% } %>
+                                        <% 
+  const isActive = subscription && subscription.package_name === package.Package && user.invoice === "Paid";
+  const expiryDate = isActive && subscription.expiry_date ? new Date(subscription.expiry_date) : null;
+  const now = new Date();
+  const daysLeft = expiryDate ? Math.max(Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)), 0) : null;
+%>
+
+<% if (isActive) { %>
+  <div class="bg-success text-white rounded p-2 text-center mb-2" style="font-size: 14px;">
+    <strong>Status:</strong> Activated <br/>
+    <% if (expiryDate) { %>
+      <span>
+        <strong>Expiry:</strong> <%= expiryDate.toLocaleDateString("en-GB") %>
+        (<%= daysLeft %> day<%= daysLeft === 1 ? '' : 's' %> remaining)
+      </span>
+    <% } %>
+  </div>
+<% } else { %>
+  <div class="alert alert-warning text-center" style="border: 1px solid #45439e;">
+    No active plan for this package.
+  </div>
+<% } %>
+
                                         <div class="mbs d-flex pt-1">
                                             <img src="/images/wifi1.png" alt="">
                                             <span class="ml-3 font-weight-bold">Upto <%= package.Speed %> speed</span>
