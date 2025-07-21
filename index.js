@@ -51,7 +51,7 @@ const ADDsTAFF = require("./src/routes/AddTeam_Routes/AddTeam.routes");
 const AddPackage = require("./src/routes/AddPackage_Routes/AddPackage.routes");
 const Promotions = require("./src/routes/Promotions_Routes/Promotions.routes");
 
-const Customization = require("./src/routes/Customization_Router/UserDashboard.route");
+const Customization = require("./src/routes/Customization_Router/UserDashboard.route"); 
 const HerderFooter = require("./src/routes/Customization_Router/HerderorFooter.route");
 const BrandingPage = require("./src/routes/Customization_Router/BrandingPage.route");
 
