@@ -78,13 +78,14 @@
 
       /* Flexible spacing */
       .test,
-      .user-content .loyal {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
+      .user-content h6 {
+  max-width: none;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+
 
       /* Typography adjustment */
       .loyal p {
@@ -1576,6 +1577,119 @@
           box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
         }
       }
+      @media (max-width: 576px) {
+  /* Fix Boost button and corner layout */
+  .corner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 20px !important;
+  }
+
+  .corner .action {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .corner .action i {
+    font-size: 18px;
+  }
+
+  /* Fix tooltip for smaller screen */
+  .tooltip-text {
+    font-size: 11px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    max-width: 120px;
+  }
+
+  /* Handle long names in profile */
+  .user-content h6 {
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .test, .user-content {
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+@media (max-width: 576px) {
+  /* Responsive layout for action buttons (Boost, etc.) */
+  .corner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .corner .action {
+    width: 44px;
+    height: 44px;
+  }
+
+  .corner .action i {
+    font-size: 18px;
+  }
+
+  .tooltip-text {
+    font-size: 11px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    max-width: 120px;
+  }
+
+  /* Trim long names in profile display */
+  .user-content h6 {
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .user-content h6::after {
+    content: attr(title);
+    display: none;
+  }
+
+  .test, .user-content {
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .profile .pic {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile .bio {
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+.user-content {
+  max-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
     </style>
   </head>
 
@@ -1625,10 +1739,27 @@
                           </a>
                         </div>
                         <div class="user-content">
-                          <h6 style="font-size: 20px;">
-                            <%= user.Username %>
-                              <%= user.lastName %>
-                          </h6>
+                    
+
+<%
+  const fullName = `${user.Username} ${user.lastName}`.replace(/\s+/g, ' ').trim();
+  const firstWord = fullName.split(' ')[0];
+%>
+
+<h6
+  style="font-size: 20px; white-space: nowrap; overflow: visible; text-overflow: unset;"
+  title="<%= fullName %>">
+  <%= firstWord %>
+</h6>
+
+
+
+
+
+
+
+
+
                           <div class="loyal d-flex align-items-center">
                             <p class="invoice-status" style="font-size: 20px;">
                               <%= user.invoice %>
@@ -2022,10 +2153,14 @@
 
 
                       .corner {
-                        flex-direction: row;
-                        padding: 6px;
-                        gap: 10px;
-                      }
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 20px !important;
+}
 
                       .corner .action {
                         width: 44px;
