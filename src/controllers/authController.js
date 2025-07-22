@@ -377,7 +377,7 @@ exports.verifyEmail = (req, res) => {
 };
 
 
-// Signin Controller
+
 // Signin Controller
 exports.signin = [
   (req, res) => {
@@ -445,8 +445,9 @@ exports.signin = [
           }
 
           // ✅ Email is verified, proceed with login
-          req.session.userId = user.id;
-          req.session.userRole = user.role;
+        req.session.userId = user.id;
+req.session.user = user; // ✅ This is what your other code expects
+
 
           const token = jwt.sign({ id: user.id }, "your_jwt_secret", {
             expiresIn: "1h",
