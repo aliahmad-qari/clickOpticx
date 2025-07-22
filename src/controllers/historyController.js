@@ -61,6 +61,26 @@ exports.profile = async (req, res) => {
       [userId, limit, offset]
     );
 
+    // 5a. Fetch packages from payments joined with packages table
+    const [paymentPackages] = await db.promise().query(
+      `SELECT p.*, pay.*
+       FROM packages p
+       JOIN payments pay ON p.Package = pay.package_name
+       WHERE pay.user_id = ?`,
+      [userId]
+    );
+
+    // 5b. Merge respitsResults and paymentPackages into one array
+    const mergedPackages = [...respitsResults];
+
+    paymentPackages.forEach(paymentPackage => {
+      // Check if package already exists in respitsResults by id or unique field
+      const exists = mergedPackages.some(pkg => pkg.id === paymentPackage.id);
+      if (!exists) {
+        mergedPackages.push(paymentPackage);
+      }
+    });
+
     user.created_at = moment(user.created_at).format("YYYY-MM-DD");
 
     // 6. Fetch notifications count for user
@@ -97,7 +117,16 @@ exports.profile = async (req, res) => {
       payment.created_at = moment(payment.created_at).format("YYYY-MM-DD");
     });
 
-    // 9. Render the profile/history page with pagination data for respits
+    // 9. Fetch subscribed packages for the user from payments table using package_name join
+    const subscribedPackagesSql = `
+      SELECT p.* FROM packages p
+      JOIN payments pay ON p.Package = pay.package_name
+      WHERE pay.user_id = ?
+    `;
+
+    const [subscribedPackages] = await db.promise().query(subscribedPackagesSql, [userId]);
+
+    // 10. Render the profile/history page with pagination data for respits and subscribed packages
     res.render("History/History", {
       user,
       message: null,
@@ -107,12 +136,13 @@ exports.profile = async (req, res) => {
       bg_result,
       notifications_users,
       Notifactions,
-      packages: respitsResults, // your paginated respits data
+      packages: mergedPackages, // merged packages data including deleted/restored
       discount,
       package: { package_name: packageName },
       currentPage: page,
       totalPages,
-      totalResults: count
+      totalResults: count,
+      subscribedPackages,
     });
 
   } catch (err) {

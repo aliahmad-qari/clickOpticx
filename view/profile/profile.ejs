@@ -897,9 +897,32 @@
                   alt="Profile" class="profile-img" style="width: 77px !important;">
                 <label class="custom-file-btn bg-primary text-white btn btn-outline-secondary">
                   Choose file
-                  <input type="file" name="profilePic" hidden>
+                  <input type="file" name="profilePic" id="profilePicInput" accept="image/*" hidden>
                 </label>
-                <span class="text-secondary">No file chosen</span>
+                <span class="text-secondary" id="fileNameDisplay">No file chosen</span>
+              </div>
+
+              <script>
+                document.getElementById('profilePicInput').addEventListener('change', function(event) {
+                  const fileInput = event.target;
+                  const fileNameDisplay = document.getElementById('fileNameDisplay');
+                  const profileImg = document.querySelector('.profile-img');
+
+                  if (fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    fileNameDisplay.textContent = file.name;
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                      profileImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                  } else {
+                    fileNameDisplay.textContent = 'No file chosen';
+                    // Optionally reset profile image to original if needed
+                  }
+                });
+              </script>
               </div>
 
               <div class="row mb-3">

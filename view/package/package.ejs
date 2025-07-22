@@ -596,12 +596,17 @@
 
 
                                         </div>
-                                        <% 
-  const isActive = subscription && subscription.package_name === package.Package && user.invoice === "Paid";
+                                 <%
+  const normalize = str => (str || "").trim().toLowerCase();
+  const isActive = subscription &&
+                   normalize(subscription.package_name) === normalize(package.Package) &&
+                   user.invoice === "Paid";
+
   const expiryDate = isActive && subscription.expiry_date ? new Date(subscription.expiry_date) : null;
   const now = new Date();
   const daysLeft = expiryDate ? Math.max(Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)), 0) : null;
 %>
+
 
 <% if (isActive) { %>
   <div class="bg-success text-white rounded p-2 text-center mb-2" style="font-size: 14px;">

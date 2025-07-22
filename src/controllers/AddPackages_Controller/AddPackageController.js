@@ -86,19 +86,34 @@ exports.AddPackages = (req, res) => {
               const isUser =
                 req.session.user && req.session.user.role === "user";
 
-              res.render("package/AddPackage", {
-                user: results,
-                message: null,
-                isAdmin,
-                bg_result,
-                totalNotifactions,
-                password_datass,
-                messages: {
-                  success: successMsg.length > 0 ? successMsg[0] : null,
-                },
-                isUser,
-                notifications_users,
-                Notifactions,
+              // Fetch subscribed packages for the user
+              const subscribedPackagesSql = `
+                SELECT p.* FROM packages p
+                JOIN subscriptions s ON p.id = s.package_id
+                WHERE s.user_id = ?
+              `;
+
+              db.query(subscribedPackagesSql, [userId], (err, subscribedPackages) => {
+                if (err) {
+                  console.error("Error fetching subscribed packages:", err);
+                  return res.status(500).send("Internal Server Error");
+                }
+
+                res.render("package/AddPackage", {
+                  user: results,
+                  message: null,
+                  isAdmin,
+                  bg_result,
+                  totalNotifactions,
+                  password_datass,
+                  messages: {
+                    success: successMsg.length > 0 ? successMsg[0] : null,
+                  },
+                  isUser,
+                  notifications_users,
+                  Notifactions,
+                  subscribedPackages,
+                });
               });
             });
           });

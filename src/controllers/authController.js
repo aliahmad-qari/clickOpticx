@@ -9,189 +9,233 @@ const crypto = require("crypto");
 exports.loginPage = (req, res) => {
   const query = 'SELECT nav_imgs FROM your_table_name LIMIT 1';
 
-  connection.query(query, (err, bg_result) => {
+  db.query(query, (err, bg_result) => {
     if (err) {
       console.error('Database Error:', err);
-      return res.status(500).send('Internal Server Error');
+      return res.status(500).render('login/login', {
+        bg_result: [],
+        errorMessage: "Internal Server Error. Please try again later.",
+        showErrorModal: true,
+        showToast: true,
+      });
     }
-
-    // ✅ Render login.ejs and pass bg_result
-    res.render('login/login', { bg_result }); // 👈 THIS IS IMPORTANT
+    res.render('login/login', { bg_result, errorMessage: null, showErrorModal: false, showToast: false });
   });
 };
-exports.profile = (req, res) => {
 
-    const query = "SELECT COUNT(*) AS count FROM payments";
-    db.query(query, (err, paymentResult) => {
+exports.profile = (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM payments";
+  db.query(query, (err, paymentResult) => {
+    if (err) {
+      console.error("Error fetching payment count:", err);
+      return res.status(500).render("login/login", {
+        errorMessage: "Database error. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+      });
+    }
+
+    const paymentCount = paymentResult[0].count;
+
+    const backgroundSql = "SELECT * FROM nav_table";
+    db.query(backgroundSql, (err, bg_result) => {
       if (err) {
-        console.error("Error fetching payment count:", err);
-        return res.status(500).send("Database error");
+        console.error("Database query error:", err);
+        return res.status(500).render("login/login", {
+          errorMessage: "Internal Server Error. Please try again.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
 
-      const paymentCount = paymentResult[0].count;
+      const isUser = req.session.user && req.session.user.role === "user";
 
-      const backgroundSql = "SELECT * FROM nav_table";
-      db.query(backgroundSql, (err, bg_result) => {
+      const NotifactionSql = `
+        SELECT COUNT(*) AS totalNotifactions 
+        FROM notifications 
+        WHERE is_read = 0 
+        AND created_at >= NOW() - INTERVAL 2 DAY
+      `;
+      db.query(NotifactionSql, (err, NotifactionResult) => {
         if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
+          console.error("Error fetching notification count:", err);
+          return res.status(500).render("login/login", {
+            errorMessage: "Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
-        
-        const isUser = req.session.user && req.session.user.role === "user";
 
-        // ✅ New: Total unread notifications in the past 2 days
-        const NotifactionSql = `
-          SELECT COUNT(*) AS totalNotifactions 
-          FROM notifications 
+        const totalNotifactions = NotifactionResult[0].totalNotifactions;
+
+        const passwordSql = `
+          SELECT * FROM notifications 
           WHERE is_read = 0 
-          AND created_at >= NOW() - INTERVAL 2 DAY
+          AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC
         `;
-        db.query(NotifactionSql, (err, NotifactionResult) => {
+        db.query(passwordSql, (err, password_datass) => {
           if (err) {
-            console.error("Error fetching notification count:", err);
-            return res.status(500).send("Server Error");
+            console.error("Error fetching notification details:", err);
+            return res.status(500).render("login/login", {
+              errorMessage: "Server Error. Please try again.",
+              showErrorModal: true,
+              showToast: true,
+            });
           }
 
-          const totalNotifactions = NotifactionResult[0].totalNotifactions;
+          const successMsg = req.flash("success");
 
-          // ✅ New: Detailed unread notifications
-          const passwordSql = `
-            SELECT * FROM notifications 
-            WHERE is_read = 0 
-            AND created_at >= NOW() - INTERVAL 2 DAY 
-            ORDER BY id DESC
-          `;
-          db.query(passwordSql, (err, password_datass) => {
-            if (err) {
-              console.error("Error fetching notification details:", err);
-              return res.status(500).send("Server Error");
-            }
-
-            // 👇 Flash messages here
-            const successMsg = req.flash("success");
-
-            res.render("login/login", {
-    
-              message: null,
-           
-              paymentCount,
-              bg_result,
-              messages: {
-                success: successMsg.length > 0 ? successMsg[0] : null,
-              },
-              totalNotifactions,
-              password_datass,
-            });
+          res.render("login/login", {
+            message: null,
+            paymentCount,
+            bg_result,
+            messages: {
+              success: successMsg.length > 0 ? successMsg[0] : null,
+            },
+            totalNotifactions,
+            password_datass,
+            errorMessage: null,
+            showErrorModal: false,
+            showToast: false,
           });
         });
       });
     });
+  });
 };
 
 exports.register = (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM payments";
+  db.query(query, (err, paymentResult) => {
+    if (err) {
+      console.error("Error fetching payment count:", err);
+      return res.status(500).render("login/register", {
+        errorMessage: "Database error. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+      });
+    }
 
-    const query = "SELECT COUNT(*) AS count FROM payments";
-    db.query(query, (err, paymentResult) => {
+    const paymentCount = paymentResult[0].count;
+
+    const backgroundSql = "SELECT * FROM nav_table";
+    db.query(backgroundSql, (err, bg_result) => {
       if (err) {
-        console.error("Error fetching payment count:", err);
-        return res.status(500).send("Database error");
+        console.error("Database query error:", err);
+        return res.status(500).render("login/register", {
+          errorMessage: "Internal Server Error. Please try again.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
 
-      const paymentCount = paymentResult[0].count;
+      const isUser = req.session.user && req.session.user.role === "user";
 
-      const backgroundSql = "SELECT * FROM nav_table";
-      db.query(backgroundSql, (err, bg_result) => {
+      const NotifactionSql = `
+        SELECT COUNT(*) AS totalNotifactions 
+        FROM notifications 
+        WHERE is_read = 0 
+        AND created_at >= NOW() - INTERVAL 2 DAY
+      `;
+      db.query(NotifactionSql, (err, NotifactionResult) => {
         if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
+          console.error("Error fetching notification count:", err);
+          return res.status(500).render("login/register", {
+            errorMessage: "Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
-        
-        const isUser = req.session.user && req.session.user.role === "user";
 
-        // ✅ New: Total unread notifications in the past 2 days
-        const NotifactionSql = `
-          SELECT COUNT(*) AS totalNotifactions 
-          FROM notifications 
+        const totalNotifactions = NotifactionResult[0].totalNotifactions;
+
+        const passwordSql = `
+          SELECT * FROM notifications 
           WHERE is_read = 0 
-          AND created_at >= NOW() - INTERVAL 2 DAY
+          AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC
         `;
-        db.query(NotifactionSql, (err, NotifactionResult) => {
+        db.query(passwordSql, (err, password_datass) => {
           if (err) {
-            console.error("Error fetching notification count:", err);
-            return res.status(500).send("Server Error");
+            console.error("Error fetching notification details:", err);
+            return res.status(500).render("login/register", {
+              errorMessage: "Server Error. Please try again.",
+              showErrorModal: true,
+              showToast: true,
+            });
           }
 
-          const totalNotifactions = NotifactionResult[0].totalNotifactions;
+          const successMsg = req.flash("success");
 
-          // ✅ New: Detailed unread notifications
-          const passwordSql = `
-            SELECT * FROM notifications 
-            WHERE is_read = 0 
-            AND created_at >= NOW() - INTERVAL 2 DAY 
-            ORDER BY id DESC
-          `;
-          db.query(passwordSql, (err, password_datass) => {
-            if (err) {
-              console.error("Error fetching notification details:", err);
-              return res.status(500).send("Server Error");
-            }
-
-            // 👇 Flash messages here
-            const successMsg = req.flash("success");
-
-            res.render("login/register", {
-
-              message: null,
-           
-              paymentCount,
-              bg_result,
-              messages: {
-                success: successMsg.length > 0 ? successMsg[0] : null,
-              },
-              totalNotifactions,
-              password_datass,
-            });
+          res.render("login/register", {
+            message: null,
+            paymentCount,
+            bg_result,
+            messages: {
+              success: successMsg.length > 0 ? successMsg[0] : null,
+            },
+            totalNotifactions,
+            password_datass,
+            errorMessage: null,
+            showErrorModal: false,
+            showToast: false,
           });
         });
       });
     });
+  });
 };
 
 // signup Controller
-
-
 exports.signup = (req, res) => {
-  const { Username, Email, password, cnic, phone } = req.body; // <-- add cnic, phone
+  const { Username, Email, password, cnic, phone } = req.body;
 
-  // Check if email already exists
   const checkEmailSql = "SELECT * FROM users WHERE Email = ?";
   db.query(checkEmailSql, [Email], (err, results) => {
-    if (err) return res.status(500).json({ error: "DB error" });
+    if (err) {
+      console.error("DB error:", err);
+      return res.status(500).render("login/register", {
+        errorMessage: "Database error. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+      });
+    }
 
-    // If email already exists — fetch bg_result before rendering
     if (results.length > 0) {
       const backgroundSql = "SELECT * FROM nav_table";
       db.query(backgroundSql, (bgErr, bg_result) => {
         if (bgErr) {
           console.error("Error fetching background image:", bgErr);
-          return res.status(500).send("Internal Server Error");
+          return res.status(500).render("login/register", {
+            errorMessage: "Internal Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
         return res.render("login/register", {
-          message: "Email already exists. Try another one.",
+          // message: "Email already exists. Try another one.",
           bg_result,
+          errorMessage: "Email already exists. Try another one.",
+          showErrorModal: true,
+          showToast: true,
         });
       });
       return;
     }
 
-    // Generate verification token
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
-    // Hash password
     bcrypt.hash(password, 10, (err, hashedPassword) => {
-      if (err) return res.status(500).json({ error: "Hash error" });
+      if (err) {
+        console.error("Hash error:", err);
+        return res.status(500).render("login/register", {
+          errorMessage: "Error hashing password. Please try again.",
+          showErrorModal: true,
+          showToast: true,
+        });
+      }
 
-      // Insert user with cnic and phone
       const insertSql = `
         INSERT INTO users (Username, Email, cnic, Number, password, verification_token, user_verified)
         VALUES (?, ?, ?, ?, ?, ?, 0)
@@ -199,15 +243,18 @@ exports.signup = (req, res) => {
       db.query(insertSql, [Username, Email, cnic, phone, hashedPassword, verificationToken], (err) => {
         if (err) {
           console.error("Signup failed:", err);
-          return res.status(500).send("Signup failed");
+          return res.status(500).render("login/register", {
+            errorMessage: "Signup failed. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
 
-        // Email setup
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
             user: "clickopticx@gmail.com",
-            pass: "qjnm esst kuxp kabq",   
+            pass: "qjnm esst kuxp kabq",
           },
         });
 
@@ -224,20 +271,29 @@ exports.signup = (req, res) => {
         transporter.sendMail(mailOptions, (err, info) => {
           if (err) {
             console.error("Email error:", err);
-            return res.status(500).send("Signup complete but email failed.");
-          } console.log("✅ Email sent:", info.response);
-
-          // After email is sent, fetch bg_result for login page
+            return res.status(500).render("login/register", {
+              errorMessage: "Signup complete but email failed. Please check your email address.",
+              showErrorModal: true,
+              showToast: true,
+            });
+          }
           const bgSql = "SELECT * FROM nav_table";
           db.query(bgSql, (err, bg_result) => {
             if (err) {
               console.error("Background error:", err);
-              return res.status(500).send("Internal Server Error");
+              return res.status(500).render("login/login", {
+                errorMessage: "Internal Server Error. Please try again.",
+                showErrorModal: true,
+                showToast: true,
+              });
             }
 
             res.render("login/login", {
               message: "Account created! Check your email to verify.",
               bg_result,
+              errorMessage: null,
+              showErrorModal: false,
+              showToast: true,
             });
           });
         });
@@ -245,36 +301,82 @@ exports.signup = (req, res) => {
     });
   });
 };
+
 exports.verifyEmail = (req, res) => {
-  const { token } = req.query;
+  const token = req.query.token;
+
+  if (!token) {
+    return res.status(400).render("login/login", {
+      errorMessage: "Missing verification token.",
+      showErrorModal: true,
+      showToast: true,
+      bg_result: [] // ✅ added
+    });
+  }
 
   const findUserSql = "SELECT * FROM users WHERE verification_token = ?";
   db.query(findUserSql, [token], (err, results) => {
-    if (err) return res.status(500).send("Server error");
-    if (results.length === 0) return res.status(400).send("Invalid or expired token");
+    if (err) {
+      console.error("Server error:", err);
+      return res.status(500).render("login/login", {
+        errorMessage: "Server error. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+        bg_result: [] // ✅ added
+      });
+    }
 
-    const updateSql = `UPDATE users 
-                       SET user_verified = 1, verification_token = NULL 
-                       WHERE verification_token = ?`;
+    if (results.length === 0) {
+      return res.status(400).render("login/login", {
+        errorMessage: "Invalid or expired token.",
+        showErrorModal: true,
+        showToast: true,
+        bg_result: [] // ✅ added
+      });
+    }
+
+    const updateSql = `
+      UPDATE users 
+      SET user_verified = 1, verification_token = NULL 
+      WHERE verification_token = ?
+    `;
+
     db.query(updateSql, [token], (err) => {
-      if (err) return res.status(500).send("Could not verify email");
+      if (err) {
+        console.error("Could not verify email:", err);
+        return res.status(500).render("login/login", {
+          errorMessage: "Could not verify email. Please try again.",
+          showErrorModal: true,
+          showToast: true,
+          bg_result: [] // ✅ added
+        });
+      }
 
-     const bgSql = "SELECT * FROM nav_table";
-db.query(bgSql, (err, bg_result) => {
-  if (err) {
-    console.error("Background error:", err);
-    return res.status(500).send("Internal Server Error");
-  }
+      const bgSql = "SELECT * FROM nav_table";
+      db.query(bgSql, (err, bg_result) => {
+        if (err) {
+          console.error("Background error:", err);
+          return res.status(500).render("login/login", {
+            errorMessage: "Internal Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+            bg_result: [] // ✅ added as fallback
+          });
+        }
 
-  res.render("login/login", {
-    message: "✅ Email verified successfully. Please login.",
-    bg_result, // ✅ bg_result defined here
-  });
-});
-
+        res.render("login/login", {
+          message: "✅ Email verified successfully. Please login.",
+          bg_result,
+          errorMessage: null,
+          showErrorModal: false,
+          showToast: true,
+        });
+      });
     });
   });
 };
+
+
 
 // Signin Controller
 exports.signin = [
@@ -287,21 +389,33 @@ exports.signin = [
 
     db.query(sql, [Email], (err, result) => {
       if (err) {
-        return res.status(500).json({ error: "Database error" });
+        console.error("Database error:", err);
+        return res.status(500).render("login/login", {
+          errorMessage: "Database error. Please try again.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
 
       const backgroundSql = "SELECT * FROM nav_table";
       db.query(backgroundSql, (bgErr, bg_result) => {
         if (bgErr) {
           console.error("Database query error:", bgErr);
-          return res.status(500).send("Internal Server Error");
+          return res.status(500).render("login/login", {
+            errorMessage: "Internal Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
 
         if (result.length === 0) {
           req.flash("error", "Invalid Email.");
           return res.render("login/login", {
             message: req.flash("error"),
-            bg_result
+            bg_result,
+            errorMessage: "Invalid Email.",
+            showErrorModal: true,
+            showToast: true,
           });
         }
 
@@ -312,12 +426,28 @@ exports.signin = [
             req.flash("error", "Invalid password.");
             return res.render("login/login", {
               message: req.flash("error"),
-              bg_result
+              bg_result,
+              errorMessage: "Invalid password.",
+              showErrorModal: true,
+              showToast: true,
             });
           }
 
-          req.session.userId = user.id;
-          req.session.userRole = user.role;
+          // 🚫 Check if user is verified
+          if (user.user_verified !== 1) {
+            return res.render("login/login", {
+              message: null,
+              bg_result,
+              errorMessage: "Please verify your email before logging in.",
+              showErrorModal: true,
+              showToast: true,
+            });
+          }
+
+          // ✅ Email is verified, proceed with login
+        req.session.userId = user.id;
+req.session.user = user; // ✅ This is what your other code expects
+
 
           const token = jwt.sign({ id: user.id }, "your_jwt_secret", {
             expiresIn: "1h",
@@ -331,6 +461,9 @@ exports.signin = [
               userEmail: user.Email,
               selectedForm: user.selected_form || null,
               bg_result,
+              errorMessage: null,
+              showErrorModal: false,
+              showToast: false,
             });
           }
 
@@ -338,12 +471,14 @@ exports.signin = [
           if (user.role === "Team") return res.redirect("/UserComplaint");
 
           return res.redirect("/index");
-        });
-      });
-    });
-  },
-];
+        }); // <-- Closing bcrypt.compare
+      });   // <-- Closing nav_table query
+    });     // <-- Closing users Email query
+  }         // <-- Closing function(req, res)
+];          // <-- Closing exports.signin array
 
+
+       
 
 // Handle form selection
 exports.selectForm = (req, res) => {
@@ -358,13 +493,20 @@ exports.selectForm = (req, res) => {
   db.query(updateQuery, [formType, email], (err) => {
     if (err) {
       console.error("Error updating user:", err);
-      return res.status(500).send("Database error");
+      return res.status(500).render("login/first-time-selection", {
+        errorMessage: "Database error. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+      });
     }
 
     res.render("login/first-time-selection", {
       username: req.session.username,
       userEmail: email,
       selectedForm: formType,
+      errorMessage: null,
+      showErrorModal: false,
+      showToast: true,
     });
   });
 };
@@ -380,8 +522,6 @@ exports.submitFibreForm = (req, res) => {
     duck_patti_quantity, duck_patti_price, patch_card_quantity, patch_card_price
   } = req.body;
 
-
-  // Handle fibre_power_label (array or string)
   let finalFibrePowerLabel = null;
   if (Array.isArray(fibre_power_label)) {
     finalFibrePowerLabel = fibre_power_label.find(val => val && val !== 'custom') || null;
@@ -402,16 +542,23 @@ exports.submitFibreForm = (req, res) => {
     db.query(insertQuery, [user_id, email, 'fibre'], (err) => {
       if (err) {
         console.error('[submitFibreForm] Error inserting fibre form:', err);
-        return res.status(500).send('Database error while saving the form.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error while saving the form.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       updateUserAndRedirect();
     });
   } else {
     if (!email) {
-      return res.status(400).send('Missing required field: email');
+      return res.status(400).render("login/first-time-selection", {
+        errorMessage: "Missing required field: email",
+        showErrorModal: true,
+        showToast: true,
+      });
     }
 
-    // Insert submission
     const insertQuery = `
       INSERT INTO fibre_form_submissions (
         user_id, email, formType, device_label, device_price, first_package_price,
@@ -441,13 +588,17 @@ exports.submitFibreForm = (req, res) => {
       duck_patti_price || null,
       patch_card_quantity || null,
       patch_card_price || null,
-      null, // user_pay
-      null  // company_pay
+      null,
+      null
     ];
     db.query(insertQuery, values, (err) => {
       if (err) {
         console.error('[submitFibreForm] Error inserting fibre form:', err);
-        return res.status(500).send('Database error while saving the form.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error while saving the form.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       updateUserAndRedirect();
     });
@@ -462,31 +613,35 @@ exports.submitFibreForm = (req, res) => {
     db.query(updateQuery, ['fibre', email], (err) => {
       if (err) {
         console.error('[submitFibreForm] Error updating user:', err);
-        return res.status(500).send('Database error updating user.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error updating user.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       db.query('SELECT username FROM users WHERE Email = ?', [email], (err2, results) => {
-      if (err2 || results.length === 0) {
-        console.error('[submitFibreForm] Failed to get username for notification:', err2);
-        return res.redirect('/index'); // Continue redirecting even if notification fails
-      }
+        if (err2 || results.length === 0) {
+          console.error('[submitFibreForm] Failed to get username for notification:', err2);
+          return res.redirect('/index');
+        }
 
-      const username = results[0].username;
+        const username = results[0].username;
         const message = isSkip
           ? `${username} skipped the fibre form`
           : `${username} submitted the Fibre form`;
 
-      const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
-      db.query(notifQuery, [username, message], (err3) => {
-        if (err3) {
-          console.error('[submitFibreForm] Error inserting notification:', err3);
-        }
-
-      res.redirect('/index');
+        const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
+        db.query(notifQuery, [username, message], (err3) => {
+          if (err3) {
+            console.error('[submitFibreForm] Error inserting notification:', err3);
+          }
+          res.redirect('/index');
+        });
+      });
     });
-  });
-});
-}
+  }
 };
+
 // Submit Wireless Form
 exports.submitWirelessForm = (req, res) => {
   const user_id = req.session.userId;
@@ -500,7 +655,6 @@ exports.submitWirelessForm = (req, res) => {
   } = req.body;
 
   if (isSkip) {
-    console.log('[submitWirelessForm] Skipping form submission');
     const insertQuery = `
       INSERT INTO wireless_forms (
         user_id, email, formType, cat6_quantity, cat6_price, first_package_price,
@@ -514,18 +668,23 @@ exports.submitWirelessForm = (req, res) => {
     db.query(insertQuery, [user_id, email, 'wireless'], (err) => {
       if (err) {
         console.error('[submitWirelessForm] Error inserting wireless form:', err);
-        return res.status(500).send('Database error while saving the form.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error while saving the form.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       updateUserAndRedirect();
     });
   } else {
-    // Validate required field (only email is mandatory)
     if (!email) {
-      console.log('[submitWirelessForm] Validation failed: Missing email');
-      return res.status(400).send('Missing required field: email');
+      return res.status(400).render("login/first-time-selection", {
+        errorMessage: "Missing required field: email",
+        showErrorModal: true,
+        showToast: true,
+      });
     }
 
-    // Handle "Other" selections
     let finalSignalReceiver = signal_receiver;
     let finalWifiOnu = wifi_onu;
     let finalTowerApDevice = tower_ap_device;
@@ -540,7 +699,6 @@ exports.submitWirelessForm = (req, res) => {
       finalTowerApDevice = 'Other';
     }
 
-    // Insert submission
     const insertQuery = `
       INSERT INTO wireless_forms (
         user_id, email, formType, cat6_quantity, cat6_price, first_package_price,
@@ -574,14 +732,17 @@ exports.submitWirelessForm = (req, res) => {
       onu_model || null,
       finalTowerApDevice || null,
       wireless_field || null,
-      null, // user_pay
-      null  // company_pay
+      null,
+      null
     ];
-    console.log('[submitWirelessForm] Inserting wireless form');
     db.query(insertQuery, values, (err) => {
       if (err) {
         console.error('[submitWirelessForm] Error inserting wireless form:', err);
-        return res.status(500).send('Database error while saving the form.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error while saving the form.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       updateUserAndRedirect();
     });
@@ -593,33 +754,35 @@ exports.submitWirelessForm = (req, res) => {
       SET first_time_login = false, selected_form = ?
       WHERE Email = ?
     `;
-    console.log('[submitWirelessForm] Updating user and redirecting');
     db.query(updateQuery, ['wireless', email], (err) => {
       if (err) {
         console.error('[submitWirelessForm] Error updating user:', err);
-        return res.status(500).send('Database error updating user.');
+        return res.status(500).render("login/first-time-selection", {
+          errorMessage: "Database error updating user.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
-      console.log('[submitWirelessForm] User updated, redirecting to /index');
       db.query('SELECT username FROM users WHERE Email = ?', [email], (err2, results) => {
-      if (err2 || results.length === 0) {
-        console.error('[submitFibreForm] Failed to get username for notification:', err2);
-        return res.redirect('/index');
-      }
+        if (err2 || results.length === 0) {
+          console.error('[submitWirelessForm] Failed to get username for notification:', err2);
+          return res.redirect('/index');
+        }
 
-      const username = results[0].username;
+        const username = results[0].username;
         const message = isSkip
           ? `${username} skipped the Wireless form`
           : `${username} submitted the Wireless form`;
 
-      const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
-      db.query(notifQuery, [username, message], (err3) => {
-        if (err3) {
-          console.error('[submitWirelessForm] Error inserting notification:', err3);
-        }
-      res.redirect('/index');
+        const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
+        db.query(notifQuery, [username, message], (err3) => {
+          if (err3) {
+            console.error('[submitWirelessForm] Error inserting notification:', err3);
+          }
+          res.redirect('/index');
+        });
+      });
     });
-  });
-});
   }
 };
 
@@ -650,19 +813,34 @@ exports.skipForms = (req, res) => {
   db.query(fibreQuery, [user_id, email], (err) => {
     if (err) {
       console.error('Error inserting into fibre_form:', err);
-      return res.status(500).send('Error inserting into fibre_form');
+      return res.status(500).json({
+        errorMessage: 'Error inserting into fibre_form',
+        showErrorModal: true,
+        showToast: true,
+      });
     }
     db.query(wirelessQuery, [user_id, email], (err) => {
       if (err) {
         console.error('Error inserting into wireless_form:', err);
-        return res.status(500).send('Error inserting into wireless_form');
+        return res.status(500).json({
+          errorMessage: 'Error inserting into wireless_form',
+          showErrorModal: true,
+          showToast: true,
+        });
       }
       db.query(updateLoginQuery, [email], (err) => {
         if (err) {
           console.error('Error updating first_time_login:', err);
-          return res.status(500).send('Error updating user login status');
+          return res.status(500).json({
+            errorMessage: 'Error updating user login status',
+            showErrorModal: true,
+            showToast: true,
+          });
         }
-        res.status(200).send('Forms skipped successfully');
+        res.status(200).json({
+          message: 'Forms skipped successfully',
+          showToast: true,
+        });
       });
     });
   });
@@ -679,12 +857,11 @@ exports.logout = (req, res) => {
     res.clearCookie("auth_token");
     res.render("/", {
       message: "You have been logged out successfully.",
+      errorMessage: null,
+      showToast: true,
     });
   });
 };
-
-
-
 
 // forget password // forget password
 // Forgot Password - Send OTP
@@ -698,134 +875,162 @@ exports.forgotPassword = (req, res) => {
       return res.status(500).render("login/login", {
         errorMessage: "Internal server error. Please try again later.",
         showForgotModal: true,
+        showErrorModal: true,
+        showToast: true,
       });
     }
 
-                const backgroundSql = "SELECT * FROM nav_table";
-            db.query(backgroundSql, (err, bg_result) => {
-              if (err) {
-                console.error("Database query error:", err);
-                return res.status(500).send("Internal Server Error");
-              }
-
-    if (results.length === 0) {
-      return res.render("login/login", {
-        bg_result,
-        errorMessage: "Email not found. Please enter a valid email.",
-        showForgotModal: true,
-      });
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    const otpExpiry = Date.now() + 10 * 60 * 1000;
-
-    const updateOtpSql = "UPDATE users SET otp = ?, otp_expiry = ? WHERE email = ?";
-    db.query(updateOtpSql, [otp, otpExpiry, email], (err) => {
+    const backgroundSql = "SELECT * FROM nav_table";
+    db.query(backgroundSql, (err, bg_result) => {
       if (err) {
-        console.error("Error updating OTP:", err);
+        console.error("Database query error:", err);
         return res.status(500).render("login/login", {
-          bg_result,
-          errorMessage: "Could not generate OTP. Please try again.",
+          errorMessage: "Internal Server Error. Please try again.",
           showForgotModal: true,
+          showErrorModal: true,
+          showToast: true,
         });
       }
 
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: "hamzahayat3029@gmail.com",
-          pass: "ceud ztsg vqwr lmtl",
-        },
-      });
+      if (results.length === 0) {
+        return res.render("login/login", {
+          bg_result,
+          errorMessage: "Email not found. Please enter a valid email.",
+          showForgotModal: true,
+          showErrorModal: true,
+          showToast: true,
+        });
+      }
 
-      const mailOptions = {
-        from: "hamzahayat3029@gmail.com",
-        to: email,
-        subject: "Password Reset OTP",
-        text: `Your OTP for password reset is: ${otp}`,
-      };
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      const otpExpiry = Date.now() + 10 * 60 * 1000;
 
-      transporter.sendMail(mailOptions, (err, info) => {
+      const updateOtpSql = "UPDATE users SET otp = ?, otp_expiry = ? WHERE email = ?";
+      db.query(updateOtpSql, [otp, otpExpiry, email], (err) => {
         if (err) {
-          console.error("Error sending OTP email:", err);
+          console.error("Error updating OTP:", err);
           return res.status(500).render("login/login", {
-  bg_result,
-  errorMessage: "Failed to send OTP email. Please try again.",
-  showForgotModal: true,
-});
-
+            bg_result,
+            errorMessage: "Could not generate OTP. Please try again.",
+            showForgotModal: true,
+            showErrorModal: true,
+            showToast: true,
+          });
         }
 
-        res.render("login/verify_otp", {
-          email,
-          message: "OTP Code Sent To Your Email.",
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          port: 587,
+          secure: false,
+          requireTLS: true,
+          auth: {
+            user: "hamzahayat3029@gmail.com",
+            pass: "ceud ztsg vqwr lmtl",
+          },
+        });
+
+        const mailOptions = {
+          from: "hamzahayat3029@gmail.com",
+          to: email,
+          subject: "Password Reset OTP",
+          text: `Your OTP for password reset is: ${otp}`,
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            console.error("Error sending OTP email:", err);
+            return res.status(500).render("login/login", {
+              bg_result,
+              errorMessage: "Failed to send OTP email. Please try again.",
+              showForgotModal: true,
+              showErrorModal: true,
+              showToast: true,
+            });
+          }
+
+          res.render("login/verify_otp", {
+            email,
+            message: "OTP Code Sent To Your Email.",
+            errorMessage: null,
+            showErrorModal: false,
+            showToast: true,
+          });
         });
       });
     });
   });
-    });
 };
-
 
 exports.verifyOtpAndResetPassword = (req, res) => {
   const { email, otp, newPassword } = req.body;
 
-  const currentTime = Date.now(); // Get current time in milliseconds
+  const currentTime = Date.now();
 
-  // Select users where OTP matches and it's not expired
   const checkOtpSql = "SELECT * FROM users WHERE email = ? AND otp = ? AND otp_expiry >= ?";
   db.query(checkOtpSql, [email, otp, currentTime], (err, results) => {
     if (err) {
       console.error("Database error during OTP check:", err);
-      return res.status(500).json({ error: "Database error during OTP check." });
-    }
-
-    if (results.length === 0) {
-      console.log("Invalid or expired OTP. No matching record found.");
-      return res.render("login/verify_otp", {
+      return res.status(500).render("login/verify_otp", {
         email,
-        message: "Invalid or expired OTP. Please try again.",
+        errorMessage: "Database error during OTP check.",
+        showErrorModal: true,
+        showToast: true,
       });
     }
 
-    // Hash the new password
+    if (results.length === 0) {
+      return res.render("login/verify_otp", {
+        email,
+        message: "Invalid or expired OTP. Please try again.",
+        errorMessage: "Invalid or expired OTP. Please try again.",
+        showErrorModal: true,
+        showToast: true,
+      });
+    }
+
     bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
       if (err) {
         console.error("Error hashing password:", err);
-        return res.status(500).json({ error: "Error hashing password." });
+        return res.status(500).render("login/verify_otp", {
+          email,
+          errorMessage: "Error hashing password.",
+          showErrorModal: true,
+          showToast: true,
+        });
       }
 
       const data = "SELECT * FROM nav_table";
       db.query(data, (err, bg_result) => {
         if (err) {
           console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
+          return res.status(500).render("login/login", {
+            errorMessage: "Internal Server Error. Please try again.",
+            showErrorModal: true,
+            showToast: true,
+          });
         }
 
-      // Update password and clear OTP fields
-      const updatePasswordSql = "UPDATE users SET password = ?, otp = NULL, otp_expiry = NULL WHERE email = ?";
-      db.query(updatePasswordSql, [hashedPassword, email], (err) => {
-        if (err) {
-          console.error("Error updating password:", err);
-          return res.status(500).json({ error: "Error updating password." });
-        }
- if (results.length === 0) {
-      return res.render("login/login", {
-        bg_result,
-        errorMessage: "Email not found. Please enter a valid email.",
-        showForgotModal: true,
-      });
-    }
-        res.render("login/login", {
-           bg_result,
-          message: "Password reset successfully. Please sign in.",
+        const updatePasswordSql = "UPDATE users SET password = ?, otp = NULL, otp_expiry = NULL WHERE email = ?";
+        db.query(updatePasswordSql, [hashedPassword, email], (err) => {
+          if (err) {
+            console.error("Error updating password:", err);
+            return res.status(500).render("login/verify_otp", {
+              email,
+              errorMessage: "Error updating password.",
+              showErrorModal: true,
+              showToast: true,
+            });
+          }
+          res.render("login/login", {
+            bg_result,
+            message: "Password reset successfully. Please sign in.",
+            errorMessage: null,
+            showErrorModal: false,
+            showToast: true,
+          });
         });
       });
     });
-  });
   });
 };
 

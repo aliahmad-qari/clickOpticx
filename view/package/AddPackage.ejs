@@ -286,62 +286,112 @@
 
                   <div class="main-panel">
                     <div class="content-wrapper">
-                      <div class="form-card">
-                        <div class="form-header">
-                          Add Custom Package <i class="mdi mdi-comment-question-outline ms-2"></i>
-                        </div>
+            <div class="form-card">
+              <div class="form-header">
+                Add Custom Package <i class="mdi mdi-comment-question-outline ms-2"></i>
+              </div>
 
-                        <form action="/custom" method="POST" id="addCustomPackageForm">
-                          <!-- First Row -->
-                          <div class="d-flex gap-4 mb-3">
-                            <div class="form-group w-100">
-                              <input type="text" name="Package" id="Package" class="form-control" required
-                                placeholder=" ">
-                              <label for="Package" class="form-label">Your Package</label>
-                            </div>
+              <form action="/custom" method="POST" id="addCustomPackageForm">
+                <!-- First Row -->
+                <div class="d-flex gap-4 mb-3">
+                  <div class="form-group w-100">
+                    <input type="text" name="Package" id="Package" class="form-control" required
+                      placeholder=" ">
+                    <label for="Package" class="form-label">Your Package</label>
+                  </div>
 
-                            <div class="form-group w-100">
-                              <input type="number" name="Price" id="Price" class="form-control" required
-                                placeholder=" ">
-                              <label for="Price" class="form-label">Price</label>
-                            </div>
+                  <div class="form-group w-100">
+                    <input type="number" name="Price" id="Price" class="form-control" required
+                      placeholder=" ">
+                    <label for="Price" class="form-label">Price</label>
+                  </div>
+                </div>
+
+                <!-- Second Row -->
+                <div class="d-flex gap-4 mb-3">
+                  <div class="form-group w-100">
+                    <input type="text" name="Speed" id="Speed" class="form-control" required placeholder=" ">
+                    <label for="Speed" class="form-label">Speed</label>
+                  </div>
+
+                  <div class="form-group w-100">
+                    <input type="text" name="Data_Used" id="Data_Used" class="form-control" required
+                      placeholder=" ">
+                    <label for="Data_Used" class="form-label">Data Used</label>
+                  </div>
+                </div>
+
+                <!-- Third Row -->
+                <div class="d-flex gap-4 mb-3">
+                  <div class="form-group w-100">
+                    <input type="date" name="Offer_Valid" id="Offer_Valid" class="form-control" required>
+                    <label for="Offer_Valid" class="form-label">Offer Valid</label>
+                  </div>
+
+                  <div class="form-group w-100">
+                    <input type="text" name="limits" id="limits" class="form-control" placeholder=" ">
+                    <label for="limits" class="form-label">Limit</label>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-4">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="mdi mdi-package-variant me-2"></i> Add Package
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Subscribed Packages Section -->
+            <div class="form-card mt-5">
+              <div class="form-header">
+                Subscribed Packages <i class="mdi mdi-package-variant ms-2"></i>
+              </div>
+              <div class="row g-4 px-2 py-3">
+                <% if (subscribedPackages && subscribedPackages.length > 0) { %>
+                  <% subscribedPackages.forEach(function(package) { %>
+                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                      <div class="custom-container">
+                        <div class="custom-cardimg" style="background-image: url('/images/Packagesimg.jpg'); height: 200px; border-radius: 15px 15px 0 0;"></div>
+                        <span class="img-txt-2"><%= package.Package %></span>
+                        <div class="card-info pl-3 pr-3">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h4 style="font-weight: bold;">Rs. <%= package.Price %></h4>
                           </div>
-
-                          <!-- Second Row -->
-                          <div class="d-flex gap-4 mb-3">
-                            <div class="form-group w-100">
-                              <input type="text" name="Speed" id="Speed" class="form-control" required placeholder=" ">
-                              <label for="Speed" class="form-label">Speed</label>
-                            </div>
-
-                            <div class="form-group w-100">
-                              <input type="text" name="Data_Used" id="Data_Used" class="form-control" required
-                                placeholder=" ">
-                              <label for="Data_Used" class="form-label">Data Used</label>
-                            </div>
+                          <div class="mbs d-flex pt-1">
+                            <img src="/images/wifi1.png" alt="">
+                            <span class="ml-3 font-weight-bold">Upto <%= package.Speed %> speed</span>
                           </div>
-
-                          <!-- Third Row -->
-                          <div class="d-flex gap-4 mb-3">
-                            <div class="form-group w-100">
-                              <input type="date" name="Offer_Valid" id="Offer_Valid" class="form-control" required>
-                              <label for="Offer_Valid" class="form-label">Offer Valid</label>
-                            </div>
-
-                            <div class="form-group w-100">
-                              <input type="text" name="limits" id="limits" class="form-control" placeholder=" ">
-                              <label for="limits" class="form-label">Limit</label>
-                            </div>
+                          <div class="phone d-flex pt-2">
+                            <img src="/images/speedometer1.png" alt="">
+                            <span class="ml-3 font-weight-bold">Data Usage in month <%= package.Data_Used %></span>
                           </div>
-
-                          <!-- Submit Button -->
-                          <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">
-                              <i class="mdi mdi-package-variant me-2"></i> Add Package
+                          <div class="stream d-flex pt-2">
+                            <img src="/images/open-hand1.png" alt="">
+                            <span class="ml-3 font-weight-bold">Offer valid till <%= package.Offer_Valid %></span>
+                          </div>
+                          <div class="App d-flex pt-2">
+                            <img src="/images/smarthome1.png" alt="">
+                            <span class="ml-3 font-weight-bold"><%= package.limits %></span>
+                          </div>
+                          <p class="pt-3 font-weight-bold" style="font-size: 17px; margin-bottom: 20px;">
+                            Internet Bundles prices are inclusive of all taxes
+                          </p>
+                          <div class="buy d-flex align-items-center">
+                            <button class="btn subscribe btn-success" disabled>
+                              Subscribed
                             </button>
                           </div>
-                        </form>
+                        </div>
                       </div>
+                    </div>
+                  <% }); %>
+                <% } else { %>
+                  <p>No subscribed packages found.</p>
+                <% } %>
+              </div>
+            </div>
                     </div>
                   </div>
 
