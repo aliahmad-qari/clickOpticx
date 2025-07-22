@@ -2093,7 +2093,10 @@
              <!-- Billing Section -->
 <div class="paid" style="display: flex; align-items: center; justify-content: space-evenly;">
   <% if (subscription && user.invoice === "Paid") { %>
-    <% const matchedPackage = packages.find(p => p.Package === subscription.package_name); %>
+   <% const matchedPackage = packages.find(p => 
+  p.Package.trim().toLowerCase() === subscription.package_name.trim().toLowerCase()
+); %>
+
     
     <!-- Package Name -->
     <div class="rs">
