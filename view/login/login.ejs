@@ -121,6 +121,16 @@
     .fa-eye-slash {
       color: black;
     }
+
+    .alert .btn-close {
+
+      display: flex;
+      padding: 0 !important;
+      float: none;
+      position: relative;
+      top: 0;
+      right: 0;
+    }
   </style>
 </head>
 
@@ -130,9 +140,9 @@
     <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
     <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
       <div class="position-relative" style="z-index: 1055;">
-        <div class="d-flex justify-content-end position-absolute w-100" style="top: 10px; right: 0; z-index: 1055;">
+        <div class="d-flex justify-content-end   position-absolute w-100 align-items-center" style="top: 10px; right: 0; z-index: 1055;">
           <div id="pusher-message-box" class="alert alert-danger alert-dismissible fade show mt-3" role="alert"
-            style="color: white;">
+            style="color: rgb(155, 11, 11);">
             <strong>Error:</strong>
             <%= errorMessage %>
           </div>
@@ -145,7 +155,6 @@
         <div class="d-flex justify-content-end position-absolute w-100" style="top: 10px; right: 0; z-index: 1055;">
           <div id="pusher-success-box" class="alert alert-success alert-dismissible fade show mt-3" role="alert"
             style="color: white;">
-            <strong>Message:</strong>
             <%= message %>
           </div>
         </div>

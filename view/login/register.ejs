@@ -62,7 +62,15 @@
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-
+    /* Add this to your <style> section in both files */
+    .alert .btn-close {
+      padding: 0 !important;
+      margin-left: 1rem !important;
+      float: none;
+      position: static;
+      display: flex;
+      align-items: center;
+    }
 
     /* Input group icons */
     .input-group-text {
@@ -122,9 +130,11 @@
 <body>
   <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
   <div style="position:fixed;top:20px;right:20px;z-index:2000;max-width:400px;">
-    <div id="register-message-box" class="alert alert-danger alert-dismissible fade show" role="alert" style="color: white;">
-      <strong>Error:</strong> <%= errorMessage %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div id="register-message-box" class="alert alert-danger alert-dismissible fade show d-flex align-items-center justify-content-between" role="alert" style="color: rgb(155, 11, 11); padding: 0.75rem 1rem;">
+      <div class="d-flex align-items-center flex-grow-1">
+        <span><strong>Error:</strong> <%= errorMessage %></span>
+      </div>
+      <button type="button" class="btn-close ms-3" data-bs-dismiss="alert" aria-label="Close" style="padding:0;margin-left:1rem;"></button>
     </div>
   </div>
   <% } %>
@@ -132,8 +142,8 @@
   <% if (typeof message !== 'undefined' && message) { %>
     <div class="position-relative" style="z-index: 1055;">
       <div class="d-flex justify-content-end position-absolute w-100" style="top: 10px; right: 0; z-index: 1055;">
-        <div id="register-success-box" class="alert alert-success alert-dismissible fade show mt-3" role="alert" style="color: white;">
-          <strong>Message:</strong> <%= message %>
+        <div id="register-success-box" class="alert alert-success alert-dismissible fade show mt-3" role="alert" style="color: white;align-items: center;">
+           <%= message %>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
