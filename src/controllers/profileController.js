@@ -182,13 +182,28 @@ exports.updateUser = (req, res) => {
     Email,
     address,
     cnic,
-    phoneNumber,
+    Number,
     userId,
     existing_img,
   } = req.body;
 
-  // Use uploaded image or fallback to existing one
-  const user_img = req.file ? req.file.filename : existing_img;
+  // ✅ Log the uploaded file
+  console.log("Uploaded file:", req.file);
+
+  // ✅ Get filename or fallback to existing image
+  const userimg = req.file ? req.file.filename : existing_img;
+
+  // Log the parameters before query
+  console.log("UpdateUser params:", {
+    Username,
+    lastName,
+    Email,
+    address,
+    cnic,
+    Number,
+    userimg,
+    userId,
+  });
 
   const sql = `
     UPDATE users 
@@ -198,14 +213,14 @@ exports.updateUser = (req, res) => {
       Email = ?, 
       address = ?, 
       cnic = ?, 
-      phoneNumber = ?, 
+      Number = ?, 
       user_img = ?
     WHERE id = ?
   `;
 
   db.query(
     sql,
-    [Username, lastName, Email, address, cnic, phoneNumber, user_img, userId],
+    [Username, lastName, Email, address, cnic, Number, userimg, userId],
     (err, result) => {
       if (err) {
         console.error("Error updating user:", err);
@@ -216,6 +231,8 @@ exports.updateUser = (req, res) => {
     }
   );
 };
+
+
 
 exports.updatePassword = (req, res) => {
   const userId = req.session.userId;
