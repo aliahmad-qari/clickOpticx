@@ -303,7 +303,16 @@ exports.signup = (req, res) => {
 };
 
 exports.verifyEmail = (req, res) => {
-  const { token } = req.query;
+  const token = req.query.token;
+
+  if (!token) {
+    return res.status(400).render("login/login", {
+      errorMessage: "Missing verification token.",
+      showErrorModal: true,
+      showToast: true,
+      bg_result: [] // ✅ added
+    });
+  }
 
   const findUserSql = "SELECT * FROM users WHERE verification_token = ?";
   db.query(findUserSql, [token], (err, results) => {
@@ -313,19 +322,25 @@ exports.verifyEmail = (req, res) => {
         errorMessage: "Server error. Please try again.",
         showErrorModal: true,
         showToast: true,
+        bg_result: [] // ✅ added
       });
     }
+
     if (results.length === 0) {
       return res.status(400).render("login/login", {
         errorMessage: "Invalid or expired token.",
         showErrorModal: true,
         showToast: true,
+        bg_result: [] // ✅ added
       });
     }
 
-    const updateSql = `UPDATE users 
-                       SET user_verified = 1, verification_token = NULL 
-                       WHERE verification_token = ?`;
+    const updateSql = `
+      UPDATE users 
+      SET user_verified = 1, verification_token = NULL 
+      WHERE verification_token = ?
+    `;
+
     db.query(updateSql, [token], (err) => {
       if (err) {
         console.error("Could not verify email:", err);
@@ -333,6 +348,7 @@ exports.verifyEmail = (req, res) => {
           errorMessage: "Could not verify email. Please try again.",
           showErrorModal: true,
           showToast: true,
+          bg_result: [] // ✅ added
         });
       }
 
@@ -344,6 +360,7 @@ exports.verifyEmail = (req, res) => {
             errorMessage: "Internal Server Error. Please try again.",
             showErrorModal: true,
             showToast: true,
+            bg_result: [] // ✅ added as fallback
           });
         }
 
@@ -359,6 +376,8 @@ exports.verifyEmail = (req, res) => {
   });
 };
 
+
+// Signin Controller
 // Signin Controller
 exports.signin = [
   (req, res) => {
@@ -414,6 +433,18 @@ exports.signin = [
             });
           }
 
+          // 🚫 Check if user is verified
+          if (user.user_verified !== 1) {
+            return res.render("login/login", {
+              message: null,
+              bg_result,
+              errorMessage: "Please verify your email before logging in.",
+              showErrorModal: true,
+              showToast: true,
+            });
+          }
+
+          // ✅ Email is verified, proceed with login
           req.session.userId = user.id;
           req.session.userRole = user.role;
 
@@ -439,11 +470,14 @@ exports.signin = [
           if (user.role === "Team") return res.redirect("/UserComplaint");
 
           return res.redirect("/index");
-        });
-      });
-    });
-  },
-];
+        }); // <-- Closing bcrypt.compare
+      });   // <-- Closing nav_table query
+    });     // <-- Closing users Email query
+  }         // <-- Closing function(req, res)
+];          // <-- Closing exports.signin array
+
+
+       
 
 // Handle form selection
 exports.selectForm = (req, res) => {
