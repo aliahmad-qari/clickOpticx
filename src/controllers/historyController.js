@@ -71,7 +71,14 @@ exports.profile = async (req, res) => {
     );
 
     // 5b. Merge respitsResults and paymentPackages into one array
-    const mergedPackages = [...respitsResults];
+    let mergedPackages = [...respitsResults];
+
+    // Format Accepted date to ISO string for filtering
+    mergedPackages.forEach(pkg => {
+      if (pkg.Accepted) {
+        pkg.Accepted = moment(pkg.Accepted).format('YYYY-MM-DD');
+      }
+    });
 
     paymentPackages.forEach(paymentPackage => {
       // Check if package already exists in respitsResults by id or unique field
@@ -79,6 +86,23 @@ exports.profile = async (req, res) => {
       if (!exists) {
         mergedPackages.push(paymentPackage);
       }
+    });
+
+    // Remove duplicates by id (if any)
+    const uniquePackagesMap = new Map();
+    mergedPackages.forEach(pkg => {
+      if (!uniquePackagesMap.has(pkg.id)) {
+        uniquePackagesMap.set(pkg.id, pkg);
+      }
+    });
+    mergedPackages = Array.from(uniquePackagesMap.values());
+
+    // Filter out packages with 0 or null custom_amount or 0 paid percentage, but include subscribed packages with full payment
+    mergedPackages = mergedPackages.filter(pkg => {
+      if (!pkg.custom_amount || !pkg.amount) return false;
+      const paidPercent = (pkg.custom_amount * 100) / pkg.amount;
+      // Include if paidPercent > 0 or if package is fully paid (100%)
+      return paidPercent > 0 || paidPercent === 100;
     });
 
     user.created_at = moment(user.created_at).format("YYYY-MM-DD");
@@ -117,16 +141,7 @@ exports.profile = async (req, res) => {
       payment.created_at = moment(payment.created_at).format("YYYY-MM-DD");
     });
 
-    // 9. Fetch subscribed packages for the user from payments table using package_name join
-    const subscribedPackagesSql = `
-      SELECT p.* FROM packages p
-      JOIN payments pay ON p.Package = pay.package_name
-      WHERE pay.user_id = ?
-    `;
-
-    const [subscribedPackages] = await db.promise().query(subscribedPackagesSql, [userId]);
-
-    // 10. Render the profile/history page with pagination data for respits and subscribed packages
+    // 9. Render the profile/history page with pagination data for respits and subscribed packages
     res.render("History/History", {
       user,
       message: null,
@@ -136,13 +151,13 @@ exports.profile = async (req, res) => {
       bg_result,
       notifications_users,
       Notifactions,
-      packages: mergedPackages, // merged packages data including deleted/restored
+      packages: mergedPackages, // merged packages data including deleted/restored and subscribed
       discount,
       package: { package_name: packageName },
       currentPage: page,
       totalPages,
       totalResults: count,
-      subscribedPackages,
+      subscribedPackages: paymentPackages,
     });
 
   } catch (err) {
@@ -156,13 +171,25 @@ exports.profile = async (req, res) => {
 exports.deletePackageById = (req, res) => {
   const id = req.body.id;
   const userId = req.session.userId;
+  const type = req.body.type || 'respits'; // default to respits if not provided
 
   if (!id || !userId) {
     return res.status(400).send('Missing data');
   }
 
-  // Make sure this invoice belongs to the logged-in user
-  const checkOwnershipSql = 'SELECT user_id FROM respits WHERE id = ?';
+  let checkOwnershipSql = '';
+  let deleteSql = '';
+
+  if (type === 'respits') {
+    checkOwnershipSql = 'SELECT user_id FROM respits WHERE id = ?';
+    deleteSql = 'DELETE FROM respits WHERE id = ?';
+  } else if (type === 'payments') {
+    checkOwnershipSql = 'SELECT user_id FROM payments WHERE id = ?';
+    deleteSql = 'DELETE FROM payments WHERE id = ?';
+  } else {
+    return res.status(400).send('Invalid package type');
+  }
+
   db.query(checkOwnershipSql, [id], (err, results) => {
     if (err || results.length === 0) {
       return res.status(403).send('Unauthorized or invoice not found');
@@ -172,7 +199,6 @@ exports.deletePackageById = (req, res) => {
       return res.status(403).send('You cannot delete others\' invoices');
     }
 
-    const deleteSql = 'DELETE FROM respits WHERE id = ?';
     db.query(deleteSql, [id], (err) => {
       if (err) return res.status(500).send('Server Error');
       res.redirect('/History');

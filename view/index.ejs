@@ -1749,13 +1749,14 @@
                               alt="Profile" width="65px" height="65px" style="border-radius: 50%;">
                           </a>
                         </div>
+                        &nbsp;
                         <div class="user-content">
                           <%
                             const fullName = `${user.Username} ${user.lastName}`.replace(/\s+/g, ' ').trim();
                             const firstWord = fullName.split(' ')[0];
                           %>
                           <h6
-                            style="font-size: 20px; white-space: nowrap; overflow: visible; text-overflow: unset;"
+                            style="font-size: 20px; color: white; white-space: nowrap; overflow: visible; text-overflow: unset;"
                             title="<%= fullName %>">
                             <%= firstWord %>
                           </h6>

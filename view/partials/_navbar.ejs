@@ -1,7 +1,28 @@
+
+<style>
+  .logo-img {
+  max-height: 50px;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    max-height: 40px; /* slightly smaller on tablet */
+  }
+}
+@media (max-width: 576px) {
+  .logo-img {
+    max-height: 30px; /* smaller on mobile */
+  }
+}
+
+</style>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-    <img src="/images/ClickTake.png" class="mr-2" alt="logo" id="navImgPreview"
-      style="width: 50px; height: 50px; cursor: pointer;" />
+  <img src="/images/blacklogo.png" 
+       alt="logo" 
+       id="navImgPreview" 
+       class="img-fluid logo-img" />
     <% if (isAdmin) { %>
       <form action="/index" method="POST" enctype="multipart/form-data" id="navImgForm">
         <label for="navImgInput" style="cursor: pointer;">
