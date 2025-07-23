@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
     <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -87,28 +85,6 @@
         font-size: clamp(12px, 1vw, 16px);
       }
 
-      .grid-item img {
-    width: 100%;
-    max-width: 80px; /* controls size */
-    height: auto;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    padding: 10px;
-    background-color: white;
-    transition: transform 0.2s ease;
-  }
-
-  .grid-item img:hover {
-    transform: scale(1.05); /* optional: slight zoom on hover */
-  }
-
-  @media (max-width: 576px) {
-    .grid-item img {
-      max-width: 50px;
-    }
-  }
-
       @media (max-width: 1024px) {
         .content-section {
           flex-direction: row;
@@ -124,12 +100,6 @@
         .content-section {
           margin-top: 20px;
           padding: 0.8rem;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .grid-item img {
-          max-width: 50px;
         }
       }
 
@@ -259,10 +229,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        
-        
+        background: #6c8ce6;
+        padding: 12px 13px 15px 13px;
         border-radius: 10px;
-       
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s;
         text-align: center;
       }
@@ -278,8 +248,8 @@
       }
 
       .grid-item img {
-        width: 80px;
-        
+        width: 50px;
+        height: 50px;
       }
 
       .profile-card {
@@ -1574,7 +1544,6 @@
           box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
         }
       }
-
       @media (max-width: 576px) {
         /* Fix Boost button and corner layout */
         .corner {
@@ -1806,10 +1775,10 @@
                         });
                       </script>
 
-                            <div data-action="more" class="action">
-                              <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
-                            </div>
-                        </div>
+                      <div data-action="more" class="action">
+                        <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
+                      </div>
+                    </div>
 
                     <div class="box-body">
                       <div class="box-content">
@@ -1824,20 +1793,20 @@
                       </div>
                     </div>
 
-                        <div class="box-foot-actions"
-                          style="display: flex; justify-content: space-between; align-items: center;">
-                          <div class="status-container">
-                            <div class="status-button">
-                              <a href="/complaint" style="color: white; text-decoration: none;">
-                                <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1"
-                                  class="status-avatar">
-                                <span class="status-text">Wallet</span>
-                                <span class="status-arrow">→</span>
-                              </a>
-                            </div>
-                          </div>
+                    <div class="box-foot-actions"
+                      style="display: flex; justify-content: space-between; align-items: center;">
+                      <div class="status-container">
+                        <div class="status-button">
+                          <a href="/complaint" style="color: white; text-decoration: none;">
+                            <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1"
+                              class="status-avatar">
+                            <span class="status-text">Wallet</span>
+                            <span class="status-arrow">→</span>
+                          </a>
                         </div>
                       </div>
+                    </div>
+                  </div>
                 </form>
 
                 <!-- Stats Cards -->
@@ -1921,94 +1890,92 @@
 
                 <!-- Icon Grid -->
                 <h3 style="text-align: center; color: black;"> Quick look</h3>
-                <div class="container" style=" padding-top: 19px;">
+                <div class="container" style="background: #f5f7ff; border-radius: 15px;padding-top: 19px;">
                   <div class="row">
-                    <!-- Prayer -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/prayer" style="text-decoration: none;">
-                        <div class="grid-item d-flex align-items-center justify-content-center">
-                          <img src="/images/prayer.png" alt="Quran">
+                        <div class="grid-item">
+                          <img src="/images/namaz1.png" alt="Prayer">
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Prayer</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Prayer</p>
                       </a>
                     </div>
-
-                    <!-- Quran -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/quran" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img src="/images/quran1.png" alt="Quran"">
+                          <img src="/images/quran1.png" alt="Quran">
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Quran</p>
                         </div>
-                        <p style=" font-size: 14px; font-weight: bold; color: #333;">Quran</p>
                       </a>
                     </div>
-
-                    <!-- Tasbeeh -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/tasbeeh" style="text-decoration: none;">
                         <div class="grid-item">
                           <img src="https://img.icons8.com/3d-fluency/94/praying-beads.png" alt="Tasbeeh">
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Tasbeeh</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Tasbeeh</p>
                       </a>
                     </div>
-
-                    <!-- Weather -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/weather" style="text-decoration: none;">
                         <div class="grid-item">
                           <img width="64" height="64" src="https://img.icons8.com/fluency/96/partly-cloudy-day.png"
-                            alt="Weather" />
+                            alt="partly-cloudy-day" />
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Weather</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Weather</p>
                       </a>
                     </div>
-
-                    <!-- Packages -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/package" style="text-decoration: none;">
-                        <div class="grid-item d-flex align-items-center justify-content-center">
-                          <img src="/images/1f4e6.png" alt="Quran">
+                        <div class="grid-item">
+                          <img width="48" height="48" src="images\wifi.png" alt="Packages" />
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Packages</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Packages</p>
                       </a>
                     </div>
-
-                    <!-- History -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/History" style="text-decoration: none;">
-                        <div class="grid-item d-flex align-items-center justify-content-center">
-                          <img src="/images/clock.png" alt="Quran">
+                        <div class="grid-item">
+                          <img width="100" height="100" src="images\history1.png" alt="history" />
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            History</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">History</p>
                       </a>
                     </div>
-
-                    <!-- Support -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/contactUs" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img src="images/customer-support.png" alt="Contact">
+                          <img src="images\customer-support.png" alt="Contact">
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Support</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Support</p>
                       </a>
                     </div>
-
-                    <!-- Profile -->
                     <div class="col-3 col-sm-3 p-2 text-center">
                       <a href="/profile" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img width="96" height="96" src="images/profile1.png" alt="Profile" />
+                          <img width="96" height="96" src="images\profile1.png" alt="admin-settings-male" />
+                          <p
+                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            Profile</p>
                         </div>
-                        <p style="font-size: 14px; font-weight: bold; color: #333;">Profile</p>
                                   
                       </a>
                     </div>
                   </div>
                 </div>
-
-
-
 
                 <!-- Adds Section -->
                 <div>
@@ -2073,90 +2040,105 @@
 
                 <!-- Adds Section -->
 
-             <!-- Billing Section -->
-<div class="paid" style="display: flex; align-items: center; justify-content: space-evenly;">
-  <% if (subscription && user.invoice === "Paid") { %>
-   <% const matchedPackage = packages.find(p => 
-  p.Package.trim().toLowerCase() === subscription.package_name.trim().toLowerCase()
-); %>
+<%
+  // Precalculate values
+  const matchedPackage = packages.find(p => 
+    p.Package.trim().toLowerCase() === subscription?.package_name?.trim().toLowerCase()
+  );
 
-    
-    <!-- Package Name -->
-    <div class="rs">
-      <% if (matchedPackage) { %>
-        <h4 style="font-weight: 900;"><%= matchedPackage.Package %></h4>
+  let isExpired = false;
+  let formattedDate = '--';
+
+  if (subscription?.expiry_date) {
+    const expiryDate = new Date(subscription.expiry_date);
+    const now = new Date();
+    isExpired = now > expiryDate;
+
+    const day = String(expiryDate.getDate()).padStart(2, '0');
+    const month = String(expiryDate.getMonth() + 1).padStart(2, '0');
+    const year = expiryDate.getFullYear();
+    formattedDate = `${day}-${month}-${year}`;
+  }
+%>
+
+<div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
+  <h5 class="fw-bold text-center mb-3">Payment Model</h5>
+
+  <div class="paid" style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+    <% if (subscription && user.invoice === "Paid") { %>
+
+      <!-- Package Name -->
+      <div class="rs">
+        <h4 style="font-weight: 900;"><%= matchedPackage ? matchedPackage.Package : '--' %></h4>
         <p class="billing-label">Package Name</p>
-      <% } else { %>
-        <h4 style="font-weight: 900;">--</h4>
-        <p style="color: gray;">Package not found</p>
-      <% } %>
-    </div>
+      </div>
 
-    <!-- Package Price -->
-    <div class="rs">
-      <% if (matchedPackage) { %>
-        <h4 style="font-weight: 900;">Rs. <%= matchedPackage.Price %></h4>
+      <!-- Package Price -->
+      <div class="rs">
+        <h4 style="font-weight: 900;">Rs. <%= matchedPackage ? matchedPackage.Price : '--' %></h4>
         <p class="billing-label">Monthly Price</p>
-      <% } else { %>
-        <h4 style="font-weight: 900;">--</h4>
-        <p style="color: gray;">Price not available</p>
-      <% } %>
-    </div>
+      </div>
 
-    <!-- Payment Status -->
-    <div class="rs">
-      <h4 class="invoice-status"
-          style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
-        <%= user.invoice %>
-      </h4>
-      <p class="billing-label">Payment Status</p>
-    </div>
+      <!-- Payment Status -->
+      <div class="rs">
+        <h4 style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
+          <%= user.invoice %>
+        </h4>
+        <p class="billing-label">Payment Status</p>
+      </div>
 
-    <!-- Expiry Date -->
-    <div class="rs">
-      <% if (subscription.expiry_date) { 
-           const expiryDate = new Date(subscription.expiry_date);
-           const day = String(expiryDate.getDate()).padStart(2, '0');
-           const month = String(expiryDate.getMonth() + 1).padStart(2, '0');
-           const year = expiryDate.getFullYear();
-           const formattedDate = `${day}-${month}-${year}`;
-      %>
-        <h4 style="font-weight: 900;"><%= formattedDate %></h4>
+      <!-- Expiry Date -->
+      <div class="rs">
+        <h4 style="font-weight: 900;">
+          <%= formattedDate %>
+          <% if (isExpired) { %>
+            <span class="badge bg-danger ms-2">Expired</span>
+          <% } else { %>
+            <span class="badge bg-success ms-2">Active</span>
+          <% } %>
+        </h4>
         <p class="billing-label">Expiry Date</p>
-      <% } else { %>
-        <h4 style="font-weight: 900;">--</h4>
-        <p style="color: gray;">No expiry info</p>
-      <% } %>
-    </div>
+      </div>
 
-  <% } else { %>
-    <!-- Fallback when no active subscription -->
-    <div class="rs">
-      <h4 style="font-weight: 900;">--</h4>
-      <p style="color: red;">No Active Subscription</p>
-    </div>
-    <div class="rs">
-      <h4 style="font-weight: 900;">--</h4>
-      <p class="billing-label">Price</p>
-    </div>
-    <div class="rs">
-      <h4 class="invoice-status" style="font-weight: 900; color: red;">
-        <%= user.invoice || "Pending" %>
-      </h4>
-      <p class="billing-label">Payment Status</p>
-    </div>
-    <div class="rs">
-      <h4 style="font-weight: 900;">--</h4>
-      <p class="billing-label">Expiry Date</p>
-    </div>
+    <% } else { %>
+      <!-- No subscription fallback -->
+      <div class="rs"><h4 style="font-weight: 900;">--</h4><p style="color: red;">No Active Subscription</p></div>
+      <div class="rs"><h4 style="font-weight: 900;">--</h4><p class="billing-label">Price</p></div>
+      <div class="rs">
+        <h4 style="font-weight: 900; color: red;"><%= user.invoice || "Pending" %></h4>
+        <p class="billing-label">Payment Status</p>
+      </div>
+      <div class="rs"><h4 style="font-weight: 900;">--</h4><p class="billing-label">Expiry Date</p></div>
+    <% } %>
+  </div>
+
+  <% if (subscription && user.invoice === "Paid") { %>
+    <% if (isExpired) { %>
+      <button 
+        class="btn btn-warning w-100 mt-3"
+        data-bs-toggle="modal"
+        data-bs-target="#paymentModal"
+        data-package="<%= subscription.package_name %>"
+        data-price="<%= matchedPackage ? matchedPackage.Price : '0' %>"
+        data-speed="<%= matchedPackage ? matchedPackage.Speed : '' %>"
+        data-offer="<%= matchedPackage ? matchedPackage.Offer_Valid : '' %>"
+        data-dataused="<%= matchedPackage ? matchedPackage.Data_Used : '' %>"
+        data-limits="<%= matchedPackage ? matchedPackage.limits : '' %>"
+      >
+        Resubscribe
+      </button>
+    <% } else { %>
+      <button class="btn btn-success w-100 mt-3" disabled>Active</button>
+    <% } %>
   <% } %>
 </div>
 
 
 
 
+
                 <!-- Custom Card Section -->
-                <div class="container mt-4">
+                <div class="container mt-4" >
                   <div class="row justify-content-center">
                     <div class="col-12 col-md-12">
                       <div class="custom-card d-flex">
@@ -2228,8 +2210,8 @@
                         padding-left: 0 !important;
                       }
 
-                      .col-md-12 {
-                        display: flex;
+                      .col-md-12{
+                        display: flex; 
                         justify-content: center;
                       }
                     }
