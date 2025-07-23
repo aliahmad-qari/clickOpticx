@@ -600,6 +600,102 @@
                           <input type="hidden" name="page" value="1">
                         </form>
                       </div>
+                      <!-- 🆕 START: Paid & Unpaid Monthly Count -->
+  <!-- ✅ Monthly Paid/Unpaid Count Summary Cards -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 text-white bg-success">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-0">Paid Users (This Month)</h6>
+          <h2 class="fw-bold"><%= paidCount %></h2>
+        </div>
+        <i class="fas fa-user-check fa-2x"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 text-white bg-danger">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-0">Unpaid Users (This Month)</h6>
+          <h2 class="fw-bold"><%= unpaidCount %></h2>
+        </div>
+        <i class="fas fa-user-times fa-2x"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 🟢 Paid Users Table -->
+<div class="card mb-4">
+  <div class="card-header bg-success text-white">
+    <i class="fas fa-user-check me-2"></i> Paid Users (This Month)
+  </div>
+  <div class="card-body table-responsive">
+    <% if (paidUsers.length > 0) { %>
+      <table class="equipment-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% paidUsers.forEach(user => { %>
+            <tr>
+              <td>
+                <img class="equipment-image" src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>" alt="user">
+              </td>
+              <td><%= user.Username %></td>
+              <td><%= user.Email %></td>
+              <td><%= new Date(user.created_at).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No paid users for this month.</p>
+    <% } %>
+  </div>
+</div>
+
+<!-- 🔴 Unpaid Users Table -->
+<div class="card mb-4">
+  <div class="card-header bg-danger text-white">
+    <i class="fas fa-user-times me-2"></i> Unpaid Users (This Month)
+  </div>
+  <div class="card-body table-responsive">
+    <% if (unpaidUsers.length > 0) { %>
+      <table class="equipment-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% unpaidUsers.forEach(user => { %>
+            <tr>
+              <td>
+                <img class="equipment-image" src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>" alt="user">
+              </td>
+              <td><%= user.Username %></td>
+              <td><%= user.Email %></td>
+              <td><%= new Date(user.created_at).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No unpaid users for this month.</p>
+    <% } %>
+  </div>
+</div>
+
                       <div class="filter-options">
                         <form action="/AdminUser" method="GET" id="packageFilterForm" style="width:130px">
                           <select name="package" class="form-select" onchange="this.form.submit()">

@@ -21,6 +21,30 @@ exports.AllUsers = (req, res) => {
       WHERE role = 'user'
   `;
   const queryParams = [];
+const now = new Date();
+const currentMonth = now.getMonth() + 1;
+const currentYear = now.getFullYear();
+
+// ✅ Fetch all paid users for current month
+const paidSql = `
+  SELECT Username, Email, user_img, created_at
+  FROM users 
+  WHERE role = 'user' 
+    AND invoice = 'paid' 
+    AND MONTH(created_at) = ? 
+    AND YEAR(created_at) = ?
+`;
+
+// ✅ Fetch all unpaid users for current month
+const unpaidSql = `
+  SELECT Username, Email, user_img, created_at
+  FROM users 
+  WHERE role = 'user' 
+    AND (invoice IS NULL OR invoice = 'unpaid') 
+    AND MONTH(created_at) = ? 
+    AND YEAR(created_at) = ?
+`;
+
 
   // Add search condition
   if (search) {
@@ -145,30 +169,48 @@ exports.AllUsers = (req, res) => {
                       const isUser =
                         req.session.user && req.session.user.role === "user";
                       const isTeam =
-                        req.session.user && req.session.user.role === "Team";
+ db.query(paidSql, [currentMonth, currentYear], (err, paidUsers) => {
+  if (err) {
+    console.error("Error fetching paid users:", err);
+    return res.status(500).send("Internal Server Error");
+  }
 
-                      res.render("AddUsers/User", {
-                        user: results,
-                        message: null,
-                        isAdmin,
-                        isTeam,
-                        bg_result,
-                        totalNotifactions,
-                        password_datass,
-                        messages: {
-                          success: successMsg.length > 0 ? successMsg[0] : null,
-                        },
-                        isUser,
-                        notifications_users,
-                        Notifactions,
-                        Package_results,
-                        currentPage: page,
-                        perPage: perPage,
-                        totalUsers: totalUsers,
-                        search: search,
-                        package: package,
-                        payments_results,
-                      });
+  db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidUsers) => {
+    if (err) {
+      console.error("Error fetching unpaid users:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    res.render("AddUsers/User", {
+      user: results,
+      message: null,
+      isAdmin,
+      isTeam,
+      bg_result,
+      totalNotifactions,
+      password_datass,
+      messages: {
+        success: successMsg.length > 0 ? successMsg[0] : null,
+      },
+      isUser,
+      notifications_users,
+      Notifactions,
+      Package_results,
+      currentPage: page,
+      perPage: perPage,
+      totalUsers: totalUsers,
+      search: search,
+      package: package,
+      payments_results,
+      paidCount: paidUsers.length,     // ✅ count
+      unpaidCount: unpaidUsers.length, // ✅ count
+      paidUsers,                       // ✅ full list
+      unpaidUsers                      // ✅ full list
+    });
+  });
+});
+
+
                     });
                   }
                 );
