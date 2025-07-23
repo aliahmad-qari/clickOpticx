@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
 <% var promotresult=typeof promotresult !=='undefined' ? promotresult : []; %>
+<html lang="en">
 
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Isp ClickTakeTec<% var promotresult=typeof promotresult !=='undefined' ? promotresult : []; %>
-    </title>
+    <title>Isp ClickTakeTec</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
@@ -47,6 +46,27 @@
         border-bottom-left-radius: 18px;
       }
 
+      .grid-item img {
+        width: 100%;
+        height: auto;
+        border: 2px solid black;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        padding: 10px;
+        background-color: white;
+        transition: transform 0.2s ease;
+      }
+
+
+      .grid-item img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .grid-item:hover {
+        transform: scale(1.05);
+      }
+
       .header-section {
         display: flex;
         flex-direction: row;
@@ -73,7 +93,8 @@
         flex-wrap: wrap;
       }
 
-      .test, .user-content h6 {
+      .test,
+      .user-content h6 {
         max-width: none;
         white-space: nowrap;
         overflow: visible;
@@ -94,9 +115,12 @@
       }
 
       @media (max-width: 768px) {
-        .test, .user-content .loyal {
+
+        .test,
+        .user-content .loyal {
           flex-direction: row;
         }
+
         .content-section {
           margin-top: 20px;
           padding: 0.8rem;
@@ -108,6 +132,7 @@
           margin-top: 15px;
           padding: 0.1rem;
         }
+
         .loyal p {
           font-size: 20px;
         }
@@ -135,7 +160,8 @@
         width: 100%;
       }
 
-      .right-side, .left-side {
+      .right-side,
+      .left-side {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -153,7 +179,8 @@
         border-bottom-right-radius: 76px;
       }
 
-      .left-side img, .right-side img {
+      .left-side img,
+      .right-side img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -204,6 +231,7 @@
           max-width: 90%;
           height: 140px;
         }
+
         .slider-imgss {
           max-width: 90%;
           height: 140px;
@@ -224,22 +252,20 @@
         }
       }
 
-      .grid-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #6c8ce6;
-        padding: 12px 13px 15px 13px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-        text-align: center;
+
+
+
+
+      @media (max-width: 576px) {
+        .grid-item img {
+          max-width: 50px;
+        }
       }
 
       @media (max-width: 400px) {
         .grid-item img {
-          width: 5px;
+          width: 50px;
+          height: 50px;
         }
       }
 
@@ -247,10 +273,8 @@
         transform: scale(1.05);
       }
 
-      .grid-item img {
-        width: 50px;
-        height: 50px;
-      }
+
+
 
       .profile-card {
         background: white;
@@ -339,7 +363,8 @@
         }
       }
 
-      .credit-content h5, small {
+      .credit-content h5,
+      small {
         color: black;
         font-size: 1.5rem;
       }
@@ -434,14 +459,17 @@
           gap: 5px;
           height: 152px;
         }
+
         .imgicon-1 {
           top: -41% !important;
           left: 11px !important;
         }
+
         .imgicon-2 {
           top: -41% !important;
           left: 17px !important;
         }
+
         .imgicon-3 {
           top: -41% !important;
           left: 11px !important;
@@ -454,18 +482,22 @@
           height: 135px;
           gap: 8px;
         }
+
         .imgicon-1 {
           top: -41% !important;
           left: 11px !important;
         }
+
         .imgicon-2 {
           top: -41% !important;
           left: 7px !important;
         }
+
         .imgicon-3 {
           top: -41% !important;
           left: 11px !important;
         }
+
         .crudd img {
           width: 64px;
           position: absolute !important;
@@ -553,6 +585,7 @@
           flex-direction: row;
           justify-content: space-between;
         }
+
         .payy-btn {
           width: 100%;
           margin-top: 10px;
@@ -566,6 +599,7 @@
           flex-direction: row;
           justify-content: space-between;
         }
+
         .payy-btn {
           width: 100%;
           margin-top: 10px;
@@ -761,18 +795,25 @@
       }
 
       @keyframes spin {
-        0%, 25% {
+
+        0%,
+        25% {
           transform: scaleX(var(--direction)) rotate(0);
         }
-        75%, 100% {
+
+        75%,
+        100% {
           transform: scaleX(var(--direction)) rotate(1turn);
         }
       }
 
       @keyframes diamonds {
-        0%, 20% {
+
+        0%,
+        20% {
           transform: var(--transform-start);
         }
+
         50% {
           clip-path: polygon(75% 25%, 100% 50%, 75% 75%, 0% 50%);
           transform: translate3d(calc(cos(var(--deg)) * var(--radius) * var(--pull)),
@@ -980,40 +1021,40 @@
         display: none;
       }
 
-      
+
       @media (max-width: 992px) {
         .cards-main {
           display: none;
         }
-        
+
         .pricing-carousel {
           display: block;
           padding: 0 15px;
         }
-        
+
         .carousel-inner {
           border-radius: 15px;
           overflow: hidden;
         }
-        
+
         .carousel-item {
           padding: 20px;
         }
-        
+
         .carousel-control-prev,
         .carousel-control-next {
           width: 40px;
           height: 40px;
-          background-color: rgba(0,0,0,0.9);
+          background-color: rgba(0, 0, 0, 0.9);
           border-radius: 50%;
           top: 50%;
           transform: translateY(-50%);
         }
-        
+
         .carousel-indicators {
           bottom: -30px;
         }
-        
+
         .carousel-indicators button {
           width: 10px;
           height: 10px;
@@ -1029,7 +1070,7 @@
         overflow: hidden;
         font-family: Arial, sans-serif;
         position: relative;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         width: 100%;
         margin: 0 auto;
         max-width: 350px;
@@ -1119,6 +1160,7 @@
           opacity: 0;
           transform: translateY(10px);
         }
+
         to {
           opacity: 1;
           transform: translateY(0);
@@ -1130,6 +1172,7 @@
           transform: translateY(20px);
           opacity: 0;
         }
+
         to {
           transform: translateY(0);
           opacity: 1;
@@ -1141,6 +1184,7 @@
           opacity: 0;
           transform: translateY(20px);
         }
+
         to {
           opacity: 1;
           transform: translateY(0);
@@ -1152,10 +1196,12 @@
           opacity: 0;
           transform: scale(0.95);
         }
+
         60% {
           opacity: 0.6;
           transform: scale(1.03);
         }
+
         100% {
           opacity: 1;
           transform: scale(1);
@@ -1167,6 +1213,7 @@
           opacity: 0;
           transform: scale(0.9);
         }
+
         to {
           opacity: 1;
           transform: scale(1);
@@ -1178,6 +1225,7 @@
           opacity: 0;
           transform: translateY(15px);
         }
+
         to {
           opacity: 1;
           transform: translateY(0);
@@ -1212,6 +1260,7 @@
         0% {
           transform: translateX(0);
         }
+
         100% {
           transform: translateX(-100%);
         }
@@ -1340,7 +1389,8 @@
         display: grid;
         grid-auto-flow: column;
       }
-    .img {
+
+      .img {
         font-size: 24px;
         font-weight: 800;
         border-radius: 9999px;
@@ -1479,10 +1529,12 @@
           opacity: 0;
           transform: translateX(20px);
         }
+
         50% {
           opacity: 1;
           transform: translateX(0);
         }
+
         100% {
           opacity: 0;
           transform: translateX(20px);
@@ -1533,18 +1585,22 @@
           background-color: #b3d4fc;
           box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
         }
+
         50% {
           transform: scale(1.2);
           background-color: #6793fb;
           box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
         }
+
         100% {
           transform: scale(0.8);
           background-color: #b3d4fc;
           box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
         }
       }
+
       @media (max-width: 576px) {
+
         /* Fix Boost button and corner layout */
         .corner {
           flex-direction: row;
@@ -1585,13 +1641,16 @@
           display: block;
         }
 
-        .test, .user-content {
+        .test,
+        .user-content {
           flex-wrap: wrap;
           max-width: 100%;
           overflow-x: auto;
         }
       }
+
       @media (max-width: 576px) {
+
         /* Responsive layout for action buttons (Boost, etc.) */
         .corner {
           flex-direction: row;
@@ -1631,7 +1690,8 @@
           display: none;
         }
 
-        .test, .user-content {
+        .test,
+        .user-content {
           flex-wrap: wrap;
           max-width: 100%;
           overflow-x: auto;
@@ -1648,28 +1708,25 @@
         }
       }
 
-.user-content {
-  max-width: 100%;
-  overflow-x: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.billing-label {
-  color: #000000; /* Pure black */
-  font-weight: 600;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-top: 4px;
-  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-}
+      .user-content {
+        max-width: 100%;
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
 
-
-
-
-
+      .billing-label {
+        color: #000000;
+        /* Pure black */
+        font-weight: 600;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-top: 4px;
+        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      }
     </style>
   </head>
 
@@ -1720,10 +1777,7 @@
                         </div>
                         &nbsp;
                         <div class="user-content">
-                          <%
-                            const fullName = `${user.Username} ${user.lastName}`.replace(/\s+/g, ' ').trim();
-                            const firstWord = fullName.split(' ')[0];
-                          %>
+<% const fullName=`${user.Username} ${user.lastName}`.replace(/\s+/g, ' ' ).trim(); const firstWord=fullName.split(' ')[0]; %>
                           <h6
                             style="font-size: 20px; color: white; white-space: nowrap; overflow: visible; text-overflow: unset;"
                             title="<%= fullName %>">
@@ -1764,214 +1818,216 @@
                       </div>
 
                       <script>
-                        const actionBtn = document.querySelector('[data-action="notif"]');
-                        const dotsContainer = document.querySelector('.dots-container');
-
-                        actionBtn.addEventListener('click', () => {
-                          dotsContainer.style.display = 'flex';
-                          setTimeout(() => {
-                            dotsContainer.style.display = 'none';
-                          }, 10000);
-                        });
+                        const actionBtn = document.querySelector(' [data-action="notif" ]'); const
+                          dotsContainer = document.querySelector('.dots-container'); actionBtn.addEventListener('click',
+                            () => {
+                              dotsContainer.style.display = 'flex';
+                              setTimeout(() => {
+                                dotsContainer.style.display = 'none';
+                              }, 10000);
+                            });
                       </script>
 
-                      <div data-action="more" class="action">
-                        <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
-                      </div>
-                    </div>
+                            <div data-action="more" class="action">
+                              <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
+                            </div>
+                        </div>
 
-                    <div class="box-body">
-                      <div class="box-content">
-                        <span class="img"></span>
-                        <div class="caption">
-                          <div>
-                            <p class="text-sm">
-                              <time class="font-semibold"></time>
-                            </p>
+                        <div class="box-body">
+                          <div class="box-content">
+                            <span class="img"></span>
+                            <div class="caption">
+                              <div>
+                                <p class="text-sm">
+                                  <time class="font-semibold"></time>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="box-foot-actions"
+                          style="display: flex; justify-content: space-between; align-items: center;">
+                          <div class="status-container">
+                            <div class="status-button">
+                              <a href="/complaint" style="color: white; text-decoration: none;">
+                                <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1"
+                                  class="status-avatar">
+                                <span class="status-text">Wallet</span>
+                                <span class="status-arrow">→</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="box-foot-actions"
-                      style="display: flex; justify-content: space-between; align-items: center;">
-                      <div class="status-container">
-                        <div class="status-button">
-                          <a href="/complaint" style="color: white; text-decoration: none;">
-                            <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1"
-                              class="status-avatar">
-                            <span class="status-text">Wallet</span>
-                            <span class="status-arrow">→</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </form>
 
                 <!-- Stats Cards -->
                 <div class="crudd-container">
-                  <% if(user) { %>
-                    <a href="/History" style="text-decoration: none;">
-                      <div class="crudd" style="background-color: #6D8DE6; border-bottom: 30px solid #4A69C9;">
-                        <img class="imgicon-1" width="100" height="100"
-                          src="https://img.icons8.com/3d-fluency/188/wi-fi-logo.png" style="top: -50px; left: 28px;">
-                        <div class="icone"></div>
-                        <h3 class="rem zem">Total GB</h3>
-                        <p id="numberDisplay"
-                          style="font-size: 14px; font-weight: bold; margin-top: 12%;text-decoration: none;color:black;">
-                          0
-                        </p>
-                        <script>
-                          const display = document.getElementById("numberDisplay");
+  <% if(user) { %>
+    <a href="/History" style="text-decoration: none;">
+      <div class="crudd" style="background-color: #6D8DE6; border-bottom: 30px solid #4A69C9;">
+        <img class="imgicon-1" width="100" height="100"
+          src="https://img.icons8.com/3d-fluency/188/wi-fi-logo.png" style="top: -50px; left: 28px;">
+        <div class="icone"></div>
+        <h3 class="rem zem">Total GB</h3>
+        <p id="numberDisplay"
+          style="font-size: 14px; font-weight: bold; margin-top: 12%; text-decoration: none; color:black;">
+          0
+        </p>
+        <script>
+          const display = document.getElementById("numberDisplay");
 
-                          const START_VALUE = 1500;
-                          const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-                          const THIRTY_DAYS_MS = 30 * ONE_DAY_MS;
+          const START_VALUE = 1500;
+          const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+          const THIRTY_DAYS_MS = 30 * ONE_DAY_MS;
 
-                          let data = JSON.parse(localStorage.getItem("counterData")) || {
-                            number: START_VALUE,
-                            startTime: Date.now(),
-                            lastUpdate: Date.now()
-                          };
+          let data = JSON.parse(localStorage.getItem("counterData")) || {
+            number: START_VALUE,
+            startTime: Date.now(),
+            lastUpdate: Date.now()
+          };
 
-                          const now = Date.now();
+          const now = Date.now();
 
-                          // Reset if 30 days passed since startTime
-                          if (now - data.startTime >= THIRTY_DAYS_MS) {
-                            data = {
-                              number: 0,
-                              startTime: now,
-                              lastUpdate: now
-                            };
-                          }
+          // Reset if 30 days passed since startTime
+          if (now - data.startTime >= THIRTY_DAYS_MS) {
+            data = {
+              number: 0,
+              startTime: now,
+              lastUpdate: now
+            };
+          }
 
-                          // Check if a day passed since last update
-                          if (now - data.lastUpdate >= ONE_DAY_MS) {
-                            const daysPassed = Math.floor((now - data.lastUpdate) / ONE_DAY_MS);
-                            for (let i = 0; i < daysPassed; i++) {
-                              const increment = Math.random() < 0.5 ? 3 : 4;
-                              data.number += increment;
-                            }
-                            data.lastUpdate += daysPassed * ONE_DAY_MS;
-                          }
+          // Check if a day passed since last update
+          if (now - data.lastUpdate >= ONE_DAY_MS) {
+            const daysPassed = Math.floor((now - data.lastUpdate) / ONE_DAY_MS);
+            for (let i = 0; i < daysPassed; i++) {
+              const increment = Math.random() < 0.5 ? 3 : 4;
+              data.number += increment;
+            }
+            data.lastUpdate += daysPassed * ONE_DAY_MS;
+          }
 
-                          // Save updated data
-                          localStorage.setItem("counterData", JSON.stringify(data));
+          // Save updated data
+          localStorage.setItem("counterData", JSON.stringify(data));
 
-                          // Display the number
-                          display.innerText = data.number;
-                        </script>
-                      </div>
-                    </a>
-                    <a href="/changepassword" style="text-decoration: none;">
-                      <div class="crudd crod" style="background-color: #E0AFA0; border-bottom: 30px solid #C87941;">
-                        <img class="imgicon-2" width="76" height="76" src="images/wifi4.png"
-                          style="top: -50px; right: 48px;">
-                        <div class="icone"></div>
-                        <p style="font-size: 14px; font-weight: bold; color: black;">
-                          Change <br>wifi <br> Password
-                        </p>
-                      </div>
-                    </a>
-                    <a href="/package" style="text-decoration: none;">
-                      <div class="crudd" style="background-color: #2C2C29; border-bottom: 30px solid #555555;">
-                        <img class="imgicon-3" width="96" height="96" src="images\router-img.png"
-                          style="top: -50px;right: 33px;">
-                        <div class="icone"></div>
-                        <h3 class="rem text-white">Speed</h3>
-                        <p style="font-size: 14px; font-weight: bold; color: white;">
-                          <%= user.plan %> Mbps
-                        </p>
-                        <% }; %>
-                      </div>
-                    </a>
-                </div>
+          // Display the number
+          display.innerText = data.number;
+        </script>
+      </div>
+    </a>
+
+    <a href="/changepassword" style="text-decoration: none;">
+      <div class="crudd crod" style="background-color: #E0AFA0; border-bottom: 30px solid #C87941;">
+        <img class="imgicon-2" width="76" height="76" src="images/wifi4.png"
+          style="top: -50px; right: 48px;">
+        <div class="icone"></div>
+        <p style="font-size: 14px; font-weight: bold; color: black;">
+          Change <br>wifi <br> Password
+        </p>
+      </div>
+    </a>
+
+    <a href="/package" style="text-decoration: none;">
+      <div class="crudd" style="background-color: #2C2C29; border-bottom: 30px solid #555555;">
+        <img class="imgicon-3" width="96" height="96" src="images/router-img.png"
+          style="top: -50px;right: 33px;">
+        <div class="icone"></div>
+        <h3 class="rem text-white">Speed</h3>
+        <p style="font-size: 14px; font-weight: bold; color: white;">
+          <%= user.plan %> Mbps
+        </p>
+      </div>
+    </a>
+  <% } %>
+</div>
+
 
                 <!-- Icon Grid -->
                 <h3 style="text-align: center; color: black;"> Quick look</h3>
                 <div class="container" style="background: #f5f7ff; border-radius: 15px;padding-top: 19px;">
                   <div class="row">
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/prayer" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img src="/images/namaz1.png" alt="Prayer">
+                          <img src="/images/prayer.png" alt="Prayer">
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Prayer</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/quran" style="text-decoration: none;">
                         <div class="grid-item">
                           <img src="/images/quran1.png" alt="Quran">
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Quran</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/tasbeeh" style="text-decoration: none;">
                         <div class="grid-item">
                           <img src="https://img.icons8.com/3d-fluency/94/praying-beads.png" alt="Tasbeeh">
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Tasbeeh</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/weather" style="text-decoration: none;">
                         <div class="grid-item">
                           <img width="64" height="64" src="https://img.icons8.com/fluency/96/partly-cloudy-day.png"
                             alt="partly-cloudy-day" />
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Weather</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/package" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img width="48" height="48" src="images\wifi.png" alt="Packages" />
+                          <img width="48" height="48" src="/images/1f4e6.png" alt="Packages" />
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Packages</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/History" style="text-decoration: none;">
                         <div class="grid-item">
-                          <img width="100" height="100" src="images\history1.png" alt="history" />
+                          <img width="100" height="100" src="/images/clock.png" alt="history" />
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             History</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/contactUs" style="text-decoration: none;">
                         <div class="grid-item">
                           <img src="images\customer-support.png" alt="Contact">
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Support</p>
                         </div>
                       </a>
                     </div>
-                    <div class="col-3 col-sm-3 p-2 text-center">
+                    <div class="col-3 col-sm-3 p-3 text-center">
                       <a href="/profile" style="text-decoration: none;">
                         <div class="grid-item">
                           <img width="96" height="96" src="images\profile1.png" alt="admin-settings-male" />
                           <p
-                            style="margin-top: 8px; font-size: 14px; font-weight: bold; color: white; text-decoration: none;">
+                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
                             Profile</p>
                         </div>
-                                  
+
                       </a>
                     </div>
                   </div>
@@ -2040,16 +2096,20 @@
 
                 <!-- Adds Section -->
 
-<%
-  // Precalculate values
-  const matchedPackage = packages.find(p => 
-    p.Package.trim().toLowerCase() === subscription?.package_name?.trim().toLowerCase()
+               <%
+  // Find the matching package safely without optional chaining
+  const matchedPackage = packages.find(p =>
+    subscription &&
+    subscription.package_name &&
+    p.Package.trim().toLowerCase() === subscription.package_name.trim().toLowerCase()
   );
 
+  // Default values
   let isExpired = false;
   let formattedDate = '--';
 
-  if (subscription?.expiry_date) {
+  // Check expiry date
+  if (subscription && subscription.expiry_date) {
     const expiryDate = new Date(subscription.expiry_date);
     const now = new Date();
     isExpired = now > expiryDate;
@@ -2061,56 +2121,72 @@
   }
 %>
 
-<div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
-  <h5 class="fw-bold text-center mb-3">Payment Model</h5>
 
-  <div class="paid" style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
-    <% if (subscription && user.invoice === "Paid") { %>
+                  <div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <h5 class="fw-bold text-center mb-3">Payment Model</h5>
 
-      <!-- Package Name -->
-      <div class="rs">
-        <h4 style="font-weight: 900;"><%= matchedPackage ? matchedPackage.Package : '--' %></h4>
-        <p class="billing-label">Package Name</p>
-      </div>
+                    <div class="paid"
+                      style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+                      <% if (subscription && user.invoice==="Paid" ) { %>
 
-      <!-- Package Price -->
-      <div class="rs">
-        <h4 style="font-weight: 900;">Rs. <%= matchedPackage ? matchedPackage.Price : '--' %></h4>
-        <p class="billing-label">Monthly Price</p>
-      </div>
+                        <!-- Package Name -->
+                        <div class="rs">
+                          <h4 style="font-weight: 900;">
+                            <%= matchedPackage ? matchedPackage.Package : '--' %>
+                          </h4>
+                          <p class="billing-label">Package Name</p>
+                        </div>
 
-      <!-- Payment Status -->
-      <div class="rs">
-        <h4 style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
-          <%= user.invoice %>
-        </h4>
-        <p class="billing-label">Payment Status</p>
-      </div>
+                        <!-- Package Price -->
+                        <div class="rs">
+                          <h4 style="font-weight: 900;">Rs. <%= matchedPackage ? matchedPackage.Price : '--' %>
+                          </h4>
+                          <p class="billing-label">Monthly Price</p>
+                        </div>
 
-      <!-- Expiry Date -->
-      <div class="rs">
-        <h4 style="font-weight: 900;">
-          <%= formattedDate %>
-          <% if (isExpired) { %>
-            <span class="badge bg-danger ms-2">Expired</span>
-          <% } else { %>
-            <span class="badge bg-success ms-2">Active</span>
-          <% } %>
-        </h4>
-        <p class="billing-label">Expiry Date</p>
-      </div>
+                        <!-- Payment Status -->
+                        <div class="rs">
+                          <h4 style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
+                            <%= user.invoice %>
+                          </h4>
+                          <p class="billing-label">Payment Status</p>
+                        </div>
 
-    <% } else { %>
-      <!-- No subscription fallback -->
-      <div class="rs"><h4 style="font-weight: 900;">--</h4><p style="color: red;">No Active Subscription</p></div>
-      <div class="rs"><h4 style="font-weight: 900;">--</h4><p class="billing-label">Price</p></div>
-      <div class="rs">
-        <h4 style="font-weight: 900; color: red;"><%= user.invoice || "Pending" %></h4>
-        <p class="billing-label">Payment Status</p>
-      </div>
-      <div class="rs"><h4 style="font-weight: 900;">--</h4><p class="billing-label">Expiry Date</p></div>
-    <% } %>
-  </div>
+                        <!-- Expiry Date -->
+                        <div class="rs">
+                          <h4 style="font-weight: 900;">
+                            <%= formattedDate %>
+                              <% if (isExpired) { %>
+                                <span class="badge bg-danger ms-2">Expired</span>
+                                <% } else { %>
+                                  <span class="badge bg-success ms-2">Active</span>
+                                  <% } %>
+                          </h4>
+                          <p class="billing-label">Expiry Date</p>
+                        </div>
+
+                        <% } else { %>
+                          <!-- No subscription fallback -->
+                          <div class="rs">
+                            <h4 style="font-weight: 900;">--</h4>
+                            <p style="color: red;">No Active Subscription</p>
+                          </div>
+                          <div class="rs">
+                            <h4 style="font-weight: 900;">--</h4>
+                            <p class="billing-label">Price</p>
+                          </div>
+                          <div class="rs">
+                            <h4 style="font-weight: 900; color: red;">
+                              <%= user.invoice || "Pending" %>
+                            </h4>
+                            <p class="billing-label">Payment Status</p>
+                          </div>
+                          <div class="rs">
+                            <h4 style="font-weight: 900;">--</h4>
+                            <p class="billing-label">Expiry Date</p>
+                          </div>
+                          <% } %>
+                    </div>
 
   <% if (subscription && user.invoice === "Paid") { %>
     <% if (isExpired) { %>
@@ -2125,7 +2201,7 @@
         data-dataused="<%= matchedPackage ? matchedPackage.Data_Used : '' %>"
         data-limits="<%= matchedPackage ? matchedPackage.limits : '' %>"
       >
-        Re-subscribe
+        Resubscribe
       </button>
     <% } else { %>
       <button class="btn btn-success w-100 mt-3" disabled>Active</button>
@@ -2137,282 +2213,382 @@
 
 
 
-                <!-- Custom Card Section -->
-                <div class="container mt-4" >
-                  <div class="row justify-content-center">
-                    <div class="col-12 col-md-12">
-                      <div class="custom-card d-flex">
-                        <a href="https://www.clicktaketech.com/" class="left-side" style="flex: 1;">
-                          <img src="/images/2.png" alt="Left Image" style="width: 100%; height: auto;">
-                        </a>
-                        <div class="right-side" style="flex: 1;">
-                          <img src="/images/1.png" alt="Right Image" style="width: 100%; height: auto;">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mt-4">
-                  <!-- Slider Column -->
-                  <div class="col-md-6">
-                    <div class="card position-relative">
-                      <div class="card-body p-0">
-                        <div id="detailedReports" class="carousel slide" data-ride="carousel" data-interval="2000">
-                          <ol class="carousel-indicators">
-                            <% slider.forEach(function(slider, index) { %>
-                              <li data-target="#detailedReports" data-slide-to="<%= index %>"
-                                class="<%= index === 0 ? 'active' : '' %>"></li>
-                              <% }); %>
-                          </ol>
-
-                          <div class="carousel-inner" style="border-radius: 15px;">
-                            <% slider.forEach(function(slider, index) { %>
-                              <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                                <img src="/uploads/<%= slider.Slider_1 %>" alt="Slider Image"
-                                  class="d-block w-100 img-fluid"
-                                  style="object-fit: cover; width: 100%; height: 100%; border-radius: 15px;">
-                              </div>
-                              <% }); %>
+                  <!-- Custom Card Section -->
+                  <div class="container mt-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-12">
+                        <div class="custom-card d-flex">
+                          <a href="https://www.clicktaketech.com/" class="left-side" style="flex: 1;">
+                            <img src="/images/2.png" alt="Left Image" style="width: 100%; height: auto;">
+                          </a>
+                          <div class="right-side" style="flex: 1;">
+                            <img src="/images/1.png" alt="Right Image" style="width: 100%; height: auto;">
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <style>
-                    @media (max-width: 576px) {
-                      .carousel-inner img {
-                        height: 200px;
-                      }
+                  <div class="row mt-4">
+                    <!-- Slider Column -->
+                    <div class="col-md-6">
+                      <div class="card position-relative">
+                        <div class="card-body p-0">
+                          <div id="detailedReports" class="carousel slide" data-ride="carousel" data-interval="2000">
+                            <ol class="carousel-indicators">
+                              <% slider.forEach(function(slider, index) { %>
+                                <li data-target="#detailedReports" data-slide-to="<%= index %>"
+                                  class="<%= index === 0 ? 'active' : '' %>"></li>
+                                <% }); %>
+                            </ol>
 
-                      .corner {
-                        flex-direction: row;
-                        flex-wrap: wrap;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 10px;
-                        padding: 10px;
-                        border-radius: 20px !important;
-                      }
-
-                      .corner .action {
-                        width: 44px;
-                        height: 44px;
-                      }
-
-                      .corner .action i {
-                        font-size: 18px;
-                      }
-
-                      .container.mt-4 {
-                        padding-right: 0 !important;
-                        padding-left: 0 !important;
-                      }
-
-                      .col-md-12{
-                        display: flex; 
-                        justify-content: center;
-                      }
-                    }
-
-                    /* Optional Tap Feedback */
-                    .corner .action:active {
-                      transform: scale(0.95);
-                      background-color: #4B49AC;
-                      transition: transform 0.2s ease;
-                    }
-                  </style>
-
-
-                  <script>
-                    function showLoader() {
-                      const loader = document.getElementById("loader-container");
-                      loader.style.display = "block";
-                      setTimeout(() => {
-                        loader.style.display = "none";
-                        alert("Internet Boost complete!");
-                      }, 10000); // 10 seconds
-                    }
-
-                    // Attach event listener to the notif action
-                    document.querySelector('[data-action="notif"]').addEventListener("click", showLoader);
-                  </script>
-
-                  <!-- Other Services Column -->
-                  <div class="col-md-6 mt-2">
-                    <h3 style="text-align: center; color:black;">Our Other Services</h3>
-                    <div class="card-container d-flex flex-wrap justify-content-center" id="cardContainer">
-                      <!-- Example card -->
-                      <div class="deal-card text-center m-2">
-                        <h2 class="fw-bold">Graphic Designing</h2>
-                        <p class="text-light" style="font-size: 20px;">Features</p>
-                        <p class="price-new">Letterhead Design, <br> Logo and Business Card Design</p>
-                        <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/graphic-design-services/"
-                            target="_blank">See more</a></button>
+                            <div class="carousel-inner" style="border-radius: 15px;">
+                              <% slider.forEach(function(slider, index) { %>
+                                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                  <img src="/uploads/<%= slider.Slider_1 %>" alt="Slider Image"
+                                    class="d-block w-100 img-fluid"
+                                    style="object-fit: cover; width: 100%; height: 100%; border-radius: 15px;">
+                                </div>
+                                <% }); %>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="deal-card text-center">
-                        <h2 class="fw-bold">Web Development</h2>
-                        <p class="text-danger" style="font-size: 20px;">Features</p>
-                        <p class="price-new">E-Commerce Website, <br>Business Website</p>
-                        <button class="buy-btn mt-2"><a
-                            href="https://www.clicktaketech.com/web-development-services/">See
-                            more</a></button>
-                      </div>
-                      <div class="deal-card text-center">
-                        <h2 class="fw-bold">SEO Services <span class="fw-light"></span></h2>
-                        <p class="text-danger" style="font-size: 20px;">Features</p>
-                        <p class="price-new">Targeted Traffic, <br> Enhanced User <br> Experience</p>
-                        <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/seo-services/">See
-                            more</a></button>
-                      </div>
-                      <div class="deal-card text-center">
-                        <h2 class="fw-bold">Video Editing</h2>
-                        <p class="text-danger" style="font-size: 20px;">Features</p>
-                        <p class="price-new">Vlog Video Editing Services, <br> Real Estate Video Editing</p>
-                        <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/video-editing-services/">See
-                            more</a></button>
-                      </div>
-                      <div class="deal-card text-center">
-                        <h2 class="fw-bold">Social Media Marketing</h2>
-                        <p class="text-danger" style="font-size: 20px;">Features</p>
-                        <p class="price-new">Youtube Marketing, <br> Facebook Marketing</p>
-                        <button class="buy-btn mt-2"><a
-                            href="https://www.clicktaketech.com/marketing-solutions/social-media-marketing/">See
-                            more</a></button>
-                      </div>
-                      <div class="deal-card text-center">
-                        <h2 class="fw-bold">Wordpress Development</h2>
-                        <p class="text-danger" style="font-size: 20px;">Features</p>
-                        <p class="price-new">Strategic Planning, <br> Plugin Integration</p>
-                        <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/wordpress-development/">See
-                            more</a></button>
+                    </div>
+
+                    <style>
+
+                      
+                      @media (max-width: 576px) {
+                        .carousel-inner img {
+                          height: 200px;
+                        }
+
+                        .corner {
+                          flex-direction: row;
+                          flex-wrap: wrap;
+                          justify-content: center;
+                          align-items: center;
+                          gap: 10px;
+                          padding: 10px;
+                          border-radius: 20px !important;
+                        }
+
+                        .corner .action {
+                          width: 44px;
+                          height: 44px;
+                        }
+
+                        .corner .action i {
+                          font-size: 18px;
+                        }
+
+                        .container.mt-4 {
+                          padding-right: 0 !important;
+                          padding-left: 0 !important;
+                        }
+
+                        .col-md-12 {
+                          display: flex;
+                          justify-content: center;
+                        }
+                      }
+
+                      /* Optional Tap Feedback */
+                      .corner .action:active {
+                        transform: scale(0.95);
+                        background-color: #4B49AC;
+                        transition: transform 0.2s ease;
+                      }
+                    </style>
+
+
+                    <script>
+                      function showLoader() {
+                        const loader = document.getElementById("loader-container");
+                        loader.style.display = "block";
+                        setTimeout(() => {
+                          loader.style.display = "none";
+                          alert("Internet Boost complete!");
+                        }, 10000); // 10 seconds
+                      }
+
+                      // Attach event listener to the notif action
+                      document.querySelector('[data-action="notif"]').addEventListener("click", showLoader);
+                    </script>
+
+                    <!-- Other Services Column -->
+                    <div class="col-md-6 mt-2">
+                      <h3 style="text-align: center; color:black;">Our Other Services</h3>
+                      <div class="card-container d-flex flex-wrap justify-content-center" id="cardContainer">
+                        <!-- Example card -->
+                        <div class="deal-card text-center m-2">
+                          <h2 class="fw-bold">Graphic Designing</h2>
+                          <p class="text-light" style="font-size: 20px;">Features</p>
+                          <p class="price-new">Letterhead Design, <br> Logo and Business Card Design</p>
+                          <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/graphic-design-services/"
+                              target="_blank">See more</a></button>
+                        </div>
+                        <div class="deal-card text-center">
+                          <h2 class="fw-bold">Web Development</h2>
+                          <p class="text-danger" style="font-size: 20px;">Features</p>
+                          <p class="price-new">E-Commerce Website, <br>Business Website</p>
+                          <button class="buy-btn mt-2"><a
+                              href="https://www.clicktaketech.com/web-development-services/">See
+                              more</a></button>
+                        </div>
+                        <div class="deal-card text-center">
+                          <h2 class="fw-bold">SEO Services <span class="fw-light"></span></h2>
+                          <p class="text-danger" style="font-size: 20px;">Features</p>
+                          <p class="price-new">Targeted Traffic, <br> Enhanced User <br> Experience</p>
+                          <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/seo-services/">See
+                              more</a></button>
+                        </div>
+                        <div class="deal-card text-center">
+                          <h2 class="fw-bold">Video Editing</h2>
+                          <p class="text-danger" style="font-size: 20px;">Features</p>
+                          <p class="price-new">Vlog Video Editing Services, <br> Real Estate Video Editing</p>
+                          <button class="buy-btn mt-2"><a
+                              href="https://www.clicktaketech.com/video-editing-services/">See
+                              more</a></button>
+                        </div>
+                        <div class="deal-card text-center">
+                          <h2 class="fw-bold">Social Media Marketing</h2>
+                          <p class="text-danger" style="font-size: 20px;">Features</p>
+                          <p class="price-new">Youtube Marketing, <br> Facebook Marketing</p>
+                          <button class="buy-btn mt-2"><a
+                              href="https://www.clicktaketech.com/marketing-solutions/social-media-marketing/">See
+                              more</a></button>
+                        </div>
+                        <div class="deal-card text-center">
+                          <h2 class="fw-bold">Wordpress Development</h2>
+                          <p class="text-danger" style="font-size: 20px;">Features</p>
+                          <p class="price-new">Strategic Planning, <br> Plugin Integration</p>
+                          <button class="buy-btn mt-2"><a
+                              href="https://www.clicktaketech.com/wordpress-development/">See
+                              more</a></button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Pricing Cards -->
-                <div class="container mt-5">
-                  <h3 style="text-align: center;"> Popular package </h3>
-                  
-                  <!-- Desktop View (Original Grid) -->
-                  <div class="cards-main">
-                    <% cards.forEach(function(card, index) { 
-                      let cardType = index === 0 ? 'basic' : index === 1 ? 'standard' : 'premium'; %>
-                      <div class="card custom-cardd <%= cardType %>">
-                        <div class="card-top">
-                          <% if (index === 0) { %>
-                            <h2>BASIC</h2>
-                            <div class="stars">★★★<span style="color: gray;">★★</span></div>
-                          <% } else if (index === 1) { %>
-                            <h2>STANDARD</h2>
-                            <div class="stars">★★★★<span style="color: gray;">★</span></div>
-                          <% } else { %>
-                            <h2>PREMIUM</h2>
-                            <div class="stars">★★★★★</div>
-                          <% } %>
-                        </div>
 
-                        <div class="price-circle">
-                          <div><%= card.Package %></div>
-                          <div>PER MONTH</div>
-                        </div>
+ <style>
 
-                        <div class="features">
-                          <p><span>✔</span> Rs. <%= card.Price %></p>
-                          <p><span>✔</span> <%= card.Speed %> Mbs speed</p>
-                          <p><span>✔</span> <%= card.Offer_Valid %></p>
-                          <p><span>✔</span> <%= card.Data_Used %> GB Usage</p>
-                          <p><span>✔</span> <%= card.limits %> GB Limits</p>
-                        </div>
+                    /* Make Payment Model Responsive */
+.paid {
+  display: flex;
+  align-items: flex-start;      /* Changed to avoid vertical stretching */
+  justify-content: center;      /* Center items instead of spacing apart */
+  flex-wrap: wrap;
+  gap: 30px;                    /* Controlled spacing instead of space-evenly */
+}
 
-                        <div class="card-button">
-                          <button data-bs-toggle="modal" data-bs-target="#paymentModal"
-                            data-package="<%= card.Package %>" data-price="<%= card.Price %>"
-                            data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
-                            data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE NOW</button>
-                        </div>
-                      </div>
-                    <% }); %>
-                  </div>
-                  
-                  <!-- Mobile Carousel -->
-                  <div id="pricingCarousel" class="carousel slide pricing-carousel" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                      <% cards.forEach(function(card, index) { 
-                        let cardType = index === 0 ? 'basic' : index === 1 ? 'standard' : 'premium'; %>
-                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                          <div class="carousel-card <%= cardType %>">
-                            <div class="card-top">
-                              <% if (index === 0) { %>
-                                <h2>BASIC</h2>
-                                <div class="stars">★★★<span style="color: gray;">★★</span></div>
-                              <% } else if (index === 1) { %>
+/* Each "rs" block responsive */
+.paid .rs {
+  flex: 1 1 200px;
+  text-align: center;
+}
+.btn-center {
+  display: block;
+  margin: 0 auto;
+}
+
+
+/* Responsive typography */
+.paid .rs h4 {
+  font-size: 1.2rem;
+  word-wrap: break-word;
+}
+.paid .rs p {
+  font-size: 0.9rem;
+}
+
+/* Card adjustments for smaller screens */
+@media (max-width: 768px) {
+  
+
+  .paid {
+    
+    align-items: center;      /* Center everything on mobile */
+    text-align: center;
+    gap: 20px;                /* Reduce spacing on small devices */
+  }
+
+  .paid .rs {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .paid .rs h4 {
+    font-size: 1rem;
+  }
+  .paid .rs p {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paid .rs h4 {
+    font-size: 0.95rem;
+  }
+  .paid .rs p {
+    font-size: 0.8rem;
+  }
+}
+
+ </style>
+
+                  <!-- Pricing Cards -->
+                  <div class="container mt-5">
+                    <h3 style="text-align: center;"> Popular package </h3>
+
+                    <!-- Desktop View (Original Grid) -->
+                    <div class="cards-main">
+                      <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' : index===1 ? 'standard'
+                        : 'premium' ; %>
+                        <div class="card custom-cardd <%= cardType %>">
+                          <div class="card-top">
+                            <% if (index===0) { %>
+                              <h2>BASIC</h2>
+                              <div class="stars">★★★<span style="color: gray;">★★</span></div>
+                              <% } else if (index===1) { %>
                                 <h2>STANDARD</h2>
                                 <div class="stars">★★★★<span style="color: gray;">★</span></div>
-                              <% } else { %>
-                                <h2>PREMIUM</h2>
-                                <div class="stars">★★★★★</div>
-                              <% } %>
-                            </div>
+                                <% } else { %>
+                                  <h2>PREMIUM</h2>
+                                  <div class="stars">★★★★★</div>
+                                  <% } %>
+                          </div>
 
-                            <div class="price-circle">
-                              <div><%= card.Package %></div>
-                              <div>PER MONTH</div>
+                          <div class="price-circle">
+                            <div>
+                              <%= card.Package %>
                             </div>
+                            <div>PER MONTH</div>
+                          </div>
 
-                            <div class="features">
-                              <p><span>✔</span> Rs. <%= card.Price %></p>
-                              <p><span>✔</span> <%= card.Speed %> Mbs speed</p>
-                              <p><span>✔</span> <%= card.Offer_Valid %></p>
-                              <p><span>✔</span> <%= card.Data_Used %> GB Usage</p>
-                              <p><span>✔</span> <%= card.limits %> GB Limits</p>
-                            </div>
+                          <div class="features">
+                            <p><span>✔</span> Rs. <%= card.Price %>
+                            </p>
+                            <p><span>✔</span>
+                              <%= card.Speed %> Mbs speed
+                            </p>
+                            <p><span>✔</span>
+                              <%= card.Offer_Valid %>
+                            </p>
+                            <p><span>✔</span>
+                              <%= card.Data_Used %> GB Usage
+                            </p>
+                            <p><span>✔</span>
+                              <%= card.limits %> GB Limits
+                            </p>
+                          </div>
 
-                            <div class="card-button">
-                              <button data-bs-toggle="modal" data-bs-target="#paymentModal"
-                                data-package="<%= card.Package %>" data-price="<%= card.Price %>"
-                                data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
-                                data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE NOW</button>
-                            </div>
+                          <div class="card-button">
+                            <button data-bs-toggle="modal" data-bs-target="#paymentModal"
+                              data-package="<%= card.Package %>" data-price="<%= card.Price %>"
+                              data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
+                              data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE NOW</button>
                           </div>
                         </div>
-                      <% }); %>
+                        <% }); %>
                     </div>
-                    
-                    <!-- Carousel Controls -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#pricingCarousel" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#pricingCarousel" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                    
-                    <!-- Indicators -->
-                    <div class="carousel-indicators">
-                      <% cards.forEach(function(card, index) { %>
-                        <button type="button" data-bs-target="#pricingCarousel" 
-                                data-bs-slide-to="<%= index %>" 
-                                class="<%= index === 0 ? 'active' : '' %>"
-                                aria-current="<%= index === 0 ? 'true' : 'false' %>"
-                                aria-label="Slide <%= index + 1 %>"></button>
-                      <% }); %>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="icon-slider">
-                  <div class="icon-track">
-                    <% Iconresult.forEach((icon)=> { %>
-                      <a href="<%= icon.Link %>" target="_blank">
-                        <img src="/uploads/<%= icon.Icon %>" width="50px" height="40px" alt="">
-                      </a>
-                      <% }); %>
+                    <!-- Mobile Carousel -->
+                    <div id="pricingCarousel" class="carousel slide pricing-carousel" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' : index===1
+                          ? 'standard' : 'premium' ; %>
+                          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <div class="carousel-card <%= cardType %>">
+                              <div class="card-top">
+                                <% if (index===0) { %>
+                                  <h2>BASIC</h2>
+                                  <div class="stars">★★★<span style="color: gray;">★★</span></div>
+                                  <% } else if (index===1) { %>
+                                    <h2>STANDARD</h2>
+                                    <div class="stars">★★★★<span style="color: gray;">★</span></div>
+                                    <% } else { %>
+                                      <h2>PREMIUM</h2>
+                                      <div class="stars">★★★★★</div>
+                                      <% } %>
+                              </div>
+
+                              <div class="price-circle">
+                                <div>
+                                  <%= card.Package %>
+                                </div>
+                                <div>PER MONTH</div>
+                              </div>
+
+                              <div class="features">
+                                <p><span>✔</span> Rs. <%= card.Price %>
+                                </p>
+                                <p><span>✔</span>
+                                  <%= card.Speed %> Mbs speed
+                                </p>
+                                <p><span>✔</span>
+                                  <%= card.Offer_Valid %>
+                                </p>
+                                <p><span>✔</span>
+                                  <%= card.Data_Used %> GB Usage
+                                </p>
+                                <p><span>✔</span>
+                                  <%= card.limits %> GB Limits
+                                </p>
+                              </div>
+
+                              <div class="card-button">
+                                <button data-bs-toggle="modal" data-bs-target="#paymentModal"
+                                  data-package="<%= card.Package %>" data-price="<%= card.Price %>"
+                                  data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
+                                  data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE
+                                  NOW</button>
+                              </div>
+                            </div>
+                          </div>
+                          <% }); %>
+                      </div>
+
+                      <!-- Carousel Controls -->
+                      <button class="carousel-control-prev" type="button" data-bs-target="#pricingCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#pricingCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+
+                      <!-- Indicators -->
+                      <div class="carousel-indicators">
+                        <% cards.forEach(function(card, index) { %>
+                          <button type="button" data-bs-target="#pricingCarousel" data-bs-slide-to="<%= index %>"
+                            class="<%= index === 0 ? 'active' : '' %>"
+                            aria-current="<%= index === 0 ? 'true' : 'false' %>"
+                            aria-label="Slide <%= index + 1 %>"></button>
+                          <% }); %>
+                      </div>
+                    </div>
                   </div>
-                </div>
+
+                  <div class="icon-slider">
+                    <div class="icon-track">
+                      <% Iconresult.forEach((icon)=> { %>
+                        <a href="<%= icon.Link %>" target="_blank">
+                          <img src="/uploads/<%= icon.Icon %>" width="50px" height="40px" alt="">
+                        </a>
+                        <% }); %>
+                    </div>
+                  </div>
               </div>
             </div>
             <!-- Payment Modal -->
@@ -2483,19 +2659,19 @@
 
             <script>
               // Initialize carousel and handle payment modal for both desktop and mobile
-              document.addEventListener('DOMContentLoaded', function() {
+              document.addEventListener('DOMContentLoaded', function () {
                 // Handle payment modal for both original cards and carousel cards
                 document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
-                  button.addEventListener('click', function() {
+                  button.addEventListener('click', function () {
                     const packageName = this.getAttribute('data-package');
                     const packagePrice = this.getAttribute('data-price');
-                    
+
                     document.getElementById('selectedPackage').textContent = packageName;
                     document.getElementById('package_name').value = packageName;
                     document.getElementById('amount').value = packagePrice;
                   });
                 });
-                
+
                 // Initialize carousel with touch support
                 if (typeof bootstrap !== 'undefined' && bootstrap.Carousel) {
                   new bootstrap.Carousel(document.getElementById('pricingCarousel'), {
@@ -2540,5 +2716,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <%- include('./partials/_footer.ejs') %>
-</body>
+  </body>
+
 </html>
