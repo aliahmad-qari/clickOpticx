@@ -168,7 +168,17 @@ else if (expiryStatus === "active") {
 // ✅ Update User
 exports.UpdateUser = async (req, res) => {
   const userId = req.params.id;
-  const { Username, Email, Number, role, plan, invoice, password, expiry } = req.body;
+  const {
+    Username,
+    Email,
+    Number,
+    role,
+    plan,
+    invoice,
+    password,
+    expiry,
+    department, // ✅ include this
+  } = req.body;
 
   try {
     let hashedPassword = null;
@@ -178,13 +188,15 @@ exports.UpdateUser = async (req, res) => {
     }
 
     const sql = `
-      UPDATE users SET Username = ?, Email = ?, Number = ?, invoice = ?, role = ?, plan = ?, expiry = ?
-      ${hashedPassword ? `, password = ?` : ``} WHERE id = ?
+      UPDATE users 
+      SET Username = ?, Email = ?, Number = ?, invoice = ?, role = ?, plan = ?, expiry = ?, department = ?
+      ${hashedPassword ? `, password = ?` : ``} 
+      WHERE id = ?
     `;
 
     const values = hashedPassword
-      ? [Username, Email, Number, invoice, role, plan, expiry, hashedPassword, userId]
-      : [Username, Email, Number, invoice, role, plan, expiry, userId];
+      ? [Username, Email, Number, invoice, role, plan, expiry, department, hashedPassword, userId]
+      : [Username, Email, Number, invoice, role, plan, expiry, department, userId];
 
     db.query(sql, values, (err) => {
       if (err) {

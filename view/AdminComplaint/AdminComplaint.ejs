@@ -726,13 +726,27 @@
                       </div>
                       <div class="card-body">
                         <div class="toolbar">
-                          <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <form class="d-flex ms-auto w-100" id="search-form" onsubmit="return false;">
-                              <input class="search-input" type="search" id="search-input"
-                                placeholder="Search by Username, Complaint Type, Number, Address, Complaint, or Status">
-                            </form>
-                          </div>
+  <!-- 🔍 Search Box -->
+  <div class="search-box flex-grow-1">
+    <i class="fas fa-search"></i>
+    <form class="d-flex w-100" id="search-form" onsubmit="return false;">
+      <input class="search-input" type="search" id="search-input"
+        placeholder="Search by Username, Complaint Type, Number, Address, Complaint, or Status">
+    </form>
+  </div>
+
+  <!-- 🏷️ Department Filter -->
+  <form method="GET" action="/UserComplaint" class="d-flex align-items-center">
+    <select name="department" onchange="this.form.submit()" class="form-select ms-3">
+      <option value="">All Departments</option>
+      <option value="Billing" <%= selectedDepartment === 'Billing' ? 'selected' : '' %>>Billing</option>
+      <option value="Sales" <%= selectedDepartment === 'Sales' ? 'selected' : '' %>>Sales</option>
+      <option value="Support" <%= selectedDepartment === 'Support' ? 'selected' : '' %>>Support</option>
+      <!-- add more departments if needed -->
+    </select>
+  </form>
+</div>
+
                         </div>
                         <div class="table-responsive">
                           <table class="equipment-table">
@@ -755,7 +769,7 @@
                                       <%= user.Username %>
                                     </td>
                                     <td><span class="category-badge">
-                                        <%= user.Plane %>
+                                        <%= user.department %>
                                       </span></td>
                                     <td>
                                       <%= user.number %>

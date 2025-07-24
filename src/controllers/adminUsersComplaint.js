@@ -61,31 +61,72 @@ exports.AllComplaints = (req, res) => {
             return res.status(500).send("Internal Server Error");
           }
 
-          const complaintQuery = "SELECT * FROM usercomplaint";
-          const queryParams = isAdmin ? [] : [userId];
+       
+        const selectedDepartment = req.query.department;
+let complaintQuery = "SELECT * FROM usercomplaint";
+let queryParams = [];
 
-          db.query(complaintQuery, queryParams, (err, results) => {
-            if (err) {
-              console.error("Database query error (Complaints):", err);
-              return res.status(500).send("Internal Server Error");
-            }
-            // 👇 Flash messages here
-            const successMsg = req.flash("success");
+if (isAdmin) {
+  // Admin can filter complaints by department
+  if (selectedDepartment) {
+    complaintQuery += " WHERE department = ?";
+    queryParams.push(selectedDepartment);
+  }
 
-            res.render("AdminComplaint/AdminComplaint", {
-              user: results,
-              message: null,
-              isAdmin,
-              isteam,
-              isUser,
-              bg_result,
-              totalNotifactions,
-              password_datass,
-              messages: {
-                success: successMsg.length > 0 ? successMsg[0] : null,
-              },
-            });
-          });
+  // Directly query and render
+  db.query(complaintQuery, queryParams, (err, results) => {
+    if (err) return res.status(500).send("DB error (Admin)");
+    renderComplaintPage(results, selectedDepartment);
+  });
+
+} else if (isteam) {
+  // Get team member's department
+  const teamDeptSql = "SELECT department FROM users WHERE id = ?";
+  db.query(teamDeptSql, [userId], (err, teamResult) => {
+    if (err) return res.status(500).send("DB error (Team Dept)");
+    if (teamResult.length === 0) return res.status(404).send("Team user not found");
+
+    const dept = teamResult[0].department;
+    const teamQuery = "SELECT * FROM usercomplaint WHERE department = ?";
+
+    db.query(teamQuery, [dept], (err, results) => {
+      if (err) return res.status(500).send("DB error (Team Complaints)");
+      renderComplaintPage(results, dept);
+    });
+  });
+
+} else {
+  // Regular user: only own complaints
+  complaintQuery += " WHERE user_id = ?";
+  queryParams.push(userId);
+
+  db.query(complaintQuery, queryParams, (err, results) => {
+    if (err) return res.status(500).send("DB error (User)");
+    renderComplaintPage(results);
+  });
+}
+
+// Render Page
+function renderComplaintPage(results, dept) {
+  const successMsg = req.flash("success");
+
+  res.render("AdminComplaint/AdminComplaint", {
+    user: results,
+    selectedDepartment: dept || selectedDepartment,
+    message: null,
+    isAdmin,
+    isteam,
+    isUser,
+    bg_result,
+    totalNotifactions,
+    password_datass,
+    messages: {
+      success: successMsg.length > 0 ? successMsg[0] : null,
+    },
+  });
+}
+
+
         });
       });
     });
@@ -94,8 +135,14 @@ exports.AllComplaints = (req, res) => {
 
 // Update AdminUsers Complaint
 exports.UpdateAllComplaints = (req, res) => {
+  if (!['admin', 'Team'].includes(req.session.role)) {
+    return res.status(403).send("Access Denied");
+  }
+
   const complaintId = req.params.id;
   const { status, teamName, equipment } = req.body;
+  // ...rest of your code
+
 
   const updateSql = "UPDATE usercomplaint SET status = ?, teamName = ?, equipment = ? WHERE id = ?";
   db.query(updateSql, [status, teamName, equipment, complaintId], (err, result) => {
@@ -161,7 +208,13 @@ exports.UpdateAllComplaints = (req, res) => {
 
 // Delete AdminUsers Complaint
 exports.DeleteComplaint = (req, res) => {
+  if (!['admin', 'Team'].includes(req.session.role)) {
+    return res.status(403).send("Access Denied");
+  }
+
   const userId = req.params.id;
+  // ...rest of your code
+
   const sql = "DELETE FROM usercomplaint WHERE id = ?";
   db.query(sql, [userId], (err, result) => {
     if (err) {
