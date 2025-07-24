@@ -1,219 +1,161 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 
-// Select all AdminUsers
-exports.AllUsers = (req, res) => {
+// ✅ Get All Users
+exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
+
   const userId = req.session.userId;
   const perPage = 10;
   const page = parseInt(req.query.page) || 1;
   const search = req.query.search || "";
-  const package = req.query.package || "";
+  const packageFilter = req.query.package || "";
+  const expiryStatus = req.query.expiryStatus || "";
 
-  // Base SQL query
-  let sql = `
-      SELECT Username, Email,user_img, Number, plan, password, role, expiry, id 
-      FROM users 
-      WHERE role = 'user'
-  `;
+ let sql = `
+  SELECT Username, Email, user_img, Number, plan, password, role, expiry, id, invoice
+  FROM users 
+  WHERE role = 'user'
+`;
+
+
   let countSql = `
-      SELECT COUNT(*) as total 
-      FROM users 
-      WHERE role = 'user'
+    SELECT COUNT(*) as total 
+    FROM users 
+    WHERE role = 'user'
   `;
+
   const queryParams = [];
-const now = new Date();
-const currentMonth = now.getMonth() + 1;
-const currentYear = now.getFullYear();
 
-// ✅ Fetch all paid users for current month
-const paidSql = `
-  SELECT Username, Email, user_img, created_at
-  FROM users 
-  WHERE role = 'user' 
-    AND invoice = 'paid' 
-    AND MONTH(created_at) = ? 
-    AND YEAR(created_at) = ?
-`;
-
-// ✅ Fetch all unpaid users for current month
-const unpaidSql = `
-  SELECT Username, Email, user_img, created_at
-  FROM users 
-  WHERE role = 'user' 
-    AND (invoice IS NULL OR invoice = 'unpaid') 
-    AND MONTH(created_at) = ? 
-    AND YEAR(created_at) = ?
-`;
+  // 🗓 Expiry Filters
+  if (expiryStatus === "expired") {
+    sql += ` AND expiry < CURDATE()`;
+    countSql += ` AND expiry < CURDATE()`;
+  } else if (expiryStatus === "near_expiry") {
+    sql += ` AND expiry BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    countSql += ` AND expiry BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+  } 
+else if (expiryStatus === "active") {
+  sql += ` AND expiry > CURDATE() AND (invoice IS NULL OR LOWER(invoice) != 'paid')`;
+  countSql += ` AND expiry > CURDATE() AND (invoice IS NULL OR LOWER(invoice) != 'paid')`;
+}
 
 
-  // Add search condition
+
+  // 🔍 Search
   if (search) {
     sql += ` AND Username LIKE ?`;
     countSql += ` AND Username LIKE ?`;
     queryParams.push(`%${search}%`);
   }
 
-  // Add package filter
-  if (package) {
+  // 📦 Package Filter
+  if (packageFilter) {
     sql += ` AND plan = ?`;
     countSql += ` AND plan = ?`;
-    queryParams.push(package);
+    queryParams.push(packageFilter);
   }
 
-  // Add pagination
+  // 📄 Pagination
   sql += ` LIMIT ? OFFSET ?`;
   queryParams.push(perPage, (page - 1) * perPage);
 
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  // ⛏ Helper Queries
   const backgroundSql = "SELECT * FROM nav_table";
-  const NotifactionSql = `
-      SELECT COUNT(*) AS totalNotifactions 
-      FROM notifications 
-      WHERE is_read = 0 
-        AND created_at >= NOW() - INTERVAL 2 DAY
+  const notifSql = `SELECT COUNT(*) AS totalNotifactions FROM notifications WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY`;
+  const passwordSql = `SELECT * FROM notifications WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY ORDER BY id DESC`;
+  const paidSql = `
+    SELECT Username, Email, user_img, created_at FROM users 
+    WHERE role = 'user' AND invoice = 'paid' 
+    AND MONTH(created_at) = ? AND YEAR(created_at) = ?
   `;
-  const passwordSql = `
-      SELECT * FROM notifications 
-      WHERE is_read = 0 
-        AND created_at >= NOW() - INTERVAL 2 DAY 
-      ORDER BY id DESC
+  const unpaidSql = `
+    SELECT Username, Email, user_img, created_at FROM users 
+    WHERE role = 'user' AND (invoice IS NULL OR invoice = 'unpaid') 
+    AND MONTH(created_at) = ? AND YEAR(created_at) = ?
   `;
 
-  // Get total count for pagination
+  // 🧠 Main Execution
   db.query(countSql, queryParams.slice(0, -2), (err, countResult) => {
-    if (err) {
-      console.error("Database query error (count):", err);
-      return res.status(500).send("Internal Server Error");
-    }
-
+    if (err) return res.status(500).send("Internal Server Error");
     const totalUsers = countResult[0].total;
 
-    db.query(sql, queryParams, (err, results) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+    db.query(sql, queryParams, (err, users) => {
+      if (err) return res.status(500).send("Internal Server Error");
 
       db.query(backgroundSql, (err, bg_result) => {
-        if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
-        }
+        if (err) return res.status(500).send("Internal Server Error");
 
-        db.query(NotifactionSql, (err, NotifactionResult) => {
-          if (err) {
-            console.error("Error fetching total notifications:", err);
-            return res.status(500).send("Database error");
-          }
+        db.query(notifSql, (err, notifCountResult) => {
+          if (err) return res.status(500).send("Internal Server Error");
+          const totalNotifactions = notifCountResult[0].totalNotifactions;
 
-          const payments = `SELECT * FROM payments`;
-
-          db.query(payments, (err, payments_results) => {
-            if (err) {
-              console.error("Database query error:", err);
-              return res.status(500).send("Internal Server Error");
-            }
-
-            const totalNotifactions = NotifactionResult[0].totalNotifactions;
+          db.query("SELECT * FROM payments", (err, payments) => {
+            if (err) return res.status(500).send("Internal Server Error");
 
             db.query(passwordSql, (err, password_datass) => {
-              if (err) {
-                console.error("Database query error (Notifications):", err);
-                return res.status(500).send("Internal Server Error");
-              }
+              if (err) return res.status(500).send("Internal Server Error");
 
-              const notifications_users = `
-                          SELECT COUNT(*) AS Notifactions 
-                          FROM notifications_user 
-                          WHERE user_id = ?
-                      `;
+              const notifUserCountSql = `
+                SELECT COUNT(*) AS Notifactions FROM notifications_user WHERE user_id = ?
+              `;
+              db.query(notifUserCountSql, [userId], (err, notifCountUserResult) => {
+                if (err) return res.status(500).send("Internal Server Error");
+                const Notifactions = notifCountUserResult[0].Notifactions;
 
-              db.query(notifications_users, [userId], (err, Notifaction) => {
-                if (err) {
-                  console.error(
-                    "Error fetching user notifications count:",
-                    err
-                  );
-                  return res.status(500).send("Database error");
-                }
+                const unreadNotifSql = `
+                  SELECT * FROM notifications_user 
+                  WHERE user_id = ? AND is_read = 0 
+                  AND created_at >= NOW() - INTERVAL 2 DAY 
+                  ORDER BY id DESC
+                `;
+                db.query(unreadNotifSql, [userId], (err, notifications_users) => {
+                  if (err) return res.status(500).send("Internal Server Error");
 
-                const Notifactions = Notifaction[0].Notifactions;
+                  db.query("SELECT * FROM packages", (err, Package_results) => {
+                    if (err) return res.status(500).send("Internal Server Error");
 
-                const userNotificationsSql = `
-                              SELECT * FROM notifications_user 
-                              WHERE user_id = ? 
-                              AND is_read = 0 
-                              AND created_at >= NOW() - INTERVAL 2 DAY 
-                              ORDER BY id DESC
-                          `;
-                db.query(
-                  userNotificationsSql,
-                  [userId],
-                  (err, notifications_users) => {
-                    if (err) {
-                      console.error(
-                        "Error fetching notification details:",
-                        err
-                      );
-                      return res.status(500).send("Server Error");
-                    }
+                    db.query(paidSql, [currentMonth, currentYear], (err, paidUsers) => {
+                      if (err) return res.status(500).send("Internal Server Error");
 
-                    const Package = `SELECT * FROM packages`;
-                    db.query(Package, (err, Package_results) => {
-                      if (err) {
-                        console.error("Database query error:", err);
-                        return res.status(500).send("Internal Server Error");
-                      }
+                      db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidUsers) => {
+                        if (err) return res.status(500).send("Internal Server Error");
 
-                      const successMsg = req.flash("success");
-                      const isAdmin = "admin";
-                      const isUser =
-                        req.session.user && req.session.user.role === "user";
-                      const isTeam =
- db.query(paidSql, [currentMonth, currentYear], (err, paidUsers) => {
-  if (err) {
-    console.error("Error fetching paid users:", err);
-    return res.status(500).send("Internal Server Error");
-  }
+                      res.render(viewName, {
 
-  db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidUsers) => {
-    if (err) {
-      console.error("Error fetching unpaid users:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-
-    res.render("AddUsers/User", {
-      user: results,
-      message: null,
-      isAdmin,
-      isTeam,
-      bg_result,
-      totalNotifactions,
-      password_datass,
-      messages: {
-        success: successMsg.length > 0 ? successMsg[0] : null,
-      },
-      isUser,
-      notifications_users,
-      Notifactions,
-      Package_results,
-      currentPage: page,
-      perPage: perPage,
-      totalUsers: totalUsers,
-      search: search,
-      package: package,
-      payments_results,
-      paidCount: paidUsers.length,     // ✅ count
-      unpaidCount: unpaidUsers.length, // ✅ count
-      paidUsers,                       // ✅ full list
-      unpaidUsers                      // ✅ full list
-    });
-  });
-});
-
-
+                          user: users,
+                          message: null,
+                          isAdmin: "admin",
+                          isTeam: false,
+                          bg_result,
+                          totalNotifactions,
+                          password_datass,
+                          messages: {
+                            success: req.flash("success")[0] || null,
+                          },
+                          isUser: req.session.user?.role === "user",
+                          notifications_users,
+                          Notifactions,
+                          Package_results,
+                          currentPage: page,
+                          perPage,
+                          totalUsers,
+                          search,
+                          package: packageFilter,
+                          payments_results: payments,
+                          paidCount: paidUsers.length,
+                          unpaidCount: unpaidUsers.length,
+                          paidUsers,
+                          unpaidUsers,
+                          expiryStatus
+                        });
+                      });
                     });
-                  }
-                );
+                  });
+                });
               });
             });
           });
@@ -223,41 +165,28 @@ const unpaidSql = `
   });
 };
 
-// All AdminUsers Update
+// ✅ Update User
 exports.UpdateUser = async (req, res) => {
   const userId = req.params.id;
-  const { Username, Email, Number, role, plan, invoice, password, expiry } =
-    req.body;
+  const { Username, Email, Number, role, plan, invoice, password, expiry } = req.body;
 
   try {
     let hashedPassword = null;
-
     if (password) {
-      // Hash the new password before storing it
       const saltRounds = 10;
       hashedPassword = await bcrypt.hash(password, saltRounds);
     }
 
-    const sql =
-      "UPDATE users SET Username = ?, Email = ?, Number = ?, invoice = ?, role = ?, plan = ?, expiry = ?" +
-      (hashedPassword ? ", password = ?" : "") +
-      " WHERE id = ?";
+    const sql = `
+      UPDATE users SET Username = ?, Email = ?, Number = ?, invoice = ?, role = ?, plan = ?, expiry = ?
+      ${hashedPassword ? `, password = ?` : ``} WHERE id = ?
+    `;
 
     const values = hashedPassword
-      ? [
-          Username,
-          Email,
-          Number,
-          invoice,
-          role,
-          plan,
-          expiry,
-          hashedPassword,
-          userId,
-        ]
+      ? [Username, Email, Number, invoice, role, plan, expiry, hashedPassword, userId]
       : [Username, Email, Number, invoice, role, plan, expiry, userId];
 
-    db.query(sql, values, (err, result) => {
+    db.query(sql, values, (err) => {
       if (err) {
         console.error("Database query error:", err);
         return res.status(500).send("Internal Server Error");
@@ -271,11 +200,11 @@ exports.UpdateUser = async (req, res) => {
   }
 };
 
-// All AdminUsers Delete
+// ✅ Delete User
 exports.DeleteUser = (req, res) => {
   const userId = req.params.id;
   const sql = "DELETE FROM users WHERE id = ?";
-  db.query(sql, [userId], (err, result) => {
+  db.query(sql, [userId], (err) => {
     if (err) {
       console.error("Database query error:", err);
       return res.status(500).send("Internal Server Error");

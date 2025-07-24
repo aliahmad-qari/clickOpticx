@@ -10,254 +10,123 @@ exports.profile = (req, res) => {
     return res.redirect("/");
   }
 
-  const sqlProfile =
-    "SELECT username, Email, plan, invoice, transaction_id,expiry, user_img, amount, role FROM users WHERE role='user'";
+  const sqlProfile = `
+    SELECT username, Email, plan, invoice, transaction_id, expiry, user_img, amount, role 
+    FROM users WHERE role='user'
+  `;
 
   db.query(sqlProfile, [userId], (err, results) => {
-    if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).send("Internal Server Error");
-    }
+    if (err) return res.status(500).send("Internal Server Error");
 
     const Cards = "SELECT * FROM cards";
     db.query(Cards, (err, cardResults) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+      if (err) return res.status(500).send("Internal Server Error");
 
-      // ✅ Only unread notifications from the last 2 days
       const passwordSql = `
         SELECT * FROM notifications 
-        WHERE is_read = 0 
-          AND created_at >= NOW() - INTERVAL 2 DAY 
+        WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY 
         ORDER BY id DESC
       `;
       db.query(passwordSql, (err, password_datass) => {
-        if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
-        }
-        // ✅ Only unread notifications from the last 2 days
+        if (err) return res.status(500).send("Internal Server Error");
 
-        // icon
         const sqlIcon = "SELECT * FROM icon_slider";
         db.query(sqlIcon, (err, Iconresult) => {
-          if (err) {
-            console.error("Database query error:", err);
-            return res.status(500).send("Internal Server Error");
-          }
-          // icon
+          if (err) return res.status(500).send("Internal Server Error");
 
-          const queryPayments = "SELECT COUNT(*) AS count FROM payments";
-          db.query(queryPayments, (err, paymentResult) => {
-            if (err) {
-              console.error("Error fetching payment count:", err);
-              return res.status(500).send("Database error");
-            }
+          db.query("SELECT COUNT(*) AS count FROM payments", (err, paymentResult) => {
+            if (err) return res.status(500).send("Database error");
 
-            const queryTotalUsers =
-              "SELECT COUNT(*) AS totalUsers FROM users WHERE role = 'user'";
-            db.query(queryTotalUsers, (err, userResult) => {
-              if (err) {
-                console.error("Error fetching total users:", err);
-                return res.status(500).send("Database error");
-              }
+            db.query("SELECT COUNT(*) AS totalUsers FROM users WHERE role = 'user'", (err, userResult) => {
+              if (err) return res.status(500).send("Database error");
 
-              const queryTotalTeam =
-                "SELECT COUNT(*) AS totalTeam FROM users WHERE role = 'team'";
-              db.query(queryTotalTeam, (err, teamResult) => {
-                if (err) {
-                  console.error("Error fetching total team members:", err);
-                  return res.status(500).send("Database error");
-                }
+              db.query("SELECT COUNT(*) AS totalTeam FROM users WHERE role = 'team'", (err, teamResult) => {
+                if (err) return res.status(500).send("Database error");
 
-                const queryTotalRequests =
-                  "SELECT COUNT(*) AS totalRequests FROM payments";
-                db.query(queryTotalRequests, (err, requestResult) => {
-                  if (err) {
-                    console.error("Error fetching total requests:", err);
-                    return res.status(500).send("Database error");
-                  }
+                db.query("SELECT COUNT(*) AS totalRequests FROM payments", (err, requestResult) => {
+                  if (err) return res.status(500).send("Database error");
 
-                  const queryTotalComplaints =
-                    "SELECT COUNT(*) AS totalComplaints FROM usercomplaint";
-                  db.query(queryTotalComplaints, (err, complaintResult) => {
-                    if (err) {
-                      console.error("Error fetching total complaints:", err);
-                      return res.status(500).send("Database error");
-                    }
+                  db.query("SELECT COUNT(*) AS totalComplaints FROM usercomplaint", (err, complaintResult) => {
+                    if (err) return res.status(500).send("Database error");
 
-                    // ✅ Total notifications count (used in badge)
-                    const NotifactionSql =
-                      "SELECT COUNT(*) AS totalNotifactions FROM notifications WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY";
-                    db.query(NotifactionSql, (err, NotifactionResult) => {
-                      if (err) {
-                        console.error(
-                          "Error fetching total notifications:",
-                          err
-                        );
-                        return res.status(500).send("Database error");
-                      }
-                      // ✅ Total notifications count (used in badge)
+                    db.query(`
+                      SELECT COUNT(*) AS totalNotifactions 
+                      FROM notifications 
+                      WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY
+                    `, (err, NotifactionResult) => {
+                      if (err) return res.status(500).send("Database error");
 
-                      const queryPendingComplaints =
-                        "SELECT COUNT(*) AS pendingCount FROM usercomplaint WHERE status = 'Pending'";
-                      const queryCompletedComplaints =
-                        "SELECT COUNT(*) AS CompletedCount FROM usercomplaint WHERE status = 'Complete'";
+                      db.query("SELECT COUNT(*) AS pendingCount FROM usercomplaint WHERE status = 'Pending'", (err, pendingResult) => {
+                        if (err) return res.status(500).send("Database error");
 
-                      db.query(queryPendingComplaints, (err, pendingResult) => {
-                        if (err) {
-                          console.error(
-                            "Error fetching pending complaints:",
-                            err
-                          );
-                          return res.status(500).send("Database error");
-                        }
+                        db.query("SELECT COUNT(*) AS CompletedCount FROM usercomplaint WHERE status = 'Complete'", (err, CompletedResult) => {
+                          if (err) return res.status(500).send("Database error");
 
-                        db.query(
-                          queryCompletedComplaints,
-                          (err, CompletedResult) => {
-                            if (err) {
-                              console.error(
-                                "Error fetching completed complaints:",
-                                err
-                              );
-                              return res.status(500).send("Database error");
-                            }
+                          db.query("SELECT COUNT(*) AS totalPackages FROM packages", (err, packageResult) => {
+                            if (err) return res.status(500).send("Database error");
 
-                            let sqlPackages =
-                              "SELECT COUNT(*) AS totalPackages FROM packages";
-                            db.query(sqlPackages, (err, packageResult) => {
-                              if (err) {
-                                console.error(
-                                  "Error fetching total packages:",
-                                  err
-                                );
-                                return res.status(500).send("Database error");
-                              }
+                            db.query("SELECT * FROM slider", (err, sliderResults) => {
+                              if (err) return res.status(500).send("Internal Server Error");
 
-                              const SliderSql = "SELECT * FROM slider";
-                              db.query(SliderSql, (err, sliderResults) => {
-                                if (err) {
-                                  console.error("Database query error:", err);
-                                  return res
-                                    .status(500)
-                                    .send("Internal Server Error");
-                                }
+                              db.query(`
+                                SELECT COUNT(*) AS expiringSoon 
+                                FROM payments 
+                                WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+                              `, (err, expiringResult) => {
+                                if (err) return res.status(500).send("Database error");
 
-                                let sqlExpiring = `
-                              SELECT COUNT(*) AS expiringSoon FROM payments 
-                              WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
-                            `;
-                                db.query(sqlExpiring, (err, expiringResult) => {
-                                  if (err) {
-                                    console.error(
-                                      "Error fetching expiring payments:",
-                                      err
-                                    );
-                                    return res
-                                      .status(500)
-                                      .send("Database error");
-                                  }
+                                const now = new Date();
+const currentMonth = now.getMonth() + 1;
+const currentYear = now.getFullYear();
 
-                                  const sqlUnpaidUsers = `
-                                SELECT COUNT(*) AS unpaid_users 
-                                FROM users 
-                                WHERE role = 'user' AND invoice = 'unpaid'
-                              `;
+const unpaidSql = `
+  SELECT COUNT(*) AS unpaid_users 
+  FROM users 
+  WHERE role = 'user' 
+    AND (invoice IS NULL OR invoice = 'unpaid') 
+    AND MONTH(created_at) = ? 
+    AND YEAR(created_at) = ?
+`;
 
-                                  db.query(
-                                    sqlUnpaidUsers,
-                                    (err, unpaidResult) => {
-                                      if (err) {
-                                        return res
-                                          .status(500)
-                                          .json({ error: err.message });
+db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidResult) => {
+  if (err) return res.status(500).send("Database error");
+
+  const unpaidUsers = unpaidResult[0].unpaid_users;
+
+  db.query("SELECT * FROM nav_table", (err, bg_result) => {
+    if (err) return res.status(500).send("Internal Server Error");
+     const successMsg = req.flash("success"); 
+                                    res.render("adminIndex/adminIndex", {
+                                      user: results,
+                                      message: null,
+                                      cards: cardResults,
+                                      slider: sliderResults,
+                                      isAdmin: "admin",
+                                      isUser: req.session.user && req.session.user.role === "user",
+                                      paymentCount: paymentResult[0].count,
+                                      totalUsers: userResult[0].totalUsers,
+                                      password_datass,
+                                      bg_result,
+                                      totalTeam: teamResult[0].totalTeam,
+                                      totalRequests: requestResult[0].totalRequests,
+                                      totalComplaints: complaintResult[0].totalComplaints,
+                                      totalNotifactions: NotifactionResult[0].totalNotifactions,
+                                      pendingCount: pendingResult[0].pendingCount,
+                                      CompletedCount: CompletedResult[0].CompletedCount,
+                                      totalPackages: packageResult[0].totalPackages,
+                                      expiringSoon: expiringResult[0].expiringSoon,
+                                      unpaidUsers,
+                                      Iconresult,
+                                      messages: {
+                                        success: successMsg.length > 0 ? successMsg[0] : null
                                       }
-
-                                      const backgroundSql =
-                                        "SELECT * FROM nav_table";
-                                      db.query(
-                                        backgroundSql,
-                                        (err, bg_result) => {
-                                          if (err) {
-                                            console.error(
-                                              "Database query error:",
-                                              err
-                                            );
-                                            return res
-                                              .status(500)
-                                              .send("Internal Server Error");
-                                          }
-
-                                          const unpaidUsers =
-                                            unpaidResult[0].unpaid_users;
-                                          const paymentCount =
-                                            paymentResult[0].count;
-                                          const totalUsers =
-                                            userResult[0].totalUsers;
-                                          const totalTeam =
-                                            teamResult[0].totalTeam;
-                                          const totalRequests =
-                                            requestResult[0].totalRequests;
-                                          const totalComplaints =
-                                            complaintResult[0].totalComplaints;
-                                          const pendingCount =
-                                            pendingResult[0].pendingCount;
-                                          const CompletedCount =
-                                            CompletedResult[0].CompletedCount;
-                                          const totalPackages =
-                                            packageResult[0].totalPackages;
-                                          const expiringSoon =
-                                            expiringResult[0].expiringSoon;
-                                          const totalNotifactions =
-                                            NotifactionResult[0]
-                                              .totalNotifactions;
-                                          const isAdmin = "admin";
-                                          const isUser =
-                                            req.session.user &&
-                                            req.session.user.role === "user";
-
-                                          const successMsg =
-                                            req.flash("success");
-                                          res.render("adminIndex/adminIndex", {
-                                            user: results,
-                                            message: null,
-                                            cards: cardResults,
-                                            slider: sliderResults,
-                                            isAdmin,
-                                            isUser,
-                                            paymentCount,
-                                            totalUsers,
-                                            password_datass,
-                                            bg_result,
-                                            totalTeam,
-                                            totalRequests,
-                                            totalComplaints,
-                                            totalNotifactions,
-                                            pendingCount,
-                                            CompletedCount,
-                                            totalPackages,
-                                            expiringSoon,
-                                            unpaidUsers,
-                                            Iconresult,
-                                            messages: {
-                                              success:
-                                                successMsg.length > 0
-                                                  ? successMsg[0]
-                                                  : null,
-                                            },
-                                          });
-                                        }
-                                      );
-                                    }
-                                  );
+                                    });
+                                  });
                                 });
                               });
                             });
-                          }
-                        );
+                          });
+                        });
                       });
                     });
                   });

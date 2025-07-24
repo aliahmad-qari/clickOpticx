@@ -844,12 +844,22 @@
                                     <label for="addPlan" class="form-label">Packages</label>
                                   </div>
                                 </div>
+                                
                                 <div class="form-group mb-4">
-                                  <input type="date" name="expiry" id="addExpiry"
-                                    value="<%= user.expiry ? new Date(user.expiry).toISOString().split('T')[0] : '' %>"
-                                    class="form-control" required placeholder=" ">
-                                  <label for="addExpiry" class="form-label">Expiry Date</label>
-                                </div>
+  <input type="date" name="expiry" id="addExpiry"
+    value="<%= user.expiry ? new Date(user.expiry).toISOString().split('T')[0] : '' %>"
+    class="form-control" required placeholder=" ">
+  <label for="addExpiry" class="form-label">Expiry Date</label>
+</div>
+
+<!-- 🆕 New Invoice Dropdown Field -->
+<div class="form-group mb-4">
+  <select name="invoice" class="form-select" required>
+    <option value="paid" <%= user.invoice === 'paid' ? 'selected' : '' %>>Paid</option>
+    <option value="unpaid" <%= user.invoice === 'unpaid' || !user.invoice ? 'selected' : '' %>>Unpaid</option>
+  </select>
+  <label for="invoice" class="form-label">Invoice Status</label>
+</div>
                                 <button type="submit" class="btn btn-success">
                                   <i class="fas fa-save me-2"></i> Update User
                                 </button>

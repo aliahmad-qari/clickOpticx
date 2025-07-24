@@ -337,21 +337,35 @@
                   </div>
 
                   <!-- Search and Date Filter -->
-                  <div class="search-container">
-                    <div class="search-group">
-                      <label for="usernameSearch" class="input-label">Username</label>
-                      <input type="text" id="usernameSearch" class="search-input" placeholder="Enter username...">
-                    </div>
+                 <div class="search-container">
+  <!-- Username Search -->
+  <div class="search-group">
+    <label for="usernameSearch" class="input-label">Username</label>
+    <input type="text" id="usernameSearch" class="search-input" placeholder="Enter username...">
+  </div>
 
-                    <div class="search-group">
-                      <label for="startDate" class="input-label">Date Range</label>
-                      <div class="date-range-group">
-                        <input type="date" id="startDate" class="date-input">
-                        <span class="date-separator">to</span>
-                        <input type="date" id="endDate" class="date-input">
-                      </div>
-                    </div>
-                  </div>
+  <!-- Date Range -->
+  <div class="search-group">
+    <label for="startDate" class="input-label">Date Range</label>
+    <div class="date-range-group">
+      <input type="date" id="startDate" class="date-input">
+      <span class="date-separator">to</span>
+      <input type="date" id="endDate" class="date-input">
+    </div>
+  </div>
+
+  <!-- Expiry Status -->
+  <div class="search-group">
+    <label for="expiryStatus" class="input-label">Expiry Status</label>
+    <select id="expiryStatus" class="search-input">
+      <option value="">All</option>
+      <option value="expired">Expired</option>
+      <option value="near_expiry">Near Expiry (7 days)</option>
+      <option value="active">Active</option>
+    </select>
+  </div>
+</div>
+
                   <!-- Search and Date Filter -->
 
 
@@ -369,32 +383,89 @@
                               <%= users.Username %>
                             </div>
 
-                            <div class="ag-courses-item_date-box gap-1">
-                              <strong>Status:</strong>
-                              <span class="ag-courses-item_date">
-                                <%= users.invoice %>
-                              </span><br>
+                            <!-- ✅ NEW: expiry field added -->
+<div class="ag-courses-item_date-box gap-1">
+  <strong>Status:</strong>
+  <span class="ag-courses-item_date">
+    <%= users.invoice %>
+  </span><br>
 
-                              <strong>Package:</strong>
-                              <span class="ag-courses-item_date">
-                                <%= users.plan %> GB
-                              </span><br>
+  <strong>Package:</strong>
+  <span class="ag-courses-item_date">
+    <%= users.plan %> GB
+  </span><br>
 
-                              <% if (users.latest_payment) { %>
-                                <strong>Active Date:</strong>
-                                <span class="ag-courses-item_date active-date">
-                                  <%= users.latest_payment %>
-                                </span>
-                                <% } else { %>
-                                  <span class="ag-courses-item_date text-muted active-date">No Payments Found</span>
-                                  <% } %>
-                            </div>
+  <% if (users.latest_payment) { %>
+    <strong>Active Date:</strong>
+    <span class="ag-courses-item_date active-date">
+      <%= users.latest_payment %>
+    </span><br>
+  <% } else { %>
+    <span class="ag-courses-item_date text-muted active-date">No Payments Found</span><br>
+  <% } %>
+
+  <% if (users.expiry) { %>
+    <strong>Expiry:</strong>
+    <span class="ag-courses-item_date expiry-date">
+      <%= new Date(users.expiry).toLocaleDateString("en-GB") %>
+    </span>
+  <% } else { %>
+    <span class="ag-courses-item_date text-muted expiry-date">No Expiry</span>
+  <% } %>
+</div>
+
                           </a>
                         </div>
                         <% }) %>
                     </div>
                   </div>
             </div>
+            <script>
+  // ⬇ New expiry filter
+  function filterByExpiryStatus() {
+    const filter = document.getElementById('expiryStatus').value;
+    const userCards = document.querySelectorAll('.ag-courses_item');
+
+    const today = new Date();
+    const next7 = new Date();
+    next7.setDate(today.getDate() + 7);
+
+    userCards.forEach(card => {
+      const expiryText = card.querySelector('.expiry-date')?.textContent.trim();
+      const isHiddenByOther = card.classList.contains('hidden-by-username') || card.classList.contains('hidden-by-date');
+
+      if (!expiryText || expiryText === 'No Expiry') {
+        card.style.display = filter && !isHiddenByOther ? 'none' : '';
+        return;
+      }
+
+      const [day, month, year] = expiryText.split('/').map(Number); // dd/mm/yyyy
+      const expiryDate = new Date(year, month - 1, day);
+
+      let match = false;
+      if (filter === "expired") {
+        match = expiryDate < today;
+      } else if (filter === "near_expiry") {
+        match = expiryDate >= today && expiryDate <= next7;
+      } else if (filter === "active") {
+         match = expiryDate > today;
+      } else {
+        match = true; // "All"
+      }
+
+      card.style.display = !isHiddenByOther && match ? '' : 'none';
+    });
+  }
+
+  // ⬇ Add event listener
+  document.getElementById('expiryStatus').addEventListener('change', filterByExpiryStatus);
+
+  // ⬇ Run filter on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    filterByExpiryStatus();
+  });
+</script>
+
             <!-- All User Table End -->
             <script>
               // Username search filter
