@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const async = require('async');
 const nodemailer = require('nodemailer');
 const crypto = require("crypto");
+const NotificationService = require("../services/notificationService");
 
 exports.loginPage = (req, res) => {
   const query = 'SELECT nav_imgs FROM your_table_name LIMIT 1';
@@ -630,11 +631,15 @@ exports.submitFibreForm = (req, res) => {
           ? `${username} skipped the fibre form`
           : `${username} submitted the Fibre form`;
 
-        const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
-        db.query(notifQuery, [username, message], (err3) => {
-          if (err3) {
-            console.error('[submitFibreForm] Error inserting notification:', err3);
-          }
+        // Use the new notification service for form submission
+        NotificationService.handleContactForm({
+          name: username,
+          email: email,
+          message: message
+        }).then(() => {
+          res.redirect('/index');
+        }).catch((notificationError) => {
+          console.error('[submitFibreForm] Error sending notifications:', notificationError);
           res.redirect('/index');
         });
       });
@@ -774,11 +779,15 @@ exports.submitWirelessForm = (req, res) => {
           ? `${username} skipped the Wireless form`
           : `${username} submitted the Wireless form`;
 
-        const notifQuery = `INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)`;
-        db.query(notifQuery, [username, message], (err3) => {
-          if (err3) {
-            console.error('[submitWirelessForm] Error inserting notification:', err3);
-          }
+        // Use the new notification service for form submission
+        NotificationService.handleContactForm({
+          name: username,
+          email: email,
+          message: message
+        }).then(() => {
+          res.redirect('/index');
+        }).catch((notificationError) => {
+          console.error('[submitWirelessForm] Error sending notifications:', notificationError);
           res.redirect('/index');
         });
       });

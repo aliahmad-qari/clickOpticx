@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const moment = require("moment");
+const NotificationService = require("../services/notificationService");
 
 exports.profile = (req, res) => {
   const userId = req.session.userId;
@@ -165,7 +166,7 @@ exports.AllComplaint = (req, res) => {
   // Fetch user profile data and complaints in one go
   const sqlProfile = "SELECT user_img  FROM users WHERE id = ?";
   const sqlComplaints =
-    "SELECT username, number , Plane, Complaint, Address, status FROM usercomplaint WHERE user_id = ?";
+    "SELECT username, number , department, Complaint, Address, status FROM usercomplaint WHERE user_id = ?";
 
   db.query(sqlProfile, [userId], (err, userResults) => {
     if (err) {
@@ -207,17 +208,16 @@ exports.AllComplaint = (req, res) => {
 };
 
 // Inserting a new complaint
-exports.UserComplaint = (req, res) => {
-  const { username, number, Plane, Complaint, Address } = req.body;
+exports.UserComplaint = async (req, res) => {
+  const { username, number, department, Complaint, Address } = req.body;
   const userId = req.session.userId;
-  const message = "Complaint:";
 
   if (!userId) {
     return res.status(400).send("User not logged in");
   }
 
-  const checkUserQuery = "SELECT id FROM users WHERE id = ?";
-  db.query(checkUserQuery, [userId], (err, results) => {
+  const checkUserQuery = "SELECT id, Email FROM users WHERE id = ?";
+  db.query(checkUserQuery, [userId], async (err, results) => {
     if (err) {
       console.error("Database query error:", err);
       return res.status(500).send("Internal Server Error");
@@ -227,37 +227,36 @@ exports.UserComplaint = (req, res) => {
       return res.status(400).send("Invalid user ID. User does not exist.");
     }
 
+    const userEmail = results[0].Email;
+
     const insertComplaintQuery =
-      "INSERT INTO usercomplaint (username, number, Plane, Complaint, Address, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO usercomplaint (username, number, department, Complaint, Address, user_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     db.query(
       insertComplaintQuery,
-      [username, number, Plane, Complaint, Address, userId],
-      (err, result) => {
+      [username, number, department, Complaint, Address, userId],
+      async (err, result) => {
         if (err) {
           console.error("Database query error:", err);
           return res.status(500).send("Internal Server Error");
         }
-        // 2. Insert message into notifications table
-        const sqlNotif = `
-            INSERT INTO notifications (username,Complaint,message)
-            VALUES (?,?,?)
-        `;
 
-        db.query(
-          sqlNotif,
-          [username, Complaint, message],
-          (err, notifResult) => {
-            if (err) {
-              console.error("❌ SQL Error (notifications):", err);
-              req.flash("error", "Error saving to notifications table.");
-              return res.redirect("/changepassword");
-            }
+        try {
+          // Use the new notification service
+          await NotificationService.handleNewComplaint({
+            username: username,
+            email: userEmail,
+            phone: number,
+            complaint: Complaint
+          });
 
-            req.flash("success", "your complaint has been submitted");
-            res.redirect("/contactUs");
-          }
-        );
+          req.flash("success", "Your complaint has been submitted");
+          res.redirect("/contactUs");
+        } catch (notificationError) {
+          console.error("❌ Error sending notifications:", notificationError);
+          req.flash("success", "Your complaint has been submitted");
+          res.redirect("/contactUs");
+        }
       }
     );
   });

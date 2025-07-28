@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const NotificationService = require("../services/notificationService");
 
 // Get the user's
 exports.plan = (req, res) => {
@@ -204,7 +205,7 @@ exports.updateNav_img = (req, res) => {
 
 // update the Nav_br img // update the Nav_bar img // update the Nav_bar img
 
-exports.updateSubscription = (req, res) => {
+exports.updateSubscription = async (req, res) => {
   console.log("Received Data:", req.body);
 
   const { user_id, username, transaction_id, amount, package_name } = req.body;
@@ -231,14 +232,40 @@ exports.updateSubscription = (req, res) => {
   db.query(
     query,
     [user_id, username, transaction_id, amount, package_name],
-    (err, result) => {
+    async (err, result) => {
       if (err) {
         console.error("Database error:", err);
         return res
           .status(500)
           .json({ success: false, message: "Database error" });
       }
-      res.redirect("/index");
+
+      try {
+        // Get user email for notification
+        const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
+        db.query(getUserEmailQuery, [user_id], async (emailErr, userResult) => {
+          if (emailErr) {
+            console.error("❌ Error fetching user email:", emailErr);
+          }
+
+          try {
+            // Use the new notification service for subscription payment
+            await NotificationService.handleNewPayment({
+              username: username,
+              email: userResult.length > 0 ? userResult[0].Email : null,
+              package_name: package_name,
+              amount: amount
+            });
+          } catch (notificationError) {
+            console.error("❌ Error sending subscription notifications:", notificationError);
+          }
+
+          res.redirect("/index");
+        });
+      } catch (error) {
+        console.error("❌ Unexpected error in updateSubscription:", error);
+        res.redirect("/index");
+      }
     }
   );
 };

@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin Panel - Customize</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+      --accent: #ff4d4d;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border-color: #e0e0e0;
+      --hover-bg: #f8f9ff;
+      --sidebar-width: 280px;
+    }
+
+    .main-panel {
+      background-color: #F3F3F9;
+      padding: 20px;
+    }
+
+    .customization-wrapper {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 20px;
+      min-height: 80vh;
+    }
+
+    .customization-sidebar {
+      width: var(--sidebar-width);
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      padding: 0;
+    }
+
+    .nav-section {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-section:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .nav-category {
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-category:last-child {
+      border-bottom: none;
+    }
+
+    .nav-category-header {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .nav-category-header i {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-menu-item {
+      padding: 12px 20px 12px 50px;
+      color: #555;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .nav-menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .nav-menu-item:hover {
+      background: #e8f0fe;
+      color: var(--primary);
+      padding-left: 55px;
+      transform: translateX(5px);
+    }
+
+    .nav-menu-item.active {
+      background: var(--primary);
+      color: white;
+      border-left: 4px solid var(--secondary);
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(106, 17, 203, 0.2);
+    }
+
+    .nav-menu-item i {
+      font-size: 0.9rem;
+      width: 16px;
+      text-align: center;
+    }
+
+    .nav-menu-item span {
+      flex: 1;
+    }
+
+    .customization-container {
+      flex: 1;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .customization-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .customization-header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .customization-header p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .settings-content {
+      padding: 30px;
+      min-height: 500px;
+    }
+
+    .setting-panel {
+      display: none;
+    }
+
+    .setting-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel-header {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      color: var(--dark);
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .panel-header p {
+      margin: 10px 0 0 0;
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .accordion-container {
+      padding: 0;
+    }
+
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .accordion-item:last-child {
+      border-bottom: none;
+    }
+
+    .accordion-header {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 25px 30px;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .accordion-header:hover {
+      background-color: var(--hover-bg);
+    }
+
+    .accordion-header.active {
+      background-color: var(--hover-bg);
+      color: var(--primary);
+    }
+
+    .accordion-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .accordion-icon {
+      font-size: 1.5rem;
+      color: var(--secondary);
+    }
+
+    .accordion-chevron {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: var(--secondary);
+    }
+
+    .accordion-chevron.active {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 0 30px 30px 30px;
+      background-color: #fafbff;
+    }
+
+    .accordion-content.active {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-description {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .settings-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .settings-card h3 {
+      color: var(--dark);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark);
+      gap: 10px;
+    }
+
+    .form-control, .color-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .color-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+    }
+
+    .color-input {
+      height: 60px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .upload-area {
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      background: #fafbff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-area:hover {
+      border-color: var(--primary);
+      background: #f0f4ff;
+    }
+
+    .upload-area input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+    }
+
+    .image-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+      margin: 10px;
+    }
+
+    .image-item {
+      display: inline-block;
+      position: relative;
+      margin: 10px;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-panel {
+        padding: 10px;
+      }
+
+      .customization-wrapper {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .customization-sidebar {
+        width: 100%;
+        order: 2;
+      }
+
+      .customization-container {
+        order: 1;
+      }
+
+      .settings-content {
+        padding: 20px 15px;
+      }
+
+      .customization-header {
+        padding: 20px;
+      }
+
+      .customization-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .accordion-header {
+        padding: 20px 15px;
+        font-size: 1.1rem;
+      }
+
+      .accordion-content {
+        padding: 0 15px 20px 15px;
+      }
+
+      .settings-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .settings-card {
+        padding: 20px;
+      }
+
+      .sidebar-header {
+        padding: 15px;
+      }
+
+      .sidebar-header h2 {
+        font-size: 1rem;
+      }
+
+      .nav-category-header {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+      }
+
+      .nav-category-header i {
+        font-size: 1rem;
+      }
+
+      .nav-menu-item {
+        padding: 10px 15px 10px 40px;
+        font-size: 0.9rem;
+      }
+
+      .nav-menu-item:hover {
+        padding-left: 45px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .accordion-title {
+        gap: 10px;
+      }
+
+      .accordion-icon {
+        font-size: 1.3rem;
+      }
+
+      .settings-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .upload-area {
+        padding: 30px 15px;
+      }
+
+      .upload-icon {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include ('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left:0px;">
+      <%- include ('../partials/SettingsDow.ejs') %>
+      <%- include ('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel">
+        <div class="customization-wrapper">
+          
+          <!-- Sidebar Navigation -->
+          <div class="customization-sidebar">
+            <div class="sidebar-header">
+              <h2><i class="fas fa-palette"></i> Admin Panel Settings</h2>
+            </div>
+            
+            <div class="sidebar-nav">
+              <!-- User Dashboard Settings -->
+              <div class="nav-category">
+                <div class="nav-category-header">
+                  <i class="fas fa-tachometer-alt"></i>
+                  <span>User Dashboard Settings</span>
+                </div>
+                
+                <button class="nav-menu-item" data-panel="text-color">
+                  <i class="fas fa-font"></i>
+                  <span>Text Color Settings</span>
+                </button>
+                
+                <button class="nav-menu-item" data-panel="background-color">
+                  <i class="fas fa-fill-drip"></i>
+                  <span>Background Color Settings</span>
+                </button>
+                
+                <button class="nav-menu-item" data-panel="background-image">
+                  <i class="fas fa-image"></i>
+                  <span>Background Image Settings</span>
+                </button>
+              </div>
+
+              <!-- Slider Images Settings -->
+              <div class="nav-category">
+                <div class="nav-category-header">
+                  <i class="fas fa-images"></i>
+                  <span>Slider Images</span>
+                </div>
+                
+                <button class="nav-menu-item" data-panel="add-slider">
+                  <i class="fas fa-plus-circle"></i>
+                  <span>Add Slider Image</span>
+                </button>
+                
+                <button class="nav-menu-item" data-panel="manage-sliders">
+                  <i class="fas fa-list"></i>
+                  <span>Manage Slider Images</span>
+                </button>
+              </div>
+
+              <!-- Header & Footer Settings -->
+              <div class="nav-category">
+                <div class="nav-category-header">
+                  <i class="fas fa-columns"></i>
+                  <span>Header & Footer Settings</span>
+                </div>
+                
+                <button class="nav-menu-item" data-panel="brand-logo">
+                  <i class="fas fa-image"></i>
+                  <span>Brand Logo Settings</span>
+                </button>
+                
+                <button class="nav-menu-item" data-panel="brand-text">
+                  <i class="fas fa-text-width"></i>
+                  <span>Brand Text Settings</span>
+                </button>
+                
+                <button class="nav-menu-item" data-panel="footer-icons">
+                  <i class="fas fa-icons"></i>
+                  <span>Footer Icons Settings</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Content Area -->
+          <div class="customization-container">
+            <!-- Header -->
+            <div class="customization-header">
+              <h1><i class="fas fa-palette"></i> Admin Panel Customization</h1>
+              <p>Customize your user dashboard appearance and settings</p>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="settings-content">
+              
+              <!-- Text Color Panel -->
+              <div class="setting-panel active" id="text-color-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-font"></i> Text Color Settings</h2>
+                  <p>Update the text color that appears on your user dashboard</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/textChange" method="post">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-palette"></i>
+                        Choose Dashboard Text Color
+                      </label>
+                      <input type="color" name="text_color" class="color-input" />
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-palette"></i> Apply Text Color
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Background Color Panel -->
+              <div class="setting-panel" id="background-color-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-fill-drip"></i> Background Color Settings</h2>
+                  <p>Update the background color of your user dashboard</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/update-background-color" method="post">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-fill-drip"></i>
+                        Choose Dashboard Background Color
+                      </label>
+                      <input type="color" name="background_color" class="color-input">
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-fill-drip"></i> Apply Background Color
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Background Image Panel -->
+              <div class="setting-panel" id="background-image-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-image"></i> Background Image Settings</h2>
+                  <p>Upload and manage background images for your dashboard</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Upload Dashboard Background Image
+                      </label>
+                      <div class="upload-area" id="bg-upload-area">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <p>Click or drag to upload background image</p>
+                        <input type="file" name="background_img" accept="image/*" required id="bg-file-input">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-upload"></i> Upload Background
+                    </button>
+                  </form>
+
+                  <div style="margin-top: 20px;">
+                    <button type="button" class="btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBackgroundModal">
+                      <i class="fas fa-trash-alt"></i> Delete Background
+                    </button>
+                  </div>
+
+                  <!-- Current Background Preview -->
+                  <div style="margin-top: 15px;">
+                    <% if (typeof bg_result !== 'undefined' && bg_result.length > 0) { %>
+                      <% bg_result.forEach(result => { %>
+                        <img src="/Uploads/<%= result.background_img %>" alt="Current Background" class="image-preview">
+                      <% }) %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add Slider Panel -->
+              <div class="setting-panel" id="add-slider-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-plus-circle"></i> Add Slider Image</h2>
+                  <p>Upload new images for your dashboard carousel slider</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/Slider_img" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-image"></i>
+                        Upload Slider Image
+                      </label>
+                      <div class="upload-area" id="slider-upload-area">
+                        <i class="fas fa-images upload-icon"></i>
+                        <p>Click or drag to upload slider image</p>
+                        <input type="file" name="Slider_1" accept="image/*" required id="slider-file-input">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-plus"></i> Add Slider Image
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Manage Sliders Panel -->
+              <div class="setting-panel" id="manage-sliders-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-list"></i> Manage Slider Images</h2>
+                  <p>View and delete existing slider images</p>
+                </div>
+                
+                <div class="settings-card">
+                  <div id="slider-images-container">
+                    <% if (typeof slider !== 'undefined' && slider.length > 0) { %>
+                      <% slider.forEach(sliderItem => { %>
+                        <div class="image-item">
+                          <img src="/uploads/<%= sliderItem.Slider_1 %>" alt="Slider Image" class="image-preview">
+                          <button type="button" class="delete-btn" onclick="deleteSlider('<%= sliderItem.id %>')">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      <% }) %>
+                    <% } else { %>
+                      <p style="color: #666; text-align: center; padding: 40px;">No slider images uploaded yet.</p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Brand Logo Panel -->
+              <div class="setting-panel" id="brand-logo-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-image"></i> Brand Logo Settings</h2>
+                  <p>Upload and update your website's brand logo</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/index" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-image"></i>
+                        Upload Brand Logo Image
+                      </label>
+                      <div class="upload-area" id="header-upload-area">
+                        <i class="fas fa-image upload-icon"></i>
+                        <p>Click or drag to upload brand logo</p>
+                        <input type="file" name="navImg" accept="image/*" required id="header-file-input">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-upload"></i> Update Logo
+                    </button>
+                  </form>
+
+                  <!-- Current Logo Preview -->
+                  <div style="margin-top: 15px;">
+                    <% if (typeof bg_result !== 'undefined' && bg_result.length > 0) { %>
+                      <% bg_result.forEach(result => { %>
+                        <% if (result.nav_imgs) { %>
+                          <img src="/uploads/<%= result.nav_imgs %>" alt="Brand Logo" class="image-preview">
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Brand Text Panel -->
+              <div class="setting-panel" id="brand-text-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-text-width"></i> Brand Text Settings</h2>
+                  <p>Update your website's brand text or tagline</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/logoTextChange" method="post">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-text-width"></i>
+                        Brand Text or Tagline
+                      </label>
+                      <input type="text" name="logo_text" class="form-control" placeholder="Enter brand text" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-save"></i> Update Text
+                    </button>
+                  </form>
+
+                  <!-- Current Text Display -->
+                  <div style="margin-top: 15px;">
+                    <% if (typeof bg_result !== 'undefined' && bg_result.length > 0) { %>
+                      <% bg_result.forEach(result => { %>
+                        <% if (result.logo_text) { %>
+                          <p style="margin-top: 10px; font-size: 1.2rem;"><strong>Current Text:</strong> <%= result.logo_text %></p>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer Icons Panel -->
+              <div class="setting-panel" id="footer-icons-panel">
+                <div class="panel-header">
+                  <h2><i class="fas fa-icons"></i> Footer Icons Settings</h2>
+                  <p>Add and manage footer icons with links</p>
+                </div>
+                
+                <div class="settings-card">
+                  <form action="/updateIcon" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-icons"></i>
+                        Upload Footer Icon Image
+                      </label>
+                      <div class="upload-area" id="footer-upload-area">
+                        <i class="fas fa-icons upload-icon"></i>
+                        <p>Click or drag to upload footer icon</p>
+                        <input type="file" name="Icon" accept="image/*" required id="footer-file-input">
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label class="form-label">
+                        <i class="fas fa-link"></i>
+                        Footer Icon Link URL
+                      </label>
+                      <input type="url" name="Link" class="form-control" placeholder="https://example.com" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-plus"></i> Add Footer Icon
+                    </button>
+                  </form>
+
+                  <!-- Current Footer Icons -->
+                  <div style="margin-top: 20px;">
+                    <% if (typeof IconSliders !== 'undefined' && IconSliders.length > 0) { %>
+                      <% IconSliders.forEach(icon => { %>
+                        <div class="image-item">
+                          <img src="/uploads/<%= icon.Icon %>" alt="Footer Icon" class="image-preview">
+                          <button type="button" class="delete-btn" onclick="deleteIcon('<%= icon.id %>')">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      <% }) %>
+                    <% } else { %>
+                      <p style="color: #666; text-align: center; padding: 40px;">No footer icons added yet.</p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Background Modal -->
+  <div class="modal fade" id="deleteBackgroundModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Delete Background Image</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the background image? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <form action="/delete-background" method="POST">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="vendors\js\vendor.bundle.base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Simple Sidebar Navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuItems = document.querySelectorAll('.nav-menu-item');
+      const settingPanels = document.querySelectorAll('.setting-panel');
+      
+      // Handle menu item clicks (show specific panel)
+      menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const panelName = this.getAttribute('data-panel');
+          const targetPanel = document.getElementById(panelName + '-panel');
+          
+          // Remove active class from all menu items
+          menuItems.forEach(otherItem => {
+            otherItem.classList.remove('active');
+          });
+          
+          // Hide all setting panels
+          settingPanels.forEach(panel => {
+            panel.classList.remove('active');
+          });
+          
+          // Show target panel and activate current item
+          if (targetPanel) {
+            targetPanel.classList.add('active');
+            this.classList.add('active');
+          }
+        });
+      });
+      
+      // Initialize - Activate first setting by default
+      if (menuItems.length > 0) {
+        menuItems[0].click();
+      }
+    });
+
+    // File upload preview functionality
+    function setupFilePreview(inputId, previewAreaId) {
+      const input = document.getElementById(inputId);
+      const previewArea = document.getElementById(previewAreaId);
+      
+      if (input && previewArea) {
+        input.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              previewArea.style.backgroundImage = `url(${e.target.result})`;
+              previewArea.style.backgroundSize = 'cover';
+              previewArea.style.backgroundPosition = 'center';
+              const text = previewArea.querySelector('p');
+              if (text) text.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    }
+
+    // Setup file previews
+    setupFilePreview('bg-file-input', 'bg-upload-area');
+    setupFilePreview('slider-file-input', 'slider-upload-area');
+    setupFilePreview('header-file-input', 'header-upload-area');
+    setupFilePreview('footer-file-input', 'footer-upload-area');
+
+    // Delete functions
+    function deleteSlider(id) {
+      if (confirm("Are you sure you want to delete this slider image?")) {
+        fetch(`/Slider_img/${id}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (response.ok) {
+            alert("Slider deleted successfully");
+            location.reload();
+          } else {
+            response.text().then(text => alert("Error: " + text));
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert("Something went wrong.");
+        });
+      }
+    }
+
+    function deleteIcon(id) {
+      if (confirm("Are you sure you want to delete this icon?")) {
+        fetch(`/icon_slider/${id}`, {
+          method: "DELETE"
+        })
+        .then(response => {
+          if (response.ok) {
+            alert("Icon deleted successfully.");
+            window.location.reload();
+          } else {
+            alert("Failed to delete icon.");
+          }
+        })
+        .catch(error => {
+          console.error("Delete error:", error);
+          alert("Error deleting icon.");
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const axios = require("axios");
 const crypto = require("crypto");
+const NotificationService = require("../services/notificationService");
 require("dotenv").config();
 
 function generateRandomString(length = 4) {
@@ -117,16 +118,31 @@ exports.updateSubscription = (req, res) => {
             return res.status(500).json({ success: false, message: "Coin reset error" });
           }
 
-          const notifQuery = `INSERT INTO notifications (username, message, package_name) VALUES (?, ?, ?)`;
-          db.query(notifQuery, [username, message, package_name], (err) => {
+          // Get user email for notification
+          const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
+          db.query(getUserEmailQuery, [user_id], async (err, userResult) => {
             if (err) {
-              console.error("❌ Notification insert error:", err);
-              return res.status(500).json({ success: false, message: "Notification error" });
+              console.error("❌ Error fetching user email:", err);
+              return res.status(500).json({ success: false, message: "User fetch error" });
             }
 
-            console.log("✅ Done: Payment recorded, coins cleared, notification sent.");
-            req.flash("success", "Your package request submitted successfully.");
-            res.redirect("/package");
+            try {
+              // Use the new notification service
+              await NotificationService.handlePackageRequest({
+                username: username,
+                email: userResult.length > 0 ? userResult[0].Email : null,
+                package_name: package_name,
+                amount: packagePrice
+              });
+
+              console.log("✅ Done: Payment recorded, coins cleared, notification sent.");
+              req.flash("success", "Your package request submitted successfully.");
+              res.redirect("/package");
+            } catch (notificationError) {
+              console.error("❌ Error sending notifications:", notificationError);
+              req.flash("success", "Your package request submitted successfully.");
+              res.redirect("/package");
+            }
           });
         });
       }
@@ -270,29 +286,31 @@ exports.updateSubscriptionSuccess = async (req, res) => {
             return res.redirect("/failure");
           }
 
-          const notifQuery = `
-            INSERT INTO notifications (username, message, package_name)
-            VALUES (?, ?, ?)
-          `;
-          db.query(
-            notifQuery,
-            [
-              payment.username,
-              `Your ${payment.package_name} package is now active!`,
-              payment.package_name,
-            ],
-            (err) => {
-              if (err) {
-                console.error("❌ Notification insert error:", err);
-              }
-
-              req.flash(
-                "success",
-                "Payment successful! Your package is now active."
-              );
-              res.redirect("/success"); // ✅ redirect to success page
+          // Get user email for notification
+          const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
+          db.query(getUserEmailQuery, [payment.user_id], async (err, userResult) => {
+            if (err) {
+              console.error("❌ Error fetching user email for success notification:", err);
             }
-          );
+
+            try {
+              // Use the new notification service for payment success
+              await NotificationService.handleNewPayment({
+                username: payment.username,
+                email: userResult.length > 0 ? userResult[0].Email : null,
+                package_name: payment.package_name,
+                amount: payment.amount
+              });
+            } catch (notificationError) {
+              console.error("❌ Error sending payment success notifications:", notificationError);
+            }
+
+            req.flash(
+              "success",
+              "Payment successful! Your package is now active."
+            );
+            res.redirect("/success"); // ✅ redirect to success page
+          });
         });
       });
     });
@@ -391,25 +409,27 @@ exports.handlePayFastITN = async (req, res) => {
             return res.status(200).send("OK");
           }
 
-          // Step 6: Insert notification
-          const notifQuery = `
-            INSERT INTO notifications (username, message, package_name)
-            VALUES (?, ?, ?)
-          `;
-          db.query(
-            notifQuery,
-            [
-              payment.username,
-              `Your ${payment.package_name} package is now active via PayFast!`,
-              payment.package_name,
-            ],
-            (err) => {
-              if (err) {
-                console.error("❌ Notification insert error in ITN:", err);
-              }
-              res.redirect("/package");
+          // Step 6: Get user email and send notification
+          const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
+          db.query(getUserEmailQuery, [payment.user_id], async (err, userResult) => {
+            if (err) {
+              console.error("❌ Error fetching user email for ITN notification:", err);
             }
-          );
+
+            try {
+              // Use the new notification service for PayFast payment
+              await NotificationService.handleNewPayment({
+                username: payment.username,
+                email: userResult.length > 0 ? userResult[0].Email : null,
+                package_name: payment.package_name,
+                amount: payment.amount
+              });
+            } catch (notificationError) {
+              console.error("❌ Error sending PayFast notifications:", notificationError);
+            }
+
+            res.redirect("/package");
+          });
         });
       });
     });

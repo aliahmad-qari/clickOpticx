@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const NotificationService = require("../services/notificationService");
 
 exports.AllComplaint = (req, res) => {
   const userId = req.session.userId;
@@ -8,7 +9,7 @@ exports.AllComplaint = (req, res) => {
 
   const sqlProfile = "SELECT * FROM users WHERE id = ?";
   const sqlComplaints =
-    "SELECT Username, number, Plane, Complaint, Address, status FROM usercomplaint WHERE user_id = ?";
+    "SELECT Username, number, department, Complaint, Address, status FROM usercomplaint WHERE user_id = ?";
   const backgroundSql = "SELECT * FROM nav_table";
   const taskQuery = "SELECT * FROM tasks ORDER BY created_at DESC";
 
@@ -126,14 +127,44 @@ exports.AllComplaint = (req, res) => {
 };
 
 // Assuming you're using multer middleware as `upload`
-exports.uploadTaskImages = (req, res) => {
+exports.uploadTaskImages = async (req, res) => {
   const { id, name, title } = req.body;
   const imagePath = req.file ? req.file.filename : null;
 
   const sql = "INSERT INTO daily_tasks (user_id, user_name, title, image) VALUES (?, ?, ?, ?)";
-  db.query(sql, [id, name, title, imagePath], (err) => {
-    if (err) throw err;
-    req.flash("success", "Task submitted successfully!");
-    res.redirect("/complaint");
+  db.query(sql, [id, name, title, imagePath], async (err) => {
+    if (err) {
+      console.error("❌ Error inserting daily task:", err);
+      req.flash("error", "Error submitting task.");
+      return res.redirect("/complaint");
+    }
+
+    try {
+      // Get user email for notification
+      const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
+      db.query(getUserEmailQuery, [id], async (emailErr, userResult) => {
+        if (emailErr) {
+          console.error("❌ Error fetching user email for task submission:", emailErr);
+        }
+
+        try {
+          // Use the new notification service for task submission
+          await NotificationService.handleTaskSubmission({
+            username: name,
+            email: userResult.length > 0 ? userResult[0].Email : null,
+            title: title
+          });
+        } catch (notificationError) {
+          console.error("❌ Error sending task submission notifications:", notificationError);
+        }
+
+        req.flash("success", "Task submitted successfully!");
+        res.redirect("/complaint");
+      });
+    } catch (error) {
+      console.error("❌ Unexpected error in task submission:", error);
+      req.flash("success", "Task submitted successfully!");
+      res.redirect("/complaint");
+    }
   });
 };
