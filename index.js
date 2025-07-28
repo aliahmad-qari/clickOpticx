@@ -128,6 +128,7 @@ app.use("/", AddNewEquipmentRoutes);
 app.use("/", EquipmentStatusRoutes);
 app.use("/", RecoveryManagementRoutes);
 
+
 // Start the server
 server.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

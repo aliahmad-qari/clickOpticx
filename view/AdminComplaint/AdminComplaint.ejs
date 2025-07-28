@@ -45,6 +45,7 @@
     body {
       background: var(--light);
       color: var(--dark);
+      overflow-x: hidden;
     }
 
     .container-fluid.page-body-wrapper {
@@ -197,27 +198,33 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 800px;
+      table-layout: fixed;
     }
 
     .equipment-table th {
       background-color: #f5f8ff;
       color: var(--primary);
       font-weight: 600;
-      padding: 16px 20px;
+      padding: 16px 12px;
       text-align: left;
       border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+      border-right: none;
     }
 
     .equipment-table td {
-      padding: 14px 20px;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 14px 12px;
+      border-bottom: none;
       vertical-align: middle;
+      text-align: left;
+      border-right: none;
+      word-wrap: break-word;
     }
 
     .equipment-table tr:hover {
       background-color: #f9fbff;
     }
+
 
     .category-badge {
       display: inline-block;
@@ -257,6 +264,8 @@
     .action-buttons {
       display: flex;
       gap: 8px;
+      justify-content: center;
+      align-items: center;
     }
 
     .btn-action {
@@ -305,12 +314,11 @@
       font-size: 1.5rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 8px;
       font-weight: 600;
       position: relative;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .form-header::before {
@@ -515,174 +523,10 @@
       opacity: 0.5;
     }
 
-    /* Form Card Styling */
-    .form-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 20px 25px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      animation: slideUp 0.8s ease forwards;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* Slide-Up Animation */
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Form Header Styling */
-    .form-header {
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 12px;
-      border-radius: 15px;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 23px;
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .form-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shine 2s infinite;
-    }
-
-    @keyframes shine {
-      0% {
-        left: -100%;
-      }
-
-      100% {
-        left: 100%;
-      }
-    }
-
-    /* Form Group Styling */
-    .form-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    /* Input and Select Styling */
-    .form-control,
-    .form-select {
-      width: 100%;
-      border-bottom: 2px solid var(--gray);
-      background: transparent;
-      padding: 9px 3px;
-      font-size: 1rem;
-      color: var(--dark);
-      transition: all 0.3s ease;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-      border-bottom-color: var(--primary);
-      outline: none;
-    }
-
-    /* Label Styling */
-    .form-label {
-      position: absolute;
-      top: 12px;
-      left: 0;
-      font-weight: 500;
-      color: black;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
-
-    .form-control:focus~.form-label,
-    .form-control:not(:placeholder-shown)~.form-label,
-    .form-select:focus~.form-label,
-    .form-select:not([value=""])~.form-label {
-      top: -20px;
-      left: 0;
-      font-size: 0.85rem;
-      color: var(--primary);
-    }
-
-    .form-control:focus~.form-label::after,
-    .form-control:not(:placeholder-shown)~.form-label::after,
-    .form-select:focus~.form-label::after,
-    .form-select:not([value=""])~.form-label::after {
-      content: '*';
-      color: var(--danger);
-      margin-left: 5px;
-    }
-
-    /* Select Option Styling */
-    .form-select option {
-      background: var(--light);
-      color: var(--dark);
-    }
-
-    /* Button Styling */
-    .btn-success {
-      background-color: #1a8754;
-      border: none;
-      padding: 15px;
-      border-radius: 50px;
-      font-weight: 600;
-      color: white;
-      width: 100%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
 
 
-    /* Error Message Styling */
-    .error-message {
-      color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 5px;
-      display: none;
-    }
 
-    .input-error .error-message {
-      display: block;
-    }
 
-    .input-error .form-control,
-    .input-error .form-select {
-      border-bottom-color: var(--danger);
-    }
-
-    /* Form Icon Styling */
-    .form-icon {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      transition: color 0.3s ease;
-    }
-
-    .form-control:focus~.form-icon,
-    .form-select:focus~.form-icon {
-      color: var(--primary);
-    }
 
     .modal-close-btn {
       /* position: absolute; */
@@ -694,6 +538,487 @@
       background: none;
       border: none;
       cursor: pointer;
+    }
+
+    /* Progress Tracking Styles */
+    .progress-tracking {
+      margin-bottom: 30px;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .progress-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .progress-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .progress-subtitle {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .progress-stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-stat-card.pending {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .progress-stat-card.progress {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .progress-stat-card.complete {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .progress-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: cardShine 3s infinite;
+    }
+
+    @keyframes cardShine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .stat-percentage {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    .overall-progress {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .overall-progress-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-bar-container {
+      background: #e9ecef;
+      border-radius: 50px;
+      height: 12px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 50px;
+      transition: width 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: progressShine 2s infinite;
+    }
+
+    @keyframes progressShine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .progress-percentage {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .status-progress-bar {
+      margin-top: 8px;
+    }
+
+    .status-progress-container {
+      background: #f8f9fa;
+      border-radius: 6px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .status-progress-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.8s ease-in-out;
+    }
+
+    .status-progress-fill.pending {
+      background: linear-gradient(90deg, #f093fb, #f5576c);
+      width: 33%;
+    }
+
+    .status-progress-fill.progress {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      width: 66%;
+    }
+
+    .status-progress-fill.complete {
+      background: linear-gradient(90deg, #43e97b, #38f9d7);
+      width: 100%;
+    }
+
+    .complaint-row {
+      position: relative;
+    }
+
+    .complaint-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 0 4px 4px 0;
+      z-index: 1;
+    }
+    
+    .complaint-row td:first-child {
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .complaint-row.pending::before {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+    }
+
+    .complaint-row.progress::before {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+
+    .complaint-row.complete::before {
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+    }
+
+    .priority-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    .priority-high {
+      background: #dc3545;
+    }
+
+    .priority-medium {
+      background: #ffc107;
+    }
+
+    .priority-low {
+      background: #28a745;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .time-tracker {
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin-top: 4px;
+    }
+
+    .resolution-time {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .main-panel {
+        padding: 10px;
+      }
+      
+      .card-body {
+        padding: 15px;
+      }
+      
+      .toolbar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+      
+      .d-flex.align-items-center.gap-2.ms-3 {
+        margin-left: 0 !important;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+      }
+      
+      .form-select-sm {
+        width: 100%;
+        min-width: 150px;
+      }
+      
+      .btn-group {
+        flex-wrap: wrap;
+      }
+      
+      .btn-group .btn {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+      }
+      
+      /* Mobile Table Styles */
+      .table-responsive {
+        border: none;
+        overflow-x: hidden;
+      }
+      
+      .equipment-table th,
+      .equipment-table td {
+        padding: 8px 4px;
+        font-size: 0.85rem;
+      }
+      
+      .equipment-table {
+        font-size: 0.9rem;
+      }
+      
+      .equipment-table {
+        display: block;
+        width: 100%;
+      }
+      
+      .equipment-table thead {
+        display: none;
+      }
+      
+      .equipment-table tbody {
+        display: block;
+        width: 100%;
+      }
+      
+      .equipment-table tr {
+        display: block;
+        margin-bottom: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        position: relative;
+      }
+      
+      .equipment-table tr::before {
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        border-radius: 4px 0 0 4px;
+      }
+      
+      .equipment-table td {
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+        border: none;
+        text-align: left;
+      }
+      
+      .equipment-table td:before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--primary);
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.85rem;
+      }
+      
+      .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      
+      .category-badge,
+      .status-badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+      }
+      
+      .time-tracker {
+        font-size: 0.7rem;
+        margin-top: 2px;
+      }
+      
+      /* Progress stats mobile */
+      .progress-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .progress-stat-card {
+        padding: 15px;
+      }
+      
+      .stat-number {
+        font-size: 1.5rem;
+      }
+      
+      .stat-icon {
+        font-size: 2rem;
+      }
+      
+      /* Modal mobile adjustments */
+      .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+      }
+      
+      .form-card {
+        padding: 20px;
+      }
+      
+      .form-header {
+        font-size: 18px;
+        padding: 10px;
+      }
+      
+      .d-flex.gap-4 {
+        flex-direction: column;
+        gap: 0 !important;
+      }
+      
+      .d-flex.gap-4 .form-group {
+        margin-bottom: 20px;
+      }
+      
+      .table-footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      
+      .pagination {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-panel {
+        padding: 5px;
+      }
+      
+      .card-header {
+        font-size: 1.1rem;
+        padding: 15px;
+      }
+      
+      .btn-group .btn {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+      }
+      
+      .equipment-table tr {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .progress-stat-card {
+        padding: 12px;
+      }
+      
+      .stat-number {
+        font-size: 1.3rem;
+      }
+      
+      .stat-icon {
+        font-size: 1.8rem;
+      }
+      
+      .form-card {
+        padding: 15px;
+        margin: 5px;
+      }
+      
+      .search-input {
+        padding: 10px 10px 10px 35px;
+        font-size: 0.9rem;
+      }
+      
+      .equipment-table th,
+      .equipment-table td {
+        padding: 6px 2px;
+        font-size: 0.8rem;
+      }
     }
 
     /* Modal */
@@ -720,6 +1045,83 @@
                 </div>
                 <% } %>
                   <div class="content-wrapper">
+                    <!-- Progress Tracking Dashboard -->
+                    <div class="progress-tracking">
+                      <div class="progress-header">
+                        <h2 class="progress-title">
+                          <i class="fas fa-chart-line"></i> Complaint Resolution Progress
+                        </h2>
+                        <p class="progress-subtitle">Track and monitor complaint resolution efficiency</p>
+                      </div>
+
+                      <!-- Progress Statistics Cards -->
+                      <%
+                        // Calculate counts once at the top
+                        const pendingCount = user.filter(u => u.status && u.status.toLowerCase() === 'pending').length;
+                        const progressCount = user.filter(u => u.status && u.status.toLowerCase() === 'progress').length;
+                        const completeCount = user.filter(u => u.status && u.status.toLowerCase() === 'complete').length;
+                      %>
+                      <div class="progress-stats">
+                        <div class="progress-stat-card pending">
+                          <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                          </div>
+                          <div class="stat-number" id="pending-count" data-server-value="<%= pendingCount %>">
+                            <%= pendingCount %>
+                          </div>
+                          <div class="stat-label">Pending Complaints</div>
+                          <div class="stat-percentage" id="pending-percentage">
+                            <%= user.length > 0 ? Math.round((pendingCount / user.length) * 100) : 0 %>% of total
+                          </div>
+                        </div>
+
+                        <div class="progress-stat-card progress">
+                          <div class="stat-icon">
+                            <i class="fas fa-cogs"></i>
+                          </div>
+                          <div class="stat-number" id="progress-count" data-server-value="<%= progressCount %>">
+                            <%= progressCount %>
+                          </div>
+                          <div class="stat-label">In Progress</div>
+                          <div class="stat-percentage" id="progress-percentage">
+                            <%= user.length > 0 ? Math.round((progressCount / user.length) * 100) : 0 %>% of total
+                          </div>
+                        </div>
+
+                        <div class="progress-stat-card complete">
+                          <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                          </div>
+                          <div class="stat-number" id="complete-count" data-server-value="<%= completeCount %>">
+                            <%= completeCount %>
+                          </div>
+                          <div class="stat-label">Completed</div>
+                          <div class="stat-percentage" id="complete-percentage">
+                            <%= user.length > 0 ? Math.round((completeCount / user.length) * 100) : 0 %>% of total
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Overall Progress Bar -->
+                      <div class="overall-progress">
+                        <div class="overall-progress-title">
+                          <i class="fas fa-chart-bar"></i>
+                          Overall Resolution Rate
+                          <span class="progress-percentage" id="overall-percentage">
+                            <%= user.length > 0 ? Math.round((completeCount / user.length) * 100) : 0 %>%
+                          </span>
+                        </div>
+                        <div class="progress-bar-container">
+                          <div class="progress-bar" style="width: <%= user.length > 0 ? Math.round((completeCount / user.length) * 100) : 0 %>%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between text-small">
+                          <span>0%</span>
+                          <span>Target: 85%</span>
+                          <span>100%</span>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="card">
                       <div class="card-header"> Users Complaint
                         <div class="header-actions"></div>
@@ -735,16 +1137,47 @@
     </form>
   </div>
 
-  <!-- 🏷️ Department Filter -->
-  <form method="GET" action="/UserComplaint" class="d-flex align-items-center">
-    <select name="department" onchange="this.form.submit()" class="form-select ms-3">
-      <option value="">All Departments</option>
-      <option value="Billing" <%= selectedDepartment === 'Billing' ? 'selected' : '' %>>Billing</option>
-      <option value="Sales" <%= selectedDepartment === 'Sales' ? 'selected' : '' %>>Sales</option>
-      <option value="Support" <%= selectedDepartment === 'Support' ? 'selected' : '' %>>Support</option>
-      <!-- add more departments if needed -->
-    </select>
-  </form>
+  <!-- 🏷️ Quick Filters -->
+  <div class="d-flex align-items-center gap-2 ms-3">
+    <!-- Status Filters -->
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-sm btn-outline-primary" onclick="filterByStatus('all')" title="Show All (Ctrl+0)">
+        <i class="fas fa-list"></i> All
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-warning" onclick="filterByStatus('pending')" title="Pending Only (Ctrl+1)">
+        <i class="fas fa-clock"></i> Pending
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-info" onclick="filterByStatus('progress')" title="In Progress (Ctrl+2)">
+        <i class="fas fa-cogs"></i> Progress
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-success" onclick="filterByStatus('complete')" title="Completed (Ctrl+3)">
+        <i class="fas fa-check-circle"></i> Complete
+      </button>
+    </div>
+
+    <!-- Priority Filters -->
+    <div class="btn-group ms-2" role="group">
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="filterByPriority('high')" title="High Priority">
+        <i class="fas fa-exclamation-triangle"></i> High
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-warning" onclick="filterByPriority('medium')" title="Medium Priority">
+        <i class="fas fa-minus-circle"></i> Medium
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-success" onclick="filterByPriority('low')" title="Low Priority">
+        <i class="fas fa-check-circle"></i> Low
+      </button>
+    </div>
+
+    <!-- Department Filter -->
+    <form method="GET" action="/UserComplaint" class="d-flex align-items-center ms-2">
+      <select name="department" onchange="this.form.submit()" class="form-select form-select-sm">
+        <option value="">All Departments</option>
+        <option value="Billing" <%= selectedDepartment === 'Billing' ? 'selected' : '' %>>Billing</option>
+        <option value="Sales" <%= selectedDepartment === 'Sales' ? 'selected' : '' %>>Sales</option>
+        <option value="Support" <%= selectedDepartment === 'Support' ? 'selected' : '' %>>Support</option>
+      </select>
+    </form>
+  </div>
 </div>
 
                         </div>
@@ -752,44 +1185,82 @@
                           <table class="equipment-table">
                             <thead>
                               <tr>
-                                <th>Username</th>
-                                <th>Complaint Type</th>
-                                <th>Number</th>
-                                <th>Address</th>
-                                <th>Complaint</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style="width: 15%; padding-left: 12px;">Username</th>
+                                <th style="width: 12%; padding-left: 12px;">Complaint Type</th>
+                                <th style="width: 10%; padding-left: 12px;">Number</th>
+                                <th style="width: 15%; padding-left: 12px;">Address</th>
+                                <th style="width: 25%; padding-left: 12px;">Complaint</th>
+                                <th style="width: 13%; padding-left: 12px;">Status & Progress</th>
+                                <th style="width: 8%; padding-left: 12px;">Priority</th>
+                                <th style="width: 7%; padding-left: 12px;">Action</th>
                               </tr>
                             </thead>
                             <tbody id="complaint-table">
                               <% if (user.length> 0) { %>
-                                <% user.forEach(user=> { %>
-                                  <tr>
-                                    <td>
-                                      <%= user.Username %>
+                                <% user.forEach((complaint, index)=> { %>
+                                  <tr class="complaint-row <%= complaint.status.toLowerCase() %>">
+                                    <td data-label="Username">
+                                      <strong><%= complaint.Username %></strong>
+                                      <div class="time-tracker">
+                                        <% 
+                                          const createdDate = complaint.created_at ? new Date(complaint.created_at) : new Date();
+                                          const daysSince = Math.floor((new Date() - createdDate) / (1000 * 60 * 60 * 24));
+                                        %>
+                                        <i class="fas fa-clock"></i> <%= daysSince %> days ago
+                                      </div>
                                     </td>
-                                    <td><span class="category-badge">
-                                        <%= user.department %>
+                                    <td data-label="Complaint Type"><span class="category-badge">
+                                        <%= complaint.department %>
                                       </span></td>
-                                    <td>
-                                      <%= user.number %>
+                                    <td data-label="Number">
+                                      <%= complaint.number %>
                                     </td>
-                                    <td>
-                                      <%= user.Address %>
+                                    <td data-label="Address">
+                                      <%= complaint.Address %>
                                     </td>
-                                    <td>
-                                      <%= user.Complaint %>
+                                    <td data-label="Complaint">
+                                      <%= complaint.Complaint.length > 50 ? complaint.Complaint.substring(0, 50) + '...' : complaint.Complaint %>
                                     </td>
-                                    <td>
-                                      <span class="status-badge status-<%= user.status.toLowerCase() %>">
-                                        <%= user.status %>
-                                      </span>
+                                    <td data-label="Status & Progress">
+                                      <div>
+                                        <span class="status-badge status-<%= complaint.status.toLowerCase() %>">
+                                          <% if (complaint.status === 'Pending') { %>
+                                            <i class="fas fa-clock"></i>
+                                          <% } else if (complaint.status === 'Progress') { %>
+                                            <i class="fas fa-cogs"></i>
+                                          <% } else if (complaint.status === 'Complete') { %>
+                                            <i class="fas fa-check-circle"></i>
+                                          <% } %>
+                                          <%= complaint.status %>
+                                        </span>
+                                        <div class="status-progress-bar">
+                                          <div class="status-progress-container">
+                                            <div class="status-progress-fill <%= complaint.status.toLowerCase() %>"></div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </td>
-                                    <td class="action-buttons">
+                                    <td data-label="Priority">
+                                      <% 
+                                        // Determine priority based on days since creation
+                                        let priority = 'low';
+                                        let priorityText = 'Low';
+                                        if (daysSince > 7) {
+                                          priority = 'high';
+                                          priorityText = 'High';
+                                        } else if (daysSince > 3) {
+                                          priority = 'medium';
+                                          priorityText = 'Medium';
+                                        }
+                                      %>
+                                      <span class="priority-indicator priority-<%= priority %>"></span>
+                                      <span class="resolution-time"><%= priorityText %></span>
+                                    </td>
+                                    <td data-label="Action" class="action-buttons">
                                       <button type="button" class="btn-action edit" data-toggle="modal"
-                                        data-target="#myModal<%= user.id %>">
+                                        data-target="#myModal<%= complaint.id %>">
                                         <i class="fas fa-edit text-success"></i> </button>
-                                      <form action="/UserComplaint/<%= user.id %>?_method=DELETE" method="POST"
+                                      <form action="/UserComplaint/<%= complaint.id %>?_method=DELETE" method="POST"
                                         style="display:inline;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn-action" title="Delete">
@@ -801,7 +1272,7 @@
                                   <% }); %>
                                     <% } else { %>
                                       <tr class="no-data">
-                                        <td colspan="7" class="text-center">No complaints found.</td>
+                                        <td colspan="8" class="text-center">No complaints found.</td>
                                       </tr>
                                       <% } %>
                             </tbody>
@@ -877,8 +1348,8 @@
                   </div>
                   <!-- Edit Equipment Modal -->
                   <!-- Update Modal -->
-                  <% user.forEach(user=> { %>
-                    <div class="modal fade" id="myModal<%= user.id %>" tabindex="-1" aria-labelledby="myModalLabel"
+                  <% user.forEach(complaint=> { %>
+                    <div class="modal fade" id="myModal<%= complaint.id %>" tabindex="-1" aria-labelledby="myModalLabel"
                       aria-hidden="true" style="padding-left: 0% !important; padding-right: 0% !important;">
                       <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content p-4"
@@ -897,16 +1368,16 @@
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <form action="/UserComplaint/update/<%= user.id %>" method="POST">
+                                <form action="/UserComplaint/update/<%= complaint.id %>" method="POST">
                                   <div class="d-flex gap-4 mb-3">
                                     <div class="form-group w-100">
                                       <input type="text" name="Username" id="Username" class="form-control"
-                                        value="<%= user.Username %>">
+                                        value="<%= complaint.Username %>">
                                       <label for="Username" class="form-label">Your Name</label>
                                     </div>
                                     <div class="form-group w-100">
                                       <input type="number" name="number" id="number" class="form-control"
-                                        value="<%= user.number %>">
+                                        value="<%= complaint.number %>">
                                       <label for="number" class="form-label">Number</label>
                                     </div>
                                   </div>
@@ -914,36 +1385,36 @@
                                     <div class="form-group col-md-6">
                                       <label for="teamName">Team Name:</label>
                                       <input type="text" class="form-control" id="teamName" name="teamName"
-                                        value="<%= user.teamName || '' %>">
+                                        value="<%= complaint.teamName || '' %>">
                                     </div>
                                     <div class="form-group col-md-6">
                                       <label for="equipment">Equipment:</label>
                                       <input type="text" class="form-control" id="equipment" name="equipment"
-                                        value="<%= user.equipment || '' %>">
+                                        value="<%= complaint.equipment || '' %>">
                                     </div>
                                   </div>
                                   <div class="d-flex gap-4 mb-3">
                                     <div class="form-group w-100">
                                       <select id="status" name="status" class="form-select" required>
                                         <option value="" disabled selected>Status:</option>
-                                        <option value="Pending" <%=user.status==="Pending" ? "selected" : "" %>>Pending
+                                        <option value="Pending" <%=complaint.status==="Pending" ? "selected" : "" %>>Pending
                                         </option>
-                                        <option value="Progress" <%=user.status==="Progress" ? "selected" : "" %>
+                                        <option value="Progress" <%=complaint.status==="Progress" ? "selected" : "" %>
                                           >Progress</option>
-                                        <option value="Complete" <%=user.status==="Complete" ? "selected" : "" %>
+                                        <option value="Complete" <%=complaint.status==="Complete" ? "selected" : "" %>
                                           >Complete</option>
                                       </select>
                                       <label for="status" class="form-label">Status</label>
                                     </div>
                                     <div class="form-group w-100">
                                       <input type="text" name="Address" id="Address" class="form-control"
-                                        value="<%= user.Address %>">
+                                        value="<%= complaint.Address %>">
                                       <label for="Address" class="form-label">Address</label>
                                     </div>
                                   </div>
                                   <div class="form-group mb-4" style="border: 1px solid #272626; border-radius: 4px;">
                                     <textarea name="Complaint" id="Complaint" class="form-control"
-                                      placeholder=" "><%= user.Complaint %></textarea>
+                                      placeholder=" "><%= complaint.Complaint %></textarea>
                                     <label for="Complaint" class="form-label">Complaint</label>
                                   </div>
                                   <div class="mt-4">
@@ -995,7 +1466,70 @@
       }
     });
 
-    // Search functionality
+    // Progress tracking and real-time updates
+    function updateProgressStats() {
+      const rows = document.querySelectorAll('#complaint-table tr:not(.no-data)');
+      const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
+      
+      let pendingCount = 0;
+      let progressCount = 0;
+      let completeCount = 0;
+      const totalCount = visibleRows.length;
+
+      visibleRows.forEach(row => {
+        // Check for both exact class names and status text
+        const statusText = row.cells[5] ? row.cells[5].textContent.toLowerCase().trim() : '';
+        
+        if (row.classList.contains('pending') || statusText.includes('pending')) {
+          pendingCount++;
+        } else if (row.classList.contains('progress') || statusText.includes('progress')) {
+          progressCount++;
+        } else if (row.classList.contains('complete') || statusText.includes('complete')) {
+          completeCount++;
+        }
+        
+      });
+
+      // Debug summary (can be removed in production)
+      const serverCounts = {
+        pending: parseInt(document.getElementById('pending-count')?.dataset?.serverValue || '0'),
+        progress: parseInt(document.getElementById('progress-count')?.dataset?.serverValue || '0'),
+        complete: parseInt(document.getElementById('complete-count')?.dataset?.serverValue || '0')
+      };
+      
+      console.log('Progress Stats Update:', {
+        clientSide: { totalRows: totalCount, pending: pendingCount, progress: progressCount, complete: completeCount },
+        serverSide: serverCounts,
+        matches: {
+          pending: pendingCount === serverCounts.pending,
+          progress: progressCount === serverCounts.progress,
+          complete: completeCount === serverCounts.complete
+        }
+      });
+
+      // Update stat cards
+      document.getElementById('pending-count').textContent = pendingCount;
+      document.getElementById('progress-count').textContent = progressCount;
+      document.getElementById('complete-count').textContent = completeCount;
+
+      // Update percentages
+      const pendingPercentage = totalCount > 0 ? Math.round((pendingCount / totalCount) * 100) : 0;
+      const progressPercentage = totalCount > 0 ? Math.round((progressCount / totalCount) * 100) : 0;
+      const completePercentage = totalCount > 0 ? Math.round((completeCount / totalCount) * 100) : 0;
+
+      document.getElementById('pending-percentage').textContent = `${pendingPercentage}% of total`;
+      document.getElementById('progress-percentage').textContent = `${progressPercentage}% of total`;
+      document.getElementById('complete-percentage').textContent = `${completePercentage}% of total`;
+
+      // Update overall progress
+      document.getElementById('overall-percentage').textContent = `${completePercentage}%`;
+      const progressBar = document.querySelector('.progress-bar');
+      if (progressBar) {
+        progressBar.style.width = `${completePercentage}%`;
+      }
+    }
+
+    // Enhanced search functionality with progress tracking
     document.getElementById('search-input').addEventListener('input', function (e) {
       const searchTerm = e.target.value.toLowerCase();
       const rows = document.querySelectorAll('#complaint-table tr:not(.no-data)');
@@ -1008,12 +1542,16 @@
         const address = row.cells[3].textContent.toLowerCase();
         const complaint = row.cells[4].textContent.toLowerCase();
         const status = row.cells[5].textContent.toLowerCase();
+        const priority = row.cells[6].textContent.toLowerCase();
+        
         const matches = username.includes(searchTerm) ||
           complaintType.includes(searchTerm) ||
           number.includes(searchTerm) ||
           address.includes(searchTerm) ||
           complaint.includes(searchTerm) ||
-          status.includes(searchTerm);
+          status.includes(searchTerm) ||
+          priority.includes(searchTerm);
+        
         row.style.display = matches ? '' : 'none';
         if (matches) visibleCount++;
       });
@@ -1024,6 +1562,80 @@
       }
 
       document.getElementById('entry-count').textContent = visibleCount;
+      
+      // Update progress stats based on visible rows
+      updateProgressStats();
+    });
+
+    // Auto-refresh progress tracking every 30 seconds
+    setInterval(updateProgressStats, 30000);
+
+    // Initialize progress tracking on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateProgressStats();
+      
+      // Add smooth animations to progress bars
+      setTimeout(() => {
+        const progressBars = document.querySelectorAll('.status-progress-fill');
+        progressBars.forEach(bar => {
+          bar.style.opacity = '1';
+        });
+      }, 500);
+    });
+
+    // Priority filter functionality
+    function filterByPriority(priority) {
+      const rows = document.querySelectorAll('#complaint-table tr:not(.no-data)');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const priorityText = row.cells[6].textContent.toLowerCase();
+        const matches = priority === 'all' || priorityText.includes(priority);
+        row.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      document.getElementById('entry-count').textContent = visibleCount;
+      updateProgressStats();
+    }
+
+    // Status filter functionality
+    function filterByStatus(status) {
+      const rows = document.querySelectorAll('#complaint-table tr:not(.no-data)');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const matches = status === 'all' || row.classList.contains(status);
+        row.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      document.getElementById('entry-count').textContent = visibleCount;
+      updateProgressStats();
+    }
+
+    // Add keyboard shortcuts for quick actions
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case '1':
+            e.preventDefault();
+            filterByStatus('pending');
+            break;
+          case '2':
+            e.preventDefault();
+            filterByStatus('progress');
+            break;
+          case '3':
+            e.preventDefault();
+            filterByStatus('complete');
+            break;
+          case '0':
+            e.preventDefault();
+            filterByStatus('all');
+            break;
+        }
+      }
     });
   </script>
 </body>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>All Package Requests</title>
+  
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" />
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --info: #00cec9;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .request-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .request-card.paid::before {
+      background: var(--success);
+    }
+    
+    .request-card.unpaid::before {
+      background: var(--warning);
+    }
+    
+    .request-card.pending::before {
+      background: var(--info);
+    }
+    
+    .request-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .request-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .request-card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 1.2rem;
+    }
+
+    .request-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .request-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .request-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .request-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--primary), #a29bfe);
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .filter-select {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: white;
+      cursor: pointer;
+    }
+
+    .btn-refresh {
+      background: var(--info);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 600px;
+    }
+
+    .table th {
+      background-color: #f5f8ff;
+      color: var(--primary);
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .badge-paid {
+      background-color: rgba(0, 184, 148, 0.1);
+      color: var(--success);
+    }
+
+    .badge-unpaid {
+      background-color: rgba(253, 203, 110, 0.1);
+      color: var(--warning);
+    }
+
+    .badge-pending {
+      background-color: rgba(0, 206, 201, 0.1);
+      color: var(--info);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 576px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0px; padding-right: 0px;">
+      <%- include('../partials/SettingsDow.ejs') %>
+      <%- include('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel" style="width: 100%;">
+        <div class="content-wrapper">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-clipboard-list me-2"></i>
+              All Package Requests Management
+            </div>
+            
+            <div class="card-body">
+              <!-- Statistics -->
+              <div class="stats-grid" id="stats-grid">
+                <!-- Stats will be populated by JavaScript -->
+              </div>
+
+              <div class="toolbar">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="search-input" class="search-input" 
+                         placeholder="Search packages, users...">
+                </div>
+                
+                <div class="d-flex gap-3">
+                  <select id="status-filter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                  
+                  <button id="refresh-btn" class="btn-refresh">
+                    <i class="fas fa-sync-alt me-2"></i>Refresh
+                  </button>
+                </div>
+              </div>
+
+              <!-- Desktop Table View -->
+              <div class="desktop-table">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Request ID</th>
+                        <th>Package Name</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                      </tr>
+                    </thead>
+                    <tbody id="requests-table">
+                      <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Mobile Cards View -->
+              <div class="mobile-cards" id="requests-cards">
+                <!-- Cards will be loaded via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/billing-payments-common.js"></script>
+  <script>
+    let originalRequests = [];
+
+    // Load all package requests
+    async function loadAllRequests() {
+      try {
+        const response = await fetch('/all-package-requests');
+        const requests = await response.json();
+        
+        originalRequests = requests;
+        displayRequestsTable(requests);
+        displayRequestsCards(requests);
+        updateStatistics(requests);
+      } catch (error) {
+        console.error('Error loading package requests:', error);
+      }
+    }
+
+    function displayRequestsTable(requests) {
+      const tbody = document.getElementById('requests-table');
+      tbody.innerHTML = requests.map(req => `
+        <tr>
+          <td>#${req.id}</td>
+          <td>${req.package_name}</td>
+          <td>${req.Username}</td>
+          <td><span class="badge badge-${req.status || 'pending'}">
+            ${getStatusIcon(req.status || 'pending')} ${(req.status || 'pending').toUpperCase()}
+          </span></td>
+          <td>${getPriorityBadge(req.status)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function displayRequestsCards(requests) {
+      const cardsContainer = document.getElementById('requests-cards');
+      cardsContainer.innerHTML = requests.map(req => `
+        <div class="request-card ${req.status || 'pending'}">
+          <div class="request-card-header">
+            <div class="request-card-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <div class="request-card-name">
+              <h6>${req.package_name}</h6>
+              <p>Requested by ${req.Username}</p>
+            </div>
+          </div>
+          
+          <div class="request-card-content">
+            <div class="request-card-field">
+              <div class="request-card-label">Request ID</div>
+              <div class="request-card-value">#${req.id}</div>
+            </div>
+            
+            <div class="request-card-field">
+              <div class="request-card-label">Status</div>
+              <div class="request-card-value">
+                <span class="badge badge-${req.status || 'pending'}">
+                  ${getStatusIcon(req.status || 'pending')} ${(req.status || 'pending').toUpperCase()}
+                </span>
+              </div>
+            </div>
+            
+            <div class="request-card-field">
+              <div class="request-card-label">Priority</div>
+              <div class="request-card-value">${getPriorityText(req.status)}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getStatusIcon(status) {
+      switch(status) {
+        case 'paid': return '<i class="fas fa-check-circle"></i>';
+        case 'unpaid': return '<i class="fas fa-clock"></i>';
+        case 'pending': return '<i class="fas fa-hourglass-half"></i>';
+        default: return '<i class="fas fa-question-circle"></i>';
+      }
+    }
+
+    function getPriorityBadge(status) {
+      switch(status) {
+        case 'paid': return '<span class="badge badge-success">Completed</span>';
+        case 'unpaid': return '<span class="badge badge-warning">High Priority</span>';
+        case 'pending': return '<span class="badge badge-info">Medium Priority</span>';
+        default: return '<span class="badge badge-secondary">Normal</span>';
+      }
+    }
+
+    function getPriorityText(status) {
+      switch(status) {
+        case 'paid': return 'Completed';
+        case 'unpaid': return 'High Priority';
+        case 'pending': return 'Medium Priority';
+        default: return 'Normal';
+      }
+    }
+
+    function updateStatistics(requests) {
+      const stats = requests.reduce((acc, req) => {
+        const status = req.status || 'pending';
+        acc[status] = (acc[status] || 0) + 1;
+        acc.total = (acc.total || 0) + 1;
+        return acc;
+      }, {});
+
+      document.getElementById('stats-grid').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--primary)">${stats.total || 0}</div>
+          <div class="stat-label">Total Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--success)">${stats.paid || 0}</div>
+          <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--warning)">${stats.unpaid || 0}</div>
+          <div class="stat-label">Unpaid</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--info)">${stats.pending || 0}</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      `;
+    }
+
+    // Filter functionality
+    document.getElementById('status-filter').addEventListener('change', function(e) {
+      const status = e.target.value;
+      const filteredRequests = status ? 
+        originalRequests.filter(req => (req.status || 'pending') === status) : 
+        originalRequests;
+      
+      displayRequestsTable(filteredRequests);
+      displayRequestsCards(filteredRequests);
+    });
+
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredRequests = originalRequests.filter(req => 
+        req.id.toString().includes(searchTerm) ||
+        req.package_name.toLowerCase().includes(searchTerm) ||
+        req.Username.toLowerCase().includes(searchTerm) ||
+        (req.status && req.status.toLowerCase().includes(searchTerm))
+      );
+      
+      displayRequestsTable(filteredRequests);
+      displayRequestsCards(filteredRequests);
+    });
+
+    // Refresh functionality
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Refreshing...';
+      setTimeout(() => {
+        loadAllRequests();
+        this.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Refresh';
+      }, 1000);
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', loadAllRequests);
+  </script>
+</body>
+</html>

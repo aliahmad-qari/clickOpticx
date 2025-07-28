@@ -10,6 +10,7 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
   const search = req.query.search || "";
   const packageFilter = req.query.package || "";
   const expiryStatus = req.query.expiryStatus || "";
+  const invoiceFilter = req.query.invoice || "";
 
  let sql = `
   SELECT Username, Email, user_img, Number, plan, password, role, expiry, id, invoice
@@ -53,6 +54,15 @@ else if (expiryStatus === "active") {
     sql += ` AND plan = ?`;
     countSql += ` AND plan = ?`;
     queryParams.push(packageFilter);
+  }
+
+  // 💰 Invoice Filter
+  if (invoiceFilter === "paid") {
+    sql += ` AND invoice = 'paid'`;
+    countSql += ` AND invoice = 'paid'`;
+  } else if (invoiceFilter === "unpaid") {
+    sql += ` AND (invoice IS NULL OR invoice = 'unpaid' OR invoice = 'Unpaid')`;
+    countSql += ` AND (invoice IS NULL OR invoice = 'unpaid' OR invoice = 'Unpaid')`;
   }
 
   // 📄 Pagination
@@ -150,7 +160,8 @@ else if (expiryStatus === "active") {
                           unpaidCount: unpaidUsers.length,
                           paidUsers,
                           unpaidUsers,
-                          expiryStatus
+                          expiryStatus,
+                          invoice: invoiceFilter
                         });
                       });
                     });

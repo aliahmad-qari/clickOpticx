@@ -468,88 +468,9 @@
                         <a href="/AddPackages" class="btn" style="background-color: #45439e; color:white;
                               border-radius: 11px;
                               ">Add Package</a>
-
-                        <button type="button" class="btn " style="background-color: #45439e; color:white;
-                              border-radius: 11px;" data-bs-toggle="modal" data-bs-target="#addPackageModal">
-                          Add Dashboard Package
-                        </button>
                         <% } %>
                       </div>
                   </div>
-                     <!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START -->
-                     <div class="modal fade come-from-modal pr-0" id="addPackageModal" tabindex="-1" role="dialog"
-                     aria-labelledby="addPackageModalLabel">
-                     <div class="modal-dialog modal-lg modal-dialog-centered">
-                       <div class="modal-content form-card">
-
-                         <!-- Modal Header -->
-                         <div class="form-header">
-                           <h5 class="modal-title" id="addPackageModalLabel">
-                             <i class="fas fa-box-open me-2"></i> Add Custom Package
-                           </h5>
-                         </div>
-
-                         <!-- Modal Body with Form -->
-                         <div class="modal-body">
-                           <form action="/Cards" method="POST">
-
-                             <!-- First Row -->
-                             <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
-                               <div class="form-group w-100">
-                                 <input type="text" name="Package" id="addPackage" class="form-control" required
-                                   placeholder="Enter your Package">
-                                 <label for="addPackage" class="form-label">Package Name</label>
-                               </div>
-                               <div class="form-group w-100">
-                                 <input type="number" name="Price" id="addPrice" class="form-control" required
-                                   placeholder="Enter your Price">
-                                 <label for="addPrice" class="form-label">Price</label>
-                               </div>
-                             </div>
-
-                             <!-- Second Row -->
-                             <div class="d-flex gap-4 mb-3" style="gap: 8px !important;">
-                               <div class="form-group w-100">
-                                 <input type="text" name="Speed" id="addSpeed" class="form-control" required
-                                   placeholder="Enter your Speed">
-                                 <label for="addSpeed" class="form-label">Speed</label>
-                               </div>
-                               <div class="form-group w-100">
-                                 <input type="text" name="Data_Used" id="addDataUsed" class="form-control" required
-                                   placeholder="Total Data Used">
-                                 <label for="addDataUsed" class="form-label">Data Used</label>
-                               </div>
-                             </div>
-
-                             <!-- Third Row -->
-                             <div class="d-flex  mb-4" style="gap: 8px !important;">
-                               <div class="form-group w-100">
-                                 <input type="date" name="Offer_Valid" id="addOfferValid" class="form-control" required
-                                   placeholder="Enter your Offer Valid">
-                                 <label for="addOfferValid" class="form-label">Offer Valid Until</label>
-                               </div>
-                               <div class="form-group w-100">
-                                 <input type="text" name="limits" id="addLimits" class="form-control" required
-                                   placeholder="Enter your limit">
-                                 <label for="addLimits" class="form-label">Limit</label>
-                               </div>
-                             </div>
-
-                             <!-- Submit Button -->
-                             <button type="submit" class="btn btn-primary">
-                               <i class="mdi mdi-package-variant me-2"></i> Add Package
-                             </button>
-                           </form>
-                         </div>
-
-                         <!-- Close Button -->
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                           style="position: absolute; top: 23px; right: 24px; font-size: 18px;"></button>
-                       </div>
-                     </div>
-                   </div>
-
-                   <!-- ADD the CARD ONALY THE ADMIN END --><!-- ADD the CARD ONALY THE ADMIN START --><!-- ADD the CARD ONALY THE ADMIN START -->
 
                     <div class="row g-4 px-2 py-3">
                         <% packages.forEach(function(package){ %>

@@ -22,7 +22,7 @@ router.delete("/AdminUser/:id", AdminUserController.DeleteUser);
 router.get("/ActiveUser", isAuthenticated, isAdmin, (req, res) => {
   req.query.expiryStatus = "active"; // Force active filter
   const controller = require("../controllers/AdminUserController");
-  controller.AllUsers(req, res, "AddUsers/ActiveUser="); // Pass view name
+  controller.AllUsers(req, res, "AddUsers/ActiveUser"); // Pass view name
 });
 
 

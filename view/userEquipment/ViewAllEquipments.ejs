@@ -34,6 +34,232 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <style>
+    /* ===== MOBILE-FIRST RESPONSIVE DESIGN ===== */
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      overflow-x: hidden;
+    }
+    
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .main-panel {
+        margin-left: 0 !important;
+        padding: 5px !important;
+      }
+      
+      .toolbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+      
+      .card-header {
+        font-size: 1.1rem !important;
+        text-align: center;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .equipment-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .equipment-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .equipment-card-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 12px;
+    }
+    
+    .equipment-card-name {
+      flex: 1;
+    }
+    
+    .equipment-card-name h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+    }
+    
+    .equipment-card-name p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .equipment-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .equipment-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .equipment-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    
+    .equipment-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .equipment-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+    }
+    
+    .mobile-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .mobile-btn.view {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      border: 1px solid #1976d2;
+    }
+    
+    .mobile-btn.view:hover {
+      background-color: #1976d2;
+      color: white;
+    }
+    
+    .mobile-btn.edit {
+      background-color: #e8f5e8;
+      color: #198754;
+      border: 1px solid #198754;
+    }
+    
+    .mobile-btn.edit:hover {
+      background-color: #198754;
+      color: white;
+    }
+    
+    .mobile-btn.delete {
+      background-color: #fee;
+      color: #dc3545;
+      border: 1px solid #dc3545;
+    }
+    
+    .mobile-btn.delete:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .mobile-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .mobile-badge.category {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+    }
+    
+    .mobile-badge.in-stock {
+      background-color: rgba(52, 168, 83, 0.1);
+      color: #34a853;
+    }
+    
+    .mobile-badge.low-stock {
+      background-color: rgba(249, 171, 0, 0.1);
+      color: #f9ab00;
+    }
+    
+    .mobile-badge.out-of-stock {
+      background-color: rgba(234, 67, 53, 0.1);
+      color: #ea4335;
+    }
+    
+    @media (max-width: 480px) {
+      .btn-add {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+      
+      .filter-options {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .table-footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+
     :root {
       --primary: #6c5ce7;
       --primary-light: #a29bfe;
@@ -932,14 +1158,10 @@
                             <% } %>
 
                               <div class="toolbar">
-                                <div class="search-box">
+                                <div class="search-box" style="position: relative;">
                                   <i class="fas fa-search"></i>
-                                  <form action="/ViewAllEquipments" method="GET">
-                                    <input type="text" name="search" placeholder="Search equipment..."
-                                      value="<%= search %>" class="search-input">
-                                    <input type="hidden" name="category" value="<%= category %>">
-                                    <input type="hidden" name="page" value="<%= currentPage %>">
-                                  </form>
+                                  <input type="text" id="equipment-search-input" placeholder="Search equipment by name, type, category..."
+                                    class="search-input" autocomplete="off">
                                 </div>
 
                                 <div class="filter-options">
@@ -982,8 +1204,10 @@
                                   </a>
                                 </div>
                               </div>
-                              <div class="table-responsive">
-                                <table class="equipment-table">
+                              <!-- Desktop Table View -->
+                              <div class="desktop-table">
+                                <div class="table-responsive">
+                                  <table class="equipment-table">
                                   <thead>
                                     <tr>
                                       <th class="name-col">Equipment Name</th>
@@ -1086,7 +1310,115 @@
                                               </tr>
                                               <% } %>
                                   </tbody>
-                                </table>
+                                  </table>
+                                </div>
+                              </div>
+
+                              <!-- Mobile Cards View -->
+                              <div class="mobile-cards">
+                                <% if (equipment.length > 0) { %>
+                                  <% equipment.forEach(item => { %>
+                                    <% // Parse the numeric part of the quantity for status and bar calculations
+                                    let quantityNumber = 0;
+                                    if (item.quantity) {
+                                      const match = item.quantity.match(/\d+/);
+                                      quantityNumber = match ? parseInt(match[0]) : 0;
+                                    }
+                                    
+                                    // Determine status class for mobile badge
+                                    let statusClass = '';
+                                    let statusText = '';
+                                    if (quantityNumber > 10) {
+                                      statusClass = 'in-stock';
+                                      statusText = 'In Stock';
+                                    } else if (quantityNumber > 0) {
+                                      statusClass = 'low-stock';
+                                      statusText = 'Low Stock';
+                                    } else {
+                                      statusClass = 'out-of-stock';
+                                      statusText = 'Out of Stock';
+                                    }
+                                    %>
+                                    
+                                    <div class="equipment-card">
+                                      <div class="equipment-card-header">
+                                        <img class="equipment-card-image" 
+                                             src="<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>" 
+                                             alt="<%= item.name || 'Unnamed' %>">
+                                        <div class="equipment-card-name">
+                                          <h6><%= item.name || 'Unnamed' %></h6>
+                                          <p>ID: <%= item.id || 'N/A' %></p>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="equipment-card-content">
+                                        <div class="equipment-card-field">
+                                          <div class="equipment-card-label">Type</div>
+                                          <div class="equipment-card-value">
+                                            <%= item.type || 'N/A' %>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="equipment-card-field">
+                                          <div class="equipment-card-label">Category</div>
+                                          <div class="equipment-card-value">
+                                            <span class="mobile-badge category"><%= item.category || 'N/A' %></span>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="equipment-card-field">
+                                          <div class="equipment-card-label">Quantity</div>
+                                          <div class="equipment-card-value">
+                                            <%= item.quantity || '0' %>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="equipment-card-field">
+                                          <div class="equipment-card-label">Status</div>
+                                          <div class="equipment-card-value">
+                                            <span class="mobile-badge <%= statusClass %>">
+                                              <i class="fas fa-circle"></i> <%= statusText %>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="equipment-card-actions">
+                                        <button class="mobile-btn view" onclick="viewEquipmentDetails('<%= item.id %>', '<%= item.name || 'Unnamed' %>', '<%= item.type || 'N/A' %>', '<%= item.category || 'N/A' %>', '<%= item.quantity || '0' %>', '<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>')">
+                                          <i class="fas fa-eye"></i> View
+                                        </button>
+                                        
+                                        <button class="mobile-btn edit" data-bs-toggle="modal" data-bs-target="#editEquipmentModal" 
+                                                data-id="<%= item.id %>" data-type="<%= item.type %>" data-name="<%= item.name %>" 
+                                                data-quantity="<%= item.quantity %>" data-category="<%= item.category %>" data-image="<%= item.image %>">
+                                          <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        
+                                        <form action="/AdminEquipment/<%= item.id %>?_method=DELETE" method="POST" 
+                                              onsubmit="return confirm('Are you sure you want to delete this equipment?');" 
+                                              style="display: inline;">
+                                          <input type="hidden" name="_method" value="DELETE">
+                                          <button type="submit" class="mobile-btn delete">
+                                            <i class="fas fa-trash"></i> Delete
+                                          </button>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  <% }) %>
+                                <% } else { %>
+                                  <div class="equipment-card">
+                                    <div style="text-align: center; padding: 20px;">
+                                      <i class="fas fa-box-open" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+                                      <h6>No equipment found</h6>
+                                      <p>Add new equipment to get started</p>
+                                      <a href="/AddNewEquipment">
+                                        <button class="mobile-btn view">
+                                          <i class="fas fa-plus"></i> Add Equipment
+                                        </button>
+                                      </a>
+                                    </div>
+                                  </div>
+                                <% } %>
                               </div>
 
                               <div class="table-footer">
@@ -1172,6 +1504,52 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- View Equipment Modal -->
+                <div class="modal fade" id="viewEquipmentModal" tabindex="-1" aria-labelledby="viewEquipmentModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content form-card">
+                      <div class="form-header">
+                        <h5 class="modal-title" id="viewEquipmentModalLabel">Equipment Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-md-4 text-center mb-3">
+                            <img id="view-equipment-image" src="" alt="Equipment Image" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">
+                          </div>
+                          <div class="col-md-8">
+                            <table class="table table-borderless">
+                              <tr>
+                                <td><strong>Equipment ID:</strong></td>
+                                <td id="view-equipment-id">-</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Name:</strong></td>
+                                <td id="view-equipment-name">-</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Type:</strong></td>
+                                <td id="view-equipment-type">-</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Category:</strong></td>
+                                <td id="view-equipment-category">-</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Quantity:</strong></td>
+                                <td id="view-equipment-quantity">-</td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
       </div>
@@ -1200,13 +1578,125 @@
       // Also run once on page load (or modal open)
       updateCategory();
 
-      // Search functionality
-      const searchInput = document.querySelector('.search-input');
-      searchInput.addEventListener('keyup', function (e) {
-        if (e.key === 'Enter') {
-          this.closest('form').submit();
+      // Real-time search functionality for equipment
+      const searchInput = document.getElementById('equipment-search-input');
+      if (searchInput) {
+        // Function to filter equipment table/cards based on search
+        function filterEquipmentTable() {
+          const searchTerm = searchInput.value.toLowerCase().trim();
+          
+          // Filter desktop table rows
+          const tableRows = document.querySelectorAll('.equipment-table tbody tr');
+          tableRows.forEach(row => {
+            if (row.classList.contains('empty-state')) return;
+            
+            const equipmentName = row.querySelector('.equipment-name')?.textContent.toLowerCase() || '';
+            const equipmentType = row.querySelector('.type-col')?.textContent.toLowerCase() || '';
+            const equipmentCategory = row.querySelector('.category-badge')?.textContent.toLowerCase() || '';
+            const equipmentQuantity = row.querySelector('.quantity-value')?.textContent.toLowerCase() || '';
+            
+            const matchesSearch = searchTerm === '' || 
+              equipmentName.includes(searchTerm) ||
+              equipmentType.includes(searchTerm) ||
+              equipmentCategory.includes(searchTerm) ||
+              equipmentQuantity.includes(searchTerm);
+            
+            row.style.display = matchesSearch ? '' : 'none';
+          });
+
+          // Filter mobile cards
+          const mobileCards = document.querySelectorAll('.mobile-cards .equipment-card');
+          mobileCards.forEach(card => {
+            const equipmentName = card.querySelector('.equipment-card-name h6')?.textContent.toLowerCase() || '';
+            const equipmentType = card.querySelector('.equipment-card-field .equipment-card-value')?.textContent.toLowerCase() || '';
+            const equipmentCategory = card.querySelector('.mobile-badge.category')?.textContent.toLowerCase() || '';
+            const equipmentQuantity = card.querySelectorAll('.equipment-card-value')[2]?.textContent.toLowerCase() || '';
+            
+            const matchesSearch = searchTerm === '' || 
+              equipmentName.includes(searchTerm) ||
+              equipmentType.includes(searchTerm) ||
+              equipmentCategory.includes(searchTerm) ||
+              equipmentQuantity.includes(searchTerm);
+            
+            card.style.display = matchesSearch ? '' : 'none';
+          });
+
+          // Show/hide empty state based on visible results
+          updateEmptyState();
         }
-      });
+
+        function updateEmptyState() {
+          const visibleDesktopRows = document.querySelectorAll('.equipment-table tbody tr:not(.empty-state)');
+          const visibleMobileCards = document.querySelectorAll('.mobile-cards .equipment-card');
+          
+          let hasVisibleItems = false;
+          
+          // Check desktop table
+          visibleDesktopRows.forEach(row => {
+            if (row.style.display !== 'none') {
+              hasVisibleItems = true;
+            }
+          });
+          
+          // Check mobile cards
+          if (!hasVisibleItems) {
+            visibleMobileCards.forEach(card => {
+              if (card.style.display !== 'none') {
+                hasVisibleItems = true;
+              }
+            });
+          }
+
+          // Handle empty state for desktop table
+          const emptyStateRow = document.querySelector('.equipment-table .empty-state');
+          if (emptyStateRow) {
+            emptyStateRow.style.display = hasVisibleItems ? 'none' : '';
+          }
+        }
+
+        // Add real-time search with debouncing
+        let searchTimeout;
+        searchInput.addEventListener('input', function(e) {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            filterEquipmentTable();
+          }, 300); // 300ms debounce
+        });
+
+        // Clear search on Escape key
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            searchInput.value = '';
+            filterEquipmentTable();
+          }
+        });
+
+        // Legacy Enter key functionality (keep for form submission if needed)
+        searchInput.addEventListener('keyup', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent form submission since we have real-time search
+          }
+        });
+
+        // Initial setup
+        setTimeout(() => {
+          filterEquipmentTable();
+        }, 100);
+      }
+
+      // Function to view equipment details
+      window.viewEquipmentDetails = function(id, name, type, category, quantity, image) {
+        document.getElementById('view-equipment-id').textContent = id;
+        document.getElementById('view-equipment-name').textContent = name;
+        document.getElementById('view-equipment-type').textContent = type;
+        document.getElementById('view-equipment-category').textContent = category;
+        document.getElementById('view-equipment-quantity').textContent = quantity;
+        document.getElementById('view-equipment-image').src = image;
+        
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('viewEquipmentModal'));
+        modal.show();
+      };
 
       // Refresh button functionality
       document.querySelector('.btn-refresh').addEventListener('click', function () {
@@ -1214,7 +1704,7 @@
       });
 
       // Populate edit modal with data
-      const editButtons = document.querySelectorAll('.btn-action.edit');
+      const editButtons = document.querySelectorAll('.btn-action.edit, .mobile-btn.edit');
       editButtons.forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id');
@@ -1302,6 +1792,7 @@
   <script src="js/settings.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="/js/admin-realtime-search.js"></script>
   <!-- jQuery (single version, placed last to avoid conflicts) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </body>

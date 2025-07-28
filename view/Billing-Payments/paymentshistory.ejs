@@ -71,6 +71,174 @@
       transition: margin-left 0.3s ease;
     }
 
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .history-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .history-card.paid::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--success);
+      border-radius: 12px 0 0 12px;
+    }
+    
+    .history-card.pending::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--warning);
+      border-radius: 12px 0 0 12px;
+    }
+    
+    .history-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .history-card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 1.2rem;
+    }
+    
+    .history-card-name {
+      flex: 1;
+    }
+    
+    .history-card-name h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+    }
+    
+    .history-card-name p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .history-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .history-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .history-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    
+    .history-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .history-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+    }
+    
+    .mobile-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .mobile-btn.delete {
+      background-color: #fee;
+      color: #dc3545;
+      border: 1px solid #dc3545;
+    }
+    
+    .mobile-btn.delete:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .mobile-badge.paid {
+      background-color: rgba(25, 135, 84, 0.1);
+      color: var(--success);
+    }
+    
+    .mobile-badge.pending {
+      background-color: rgba(253, 203, 110, 0.1);
+      color: var(--warning);
+    }
+
     @media (max-width: 991px) {
       .main-panel {
         margin-left: 0;
@@ -195,6 +363,18 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
+tr.paid {
+  background-color: #e8f5e9;
+}
+tr.pending {
+  background-color: #fff9c4;
+}
+tr.failed {
+  background-color: #ffebee;
+}
+tr.refunded {
+  background-color: #e3f2fd;
+}
 
     .btn-action:hover {
       background-color: #f1f3f4;
@@ -396,58 +576,147 @@
                       </form>
                     </div>
                   </div>
-                  <div class="table-responsive">
-                    <table class="equipment-table">
-                      <thead>
-                        <tr>
-                          <th>User ID</th>
-                          <th>Package Name</th>
-                          <th>Username</th>
-                          <th>Transaction ID</th>
-                          <th>Created At</th>
-                          <th>Package Amount</th>
-                          <th>Paid Amount</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody id="payments-body">
-                        <% payments.forEach(payment=> { %>
-                          <tr>
-                            <td>
-                              <%= payment.user_id %>
-                            </td>
-                            <td>
-                              <%= payment.package_name %>
-                            </td>
-                            <td>
-                              <%= payment.username %>
-                            </td>
-                            <td>
-                              <%= payment.transaction_id %>
-                            </td>
-                            <td>
-                              <%= new Date(payment.created_at).toLocaleString('en-GB', { day: '2-digit' ,
-                                month: '2-digit' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , hour12: true
-                                }) %>
-                            </td>
-                            <td>
-                              <%= payment.amount %>
-                            </td>
-                            <td>
-                              <%= payment.custom_amount %>
-                            </td>
-                            <td>
-                              <form action="/delete-payment/<%= payment.id %>" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-link p-0 text-danger">
-                                  <i class="bi bi-trash text-danger"></i>
-                                </button>
-                              </form>
-                            </td>
-                          </tr>
-                          <% }) %>
-                      </tbody>
-                    </table>
+                  
+                  <!-- Desktop Table View -->
+                  <div class="desktop-table">
+                    <div class="table-responsive">
+                      <table class="equipment-table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Package Name</th>
+        <th>Username</th>
+        <th>Transaction ID</th>
+        <th>Created At</th>
+        <th>Package Amount</th>
+        <th>Paid Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="payments-body">
+      <% payments.forEach(payment => { %>
+        <tr class="<%= payment.status %>">
+          <td><%= payment.user_id %></td>
+          <td><%= payment.package_name %></td>
+          <td><%= payment.username %></td>
+          <td><%= payment.transaction_id %></td>
+          <td>
+            <%= new Date(payment.created_at).toLocaleString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+            }) %>
+          </td>
+          <td><%= payment.amount %></td>
+          <td><%= payment.custom_amount %></td>
+          <td>
+            <% if (payment.status === 'paid') { %>
+              <span class="badge bg-success">Paid</span>
+            <% } else if (payment.status === 'pending') { %>
+              <span class="badge bg-warning text-dark">Pending</span>
+            <% } else if (payment.status === 'failed') { %>
+              <span class="badge bg-danger">Failed</span>
+            <% } else if (payment.status === 'refunded') { %>
+              <span class="badge bg-secondary">Refunded</span>
+            <% } else { %>
+              <span class="badge bg-light text-dark">N/A</span>
+            <% } %>
+          </td>
+          <td>
+            <form action="/delete-payment/<%= payment.id %>" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-link p-0 text-danger">
+                <i class="bi bi-trash text-danger"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+                      </table>
+                    </div>
                   </div>
+
+                  <!-- Mobile Cards View -->
+                  <div class="mobile-cards">
+                    <% payments.forEach(payment => { %>
+                      <div class="history-card <%= payment.status %>">
+                        <div class="history-card-header">
+                          <div class="history-card-icon">
+                            <i class="fas fa-credit-card"></i>
+                          </div>
+                          <div class="history-card-name">
+                            <h6><%= payment.username %></h6>
+                            <p><%= payment.package_name %></p>
+                          </div>
+                        </div>
+                        
+                        <div class="history-card-content">
+                          <div class="history-card-field">
+                            <div class="history-card-label">User ID</div>
+                            <div class="history-card-value">
+                              #<%= payment.user_id %>
+                            </div>
+                          </div>
+                          
+                          <div class="history-card-field">
+                            <div class="history-card-label">Transaction ID</div>
+                            <div class="history-card-value">
+                              <%= payment.transaction_id %>
+                            </div>
+                          </div>
+                          
+                          <div class="history-card-field">
+                            <div class="history-card-label">Package Amount</div>
+                            <div class="history-card-value">
+                              PKR <%= payment.amount %>
+                            </div>
+                          </div>
+                          
+                          <div class="history-card-field">
+                            <div class="history-card-label">Paid Amount</div>
+                            <div class="history-card-value">
+                              PKR <%= payment.custom_amount %>
+                            </div>
+                          </div>
+                          
+                          <div class="history-card-field">
+                            <div class="history-card-label">Created Date</div>
+                            <div class="history-card-value">
+                              <%= new Date(payment.created_at).toLocaleDateString() %>
+                            </div>
+                          </div>
+                          
+                          <div class="history-card-field">
+                            <div class="history-card-label">Status</div>
+                            <div class="history-card-value">
+                              <span class="mobile-badge <%= payment.status %>">
+                                <% if (payment.status === 'paid') { %>
+                                  <i class="fas fa-check-circle"></i> Paid
+                                <% } else { %>
+                                  <i class="fas fa-clock"></i> Pending
+                                <% } %>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="history-card-actions">
+                          <form action="/delete-payment/<%= payment.id %>" method="POST" 
+                                onsubmit="return confirm('Are you sure you want to delete this payment?');" 
+                                style="display: inline;">
+                            <button type="submit" class="mobile-btn delete">
+                              <i class="fas fa-trash"></i> Delete
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    <% }) %>
+                  </div>
+
 
                   <!-- Edit Equipment Modal (unchanged) -->
                   <div class="modal fade" id="editEquipmentModal" tabindex="-1"
@@ -518,6 +787,7 @@
       <script src="/js/off-canvas.js"></script>
       <script src="/js/hoverable-collapse.js"></script>
       <script src="/js/template.js"></script>
+      <script src="/js/billing-payments-common.js"></script>
       <script src="/js/settings.js"></script>
       <script src="/js/dashboard.js"></script>
       <script src="/js/Chart.roundedBarCharts.js"></script>

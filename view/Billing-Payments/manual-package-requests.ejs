@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Manual Package Requests</title>
+  
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" />
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --info: #00cec9;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .manual-request-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .manual-request-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--info);
+      border-radius: 12px 0 0 12px;
+    }
+
+    .manual-request-card.urgent::before {
+      background: var(--danger);
+    }
+
+    .manual-request-card.priority::before {
+      background: var(--warning);
+    }
+
+    .manual-request-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .manual-request-card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--info);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 1.2rem;
+    }
+
+    .manual-request-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .mobile-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mobile-btn.approve {
+      background-color: #e8f5e8;
+      color: #198754;
+      border: 1px solid #198754;
+    }
+
+    .mobile-btn.approve:hover {
+      background-color: #198754;
+      color: white;
+    }
+
+    .mobile-btn.reject {
+      background-color: #fee;
+      color: #dc3545;
+      border: 1px solid #dc3545;
+    }
+
+    .mobile-btn.reject:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--info), #55a3ff);
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 350px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-approve-all {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-export {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-refresh {
+      background: var(--info);
+      color: white;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 700px;
+    }
+
+    /* Enhanced mobile responsiveness */
+    @media (max-width: 576px) {
+      .table {
+        min-width: 600px;
+        font-size: 0.85rem;
+      }
+      
+      .table th,
+      .table td {
+        padding: 10px 12px;
+      }
+      
+      .table th {
+        font-size: 0.8rem;
+      }
+      
+      .action-btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Custom scrollbar for better UX */
+    .table-responsive::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .table th {
+      background-color: #e8f5fd;
+      color: var(--info);
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .priority-badge {
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .priority-normal {
+      background-color: rgba(0, 206, 201, 0.1);
+      color: var(--info);
+    }
+
+    .priority-urgent {
+      background-color: rgba(214, 48, 49, 0.1);
+      color: var(--danger);
+    }
+
+    .priority-high {
+      background-color: rgba(253, 203, 110, 0.1);
+      color: var(--warning);
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin: 0 2px;
+    }
+
+    .btn-approve-small {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-reject-small {
+      background: var(--danger);
+      color: white;
+    }
+
+    .alert-banner {
+      background: linear-gradient(135deg, var(--warning), #f39c12);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 4px solid;
+    }
+
+    .stat-card.manual { border-left-color: var(--info); }
+    .stat-card.urgent { border-left-color: var(--danger); }
+    .stat-card.pending { border-left-color: var(--warning); }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 576px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .action-buttons {
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0px; padding-right: 0px;">
+      <%- include('../partials/SettingsDow.ejs') %>
+      <%- include('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel" style="width: 100%;">
+        <div class="content-wrapper">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-hand-paper me-2"></i>
+              Manual Package Requests Management
+            </div>
+            
+            <div class="card-body">
+              <!-- Alert Banner -->
+              <div class="alert-banner">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                  <strong>Manual Requests Require Attention!</strong>
+                  These packages were requested manually and need administrative approval.
+                </div>
+              </div>
+
+              <!-- Statistics -->
+              <div class="stats-grid" id="stats-grid">
+                <!-- Stats will be populated by JavaScript -->
+              </div>
+
+              <div class="toolbar">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="search-input" class="search-input" 
+                         placeholder="Search manual requests...">
+                </div>
+                
+                <div class="action-buttons">
+                  <button id="approve-all-btn" class="btn-action btn-approve-all">
+                    <i class="fas fa-check-double"></i>Approve All
+                  </button>
+                  
+                  <button id="export-btn" class="btn-action btn-export">
+                    <i class="fas fa-file-export"></i>Export
+                  </button>
+                  
+                  <button id="refresh-btn" class="btn-action btn-refresh">
+                    <i class="fas fa-sync-alt"></i>Refresh
+                  </button>
+                </div>
+              </div>
+
+              <!-- Desktop Table View -->
+              <div class="desktop-table">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Request ID</th>
+                        <th>Package Name</th>
+                        <th>User</th>
+                        <th>Request Type</th>
+                        <th>Priority</th>
+                        <th>Date Requested</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="manual-requests-table">
+                      <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Mobile Cards View -->
+              <div class="mobile-cards" id="manual-requests-cards">
+                <!-- Cards will be loaded via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/billing-payments-common.js"></script>
+  <script src="/js/admin-realtime-search.js"></script>
+  <script>
+    // EMERGENCY SIDEBAR FIX - Direct implementation
+    window.toggleSidebar = function() {
+      console.log('Emergency toggleSidebar called');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      
+      console.log('Sidebar found:', !!sidebar, 'Overlay found:', !!overlay);
+      
+      if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        console.log('Sidebar active:', sidebar.classList.contains('active'));
+      } else {
+        console.error('Sidebar elements missing!');
+      }
+    };
+    
+    // Ensure it works when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Manual requests page DOM loaded');
+      
+      // Test if sidebar elements exist
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      console.log('Sidebar element:', sidebar);
+      console.log('Overlay element:', overlay);
+      
+      // Add click handler to overlay
+      if (overlay) {
+        overlay.addEventListener('click', window.toggleSidebar);
+      }
+      
+      // Test the toggle function
+      console.log('toggleSidebar function:', typeof window.toggleSidebar);
+    });
+  </script>
+  <script>
+    let originalRequests = [];
+
+    // Load manual package requests
+    async function loadManualRequests() {
+      try {
+        const response = await fetch('/manual-package-requests');
+        const requests = await response.json();
+        
+        originalRequests = requests;
+        displayRequestsTable(requests);
+        displayRequestsCards(requests);
+        updateStatistics(requests);
+        
+        // Initialize real-time search
+        if (window.createAdminSearch) {
+          window.manualRequestsSearch = createAdminSearch({
+            searchInputId: 'search-input',
+            dataSource: requests,
+            searchFields: ['id', 'package_name', 'user_name', 'user_email'],
+            displayFunction: function(filteredRequests) {
+              displayRequestsTable(filteredRequests);
+              displayRequestsCards(filteredRequests);
+            },
+            debounceTime: 200,
+            minSearchLength: 0
+          });
+        }
+      } catch (error) {
+        console.error('Error loading manual requests:', error);
+        showEmptyState();
+      }
+    }
+
+    function displayRequestsTable(requests) {
+      const tbody = document.getElementById('manual-requests-table');
+      
+      if (requests.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center" style="padding: 40px;">
+              <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: 10px;"></i>
+              <h6>No Manual Requests Pending</h6>
+              <p class="text-muted">All requests have been processed!</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = requests.map(req => `
+        <tr data-id="${req.id}">
+          <td>#${req.id}</td>
+          <td>${req.package_name || 'N/A'}</td>
+          <td>${req.user_name || 'Unknown User'}</td>
+          <td><span class="priority-badge priority-normal">Manual</span></td>
+          <td><span class="priority-badge ${getPriorityClass(req)}">
+            ${getPriorityLevel(req)}
+          </span></td>
+          <td>${req.created_at ? new Date(req.created_at).toLocaleDateString() : 'N/A'}</td>
+          <td>
+            <button class="action-btn btn-approve-small" onclick="approveRequest(${req.id})">
+              <i class="fas fa-check"></i> Approve
+            </button>
+            <button class="action-btn btn-reject-small" onclick="rejectRequest(${req.id})">
+              <i class="fas fa-times"></i> Reject
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function displayRequestsCards(requests) {
+      const cardsContainer = document.getElementById('manual-requests-cards');
+      
+      if (requests.length === 0) {
+        cardsContainer.innerHTML = `
+          <div class="manual-request-card">
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: 10px;"></i>
+              <h6>No Manual Requests Pending</h6>
+              <p class="text-muted">All requests have been processed!</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      cardsContainer.innerHTML = requests.map(req => `
+        <div class="manual-request-card ${getPriorityClass(req)}" data-id="${req.id}">
+          <div class="manual-request-card-header">
+            <div class="manual-request-card-icon">
+              <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="manual-request-card-name">
+              <h6>${req.package_name || 'Package Request'}</h6>
+              <p>by ${req.user_name || 'Unknown User'}</p>
+            </div>
+          </div>
+          
+          <div class="manual-request-card-content">
+            <div class="manual-request-card-field">
+              <div class="manual-request-card-label">Request ID</div>
+              <div class="manual-request-card-value">#${req.id}</div>
+            </div>
+            
+            <div class="manual-request-card-field">
+              <div class="manual-request-card-label">Request Type</div>
+              <div class="manual-request-card-value">
+                <span class="priority-badge priority-normal">Manual</span>
+              </div>
+            </div>
+            
+            <div class="manual-request-card-field">
+              <div class="manual-request-card-label">Priority</div>
+              <div class="manual-request-card-value">
+                <span class="priority-badge ${getPriorityClass(req)}">
+                  ${getPriorityLevel(req)}
+                </span>
+              </div>
+            </div>
+            
+            <div class="manual-request-card-field">
+              <div class="manual-request-card-label">Date Requested</div>
+              <div class="manual-request-card-value">
+                ${req.created_at ? new Date(req.created_at).toLocaleDateString() : 'N/A'}
+              </div>
+            </div>
+          </div>
+          
+          <div class="manual-request-card-actions">
+            <button class="mobile-btn approve" onclick="approveRequest(${req.id})">
+              <i class="fas fa-check"></i> Approve
+            </button>
+            <button class="mobile-btn reject" onclick="rejectRequest(${req.id})">
+              <i class="fas fa-times"></i> Reject
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getPriorityClass(request) {
+      // Simple priority logic based on how old the request is
+      if (request.created_at) {
+        const daysSinceRequest = (new Date() - new Date(request.created_at)) / (1000 * 60 * 60 * 24);
+        if (daysSinceRequest > 7) return 'urgent';
+        if (daysSinceRequest > 3) return 'priority';
+      }
+      return 'normal';
+    }
+
+    function getPriorityLevel(request) {
+      const priorityClass = getPriorityClass(request);
+      switch(priorityClass) {
+        case 'urgent': return 'Urgent';
+        case 'priority': return 'High';
+        default: return 'Normal';
+      }
+    }
+
+    function updateStatistics(requests) {
+      const urgentCount = requests.filter(req => getPriorityClass(req) === 'urgent').length;
+      const priorityCount = requests.filter(req => getPriorityClass(req) === 'priority').length;
+      
+      document.getElementById('stats-grid').innerHTML = `
+        <div class="stat-card manual">
+          <div class="stat-number" style="color: var(--info)">${requests.length}</div>
+          <div class="stat-label">Manual Requests</div>
+        </div>
+        <div class="stat-card urgent">
+          <div class="stat-number" style="color: var(--danger)">${urgentCount}</div>
+          <div class="stat-label">Urgent (>7 days)</div>
+        </div>
+        <div class="stat-card pending">
+          <div class="stat-number" style="color: var(--warning)">${priorityCount}</div>
+          <div class="stat-label">Priority (>3 days)</div>
+        </div>
+      `;
+    }
+
+    function showEmptyState() {
+      document.getElementById('manual-requests-table').innerHTML = `
+        <tr>
+          <td colspan="7" class="text-center" style="padding: 40px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning); margin-bottom: 10px;"></i>
+            <h6>Error Loading Manual Requests</h6>
+            <p class="text-muted">Please try refreshing the page</p>
+          </td>
+        </tr>
+      `;
+      
+      document.getElementById('manual-requests-cards').innerHTML = `
+        <div class="manual-request-card">
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning); margin-bottom: 10px;"></i>
+            <h6>Error Loading Manual Requests</h6>
+            <p class="text-muted">Please try refreshing the page</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Action functions
+    async function approveRequest(id) {
+      if (confirm('Are you sure you want to approve this manual request?')) {
+        try {
+          // Here you would make an API call to approve the request
+          console.log(`Approving request ${id}`);
+          // Remove from UI for demo
+          document.querySelector(`[data-id="${id}"]`).style.opacity = '0.5';
+        } catch (error) {
+          console.error('Error approving request:', error);
+        }
+      }
+    }
+
+    async function rejectRequest(id) {
+      if (confirm('Are you sure you want to reject this manual request?')) {
+        try {
+          // Here you would make an API call to reject the request
+          console.log(`Rejecting request ${id}`);
+          // Remove from UI for demo
+          document.querySelector(`[data-id="${id}"]`).style.opacity = '0.5';
+        } catch (error) {
+          console.error('Error rejecting request:', error);
+        }
+      }
+    }
+
+    // Real-time search is initialized in loadManualRequests function
+
+    // Bulk approve functionality
+    document.getElementById('approve-all-btn').addEventListener('click', function() {
+      if (confirm('Are you sure you want to approve ALL manual requests?')) {
+        console.log('Approving all requests');
+        // Here you would make an API call to approve all requests
+      }
+    });
+
+    // Export functionality
+    document.getElementById('export-btn').addEventListener('click', function() {
+      const csvContent = [
+        ['Request ID', 'Package Name', 'User', 'Request Type', 'Priority', 'Date Requested'],
+        ...originalRequests.map(req => [
+          req.id,
+          req.package_name || 'N/A',
+          req.user_name || 'Unknown User',
+          'Manual',
+          getPriorityLevel(req),
+          req.created_at ? new Date(req.created_at).toLocaleDateString() : 'N/A'
+        ])
+      ].map(row => row.join(',')).join('\n');
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `manual-requests-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+    // Refresh functionality
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Refreshing...';
+      setTimeout(() => {
+        loadManualRequests();
+        this.innerHTML = '<i class="fas fa-sync-alt"></i>Refresh';
+      }, 1000);
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', loadManualRequests);
+  </script>
+</body>
+</html>

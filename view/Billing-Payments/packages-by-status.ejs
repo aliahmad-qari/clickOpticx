@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Packages by Status</title>
+  
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" />
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .package-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .package-card.paid::before {
+      background: var(--success);
+    }
+    
+    .package-card.unpaid::before {
+      background: var(--warning);
+    }
+    
+    .package-card.no-payment::before {
+      background: var(--danger);
+    }
+    
+    .package-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--primary), #a29bfe);
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .status-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-btn {
+      padding: 8px 16px;
+      border: 2px solid;
+      border-radius: 25px;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .status-btn.paid {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .status-btn.paid.active {
+      background: var(--success);
+      color: white;
+    }
+
+    .status-btn.unpaid {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    .status-btn.unpaid.active {
+      background: var(--warning);
+      color: white;
+    }
+
+    .status-btn.no-payment {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .status-btn.no-payment.active {
+      background: var(--danger);
+      color: white;
+    }
+
+    .status-btn.all {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .status-btn.all.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 600px;
+    }
+
+    .table th {
+      background-color: #f5f8ff;
+      color: var(--primary);
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .badge-paid {
+      background-color: rgba(0, 184, 148, 0.1);
+      color: var(--success);
+    }
+
+    .badge-unpaid {
+      background-color: rgba(253, 203, 110, 0.1);
+      color: var(--warning);
+    }
+
+    .badge-no-payment {
+      background-color: rgba(214, 48, 49, 0.1);
+      color: var(--danger);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .stats-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 576px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .status-filters {
+        justify-content: center;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0px; padding-right: 0px;">
+      <%- include('../partials/SettingsDow.ejs') %>
+      <%- include('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel" style="width: 100%;">
+        <div class="content-wrapper">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-box me-2"></i>
+              Packages by Payment Status
+            </div>
+            
+            <div class="card-body">
+              <!-- Statistics Summary -->
+              <div class="stats-summary" id="stats-summary">
+                <!-- Stats will be populated by JavaScript -->
+              </div>
+
+              <div class="toolbar">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="search-input" class="search-input" 
+                         placeholder="Search packages, users...">
+                </div>
+                
+                <div class="status-filters">
+                  <button class="status-btn all active" data-status="">
+                    <i class="fas fa-list"></i> All
+                  </button>
+                  <button class="status-btn paid" data-status="paid">
+                    <i class="fas fa-check-circle"></i> Paid
+                  </button>
+                  <button class="status-btn unpaid" data-status="unpaid">
+                    <i class="fas fa-clock"></i> Unpaid
+                  </button>
+                  <button class="status-btn no-payment" data-status="no-payment">
+                    <i class="fas fa-times-circle"></i> No Payment
+                  </button>
+                </div>
+              </div>
+
+              <!-- Desktop Table View -->
+              <div class="desktop-table">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Package ID</th>
+                        <th>Package Name</th>
+                        <th>Username</th>
+                        <th>Payment Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="packages-table">
+                      <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Mobile Cards View -->
+              <div class="mobile-cards" id="packages-cards">
+                <!-- Cards will be loaded via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/billing-payments-common.js"></script>
+  <script src="/js/admin-realtime-search.js"></script>
+  <script>
+    let originalPackages = [];
+    let currentFilter = '';
+
+    // Load packages data
+    async function loadPackages(status = '') {
+      try {
+        const url = status ? `/packages-by-status?status=${status}` : '/packages-by-status?status=';
+        const response = await fetch(url);
+        const packages = await response.json();
+        
+        originalPackages = packages;
+        displayPackagesTable(packages);
+        displayPackagesCards(packages);
+        updateStatistics(packages);
+        
+        // Initialize real-time search
+        if (window.createAdminSearch) {
+          window.packagesSearch = createAdminSearch({
+            searchInputId: 'search-input',
+            dataSource: packages,
+            searchFields: ['id', 'package_name', 'Username', 'payment_status'],
+            displayFunction: function(filteredPackages) {
+              displayPackagesTable(filteredPackages);
+              displayPackagesCards(filteredPackages);
+            },
+            debounceTime: 200,
+            minSearchLength: 0
+          });
+        }
+      } catch (error) {
+        console.error('Error loading packages:', error);
+      }
+    }
+
+    function displayPackagesTable(packages) {
+      const tbody = document.getElementById('packages-table');
+      tbody.innerHTML = packages.map(pkg => `
+        <tr>
+          <td>#${pkg.id}</td>
+          <td>${pkg.package_name}</td>
+          <td>${pkg.Username}</td>
+          <td><span class="badge badge-${pkg.payment_status.toLowerCase().replace(' ', '-')}">
+            ${getStatusIcon(pkg.payment_status)} ${pkg.payment_status}
+          </span></td>
+        </tr>
+      `).join('');
+    }
+
+    function displayPackagesCards(packages) {
+      const cardsContainer = document.getElementById('packages-cards');
+      cardsContainer.innerHTML = packages.map(pkg => `
+        <div class="package-card ${pkg.payment_status.toLowerCase().replace(' ', '-')}">
+          <div class="package-card-header">
+            <div class="package-card-icon">
+              <i class="fas fa-box"></i>
+            </div>
+            <div class="package-card-name">
+              <h6>${pkg.package_name}</h6>
+              <p>by ${pkg.Username}</p>
+            </div>
+          </div>
+          
+          <div class="package-card-content">
+            <div class="package-card-field">
+              <div class="package-card-label">Package ID</div>
+              <div class="package-card-value">#${pkg.id}</div>
+            </div>
+            
+            <div class="package-card-field">
+              <div class="package-card-label">Payment Status</div>
+              <div class="package-card-value">
+                <span class="badge badge-${pkg.payment_status.toLowerCase().replace(' ', '-')}">
+                  ${getStatusIcon(pkg.payment_status)} ${pkg.payment_status}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getStatusIcon(status) {
+      switch(status.toLowerCase()) {
+        case 'paid': return '<i class="fas fa-check-circle"></i>';
+        case 'unpaid': return '<i class="fas fa-clock"></i>';
+        case 'no payment': return '<i class="fas fa-times-circle"></i>';
+        default: return '<i class="fas fa-question-circle"></i>';
+      }
+    }
+
+    function updateStatistics(packages) {
+      const stats = packages.reduce((acc, pkg) => {
+        const status = pkg.payment_status.toLowerCase().replace(' ', '-');
+        acc[status] = (acc[status] || 0) + 1;
+        acc.total = (acc.total || 0) + 1;
+        return acc;
+      }, {});
+
+      document.getElementById('stats-summary').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--primary)">${stats.total || 0}</div>
+          <div class="stat-label">Total Packages</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--success)">${stats.paid || 0}</div>
+          <div class="stat-label">Paid Packages</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--warning)">${stats.unpaid || 0}</div>
+          <div class="stat-label">Unpaid Packages</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: var(--danger)">${stats['no-payment'] || 0}</div>
+          <div class="stat-label">No Payment</div>
+        </div>
+      `;
+    }
+
+    // Filter functionality
+    document.querySelectorAll('.status-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const status = this.dataset.status;
+        currentFilter = status;
+        loadPackages(status);
+      });
+    });
+
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredPackages = originalPackages.filter(pkg => 
+        pkg.id.toString().includes(searchTerm) ||
+        pkg.package_name.toLowerCase().includes(searchTerm) ||
+        pkg.Username.toLowerCase().includes(searchTerm) ||
+        pkg.payment_status.toLowerCase().includes(searchTerm)
+      );
+      
+      displayPackagesTable(filteredPackages);
+      displayPackagesCards(filteredPackages);
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', () => loadPackages());
+  </script>
+</body>
+</html>

@@ -1,6 +1,220 @@
 const db = require("../config/db");
+exports.getPaidUsers = (req, res) => {
+  const sql = `
+    SELECT DISTINCT u.id, u.Username, u.Email, u.plan
+    FROM users u
+    JOIN payments p ON u.id = p.user_id
+    WHERE p.status = 'paid'
+  `;
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error fetching paid users' });
+    res.json(results);
+  });
+};
+
+exports.getPackagesByStatus = (req, res) => {
+  const { status } = req.query;
+
+  const sql = `
+    SELECT p.id, p.package_name, u.Username, p.status
+    FROM packages p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.status = ?
+  `;
+
+  db.query(sql, [status], (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error filtering packages' });
+    res.json(results);
+  });
+};
+
+exports.getAllPackageRequests = (req, res) => {
+  const sql = `
+    SELECT p.id, p.package_name, u.Username, p.status
+    FROM packages p
+    JOIN users u ON p.user_id = u.id
+    ORDER BY p.status
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error fetching packages' });
+    res.json(results);
+  });
+};
+
+exports.getPendingPaymentsByUser = (req, res) => {
+  const userId = req.session.userId;
+
+  const sqlProfile = `
+    SELECT Username, Email, plan, invoice, user_img, role 
+    FROM users WHERE id = ?`;
+
+  const sql = `
+    SELECT 
+      u.id AS user_id,
+      u.Username,
+      u.Email,
+      p.id AS payment_id,
+      p.package_name,
+      p.amount,
+      p.custom_amount,
+      p.transaction_id,
+      p.created_at
+    FROM users u
+    JOIN payments p ON u.id = p.user_id
+    WHERE p.status = 'pending'
+    ORDER BY u.Username ASC, p.created_at DESC
+  `;
+
+  db.query(sqlProfile, [userId], (err, userResults) => {
+    if (err) return res.status(500).send("Profile error");
+
+    db.query(sql, (err, payments) => {
+      if (err) {
+        console.error("Error fetching detailed pending payments:", err);
+        return res.status(500).json({ message: 'Error fetching pending payments' });
+      }
+
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) return res.status(500).send("Background error");
+
+        const passwordSql = `
+          SELECT * FROM notifications 
+          WHERE is_read = 0 
+          AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC`;
+
+        db.query(passwordSql, (err, password_datass) => {
+          if (err) return res.status(500).send("Notifications error");
+
+          const NotifactionSql = `
+            SELECT COUNT(*) AS totalNotifactions 
+            FROM notifications 
+            WHERE is_read = 0 
+            AND created_at >= NOW() - INTERVAL 2 DAY`;
+
+          db.query(NotifactionSql, (err, NotifactionResult) => {
+            if (err) return res.status(500).send("Notif count error");
+
+            const user = userResults[0] || {};
+            const isAdmin = user.role === "admin";
+            const isUser = user.role === "user";
+            const isteam = user.role === "Team";
+            const totalNotifactions = NotifactionResult[0].totalNotifactions;
+
+            res.render("Billing-Payments/pending-by-user", {
+              user: userResults,
+              payments,
+              bg_result,
+              isAdmin,
+              isUser,
+              isteam,
+              totalNotifactions,
+              password_datass,
+              message: null,
+              messages: {
+                success: req.flash("success")[0] || null,
+              },
+            });
+          });
+        });
+      });
+    });
+  });
+};
+exports.renderPaymentHistoryPage = (req, res) => {
+  const userId = req.session.userId;
+
+  const sqlProfile = `
+    SELECT Username, Email, plan, invoice, user_img, role 
+    FROM users WHERE id = ?`;
+  const sqlPayments = "SELECT * FROM payments";
+  const backgroundSql = "SELECT * FROM nav_table";
+  const notifCountSql = `
+    SELECT COUNT(*) AS totalNotifactions 
+    FROM notifications 
+    WHERE is_read = 0 
+    AND created_at >= NOW() - INTERVAL 2 DAY`;
+  const notifDetailsSql = `
+    SELECT * FROM notifications 
+    WHERE is_read = 0 
+    AND created_at >= NOW() - INTERVAL 2 DAY 
+    ORDER BY id DESC`;
+
+  db.query(sqlProfile, [userId], (err, userResults) => {
+    if (err) return res.status(500).send("Profile error");
+
+    db.query(sqlPayments, (err, payments) => {
+      if (err) return res.status(500).send("Payments error");
+
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) return res.status(500).send("Background error");
+
+        db.query(notifCountSql, (err, notifCountResult) => {
+          if (err) return res.status(500).send("Notification count error");
+
+          db.query(notifDetailsSql, (err, password_datass) => {
+            if (err) return res.status(500).send("Notification list error");
+
+            const user = userResults[0] || {};
+            const isAdmin = user.role === "admin";
+            const isUser = user.role === "user";
+            const isteam = user.role === "Team";
+            const totalNotifactions = notifCountResult[0].totalNotifactions;
+
+            res.render("Billing-Payments/paymentshistory", {
+              user: userResults,
+              payments,
+              bg_result,
+              totalNotifactions,
+              password_datass,
+              isAdmin,
+              isUser,
+              isteam,
+              message: null,
+              messages: {
+                success: req.flash("success")[0] || null,
+              },
+            });
+          });
+        });
+      });
+    });
+  });
+};
+
+
+
+exports.getManualPackageRequests = (req, res) => {
+  const sql = `SELECT * FROM packages WHERE request_type = 'manual'`;
+
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error retrieving manual requests' });
+    res.json(results);
+  });
+};
+
+exports.getUnpaidVsActiveUsers = (req, res) => {
+  const sql = `
+    SELECT u.id, u.Username, u.Email, u.plan, 
+      CASE 
+        WHEN p.status = 'paid' THEN 'Paid'
+        WHEN p.status = 'active' THEN 'Active'
+        ELSE 'Unpaid'
+      END AS payment_status
+    FROM users u
+    LEFT JOIN payments p ON u.id = p.user_id
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ message: 'Query error', err });
+    res.json(results);
+  });
+};
 
 // Select image
+
 exports.Slider_imgs = (req, res) => {
   const userId = req.session.userId;
 
@@ -108,6 +322,136 @@ exports.Slider_imgs = (req, res) => {
   });
 };
 
+// Render function for unpaid-vs-active-users page (from payment analysis route)
+exports.renderPaymentAnalysisPage = (req, res) => {
+  const userId = req.session.userId;
+
+  const sqlProfile = `
+    SELECT Username, Email, plan, invoice, user_img, role 
+    FROM users WHERE id = ?`;
+
+  const sqlSlider = "SELECT * FROM slider";
+
+  db.query(sqlProfile, [userId], (err, results) => {
+    if (err) return res.status(500).send("Profile error");
+
+    db.query(sqlSlider, (err, sliderResults) => {
+      if (err) return res.status(500).send("Slider error");
+
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) return res.status(500).send("Background error");
+
+        const passwordSql = `
+          SELECT * FROM notifications 
+          WHERE is_read = 0 
+          AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC`;
+
+        db.query(passwordSql, (err, password_datass) => {
+          if (err) return res.status(500).send("Notifications error");
+
+          const NotifactionSql = `
+            SELECT COUNT(*) AS totalNotifactions 
+            FROM notifications 
+            WHERE is_read = 0 
+            AND created_at >= NOW() - INTERVAL 2 DAY`;
+
+          db.query(NotifactionSql, (err, NotifactionResult) => {
+            if (err) return res.status(500).send("Notif count error");
+
+            const isAdmin = results.length > 0 && results[0].role === "admin";
+            const isUser = results.length > 0 && results[0].role === "user";
+            const isteam = results.length > 0 && results[0].role === "Team";
+            const totalNotifactions = NotifactionResult[0].totalNotifactions;
+            const successMsg = req.flash("success");
+
+            res.render("Billing-Payments/unpaid-vs-active-users", {
+              user: results,
+              slider: sliderResults,
+              bg_result,
+              isAdmin,
+              isUser,
+              isteam,
+              totalNotifactions,
+              password_datass,
+              message: null,
+              messages: {
+                success: successMsg.length > 0 ? successMsg[0] : null,
+              },
+            });
+          });
+        });
+      });
+    });
+  });
+};
+
+// Render function for all-package-requests page (from payment reports route)
+exports.renderPaymentReportsPage = (req, res) => {
+  const userId = req.session.userId;
+
+  const sqlProfile = `
+    SELECT Username, Email, plan, invoice, user_img, role 
+    FROM users WHERE id = ?`;
+
+  const sqlSlider = "SELECT * FROM slider";
+
+  db.query(sqlProfile, [userId], (err, results) => {
+    if (err) return res.status(500).send("Profile error");
+
+    db.query(sqlSlider, (err, sliderResults) => {
+      if (err) return res.status(500).send("Slider error");
+
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) return res.status(500).send("Background error");
+
+        const passwordSql = `
+          SELECT * FROM notifications 
+          WHERE is_read = 0 
+          AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC`;
+
+        db.query(passwordSql, (err, password_datass) => {
+          if (err) return res.status(500).send("Notifications error");
+
+          const NotifactionSql = `
+            SELECT COUNT(*) AS totalNotifactions 
+            FROM notifications 
+            WHERE is_read = 0 
+            AND created_at >= NOW() - INTERVAL 2 DAY`;
+
+          db.query(NotifactionSql, (err, NotifactionResult) => {
+            if (err) return res.status(500).send("Notif count error");
+
+            const isAdmin = results.length > 0 && results[0].role === "admin";
+            const isUser = results.length > 0 && results[0].role === "user";
+            const isteam = results.length > 0 && results[0].role === "Team";
+            const totalNotifactions = NotifactionResult[0].totalNotifactions;
+            const successMsg = req.flash("success");
+
+            res.render("Billing-Payments/all-package-requests", {
+              user: results,
+              slider: sliderResults,
+              bg_result,
+              isAdmin,
+              isUser,
+              isteam,
+              totalNotifactions,
+              password_datass,
+              message: null,
+              messages: {
+                success: successMsg.length > 0 ? successMsg[0] : null,
+              },
+            });
+          });
+        });
+      });
+    });
+  });
+};
+
  
 
 exports.getPayments = async (req, res) => {
@@ -115,17 +459,21 @@ exports.getPayments = async (req, res) => {
   let query = 'SELECT * FROM payments WHERE 1=1';
   const params = [];
 
-  if (search) {
+if (search) {
+  if (!isNaN(search)) {
+    query += ' AND user_id = ?';
+    params.push(search);
+  } else {
     query += `
       AND (
-        user_id = ? OR
         username LIKE ? OR
         DATE(created_at) = ? OR
         DATE(expiry_date) = ?
       )
     `;
-    params.push(search, `%${search}%`, search, search);
+    params.push(`%${search}%`, search, search); // 👈 this should be inside else
   }
+}
 
   try {
     const [payments] = await db.execute(query, params);

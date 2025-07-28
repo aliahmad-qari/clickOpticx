@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Package Requests Management</title>
+    
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="/vendors/feather/feather.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #6366F1;
+            --primary-dark: #3730A3;
+            --secondary: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --success: #10B981;
+            --info: #0EA5E9;
+            --dark: #1F2937;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Professional Header */
+        .requests-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Enhanced Stats Dashboard */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .stat-card.pending::before { background: linear-gradient(90deg, var(--warning), #FCD34D); }
+        .stat-card.approved::before { background: linear-gradient(90deg, var(--success), #34D399); }
+        .stat-card.rejected::before { background: linear-gradient(90deg, var(--danger), #F87171); }
+        .stat-card.total::before { background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--danger); }
+
+        /* Professional Control Panel */
+        .control-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .control-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .control-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-group {
+            position: relative;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.875rem;
+        }
+
+        .filter-input, .filter-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            background: var(--gray-50);
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            border-color: var(--primary);
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-input-group {
+            position: relative;
+        }
+
+        .search-input-group i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+        }
+
+        .search-input-group input {
+            padding-left: 2.5rem;
+        }
+
+        /* Professional Table */
+        .requests-table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--gray-50);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .requests-table th {
+            background: var(--gray-50);
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 1px solid var(--gray-200);
+            white-space: nowrap;
+        }
+
+        .requests-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+
+        .requests-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .requests-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Enhanced Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .status-active {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--info);
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        /* User Avatar and Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .user-details h6 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .user-details p {
+            margin: 0;
+            color: var(--gray-500);
+            font-size: 0.75rem;
+        }
+
+        /* Package Info Card */
+        .package-info {
+            background: var(--gray-50);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .package-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .package-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            text-decoration: none;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Professional Buttons */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive Cards */
+        @media (max-width: 768px) {
+            .desktop-table {
+                display: none !important;
+            }
+            
+            .mobile-cards {
+                display: block !important;
+            }
+            
+            .control-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .stats-dashboard {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (min-width: 769px) {
+            .desktop-table {
+                display: block !important;
+            }
+            
+            .mobile-cards {
+                display: none !important;
+            }
+        }
+
+        .mobile-cards {
+            display: none;
+        }
+
+        .request-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .card-header-mobile {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-content-mobile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-field-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .card-field-value {
+            font-size: 0.875rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .card-actions-mobile {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: white;
+            border-radius: 0 0 16px 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .pagination-info {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-200);
+            background: white;
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            text-decoration: none;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--gray-300);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        /* Professional Modals */
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 20px 20px 0 0;
+            padding: 2rem;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <%- include ('../partials/_navbar.ejs') %>
+        
+        <div class="container-fluid page-body-wrapper">
+            <%- include ('../partials/Sidebar.ejs') %>
+            
+            <div class="main-panel">
+                <!-- Professional Header -->
+                <div class="requests-header">
+                    <div class="header-content">
+                        <h1 class="header-title">
+                            <i class="fas fa-tasks me-3"></i>
+                            Package Requests Management
+                        </h1>
+                        <p class="header-subtitle">
+                            Efficiently manage and process customer package subscription requests
+                        </p>
+                        
+                        <!-- Enhanced Stats Dashboard -->
+                        <div class="stats-dashboard">
+                            <div class="stat-card pending">
+                                <div class="stat-header">
+                                    <div class="stat-icon" style="background: var(--warning);">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value" id="pendingCount">
+                                    <%= requests ? requests.filter(r => r.status === 'pending').length : 0 %>
+                                </div>
+                                <div class="stat-label">Pending Requests</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+12% from last week</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card approved">
+                                <div class="stat-header">
+                                    <div class="stat-icon" style="background: var(--success);">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value" id="approvedCount">
+                                    <%= requests ? requests.filter(r => r.status === 'approved').length : 0 %>
+                                </div>
+                                <div class="stat-label">Approved Today</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8% from yesterday</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card rejected">
+                                <div class="stat-header">
+                                    <div class="stat-icon" style="background: var(--danger);">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value" id="rejectedCount">
+                                    <%= requests ? requests.filter(r => r.status === 'rejected').length : 0 %>
+                                </div>
+                                <div class="stat-label">Rejected Requests</div>
+                                <div class="stat-trend trend-down">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>-5% from last week</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card total">
+                                <div class="stat-header">
+                                    <div class="stat-icon" style="background: var(--primary);">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value" id="totalRevenue">
+                                    Rs. <%= requests ? requests.filter(r => r.status === 'approved').reduce((sum, r) => sum + (r.amount || 0), 0).toLocaleString() : 0 %>
+                                </div>
+                                <div class="stat-label">Revenue This Month</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+15% from last month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Control Panel -->
+                <div class="control-panel">
+                    <div class="control-header">
+                        <h2 class="control-title">Filter & Search Requests</h2>
+                        <div class="control-actions">
+                            <button class="btn-primary-custom" onclick="exportRequests()">
+                                <i class="fas fa-download"></i>
+                                Export Data
+                            </button>
+                            <button class="btn-primary-custom" onclick="refreshData()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Search Requests</label>
+                            <div class="search-input-group">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="requestSearch" class="filter-input" placeholder="Search by user, package, or transaction ID...">
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="filter-label">Status Filter</label>
+                            <select id="statusFilter" class="filter-select">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="active">Active</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="filter-label">Date Range</label>
+                            <select id="dateFilter" class="filter-select">
+                                <option value="">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="filter-label">Amount Range</label>
+                            <select id="amountFilter" class="filter-select">
+                                <option value="">All Amounts</option>
+                                <option value="0-1000">Rs. 0 - 1,000</option>
+                                <option value="1000-3000">Rs. 1,000 - 3,000</option>
+                                <option value="3000-5000">Rs. 3,000 - 5,000</option>
+                                <option value="5000+">Rs. 5,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Requests Table -->
+                <div class="requests-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Package Subscription Requests</h3>
+                    </div>
+                    
+                    <!-- Desktop Table View -->
+                    <div class="desktop-table">
+                        <table class="requests-table" id="requestsTable">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>User Details</th>
+                                    <th>Package Info</th>
+                                    <th>Amount</th>
+                                    <th>Transaction ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (requests && requests.length > 0) { %>
+                                    <% requests.forEach((request, index) => { %>
+                                        <tr data-request-id="<%= request.id %>" data-status="<%= request.status %>" data-amount="<%= request.amount || 0 %>">
+                                            <td>
+                                                <code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                    #<%= request.id || (1000 + index) %>
+                                                </code>
+                                            </td>
+                                            <td>
+                                                <div class="user-info">
+                                                    <div class="user-avatar">
+                                                        <%= (request.username || 'U').charAt(0).toUpperCase() %>
+                                                    </div>
+                                                    <div class="user-details">
+                                                        <h6><%= request.username || 'Unknown User' %></h6>
+                                                        <p><%= request.user_id ? `ID: ${request.user_id}` : 'No ID' %></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="package-info">
+                                                    <div class="package-name"><%= request.package_name || 'N/A' %></div>
+                                                    <div class="package-price">Rs. <%= (request.amount || 0).toLocaleString() %></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem;">
+                                                    Rs. <%= (request.amount || 0).toLocaleString() %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                    <%= request.transaction_id || 'N/A' %>
+                                                </code>
+                                            </td>
+                                            <td>
+                                                <div style="font-size: 0.875rem;">
+                                                    <%= request.createdAt ? new Date(request.createdAt).toLocaleDateString() : 'N/A' %>
+                                                    <br>
+                                                    <small style="color: var(--gray-500);">
+                                                        <%= request.createdAt ? new Date(request.createdAt).toLocaleTimeString() : '' %>
+                                                    </small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="status-badge status-<%= request.status || 'pending' %>">
+                                                    <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                                                    <%= (request.status || 'pending').charAt(0).toUpperCase() + (request.status || 'pending').slice(1) %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <% if ((request.status || 'pending') === 'pending') { %>
+                                                        <button class="btn-action btn-approve" onclick="approveRequest('<%= request.id %>')">
+                                                            <i class="fas fa-check"></i>
+                                                            Approve
+                                                        </button>
+                                                        <button class="btn-action btn-reject" onclick="rejectRequest('<%= request.id %>')">
+                                                            <i class="fas fa-times"></i>
+                                                            Reject
+                                                        </button>
+                                                    <% } %>
+                                                    <button class="btn-action btn-view" onclick="viewRequestDetails('<%= request.id %>')">
+                                                        <i class="fas fa-eye"></i>
+                                                        View
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                        
+                        <% if (!requests || requests.length === 0) { %>
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No requests found</h3>
+                                <p>No package requests match your current filters</p>
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    <!-- Mobile Cards View -->
+                    <div class="mobile-cards">
+                        <% if (requests && requests.length > 0) { %>
+                            <% requests.forEach((request, index) => { %>
+                                <div class="request-card" data-request-id="<%= request.id %>" data-status="<%= request.status %>" data-amount="<%= request.amount || 0 %>">
+                                    <div class="card-header-mobile">
+                                        <div>
+                                            <h6 style="margin: 0; font-weight: 700;">
+                                                #<%= request.id || (1000 + index) %>
+                                            </h6>
+                                            <p style="margin: 0; color: var(--gray-500); font-size: 0.75rem;">
+                                                <%= request.createdAt ? new Date(request.createdAt).toLocaleDateString() : 'N/A' %>
+                                            </p>
+                                        </div>
+                                        <span class="status-badge status-<%= request.status || 'pending' %>">
+                                            <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                                            <%= (request.status || 'pending').charAt(0).toUpperCase() + (request.status || 'pending').slice(1) %>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="card-content-mobile">
+                                        <div class="card-field">
+                                            <div class="card-field-label">User</div>
+                                            <div class="card-field-value"><%= request.username || 'Unknown User' %></div>
+                                        </div>
+                                        
+                                        <div class="card-field">
+                                            <div class="card-field-label">Package</div>
+                                            <div class="card-field-value"><%= request.package_name || 'N/A' %></div>
+                                        </div>
+                                        
+                                        <div class="card-field">
+                                            <div class="card-field-label">Amount</div>
+                                            <div class="card-field-value" style="color: var(--primary); font-weight: 700;">
+                                                Rs. <%= (request.amount || 0).toLocaleString() %>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-field">
+                                            <div class="card-field-label">Transaction ID</div>
+                                            <div class="card-field-value">
+                                                <code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                    <%= request.transaction_id || 'N/A' %>
+                                                </code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-actions-mobile">
+                                        <% if ((request.status || 'pending') === 'pending') { %>
+                                            <button class="btn-action btn-approve" onclick="approveRequest('<%= request.id %>')">
+                                                <i class="fas fa-check"></i>
+                                                Approve
+                                            </button>
+                                            <button class="btn-action btn-reject" onclick="rejectRequest('<%= request.id %>')">
+                                                <i class="fas fa-times"></i>
+                                                Reject
+                                            </button>
+                                        <% } %>
+                                        <button class="btn-action btn-view" onclick="viewRequestDetails('<%= request.id %>')">
+                                            <i class="fas fa-eye"></i>
+                                            View
+                                        </button>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No requests found</h3>
+                                <p>No package requests match your current filters</p>
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Showing <%= requests ? Math.min(10, requests.length) : 0 %> of <%= requests ? requests.length : 0 %> requests
+                        </div>
+                        <div class="pagination">
+                            <a href="#" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="page-btn active">1</a>
+                            <a href="#" class="page-btn">2</a>
+                            <a href="#" class="page-btn">3</a>
+                            <a href="#" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Details Modal -->
+    <div class="modal fade" id="requestDetailsModal" tabindex="-1" aria-labelledby="requestDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestDetailsModalLabel">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Request Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Request ID</div>
+                            <div class="detail-value" id="modalRequestId">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">User Name</div>
+                            <div class="detail-value" id="modalUserName">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Package Name</div>
+                            <div class="detail-value" id="modalPackageName">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Amount</div>
+                            <div class="detail-value" id="modalAmount">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Transaction ID</div>
+                            <div class="detail-value" id="modalTransactionId">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value" id="modalStatus">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/js/admin-realtime-search.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize real-time search
+            const requestSearch = new AdminRealtimeSearch({
+                searchInputId: 'requestSearch',
+                debounceTime: 300,
+                displayFunction: filterRequests
+            });
+
+            // Filter functionality
+            function filterRequests() {
+                const searchTerm = document.getElementById('requestSearch').value.toLowerCase();
+                const statusFilter = document.getElementById('statusFilter').value;
+                const dateFilter = document.getElementById('dateFilter').value;
+                const amountFilter = document.getElementById('amountFilter').value;
+                
+                const requestRows = document.querySelectorAll('#requestsTable tbody tr, .request-card');
+                let visibleCount = 0;
+                
+                requestRows.forEach(row => {
+                    let matchesSearch = true;
+                    let matchesStatus = true;
+                    let matchesAmount = true;
+                    
+                    if (searchTerm) {
+                        const text = row.textContent.toLowerCase();
+                        matchesSearch = text.includes(searchTerm);
+                    }
+                    
+                    if (statusFilter) {
+                        const status = row.dataset.status;
+                        matchesStatus = status === statusFilter;
+                    }
+                    
+                    if (amountFilter) {
+                        const amount = parseInt(row.dataset.amount || 0);
+                        if (amountFilter === '0-1000') matchesAmount = amount <= 1000;
+                        else if (amountFilter === '1000-3000') matchesAmount = amount > 1000 && amount <= 3000;
+                        else if (amountFilter === '3000-5000') matchesAmount = amount > 3000 && amount <= 5000;
+                        else if (amountFilter === '5000+') matchesAmount = amount > 5000;
+                    }
+                    
+                    const isVisible = matchesSearch && matchesStatus && matchesAmount;
+                    row.style.display = isVisible ? '' : 'none';
+                    if (isVisible) visibleCount++;
+                });
+                
+                // Update stats
+                updateStats();
+            }
+
+            // Add event listeners
+            document.getElementById('statusFilter').addEventListener('change', filterRequests);
+            document.getElementById('dateFilter').addEventListener('change', filterRequests);
+            document.getElementById('amountFilter').addEventListener('change', filterRequests);
+
+            function updateStats() {
+                // Update dashboard stats based on filtered results
+                const visibleRows = document.querySelectorAll('#requestsTable tbody tr:not([style*="display: none"])');
+                // Update stat cards here if needed
+            }
+        });
+
+        // Action functions
+        function approveRequest(requestId) {
+            if (confirm('Are you sure you want to approve this request?')) {
+                // Add loading state
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Approving...';
+                button.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Update status in UI
+                    updateRequestStatus(requestId, 'approved');
+                    showToast('Request approved successfully!', 'success');
+                }, 1000);
+            }
+        }
+
+        function rejectRequest(requestId) {
+            const reason = prompt('Please provide a reason for rejection (optional):');
+            if (reason !== null) {
+                // Add loading state
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Rejecting...';
+                button.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Update status in UI
+                    updateRequestStatus(requestId, 'rejected');
+                    showToast('Request rejected successfully!', 'success');
+                }, 1000);
+            }
+        }
+
+        function viewRequestDetails(requestId) {
+            // Get request data from the row
+            const row = document.querySelector(`[data-request-id="${requestId}"]`);
+            if (row) {
+                const userData = row.querySelector('.user-details h6')?.textContent || 'Unknown';
+                const packageData = row.querySelector('.package-name')?.textContent || 'N/A';
+                const amountData = row.querySelector('.package-price')?.textContent || 'Rs. 0';
+                const transactionData = row.querySelectorAll('code')[1]?.textContent || 'N/A';
+                const statusData = row.querySelector('.status-badge')?.textContent.trim() || 'Unknown';
+                
+                // Populate modal
+                document.getElementById('modalRequestId').textContent = `#${requestId}`;
+                document.getElementById('modalUserName').textContent = userData;
+                document.getElementById('modalPackageName').textContent = packageData;
+                document.getElementById('modalAmount').textContent = amountData;
+                document.getElementById('modalTransactionId').textContent = transactionData;
+                document.getElementById('modalStatus').textContent = statusData;
+                
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('requestDetailsModal'));
+                modal.show();
+            }
+        }
+
+        function updateRequestStatus(requestId, newStatus) {
+            const rows = document.querySelectorAll(`[data-request-id="${requestId}"]`);
+            rows.forEach(row => {
+                const statusBadge = row.querySelector('.status-badge');
+                if (statusBadge) {
+                    statusBadge.className = `status-badge status-${newStatus}`;
+                    statusBadge.innerHTML = `<i class="fas fa-circle" style="font-size: 0.5rem;"></i> ${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)}`;
+                }
+                
+                // Update action buttons
+                const actionButtons = row.querySelector('.action-buttons, .card-actions-mobile');
+                if (actionButtons && newStatus !== 'pending') {
+                    const approveBtn = actionButtons.querySelector('.btn-approve');
+                    const rejectBtn = actionButtons.querySelector('.btn-reject');
+                    if (approveBtn) approveBtn.remove();
+                    if (rejectBtn) rejectBtn.remove();
+                }
+                
+                row.dataset.status = newStatus;
+            });
+        }
+
+        function exportRequests() {
+            showToast('Exporting requests data...', 'info');
+            // Implement export functionality
+        }
+
+        function refreshData() {
+            location.reload();
+        }
+
+        function showToast(message, type = 'success') {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show`;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                border-radius: 12px;
+            `;
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

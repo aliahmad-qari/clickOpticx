@@ -67,6 +67,139 @@
       transition: margin-left 0.3s ease;
     }
 
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .payment-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .payment-card.pending::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--warning);
+      border-radius: 12px 0 0 12px;
+    }
+    
+    .payment-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .payment-card-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .payment-card-name {
+      flex: 1;
+    }
+    
+    .payment-card-name h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+    }
+    
+    .payment-card-name p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .payment-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .payment-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .payment-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    
+    .payment-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .mobile-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .mobile-badge.pending {
+      background-color: rgba(253, 203, 110, 0.1);
+      color: var(--warning);
+    }
+    
+    .mobile-badge.paid {
+      background-color: rgba(0, 184, 148, 0.1);
+      color: var(--success);
+    }
+    
     @media (max-width: 991px) {
       .main-panel {
         margin-left: 0;
@@ -186,6 +319,10 @@
       background-color: #f9f9f9;
       transition: all 0.3s ease;
     }
+tr.paid { background-color: #e8f5e9; }
+tr.pending { background-color: #fff9c4; }
+tr.failed { background-color: #fdecea; }
+tr.refunded { background-color: #eceff1; }
 
     .search-input:focus {
       outline: none;
@@ -320,59 +457,109 @@
                       </form>
                     </div>
                   </div>
-                  <div class="table-responsive">
-                    <table class="equipment-table">
-                      <thead>
-                        <tr>
-                          <th>User ID</th>
-                          <th>Package Name</th>
-                          <th>Username</th>
-                          <th>Transaction ID</th>
-                          <th>Created At</th>
-                          <th>Package Amount</th>
-                          <th>Paid Amount</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody id="payments-body">
-                        <% payments.forEach(payment=> { %>
-                          <tr>
-                            <td>
-                              <%= payment.user_id %>
-                            </td>
-                            <td>
-                              <%= payment.package_name %>
-                            </td>
-                            <td>
-                              <%= payment.username %>
-                            </td>
-                            <td>
-                              <%= payment.transaction_id %>
-                            </td>
-                            <td>
-                              <%= new Date(payment.created_at).toLocaleString('en-GB', { day: '2-digit' ,
-                                month: '2-digit' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , hour12: true
-                                }) %>
-                            </td>
+                  <!-- Desktop Table View -->
+                  <div class="desktop-table">
+                    <div class="table-responsive">
+                      <table class="equipment-table">
+                     <thead>
+  <tr>
+    <th>User ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Total Pending Payments</th>
+    <th>Total Package Amount</th>
+    <th>Total Paid Amount</th>
+    <th>Last Payment Date</th>
+    <th>Status</th>
+  </tr>
+</thead>
+
+<tbody id="payments-body">
+  <% groupedPayments.forEach(user => { %>
+    <tr class="pending">
+      <td><%= user.user_id %></td>
+      <td><%= user.Username %></td>
+      <td><%= user.Email %></td>
+      <td><%= user.total_pending_payments %> requests</td>
+      <td><%= user.total_amount || 0 %></td>
+      <td><%= user.total_custom_amount || 0 %></td>
+      <td>
+        <%= user.last_payment_date ? new Date(user.last_payment_date).toLocaleDateString('en-GB') : '-' %>
+      </td>
+      <td><span class="badge bg-warning text-dark">Pending</span></td>
+    </tr>
+  <% }) %>
+</tbody>
+
+
+
+
                             
-                            <td>
-                              <%= payment.amount %>
-                            </td>
-                            <td>
-                              <%= payment.custom_amount %>
-                            </td>
-                            <td>
-                              <form action="/delete-payment/<%= payment.id %>" method="POST" style="display:inline;">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-link p-0 text-danger">
-                                  <i class="bi bi-trash text-danger"></i>
-                                </button>
-                              </form>
-                            </td>
-                          </tr>
-                          <% }) %>
-                      </tbody>
-                    </table>
+                          </table>
+                    </div>
+                  </div>
+
+                  <!-- Mobile Cards View -->
+                  <div class="mobile-cards">
+                    <% groupedPayments.forEach(user => { %>
+                      <div class="payment-card pending">
+                        <div class="payment-card-header">
+                          <div class="payment-card-avatar">
+                            <%= user.Username.charAt(0).toUpperCase() %>
+                          </div>
+                          <div class="payment-card-name">
+                            <h6><%= user.Username %></h6>
+                            <p><%= user.Email %></p>
+                          </div>
+                        </div>
+                        
+                        <div class="payment-card-content">
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">User ID</div>
+                            <div class="payment-card-value">
+                              #<%= user.user_id %>
+                            </div>
+                          </div>
+                          
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">Pending Payments</div>
+                            <div class="payment-card-value">
+                              <%= user.total_pending_payments %> requests
+                            </div>
+                          </div>
+                          
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">Package Amount</div>
+                            <div class="payment-card-value">
+                              PKR <%= user.total_amount || 0 %>
+                            </div>
+                          </div>
+                          
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">Paid Amount</div>
+                            <div class="payment-card-value">
+                              PKR <%= user.total_custom_amount || 0 %>
+                            </div>
+                          </div>
+                          
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">Last Payment</div>
+                            <div class="payment-card-value">
+                              <%= new Date(user.last_payment_date).toLocaleDateString() %>
+                            </div>
+                          </div>
+                          
+                          <div class="payment-card-field">
+                            <div class="payment-card-label">Status</div>
+                            <div class="payment-card-value">
+                              <span class="mobile-badge pending">
+                                <i class="fas fa-clock"></i> Pending
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% }) %>
                   </div>
 
                   <!-- Edit Equipment Modal -->
@@ -445,6 +632,7 @@
   <script src="js/off-canvas.js"></script>
   <script src="js/hoverable-collapse.js"></script>
   <script src="js/template.js"></script>
+  <script src="/js/billing-payments-common.js"></script>
   <script src="js/settings.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>

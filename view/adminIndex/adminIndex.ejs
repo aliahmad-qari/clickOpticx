@@ -48,6 +48,309 @@
 
     body {
       background-color: #F3F3F9;
+      overflow-x: hidden;
+    }
+
+    /* ===== RESPONSIVE CONTAINER FIXES ===== */
+    .container-fluid {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+
+    /* ===== RESPONSIVE CARD LAYOUT ===== */
+    .card-responsive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .card-responsive-item {
+      min-width: 0; /* Prevent grid blowout */
+    }
+
+    /* ===== ENHANCED CARD RESPONSIVENESS ===== */
+    .card-statistic-3 {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-icon-large {
+      font-size: 2rem !important;
+    }
+
+    .card-title {
+      font-size: 1rem !important;
+      line-height: 1.2 !important;
+      word-wrap: break-word;
+    }
+
+    /* ===== MOBILE OPTIMIZATIONS ===== */
+    @media (max-width: 576px) {
+      .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+      
+      .card-responsive-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      
+      .card-statistic-3 {
+        padding: 1rem !important;
+        min-height: 100px;
+      }
+      
+      .card-icon-large {
+        font-size: 1.5rem !important;
+      }
+      
+      .card-title {
+        font-size: 0.9rem !important;
+      }
+      
+      h2 {
+        font-size: 1.5rem !important;
+      }
+      
+      /* Hide unnecessary text on mobile */
+      .mobile-hide {
+        display: none !important;
+      }
+      
+      /* Compact spacing */
+      .mb-4 {
+        margin-bottom: 0.5rem !important;
+      }
+      
+      .mt-4 {
+        margin-top: 1rem !important;
+      }
+    }
+
+    /* ===== TABLET OPTIMIZATIONS ===== */
+    @media (min-width: 577px) and (max-width: 768px) {
+      .card-responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      
+      .card-statistic-3 {
+        padding: 1.25rem !important;
+      }
+      
+      .card-title {
+        font-size: 0.95rem !important;
+      }
+    }
+
+    /* ===== DESKTOP OPTIMIZATIONS ===== */
+    @media (min-width: 769px) {
+      .card-responsive-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+      }
+    }
+
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .user-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .user-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .user-card-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+    }
+    
+    .user-card-name {
+      flex: 1;
+    }
+    
+    .user-card-name h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+    }
+    
+    .user-card-name p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .user-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .user-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    
+    .user-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .mobile-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .mobile-badge.role {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+    
+    .mobile-badge.package {
+      background-color: #e8f5e8;
+      color: #198754;
+    }
+    
+    .mobile-badge.expired {
+      background-color: #fee;
+      color: #dc3545;
+    }
+    
+    .mobile-badge.active {
+      background-color: rgba(52, 168, 83, 0.1);
+      color: #34a853;
+    }
+
+    /* ===== CHART CONTAINER RESPONSIVENESS ===== */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .custom-card, .custom-card1 {
+      height: auto !important;
+      min-height: 300px;
+    }
+
+    @media (max-width: 768px) {
+      .custom-card, .custom-card1 {
+        height: auto !important;
+        min-height: 250px;
+        padding: 15px !important;
+      }
+      
+      .chart-container {
+        height: 200px !important;
+      }
+      
+      canvas {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      
+      /* Chart responsive stacking */
+      .col-md-3, .col-md-9 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* ===== GLOBAL RESPONSIVE UTILITIES ===== */
+    .main-panel {
+      padding: 10px;
+      width: 100%;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0 !important;
+        padding: 5px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-panel {
+        padding: 2px;
+      }
+      
+      .content-wrapper {
+        padding: 10px 5px;
+      }
+    }
+
+    /* ===== RESPONSIVE TEXT AND SPACING ===== */
+    @media (max-width: 576px) {
+      h1, h2, h3, h4, h5, h6 {
+        font-size: 1rem !important;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+      }
+      
+      .text-purple, .text-white, .text-info {
+        font-size: 0.9rem !important;
+      }
+      
+      /* Compact list items */
+      ul li {
+        font-size: 0.85rem;
+        line-height: 1.3;
+      }
     }
 
     canvas {
@@ -231,6 +534,7 @@
     .premium .card-top {
       background: linear-gradient(135deg, #ffc400, #ff6a00);
     }
+    
 
     .stars {
       color: #eee;
@@ -1106,9 +1410,9 @@
 
                         <!-- Dashboard Cards: First Row -->
                         <div class="container-fluid mt-4">
-                          <div class="row d-flex flex-lg-nowrap flex-wrap flex-column flex-sm-row">
+                          <div class="card-responsive-grid">
                             <!-- Total Team -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                            <div class="card-responsive-item">
                               <a href="/AdminTeam" class="text-white text-decoration-none">
                                 <div class="card l-bg-purple">
                                   <div class="card-statistic-3 p-4">
@@ -1129,7 +1433,7 @@
                             </div>
 
                             <!-- Total Users -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                            <div class="card-responsive-item">
                               <a href="/AdminUser" class="text-white text-decoration-none">
                                 <div class="card l-bg-blue-dark">
                                   <div class="card-statistic-3 p-4">
@@ -1150,7 +1454,7 @@
                             </div>
 
                             <!-- Total Request -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                            <div class="card-responsive-item">
                               <a href="/request" class="text-white text-decoration-none">
                                 <div class="card l-bg-green-dark">
                                   <div class="card-statistic-3 p-4">
@@ -1171,7 +1475,7 @@
                             </div>
 
                             <!-- Total Complaints -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-3">
+                            <div class="card-responsive-item">
                               <a href="/UserComplaint" class="text-white text-decoration-none">
                                 <div class="card l-bg-red">
                                   <div class="card-statistic-3 p-4">
@@ -1197,10 +1501,10 @@
 
                         <!-- Dashboard Cards: Second Row -->
                         <div class="container-fluid mt-4">
-                          <div class="row d-flex flex-lg-nowrap flex-wrap flex-column flex-sm-row">
+                          <div class="card-responsive-grid">
                             <!-- Unpaid Users -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                              <a href="/AdminUser" class="text-white text-decoration-none">
+                            <div class="card-responsive-item">
+                              <a href="/AdminUser?invoice=unpaid" class="text-white text-decoration-none">
                                 <div class="card l-bg-orange">
                                   <div class="card-statistic-3 p-4">
                                     <div class="card-icon card-icon-large"><i class="fas fa-user-slash"></i></div>
@@ -1221,7 +1525,7 @@
                             </div>
 
                             <!-- Completed Requests -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                            <div class="card-responsive-item">
                               <a href="/UserComplaint" class="text-white text-decoration-none">
                                 <div class="card l-bg-cyan">
                                   <div class="card-statistic-3 p-4">
@@ -1243,7 +1547,7 @@
                             </div>
 
                             <!-- Pending Requests -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                            <div class="card-responsive-item">
                               <a href="/UserComplaint" class="text-white text-decoration-none">
                                 <div class="card l-bg-yellow">
                                   <div class="card-statistic-3 p-4">
@@ -1265,7 +1569,7 @@
                             </div>
 
                             <!-- Packages Expiring -->
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                            <div class="card-responsive-item">
                               <a href="/AdminUser" class="text-white text-decoration-none">
                                 <div class="card l-bg-brown">
                                   <div class="card-statistic-3 p-4">
@@ -1415,8 +1719,10 @@
                               </a>
                             </div>
                           </div>
-                          <div class="table-responsive">
-                            <table class="equipment-table">
+                          <!-- Desktop Table View -->
+                          <div class="desktop-table">
+                            <div class="table-responsive">
+                              <table class="equipment-table">
                               <thead>
                                 <tr>
                                   <th class="name-col">Image</th>
@@ -1468,7 +1774,62 @@
                                   </tr>
                                   <% }) %>
                               </tbody>
-                            </table>
+                              </table>
+                            </div>
+                          </div>
+
+                          <!-- Mobile Cards View -->
+                          <div class="mobile-cards">
+                            <% user.forEach(user => { %>
+                              <div class="user-card">
+                                <div class="user-card-header">
+                                  <img class="user-card-avatar" 
+                                       src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>" 
+                                       alt="<%= user.username %>">
+                                  <div class="user-card-name">
+                                    <h6><%= user.username %></h6>
+                                    <p><%= user.Email %></p>
+                                  </div>
+                                </div>
+                                
+                                <div class="user-card-content">
+                                  <div class="user-card-field">
+                                    <div class="user-card-label">Role</div>
+                                    <div class="user-card-value">
+                                      <span class="mobile-badge role"><%= user.role %></span>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="user-card-field">
+                                    <div class="user-card-label">Package</div>
+                                    <div class="user-card-value">
+                                      <span class="mobile-badge package"><%= user.packageName %></span>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="user-card-field">
+                                    <div class="user-card-label">Expiry Date</div>
+                                    <div class="user-card-value">
+                                      <%= user.expiryDate %>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="user-card-field">
+                                    <div class="user-card-label">Status</div>
+                                    <div class="user-card-value">
+                                      <% 
+                                        let currentDate = new Date();
+                                        let expiry = new Date(user.expiryDate);
+                                        let isExpired = expiry < currentDate;
+                                      %>
+                                      <span class="mobile-badge <%= isExpired ? 'expired' : 'active' %>">
+                                        <%= isExpired ? 'Expired' : 'Active' %>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <% }) %>
                           </div>
                           <!-- table For the user -->
 
@@ -1600,9 +1961,11 @@
                                         </div>
                                         <% if (isAdmin) { %>
                                           <div class="d-flex justify-content-center mb-2">
-                                            <button class="btn btn-success mt-3 rounded-pill" data-toggle="modal"
-                                              data-target="#myModalss<%= card.id %>"
-                                              style="background: #008000 !important; border:none; width: 55%; padding: 10px;">
+                                           <button class="btn btn-success mt-3 rounded-pill"
+        data-bs-toggle="modal"
+        data-bs-target="#myModalss<%= card.id %>">
+
+                                              
                                               <i class="fa fa-edit" aria-hidden="true"></i> Edit Package
                                             </button>
                                           </div>
@@ -1664,7 +2027,7 @@
                     <!-- End custom js for this page-->
                     <!-- Bootstrap  -->
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-                    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+                    
                     </body>
 
 </html>

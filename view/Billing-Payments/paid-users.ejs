@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Paid Users</title>
+  
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" />
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-light: #a29bfe;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    .main-panel {
+      flex-grow: 1;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    @media (max-width: 991px) {
+      .main-panel {
+        margin-left: 0;
+        padding: 10px;
+      }
+    }
+
+    /* ===== MOBILE CARD LAYOUT ===== */
+    @media (max-width: 768px) {
+      .desktop-table {
+        display: none !important;
+      }
+      
+      .mobile-cards {
+        display: block !important;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .desktop-table {
+        display: block !important;
+      }
+      
+      .mobile-cards {
+        display: none !important;
+      }
+    }
+    
+    .mobile-cards {
+      display: none;
+    }
+    
+    .user-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .user-card.paid::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--success);
+      border-radius: 12px 0 0 12px;
+    }
+    
+    .user-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .user-card-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--success);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .user-card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .user-card-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-card-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    
+    .user-card-value {
+      font-size: 0.9rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: none;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--success), #00a085);
+      color: white;
+      padding: 20px 25px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 600px;
+    }
+
+    /* Enhanced mobile responsiveness */
+    @media (max-width: 576px) {
+      .table {
+        min-width: 500px;
+        font-size: 0.85rem;
+      }
+      
+      .table th,
+      .table td {
+        padding: 10px 12px;
+      }
+      
+      .table th {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Custom scrollbar for better UX */
+    .table-responsive::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .table th {
+      background-color: #f5f8ff;
+      color: var(--success);
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .table tr:hover {
+      background-color: #f9fbff;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .badge-success {
+      background-color: rgba(0, 184, 148, 0.1);
+      color: var(--success);
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9e9e9e;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .btn-export {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    @media (max-width: 576px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0px; padding-right: 0px;">
+      <%- include('../partials/SettingsDow.ejs') %>
+      <%- include('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel" style="width: 100%;">
+        <div class="content-wrapper">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-users-cog me-2"></i>
+              Paid Users Management
+            </div>
+            
+            <div class="card-body">
+              <div class="toolbar">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="search-input" class="search-input" 
+                         placeholder="Search by User ID, Username, Email">
+                </div>
+                
+                <div class="filter-options">
+                  <button id="export-btn" class="btn-export">
+                    <i class="fas fa-download me-2"></i>Export Data
+                  </button>
+                </div>
+              </div>
+
+              <!-- Desktop Table View -->
+              <div class="desktop-table">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="paid-users-table">
+                      <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Mobile Cards View -->
+              <div class="mobile-cards" id="paid-users-cards">
+                <!-- Cards will be loaded via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/billing-payments-common.js"></script>
+  <script src="/js/admin-realtime-search.js"></script>
+  <script>
+    // EMERGENCY SIDEBAR FIX - Direct implementation
+    window.toggleSidebar = function() {
+      console.log('Emergency toggleSidebar called');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      
+      console.log('Sidebar found:', !!sidebar, 'Overlay found:', !!overlay);
+      
+      if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        console.log('Sidebar active:', sidebar.classList.contains('active'));
+      } else {
+        console.error('Sidebar elements missing!');
+      }
+    };
+    
+    // Ensure it works when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Billing page DOM loaded');
+      
+      // Test if sidebar elements exist
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      console.log('Sidebar element:', sidebar);
+      console.log('Overlay element:', overlay);
+      
+      // Add click handler to overlay
+      if (overlay) {
+        overlay.addEventListener('click', window.toggleSidebar);
+      }
+      
+      // Test the toggle function
+      console.log('toggleSidebar function:', typeof window.toggleSidebar);
+    });
+  </script>
+  <script>
+    // Load paid users data
+    async function loadPaidUsers() {
+      showLoadingState('paid-users-table');
+      showLoadingState('paid-users-cards');
+      
+      try {
+        const response = await fetch('/paid-users');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const users = await response.json();
+        
+        if (!users || users.length === 0) {
+          showNoDataState('paid-users-table', 'No paid users found');
+          showNoDataState('paid-users-cards', 'No paid users found');
+          return;
+        }
+        
+        displayUsersTable(users);
+        displayUsersCards(users);
+        
+        // Store original data for filtering
+        window.originalUsers = users;
+        
+        // Initialize real-time search
+        if (window.createAdminSearch) {
+          window.paidUsersSearch = createAdminSearch({
+            searchInputId: 'search-input',
+            dataSource: users,
+            searchFields: ['id', 'Username', 'Email', 'plan'],
+            displayFunction: function(filteredUsers) {
+              displayUsersTable(filteredUsers);
+              displayUsersCards(filteredUsers);
+            },
+            debounceTime: 200,
+            minSearchLength: 0
+          });
+        }
+        
+      } catch (error) {
+        console.error('Error loading paid users:', error);
+        handleApiError(error, 'loading paid users');
+        showNoDataState('paid-users-table', 'Error loading data');
+        showNoDataState('paid-users-cards', 'Error loading data');
+      }
+    }
+
+    function displayUsersTable(users) {
+      const tbody = document.getElementById('paid-users-table');
+      tbody.innerHTML = users.map(user => `
+        <tr>
+          <td>#${user.id}</td>
+          <td>${user.Username}</td>
+          <td>${user.Email}</td>
+          <td>${user.plan || 'N/A'}</td>
+          <td><span class="badge badge-success"><i class="fas fa-check-circle"></i> Paid</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function displayUsersCards(users) {
+      const cardsContainer = document.getElementById('paid-users-cards');
+      cardsContainer.innerHTML = users.map(user => `
+        <div class="user-card paid">
+          <div class="user-card-header">
+            <div class="user-card-avatar">
+              ${user.Username.charAt(0).toUpperCase()}
+            </div>
+            <div class="user-card-name">
+              <h6>${user.Username}</h6>
+              <p>${user.Email}</p>
+            </div>
+          </div>
+          
+          <div class="user-card-content">
+            <div class="user-card-field">
+              <div class="user-card-label">User ID</div>
+              <div class="user-card-value">#${user.id}</div>
+            </div>
+            
+            <div class="user-card-field">
+              <div class="user-card-label">Plan</div>
+              <div class="user-card-value">${user.plan || 'N/A'}</div>
+            </div>
+            
+            <div class="user-card-field" style="grid-column: 1 / -1;">
+              <div class="user-card-label">Status</div>
+              <div class="user-card-value">
+                <span class="badge badge-success">
+                  <i class="fas fa-check-circle"></i> Paid User
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+
+    // Export functionality
+    document.getElementById('export-btn').addEventListener('click', function() {
+      const csvContent = [
+        ['User ID', 'Username', 'Email', 'Plan', 'Status'],
+        ...window.originalUsers.map(user => [
+          user.id,
+          user.Username,
+          user.Email,
+          user.plan || 'N/A',
+          'Paid'
+        ])
+      ].map(row => row.join(',')).join('\n');
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `paid-users-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', loadPaidUsers);
+  </script>
+</body>
+</html>
