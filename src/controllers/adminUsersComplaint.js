@@ -135,7 +135,7 @@ function renderComplaintPage(results, dept) {
 
 // Update AdminUsers Complaint
 exports.UpdateAllComplaints = (req, res) => {
-  if (!['admin', 'Team'].includes(req.session.role)) {
+  if (!req.session.user || !['admin', 'Team'].includes(req.session.user.role)) {
     return res.status(403).send("Access Denied");
   }
 
@@ -208,7 +208,7 @@ exports.UpdateAllComplaints = (req, res) => {
 
 // Delete AdminUsers Complaint
 exports.DeleteComplaint = (req, res) => {
-  if (!['admin', 'Team'].includes(req.session.role)) {
+  if (!req.session.user || !['admin', 'Team'].includes(req.session.user.role)) {
     return res.status(403).send("Access Denied");
   }
 

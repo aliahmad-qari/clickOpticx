@@ -1,5 +1,44 @@
 const db = require("../../config/db");
 const sql = require("../../models/users");
+const fs = require("fs");
+const path = require("path");
+
+exports.DeletePromotion = (req, res) => {
+  const id = req.params.id;
+
+  // Step 1: Get filename from DB
+  const getSql = "SELECT img1 FROM promotions WHERE id = ?";
+  db.query(getSql, [id], (err, result) => {
+    if (err || result.length === 0) {
+      console.error("Image fetch error:", err);
+      req.flash("error", "Image not found!");
+      return res.redirect("/Promotions");
+    }
+
+    const fileName = result[0].img1;
+    const filePath = path.join(__dirname, "../../public/uploads", fileName);
+
+    // Step 2: Try deleting the file
+    fs.unlink(filePath, (unlinkErr) => {
+      if (unlinkErr) {
+        console.warn("File deletion warning:", unlinkErr.message); // non-fatal
+      }
+
+      // Step 3: Delete record from DB
+      const deleteSql = "DELETE FROM promotions WHERE id = ?";
+      db.query(deleteSql, [id], (err2) => {
+        if (err2) {
+          console.error("Delete query error:", err2);
+          req.flash("error", "Failed to delete promotion from database.");
+          return res.redirect("/Promotions");
+        }
+
+        req.flash("success", "Promotion deleted successfully!");
+        res.redirect("/Promotions");
+      });
+    });
+  });
+};
 
 exports.Promotions = (req, res) => {
   const userId = req.session.userId;

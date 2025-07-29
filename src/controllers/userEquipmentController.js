@@ -3,6 +3,12 @@ const db = require("../config/db");
 // Select image
 exports.Slider_imgs = (req, res) => {
   const userId = req.session.userId;
+  
+  // Pagination parameters
+  const page = parseInt(req.query.page) || 1;
+  const search = req.query.search || "";
+  const entriesPerPage = 7;
+  const offset = (page - 1) * entriesPerPage;
 
   const sqlProfile = `
       SELECT Username, Email, plan, invoice, user_img, role 
@@ -22,29 +28,69 @@ exports.Slider_imgs = (req, res) => {
         return res.status(500).send("Internal Server Error");
       }
 
-      // Fibre form submissions
-      const fibreSql = "SELECT * FROM fibre_form_submissions";
-      db.query(fibreSql, (err, submissions) => {
+      // Fibre form submissions with pagination
+      let fibreSql = "SELECT * FROM fibre_form_submissions";
+      let fibreParams = [];
+      
+      if (search) {
+        fibreSql += " WHERE email LIKE ? OR user_id LIKE ?";
+        fibreParams = [`%${search}%`, `%${search}%`];
+      }
+      
+      const fibreCountSql = search ? 
+        "SELECT COUNT(*) as total FROM fibre_form_submissions WHERE email LIKE ? OR user_id LIKE ?" :
+        "SELECT COUNT(*) as total FROM fibre_form_submissions";
+      
+      fibreSql += " ORDER BY id DESC LIMIT ? OFFSET ?";
+      fibreParams.push(entriesPerPage, offset);
+
+      db.query(fibreCountSql, search ? [`%${search}%`, `%${search}%`] : [], (err, fibreCountResult) => {
         if (err) {
           console.error("Database query error:", err);
           return res.status(500).send("Internal Server Error");
         }
 
-        // Wireless form submissions
-        const wirelessSql = "SELECT * FROM wireless_forms";
-        db.query(wirelessSql, (err, wirelessForms) => {
+        db.query(fibreSql, fibreParams, (err, submissions) => {
           if (err) {
             console.error("Database query error:", err);
             return res.status(500).send("Internal Server Error");
           }
 
-          // Assigned equipment
-          const assignedEquipmentSql = "SELECT * FROM assigned_equipment";
-          db.query(assignedEquipmentSql, (err, assigned_equipment) => {
+          // Wireless form submissions with pagination
+          let wirelessSql = "SELECT * FROM wireless_forms";
+          let wirelessParams = [];
+          
+          if (search) {
+            wirelessSql += " WHERE email LIKE ? OR user_id LIKE ?";
+            wirelessParams = [`%${search}%`, `%${search}%`];
+          }
+          
+          const wirelessCountSql = search ? 
+            "SELECT COUNT(*) as total FROM wireless_forms WHERE email LIKE ? OR user_id LIKE ?" :
+            "SELECT COUNT(*) as total FROM wireless_forms";
+          
+          wirelessSql += " ORDER BY id DESC LIMIT ? OFFSET ?";
+          wirelessParams.push(entriesPerPage, offset);
+
+          db.query(wirelessCountSql, search ? [`%${search}%`, `%${search}%`] : [], (err, wirelessCountResult) => {
             if (err) {
               console.error("Database query error:", err);
               return res.status(500).send("Internal Server Error");
             }
+
+            db.query(wirelessSql, wirelessParams, (err, wirelessForms) => {
+              if (err) {
+                console.error("Database query error:", err);
+                return res.status(500).send("Internal Server Error");
+              }
+
+              // Assigned equipment
+              const assignedEquipmentSql = "SELECT * FROM assigned_equipment";
+              db.query(assignedEquipmentSql, (err, assigned_equipment) => {
+                if (err) {
+                  console.error("Database query error:", err);
+                  return res.status(500).send("Internal Server Error");
+                }
 
             const backgroundSql = "SELECT * FROM nav_table";
             db.query(backgroundSql, (err, bg_result) => {
@@ -88,6 +134,14 @@ exports.Slider_imgs = (req, res) => {
                   const isUser =
                     req.session.user && req.session.user.role === "user";
 
+                  // Calculate pagination data
+                  const fibreTotalEntries = fibreCountResult[0].total;
+                  const wirelessTotalEntries = wirelessCountResult[0].total;
+                  const totalEntries = fibreTotalEntries + wirelessTotalEntries;
+                  const totalPages = Math.ceil(totalEntries / entriesPerPage);
+                  const startIndex = (page - 1) * entriesPerPage + 1;
+                  const endIndex = Math.min(startIndex + submissions.length + wirelessForms.length - 1, totalEntries);
+
                   res.render("userEquipment/AssignEquipment", {
                     user: results,
                     slider: sliderResults,
@@ -105,15 +159,28 @@ exports.Slider_imgs = (req, res) => {
                       success: successMsg.length > 0 ? successMsg[0] : null,
                       error: errorMsg.length > 0 ? errorMsg[0] : null,
                     },
+                    
+                    // Pagination data
+                    page,
+                    totalPages,
+                    totalEntries,
+                    entriesPerPage,
+                    startIndex,
+                    endIndex,
+                    search,
+                    fibreTotalEntries,
+                    wirelessTotalEntries
                   });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+                }); // NotifactionSql query
+              }); // passwordSql query  
+            }); // backgroundSql query
+          }); // assignedEquipmentSql query
+        }); // wirelessSql query
+      }); // wirelessCountSql query
+    }); // fibreSql query
+  }); // fibreCountSql query
+    }); // sqlSlider query
+  }); // sqlProfile query
 };
 // delete submission form
 exports.deleteFibreSubmission = (req, res) => {

@@ -7,7 +7,7 @@ exports.getViewAllEquipments = (req, res) => {
   const category = req.query.category || "";
   const stockStatus = req.query.stockStatus || "";
   let page = parseInt(req.query.page) || 1;
-  const entriesPerPage = 8;
+  const entriesPerPage = 7;
   const offset = (page - 1) * entriesPerPage;
 
   let query = `SELECT * FROM equipment_stock WHERE 1=1`;

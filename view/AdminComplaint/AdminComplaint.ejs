@@ -1042,7 +1042,7 @@
                 <i class="fas fa-clock"></i> <%= daysSince %> days ago
               </div>
             </td>
-            <td data-label="Complaint Type">
+            <td data-label="Department">
               <span class="category-badge"><%= complaint.department %></span>
             </td>
             <td data-label="Number"><%= complaint.number %></td>
@@ -1428,17 +1428,26 @@
 /* --- Responsive Card Layout (≤1024px) --- */
 @media (max-width: 1024px) {
   .complaint-table-container {
-    overflow: visible;
+    overflow: hidden;
     border: none;
     background: transparent;
     box-shadow: none;
+    width: 100%;
+    max-width: 100%;
   }
   .equipment-table {
     display: block;
     width: 100%;
+    max-width: 100%;
   }
   .equipment-table thead { display: none; }
-  .equipment-table tbody { display: flex; flex-direction: column; gap: 20px; }
+  .equipment-table tbody { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    width: 100%;
+    max-width: 100%;
+  }
   .equipment-table tr {
     display: flex;
     flex-wrap: wrap;
@@ -1448,6 +1457,9 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 15px;
     transition: 0.2s ease;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .equipment-table tr:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
   .equipment-table td {
@@ -1456,6 +1468,9 @@
     padding: 8px 0;
     border: none;
     text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
   .equipment-table td:before {
     content: attr(data-label);
@@ -1470,11 +1485,38 @@
 
 /* --- Full Column Layout (≤768px) --- */
 @media (max-width: 768px) {
-  .equipment-table tr { flex-direction: column; align-items: flex-start; }
-  .equipment-table td { width: 100%; }
-  .action-buttons { justify-content: flex-end; width: 100%; margin-top: 15px; }
-  .category-badge, .status-badge { font-size: 0.75rem; padding: 4px 8px; }
-  .time-tracker { font-size: 0.7rem; margin-top: 2px; }
+  .equipment-table tr { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    width: 100%;
+    max-width: 100%;
+  }
+  .equipment-table td { 
+    width: 100%; 
+    max-width: 100%;
+    word-break: break-word;
+  }
+  .action-buttons { 
+    justify-content: flex-end; 
+    width: 100%; 
+    margin-top: 15px; 
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .category-badge, .status-badge { 
+    font-size: 0.75rem; 
+    padding: 4px 8px; 
+    word-break: normal;
+  }
+  .time-tracker { 
+    font-size: 0.7rem; 
+    margin-top: 2px; 
+  }
+  .main-panel {
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
  </style>

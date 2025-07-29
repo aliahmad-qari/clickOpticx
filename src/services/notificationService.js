@@ -90,6 +90,9 @@ const sendEmailNotification = async (to, subject, message, userDetails = {}) => 
             ${userDetails.phone ? `<p style="margin: 5px 0;"><strong>Phone:</strong> ${userDetails.phone}</p>` : ''}
             ${userDetails.package ? `<p style="margin: 5px 0;"><strong>Package:</strong> ${userDetails.package}</p>` : ''}
             ${userDetails.amount ? `<p style="margin: 5px 0;"><strong>Amount:</strong> ${userDetails.amount}</p>` : ''}
+            ${userDetails.complaint ? `<p style="margin: 5px 0;"><strong>Complaint:</strong> ${userDetails.complaint}</p>` : ''}
+            ${userDetails.description ? `<p style="margin: 5px 0;"><strong>Description:</strong> ${userDetails.description}</p>` : ''}
+            ${userDetails.status ? `<p style="margin: 5px 0;"><strong>Status:</strong> <span style="background: ${userDetails.status === 'pending' ? '#ffc107' : userDetails.status === 'resolved' ? '#28a745' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">${userDetails.status}</span></p>` : ''}
           </div>
           ` : ''}
           
@@ -186,7 +189,9 @@ class NotificationService {
       username: complaintData.username,
       email: complaintData.email,
       phone: complaintData.phone,
-      complaint: complaintData.complaint
+      complaint: complaintData.complaint,
+      description: complaintData.description || complaintData.complaint_description,
+      status: complaintData.status || 'pending'
     };
 
     await this.notifyAdmin(message, userDetails, emailSubject);

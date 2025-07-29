@@ -373,10 +373,18 @@
                           <button type="submit" class="promo-3d-submit-btn">
                             <span class="promo-3d-btn-text">Submit</span>
                           </button>
-                          <% promotionresult.map((item)=> { %>
-                            <img width="100px" height="60px" style="border-radius: 7px;" src="/uploads/<%= item.img1 %>"
-                              alt="">
-                            <% }) %>
+                          <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4 flex-wrap">
+  <% promotionresult.forEach((item) => { %>
+    <div class="position-relative" style="display: inline-block;">
+      <img width="100px" height="60px" style="border-radius: 7px;" src="/uploads/<%= item.img1 %>" alt="">
+
+      <form method="POST" action="/Promotions/delete/<%= item.id %>" style="position: absolute; top: 5px; right: 5px;" onsubmit="return confirm('Delete this image?')">
+        <button type="submit" class="btn btn-sm btn-danger" style="padding: 2px 7px; border-radius: 50%;">×</button>
+      </form>
+    </div>
+  <% }) %>
+</div>
+
                         </div>
                       </div>
                     </form>
