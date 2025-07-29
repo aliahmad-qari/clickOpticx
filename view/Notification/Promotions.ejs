@@ -5,485 +5,613 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Add Promotions</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <title>Promotions Management</title>
+  
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  
   <!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
   <!-- Material Design Icons CSS -->
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
-
-  .promo-3d-container {
-    font-family: 'Nunito', sans-serif;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    border-radius: 20px;
-    box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.3),
-      inset 0 1px 1px rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    margin-top: 10px;
+  :root {
+    --primary: #4f46e5;
+    --primary-light: #6366f1;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #1f2937;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
   }
 
-  .promo-3d-title {
-    margin-bottom: 1.5rem;
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.6;
+  }
+
+  .main-panel {
+    flex-grow: 1;
+    padding: 20px;
+  }
+
+  @media (max-width: 991px) {
+    .main-panel {
+      margin-left: 0;
+      padding: 10px;
+    }
+  }
+
+  /* Professional Header */
+  .promotion-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .header-title {
+    font-size: 2.5rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    transform: translateZ(20px);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
-  .promo-3d-upload-section {
-    background: linear-gradient(135deg, rgba(60, 80, 180, 0.3), rgba(90, 60, 150, 0.3));
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow:
-      inset 0 10px 20px rgba(0, 0, 0, 0.2),
-      0 15px 40px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    transform-style: preserve-3d;
+  .header-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
   }
 
-  .promo-3d-upload-section::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.2) 100%);
-    z-index: 0;
-    border-radius: 20px;
-    transform: translateZ(-10px);
+  /* Success Message */
+  .success-message {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #065f46;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+    animation: slideIn 0.5s ease-out;
   }
 
-  .promo-3d-upload-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    border: 2px dashed rgba(255, 255, 255, 0.5);
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Main Container */
+  .promotion-container {
+    background: white;
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid var(--gray-200);
     overflow: hidden;
-    transform: translateZ(30px);
-    box-shadow:
-      0 8px 20px rgba(0, 0, 0, 0.2),
-      inset 0 4px 10px rgba(255, 255, 255, 0.05);
+    margin-bottom: 2rem;
   }
 
-  .promo-3d-upload-container:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateZ(30px) translateY(-5px);
-    box-shadow:
-      0 15px 35px rgba(0, 0, 0, 0.4),
-      inset 0 6px 15px rgba(255, 255, 255, 0.1);
+  .container-header {
+    background: var(--gray-50);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--gray-200);
   }
 
-  .promo-3d-label {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
+  .container-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .container-body {
+    padding: 2rem;
+  }
+
+  /* Upload Section */
+  .upload-section {
+    background: var(--gray-50);
+    border: 2px dashed var(--gray-300);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .upload-section:hover {
+    border-color: var(--primary);
+    background: rgba(79, 70, 229, 0.02);
+  }
+
+  .upload-container {
     position: relative;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
-  .promo-3d-thumbnail {
+  .upload-area {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .upload-area:hover {
+    background: var(--gray-200);
+  }
+
+  .upload-placeholder {
+    text-align: center;
+    color: var(--gray-500);
+  }
+
+  .upload-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--gray-400);
+  }
+
+  .upload-placeholder h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-placeholder p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .upload-input {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .preview-image {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 14px;
-    transition: all 0.4s ease;
-    box-shadow:
-      0 10px 25px rgba(0, 0, 0, 0.3),
-      inset 0 -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
   }
 
-  .promo-3d-input {
-    display: none;
-  }
-
-  .promo-3d-remove-btn {
+  .remove-button {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(145deg, #ff4444, #cc0000);
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: var(--danger);
     color: white;
     border: none;
     border-radius: 50%;
-    cursor: pointer;
-    box-shadow:
-      0 5px 15px rgba(204, 0, 0, 0.4),
-      0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
-    transform: translateZ(40px);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    transition: all 0.2s ease;
+    z-index: 10;
   }
 
-  .promo-3d-remove-btn:hover {
-    transform: translateZ(40px) scale(1.1);
-    box-shadow:
-      0 8px 20px rgba(204, 0, 0, 0.5),
-      0 4px 10px rgba(0, 0, 0, 0.3);
+  .remove-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
   }
 
-
-  .promo-3d-upload-icon {
-    transform: translateZ(10px);
+  /* Form Fields */
+  .form-section {
+    margin-bottom: 2rem;
   }
 
-  .promo-3d-submit-btn {
-    padding: 16px 50px;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    background-color: #4b49ac;
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: white;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  /* Submit Button */
+  .submit-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .btn-submit {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  /* Existing Images Grid */
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .image-item {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .image-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  .image-thumbnail {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+  }
+
+  .delete-form {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .btn-delete {
+    width: 24px;
+    height: 24px;
+    background: rgba(239, 68, 68, 0.9);
     color: white;
     border: none;
-    box-shadow:
-      0 10px 25px rgba(37, 65, 178, 0.4),
-      0 5px 10px rgba(0, 0, 0, 0.2),
-      inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    transform: translateZ(20px);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-#valid_till {
-  position: relative !important;
-  z-index: 5 !important;
-  background: white !important;
-  pointer-events: auto !important;
-}
-.promo-3d-upload-section::before {
-  pointer-events: none;
-}
-
-
-  .promo-3d-submit-btn:hover {
-    transform: translateZ(20px) translateY(-3px);
-    box-shadow:
-      0 15px 35px rgba(37, 65, 178, 0.5),
-      0 8px 15px rgba(0, 0, 0, 0.2),
-      inset 0 2px 2px rgba(255, 255, 255, 0.2);
+    justify-content: center;
+    transition: all 0.2s ease;
   }
 
-  .promo-3d-submit-btn:active {
-    transform: translateZ(20px) translateY(1px);
-    box-shadow:
-      0 5px 15px rgba(37, 65, 178, 0.4),
-      0 2px 5px rgba(0, 0, 0, 0.1),
-      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  .btn-delete:hover {
+    background: var(--danger);
+    transform: scale(1.1);
   }
 
-  .promo-3d-btn-text {
-    transform: translateZ(10px);
-  }
-
-  .promo-3d-btn-icon {
-    transform: translateZ(10px);
-  }
-
-  /* Mobile-specific adjustments */
+  /* Responsive Design */
   @media (max-width: 768px) {
-    /* .promo-3d-container {
-      padding: 15px;
-      width: 95%;
-    } */
-
-    .promo-3d-upload-section {
-      padding: 15px;
+    .header-title {
+      font-size: 2rem;
+    }
+    
+    .container-body {
+      padding: 1.5rem;
     }
 
-    .promo-3d-upload-container {
-      height: 216px;
+    .upload-area {
+      height: 250px;
     }
 
-    .promo-3d-remove-btn {
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      top: 10px;
-      right: 10px;
+    .upload-placeholder i {
+      font-size: 2rem;
     }
 
-    /* .promo-3d-upload-hint {
-      padding: 8px 15px;
-      bottom: 15px;
-    } */
-
-    .promo-3d-submit-btn {
-      padding: 5px 2px;
-    }
-  }
-  input[type="date"] {
-  position: relative;
-  z-index: 10;
-  background: white !important;
-  color: black;
-  pointer-events: auto !important;
-}
-
-
-  /* Tablet adjustments */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .promo-3d-container {
-      max-width: 700px;
-    }
-
-    .promo-3d-upload-container {
-      padding-bottom: 70%;
-      height: 216px;
+    .images-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }
   }
 
-  /* Desktop hover effects */
-  @media (hover: hover) {
-    .promo-3d-upload-container:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.8);
-      transform: translateZ(30px) translateY(-5px);
-      box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.4),
-        inset 0 6px 15px rgba(255, 255, 255, 0.1);
-    }
-
-    .promo-3d-thumbnail:hover {
-      transform: scale(1.02);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .promo-3d-remove-btn:hover {
-      transform: translateZ(40px) scale(1.1);
-      box-shadow:
-        0 8px 20px rgba(204, 0, 0, 0.5),
-        0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .promo-3d-submit-btn:hover {
-      transform: translateZ(20px) translateY(-3px);
-      box-shadow:
-        0 15px 35px rgba(37, 65, 178, 0.5),
-        0 8px 15px rgba(0, 0, 0, 0.2),
-        inset 0 2px 2px rgba(255, 255, 255, 0.2);
-    }
+  /* Flatpickr custom styling */
+  .flatpickr-input {
+    background: white !important;
+    position: relative;
+    z-index: 10;
   }
 
-  /* Animation for all devices */
-  .promo-3d-submit-btn:active {
-    transform: translateZ(20px) translateY(1px);
-    box-shadow:
-      0 5px 15px rgba(37, 65, 178, 0.4),
-      0 2px 5px rgba(0, 0, 0, 0.1),
-      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  /* Hide the original ugly styling */
+  .promo-3d-container,
+  .promo-3d-upload-section,
+  .promo-3d-upload-container {
+    all: unset;
   }
 </style>
 
 <body>
   <div class="container-scroller">
+    <%- include('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0px; padding-right: 0px;">
+      <%- include('../partials/SettingsDow.ejs') %>
+      <%- include('../partials/Sidebar.ejs') %>
+      
+      <div class="main-panel" style="width: 100%;">
+        <div class="content-wrapper">
+          <!-- Professional Header -->
+          <div class="promotion-header">
+            <div class="header-content">
+              <h1 class="header-title">
+                <i class="fas fa-bullhorn me-3"></i>
+                Promotions Management
+              </h1>
+              <p class="header-subtitle">
+                Create and manage limited-time promotional offers for your users
+              </p>
+            </div>
+          </div>
 
-    <%- include ('../partials/_navbar.ejs') %>
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper" style="padding-left:0% !important; ">
-        <!-- partial:partials/_settings-panel.html -->
-        <%- include ('../partials/SettingsDow.ejs') %>
+          <!-- Success Message -->
+          <% if (messages.success) { %>
+            <div class="success-message" id="success-message">
+              <i class="fas fa-check-circle me-2"></i>
+              <%= messages.success %>
+            </div>
+          <% } %>
 
-          <!-- NavBar Start -->
-          <%- include ('../partials/Sidebar.ejs') %>
-            <!-- NavBar End -->
-
-
-            <div class="card col-md-10 col-lg-10 mx-auto" style=" background-color: #F3F3F9;">
-              <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
-              <% if (messages.success) { %>
-                <div style="display: flex; justify-content: end;">
-                  <div id="pusher-message-box" style="
-            display: flex;
-            border-left: 8px solid #45439e;
-            color: green;
-            font-weight: bold;
-            font-size: 16px;
-            justify-content: end;
-            align-items: center;
-            height: 70px;
-          " class="mt-3 alert alert-primary">
-                    <%= messages.success %>
+          <!-- Main Container -->
+          <div class="promotion-container">
+            <div class="container-header">
+              <h2 class="container-title">
+                <i class="fas fa-plus-circle"></i>
+                Add New Promotion
+              </h2>
+            </div>
+            
+            <div class="container-body">
+              <form action="/Promotions" method="POST" enctype="multipart/form-data">
+                <!-- Upload Section -->
+                <div class="upload-section">
+                  <div class="upload-container">
+                    <div class="upload-area">
+                      <div class="upload-placeholder" id="upload-placeholder">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h6>Upload Promotion Image</h6>
+                        <p>Drag and drop an image here, or click to browse</p>
+                      </div>
+                      <input type="file" id="image-upload" name="img1" class="upload-input" accept="image/*" onchange="previewImage(event)" required>
+                      <img id="preview-image" class="preview-image" style="display: none;" alt="Preview">
+                      <button type="button" class="remove-button" id="remove-button" onclick="removeImage()" style="display: none;">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <% } %>
-                  <script>
-                    window.addEventListener('DOMContentLoaded', () => {
-                      const msgBox = document.getElementById('pusher-message-box');
-                      if (msgBox) {
-                        setTimeout(() => {
-                          msgBox.style.transition = "opacity 0.5s";
-                          msgBox.style.opacity = 0;
-                          setTimeout(() => msgBox.style.display = "none", 500);
-                        }, 4000);
-                      }
-                    });
-                  </script>
-                  <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
-                  <!-- hamza -->
-                  <div class="promo-3d-container">
-                    <div class="text-center">
-                      <h4 class="promo-3d-title">Add Limited Time Offers</h4>
-                    </div>
 
-<form action="/Promotions" method="POST" enctype="multipart/form-data">
-  <div class="promo-3d-upload-section">
-
-    <!-- ✅ IMAGE UPLOAD BLOCK -->
-    <div class="promo-3d-upload-container">
-      <label for="image-0" class="promo-3d-label">
-        <img id="preview-0" src="https://placehold.co/500x500?text=Drag+&+Drop+or+Click"
-          alt="Upload Image" class="promo-3d-thumbnail">
-        <input type="file" id="image-0" name="img1" class="promo-3d-input" accept="image/*"
-          onchange="previewImage(event, 0)">
-        <button type="button" class="promo-3d-remove-btn" onclick="removeImage(0)">X</button>
-      </label>
-    </div>
-
-    <!-- ✅ VALID TILL DATE -->
-    <div class="mt-4">
-      <label for="valid_till" class="form-label"><strong>Valid Till:</strong></label>
-      <input type="text" id="valid_till" name="valid_till" class="form-control bg-white text-dark" placeholder="Select date" required>
-
-    </div>
-
-    <!-- ✅ SUBMIT BUTTON -->
-    <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4">
-      <button type="submit" class="promo-3d-submit-btn">
-        <span class="promo-3d-btn-text">Submit</span>
-      </button>
-    </div>
-
-    <!-- ✅ EXISTING IMAGES WITH DELETE BUTTONS -->
-    <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4 flex-wrap">
-      <% promotionresult.forEach((item) => { %>
-        <div class="position-relative" style="display: inline-block;">
-          <img width="100px" height="60px" style="border-radius: 7px;" src="/uploads/<%= item.img1 %>" alt="">
-          <form method="POST" action="/Promotions/delete/<%= item.id %>" style="position: absolute; top: 5px; right: 5px;" onsubmit="return confirm('Delete this image?')">
-            <button type="submit" class="btn btn-sm btn-danger" style="padding: 2px 7px; border-radius: 50%;">×</button>
-          </form>
-        </div>
-      <% }) %>
-    </div>
-
-  </div>
-</form>
-
+                <!-- Form Section -->
+                <div class="form-section">
+                  <div class="form-group">
+                    <label for="valid_till" class="form-label">
+                      <i class="fas fa-calendar-alt me-2"></i>
+                      Valid Until Date
+                    </label>
+                    <input type="text" id="valid_till" name="valid_till" class="form-control flatpickr-input" placeholder="Select expiration date" required readonly>
                   </div>
+                </div>
 
+                <!-- Submit Section -->
+                <div class="submit-section">
+                  <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus"></i>
+                    <span>Create Promotion</span>
+                  </button>
+                </div>
+              </form>
 
-                  <!-- hamza -->
-
+              <!-- Existing Promotions -->
+              <% if (promotionresult && promotionresult.length > 0) { %>
+                <div class="images-grid">
+                  <% promotionresult.forEach((item) => { %>
+                    <div class="image-item">
+                      <img src="/uploads/<%= item.img1 %>" alt="Promotion" class="image-thumbnail">
+                      <form method="POST" action="/Promotions/delete/<%= item.id %>" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this promotion?')">
+                        <button type="submit" class="btn-delete">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </form>
+                    </div>
+                  <% }) %>
+                </div>
+              <% } %>
             </div>
-            <!-- All User Table End -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            <script>
-              function previewImage(event, index) {
-                const input = event.target;
-                const preview = document.getElementById("preview-" + index);
-                preview.src = "https://i.imgur.com/LL0BX9E.gif"; // Loading spinner
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  
+  <script>
+    // Initialize Flatpickr
+    flatpickr("#valid_till", {
+      dateFormat: "Y-m-d",
+      altInput: true,
+      altFormat: "F j, Y",
+      allowInput: true,
+      minDate: "today",
+      theme: "light"
+    });
 
-                const reader = new FileReader();
-                reader.onload = function () {
-                  preview.src = reader.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-              }
+    // Image upload functionality
+    function previewImage(event) {
+      const input = event.target;
+      const file = input.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          const previewImg = document.getElementById('preview-image');
+          const placeholder = document.getElementById('upload-placeholder');
+          const removeBtn = document.getElementById('remove-button');
+          
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block';
+          placeholder.style.display = 'none';
+          removeBtn.style.display = 'flex';
+        };
+        
+        reader.readAsDataURL(file);
+      }
+    }
 
-              function removeImage(index) {
-                const preview = document.getElementById("preview-" + index);
-                const input = document.getElementById("image-" + index);
+    function removeImage() {
+      const input = document.getElementById('image-upload');
+      const previewImg = document.getElementById('preview-image');
+      const placeholder = document.getElementById('upload-placeholder');
+      const removeBtn = document.getElementById('remove-button');
+      
+      input.value = '';
+      previewImg.style.display = 'none';
+      placeholder.style.display = 'block';
+      removeBtn.style.display = 'none';
+    }
 
-                preview.src = "https://placehold.co/400x400?text=Select+Image";
-                input.value = "";
-              }
-            </script>
+    // Auto-hide success message
+    document.addEventListener('DOMContentLoaded', function() {
+      const successMessage = document.getElementById('success-message');
+      if (successMessage) {
+        setTimeout(() => {
+          successMessage.style.transition = 'opacity 0.5s ease-out';
+          successMessage.style.opacity = '0';
+          setTimeout(() => {
+            successMessage.style.display = 'none';
+          }, 500);
+        }, 4000);
+      }
+    });
 
-            <!-- plugins:js -->
-            <script src="vendors\js\vendor.bundle.base.js"></script>
-            <!-- endinject -->
-            <!-- Plugin js for this page -->
-            <script src="vendors\chart.js/Chart.min.js"></script>
-            <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-            <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-            <script src="js/dataTables.select.min.js"></script>
+    // Drag and drop functionality
+    const uploadArea = document.querySelector('.upload-area');
+    const fileInput = document.getElementById('image-upload');
 
-            <!-- End plugin js for this page -->
-            <!-- inject:js -->
-            <script src="js/off-canvas.js"></script>
-            <script src="js/hoverable-collapse.js"></script>
-            <script src="js/template.js"></script>
-            <script src="js/settings.js"></script>
-            <!-- endinject -->
-            <!-- Custom js for this page-->
-            <script src="js/dashboard.js"></script>
-            <script src="js/Chart.roundedBarCharts.js"></script>
-            <!-- End custom js for this page-->
-            <!-- Bootstrap  -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-           <script>
-  flatpickr("#valid_till", {
-    dateFormat: "Y-m-d",   // e.g., 2025-07-29
-    altInput: true,
-    altFormat: "F j, Y",   // e.g., July 29, 2025
-    allowInput: true,
-    defaultDate: "today"
-  });
-</script>
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
 
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+      uploadArea.style.borderColor = 'var(--primary)';
+      uploadArea.style.background = 'rgba(79, 70, 229, 0.05)';
+    }
+
+    function unhighlight(e) {
+      uploadArea.style.borderColor = 'var(--gray-300)';
+      uploadArea.style.background = 'var(--gray-100)';
+    }
+
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      
+      fileInput.files = files;
+      previewImage({ target: fileInput });
+    }
+
+    // Click to upload
+    uploadArea.addEventListener('click', () => fileInput.click());
+  </script>
 
 </body>
 
