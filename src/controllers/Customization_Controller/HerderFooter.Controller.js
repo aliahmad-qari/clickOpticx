@@ -1,111 +1,63 @@
 const db = require("../../config/db");
-const sql = require("../../models/users");
 
-// Select all AdminUsers
-exports.HeaderFooter = (req, res) => {
-  const userId = req.session.userId;
-  const sql = `
-      SELECT * FROM users `;
-
+// ===== COMMON DATA FETCH FUNCTION =====
+function fetchCommonData(userId, callback) {
+  const sqlUser = "SELECT * FROM users WHERE id = ?";
   const backgroundSql = "SELECT * FROM nav_table";
+  const notifCountSql = `
+    SELECT COUNT(*) AS totalNotifactions 
+    FROM notifications 
+    WHERE is_read = 0 
+      AND created_at >= NOW() - INTERVAL 2 DAY`;
+  const notifSql = `
+    SELECT * FROM notifications 
+    WHERE is_read = 0 
+      AND created_at >= NOW() - INTERVAL 2 DAY 
+    ORDER BY id DESC`;
+  const iconSliderSql = "SELECT * FROM icon_slider";
 
-  // âœ… Total notifications count (used in badge)
-  const NotifactionSql = `
-      SELECT COUNT(*) AS totalNotifactions 
-      FROM notifications 
-      WHERE is_read = 0 
-        AND created_at >= NOW() - INTERVAL 2 DAY
-    `;
+  db.query(sqlUser, [userId], (err, userResult) => {
+    if (err) return callback(err);
+    const user = userResult.length > 0 ? userResult[0] : null;
 
-  // âœ… Only unread notifications from the last 2 days
-  const passwordSql = `
-      SELECT * FROM notifications 
-      WHERE is_read = 0 
-        AND created_at >= NOW() - INTERVAL 2 DAY 
-      ORDER BY id DESC
-    `;
+    db.query(backgroundSql, (err, bg_result) => {
+      if (err) return callback(err);
 
-  const IconSLider = "SELECT * FROM icon_slider";
-  db.query(IconSLider, (err, IconSliders) => {
-    if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).send("Internal Server Error");
-    }
+      db.query(notifCountSql, (err, notifCountRes) => {
+        if (err) return callback(err);
+        const totalNotifactions = notifCountRes[0].totalNotifactions;
 
-    db.query(sql, (err, results) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+        db.query(notifSql, (err, password_datass) => {
+          if (err) return callback(err);
 
-      db.query(backgroundSql, (err, bg_result) => {
-        if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
-        }
+          const notifUserCountSql = `
+            SELECT COUNT(*) AS Notifactions 
+            FROM notifications_user 
+            WHERE user_id = ?`;
+          db.query(notifUserCountSql, [userId], (err, notifCount) => {
+            if (err) return callback(err);
+            const Notifactions = notifCount[0].Notifactions;
 
-        db.query(NotifactionSql, (err, NotifactionResult) => {
-          if (err) {
-            console.error("Error fetching total notifications:", err);
-            return res.status(500).send("Database error");
-          }
+            const notifUserSql = `
+              SELECT * FROM notifications_user 
+              WHERE user_id = ? 
+              AND is_read = 0 
+              AND created_at >= NOW() - INTERVAL 2 DAY 
+              ORDER BY id DESC`;
+            db.query(notifUserSql, [userId], (err, notifications_users) => {
+              if (err) return callback(err);
 
-          const totalNotifactions = NotifactionResult[0].totalNotifactions;
+              db.query(iconSliderSql, (err, IconSliders) => {
+                if (err) return callback(err);
 
-          db.query(passwordSql, (err, password_datass) => {
-            if (err) {
-              console.error("Database query error (Notifications):", err);
-              return res.status(500).send("Internal Server Error");
-            }
-
-            const notifications_users = `
-                        SELECT COUNT(*) AS Notifactions 
-                        FROM notifications_user 
-                        WHERE user_id = ?
-                      `;
-
-            db.query(notifications_users, [userId], (err, Notifaction) => {
-              if (err) {
-                console.error("Error fetching user notifications count:", err);
-                return res.status(500).send("Database error");
-              }
-
-              const Notifactions = Notifaction[0].Notifactions;
-
-              const passwordSql = `
-                    SELECT * FROM notifications_user 
-                    WHERE user_id = ? 
-                    AND is_read = 0 
-                    AND created_at >= NOW() - INTERVAL 2 DAY 
-                    ORDER BY id DESC;
-                  `;
-              db.query(passwordSql, [userId], (err, notifications_users) => {
-                if (err) {
-                  console.error("Error fetching notification details:", err);
-                  return res.status(500).send("Server Error");
-                }
-
-                // ðŸ‘‡ Flash messages here
-                const successMsg = req.flash("success");
-
-                const isAdmin = "admin";
-                const isUser =
-                  req.session.user && req.session.user.role === "user";
-
-                res.render("Customization/Edit_HeaderorFooter", {
-                  user: results,
-                  message: null,
-                  isAdmin,
+                callback(null, {
+                  user,
                   bg_result,
                   totalNotifactions,
                   password_datass,
-                  messages: {
-                    success: successMsg.length > 0 ? successMsg[0] : null,
-                  },
-                  isUser,
                   notifications_users,
                   Notifactions,
-                  IconSliders,
+                  IconSliders
                 });
               });
             });
@@ -114,22 +66,75 @@ exports.HeaderFooter = (req, res) => {
       });
     });
   });
+}
+
+// ===== CONTROLLERS =====
+
+
+// Show both sections
+exports.HeaderFooter = (req, res) => {
+  const userId = req.session.userId;
+
+  fetchCommonData(userId, (err, data) => {
+    if (err) return res.status(500).send("Internal Server Error");
+    
+    const successMsg = req.flash("success");
+    const activeTab = req.query.tab || "both"; // now dynamic (navbar/footer/both)
+    console.log("Active Tab:", activeTab);
+
+    res.render("Customization/Edit_HeaderorFooter", {
+      ...data,
+      message: null,
+      isAdmin: "admin",
+      isUser: req.session.user && req.session.user.role === "user",
+      messages: { success: successMsg.length > 0 ? successMsg[0] : null },
+      activeTab
+    });
+  });
 };
 
+
+
+
+
+// Show only Navbar
+exports.NavbarSetting = (req, res) => {
+  const userId = req.session.userId;
+  fetchCommonData(userId, (err, data) => {
+    if (err) return res.status(500).send("Internal Server Error");
+    res.render("Customization/Edit_HeaderorFooter", {
+      ...data,
+      isAdmin: "admin",
+      isUser: req.session.user && req.session.user.role === "user",
+      activeTab: "navbar"
+    });
+  });
+};
+
+// Show only Footer
+exports.FooterSetting = (req, res) => {
+  const userId = req.session.userId;
+  fetchCommonData(userId, (err, data) => {
+    if (err) return res.status(500).send("Internal Server Error");
+    res.render("Customization/Edit_HeaderorFooter", {
+      ...data,
+      isAdmin: "admin",
+      isUser: req.session.user && req.session.user.role === "user",
+      activeTab: "footer"
+    });
+  });
+};
+
+// Delete footer icon
 exports.DeleteIcon = (req, res) => {
   const id = req.params.id;
   const sql = "DELETE FROM icon_slider WHERE id = ?";
-
   db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).send("Internal Server Error");
-    }
+    if (err) return res.status(500).send("Internal Server Error");
     if (result.affectedRows === 0) {
       return res.status(404).send("Slider not found");
     }
-    req.flash("success", "Icon image delected successfully!");
-
+    req.flash("success", "Icon image deleted successfully!");
     res.status(200).send("Icon image deleted successfully");
   });
 };

@@ -304,71 +304,113 @@
             <!-- NavBar End -->
 
             <!-- aaaaaaaaaaaaaaaaaaaaaaa -->
-            <div class="editor-parent">
+<!-- Add dynamic class based on activeTab -->
+<div class="editor-parent <%= activeTab ? 'single-view' : 'dual-view' %>">
 
-              <div class="editor-div1">
-                <h1 class="editor-heading">Color Settings</h1>
-                <form action="/textChange" method="post" class="editor-form">
-                  <div class="editor-form-group">
-                    <label class="editor-label"><i class="fas fa-palette"></i> Update user dashboard Text Color</label>
-                    <input type="color" name="text_color" class="color-1" />
-                  </div>
-                  <button type="submit" class="submit-btn"><i class="fas fa-palette"></i> Apply Color</button>
-                </form>
-                <form action="/update-background-color" method="post" class="editor-form">
-                  <div class="editor-form-group">
-                    <label class="editor-label"><i class="fas fa-fill-drip"></i> Update user dashboard Background Color</label>
-                    <input type="color" class="color-2" name="background_color">
-                  </div>
-                  <button type="submit" class="submit-btn"><i class="fas fa-fill-drip"></i>Apply Color</button>
-                </form>
-              </div>
-              <div class="editor-div2">
-                <h1 class="editor-heading">Background Settings</h1>
-                <form action="/upload" method="post" class="editor-form" enctype="multipart/form-data">
-                  <div class="editor-form-group">
-                    <label class="editor-label"><i class="fas fa-image"></i> Update user dashboard Background Image</label>
-                    <div class="background-upload-box" id="background-image-preview"
-                      style="display: flex; background-image: url('/images/Icon_imges.svg'); object-fit: fill; background-position: center; background-size: cover; background-repeat: no-repeat; border-radius: 20px; align-items: center; justify-content: center; border: 2px dashed #ccc; width: 100%; height: 270px; position: relative; cursor: pointer;">
-                      <input type="file" id="editor-bg-image-option" name="background_img" class="editor-file-input"
-                        accept="image/*" required
-                        style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; z-index: 2;">
-                    </div>
-                  </div>
-                  <button type="submit" class="submit-btn"><i class="fas fa-image"></i> Upload Image</button>
-                </form>
-                <button type="button" class="editor-button" data-bs-toggle="modal"
-                  data-bs-target="#deleteBackgroundModal">
-                  <i class="fas fa-trash-alt" style="margin-right: 10px;"></i>Delete Background
-                </button>
-                <% bg_result.map((result)=> { %>
-                  <img width="100px" class="pt-2" src="/Uploads/<%= result.background_img %>" alt="">
-                  <% }) %>
-                    <!-- Delete Background Modal -->
-                    <div class="modal fade" id="deleteBackgroundModal" tabindex="-1"
-                      aria-labelledby="deleteBackgroundModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content shadow-lg rounded">
-                          <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="deleteBackgroundModalLabel">Delete Background Image</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                              aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>Are you sure you want to delete the background image? This action cannot be undone.</p>
-                          </div>
-                          <div class="modal-footer">
-                            <form action="/delete-background" method="POST">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-              </div>
-              <!-- aaaaaaaaaaaaaaaaaaaaaaa -->
-            </div>
+  <% if (!activeTab || activeTab === "color") { %>
+    <!-- Show Color Settings -->
+    <div class="editor-div1">
+      <h1 class="editor-heading">Color Settings</h1>
+      <form action="/textChange" method="post" class="editor-form">
+        <div class="editor-form-group">
+          <label class="editor-label">
+            <i class="fas fa-palette"></i> Update user dashboard Text Color
+          </label>
+          <input type="color" name="text_color" class="color-1" />
+        </div>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-palette"></i> Apply Color
+        </button>
+      </form>
+      <form action="/update-background-color" method="post" class="editor-form">
+        <div class="editor-form-group">
+          <label class="editor-label">
+            <i class="fas fa-fill-drip"></i> Update user dashboard Background Color
+          </label>
+          <input type="color" class="color-2" name="background_color">
+        </div>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-fill-drip"></i> Apply Color
+        </button>
+      </form>
+    </div>
+  <% } %>
+
+  <% if (!activeTab || activeTab === "background") { %>
+    <!-- Show Background Settings -->
+    <div class="editor-div2">
+      <h1 class="editor-heading">Background Settings</h1>
+      <form action="/upload" method="post" class="editor-form" enctype="multipart/form-data">
+        <div class="editor-form-group">
+          <label class="editor-label">
+            <i class="fas fa-image"></i> Update user dashboard Background Image
+          </label>
+          <div class="background-upload-box" id="background-image-preview"
+            style="display: flex; background-image: url('/images/Icon_imges.svg');
+            object-fit: fill; background-position: center; background-size: cover;
+            background-repeat: no-repeat; border-radius: 20px; align-items: center;
+            justify-content: center; border: 2px dashed #ccc; width: 100%; height: 270px;
+            position: relative; cursor: pointer;">
+            <input type="file" id="editor-bg-image-option" name="background_img" class="editor-file-input"
+              accept="image/*" required
+              style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+              opacity: 0; cursor: pointer; z-index: 2;">
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-image"></i> Upload Image
+        </button>
+      </form>
+      <button type="button" class="editor-button" data-bs-toggle="modal" data-bs-target="#deleteBackgroundModal">
+        <i class="fas fa-trash-alt" style="margin-right: 10px;"></i> Delete Background
+      </button>
+      <% bg_result.map((result)=> { %>
+        <img width="100px" class="pt-2" src="/Uploads/<%= result.background_img %>" alt="">
+      <% }) %>
+    </div>
+  <% } %>
+
+</div>
+
+
+<style>
+  /* Single-view (only one section visible) */
+.editor-parent.single-view {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Make single visible div full width with max-width for large screens */
+.editor-parent.single-view .editor-div1,
+.editor-parent.single-view .editor-div2 {
+  flex: 1 1 100%;
+  max-width: 900px;  /* keep it centered on very wide screens */
+  height: auto;
+  padding: 30px;
+}
+
+/* Adjust heading & spacing */
+.editor-parent.single-view .editor-heading {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .editor-parent.single-view {
+    padding: 15px;
+  }
+  .editor-parent.single-view .editor-div1,
+  .editor-parent.single-view .editor-div2 {
+    max-width: 100%;
+    padding: 20px;
+  }
+}
+
+</style>
+
+
             <script>
               // JavaScript for Background Image Preview
               document.getElementById('editor-bg-image-option').addEventListener('change', function (event) {

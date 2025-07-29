@@ -11,5 +11,7 @@ router.post(
   upload.single("img1"),
   PromotionsAdd.InsertPromotions
 );
+// ⛔ MISSING - Add this!
+router.post("/Promotions/delete/:id", PromotionsAdd.DeletePromotion);
 
 module.exports = router;

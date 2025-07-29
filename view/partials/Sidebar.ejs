@@ -19,86 +19,86 @@
 
 
 <style>
-/* ===== RESPONSIVE SIDEBAR ===== */
-@media (max-width: 991px) {
-  .sidebar {
-    position: fixed !important;
-    left: -250px;
-    top: 0;
-    height: 100vh;
-    width: 250px;
-    z-index: 9999;
-    transition: left 0.3s ease;
-    background: #191c24 !important;
-  }
-  
-  .sidebar.active {
-    left: 0;
-  }
-  
-  .main-panel {
-    margin-left: 0 !important;
-    width: 100% !important;
-  }
-  
-  .sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 9998;
-    display: none;
-  }
-  
-  .sidebar-overlay.active {
-    display: block;
-  }
-}
+  /* ===== RESPONSIVE SIDEBAR ===== */
+  @media (max-width: 991px) {
+    .sidebar {
+      position: fixed !important;
+      left: -250px;
+      top: 0;
+      height: 100vh;
+      width: 250px;
+      z-index: 9999;
+      transition: left 0.3s ease;
+      background: #2c2c54;
+    }
 
-@media (max-width: 576px) {
-  .sidebar {
-    width: 280px;
-  }
-  
-  .nav-link {
-    padding: 12px 15px !important;
-    font-size: 0.9rem;
-  }
-  
-  .menu-title {
-    font-size: 0.9rem;
-  }
-  
-  .sub-menu .nav-link {
-    padding: 8px 25px !important;
-    font-size: 0.85rem;
-  }
-}
+    .sidebar.active {
+      left: 0;
+    }
 
-/* ===== RESPONSIVE NAVIGATION ===== */
-@media (max-width: 991px) {
-  .navbar .navbar-menu-wrapper {
-    padding-left: 15px;
-    padding-right: 15px;
+    .main-panel {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
   }
-  
-  .navbar-toggler {
-    display: block !important;
-    border: none;
-    background: transparent;
-    color: #333;
-    font-size: 1.5rem;
-    padding: 0.25rem 0.5rem;
+
+  @media (max-width: 576px) {
+    .sidebar {
+      width: 280px;
+    }
+
+    .nav-link {
+      padding: 12px 15px !important;
+      font-size: 0.9rem;
+    }
+
+    .menu-title {
+      font-size: 0.9rem;
+    }
+
+    .sub-menu .nav-link {
+      padding: 8px 25px !important;
+      font-size: 0.85rem;
+    }
   }
-}
+
+  /* ===== RESPONSIVE NAVIGATION ===== */
+  @media (max-width: 991px) {
+    .navbar .navbar-menu-wrapper {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .navbar-toggler {
+      display: block !important;
+      border: none;
+      background: transparent;
+      color: #333;
+      font-size: 1.5rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
 </style>
 
 <% if(isAdmin){ %>
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" data-toggle="offcanvas"></div>
-  
+
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
 
@@ -225,29 +225,78 @@
 
       <!-- ssssssss --> <!-- ssssssss --> <!-- ssssssss --> <!-- ssssssss -->
       <li class="nav-item">
-        <a class="nav-link" style="padding: 14px;" data-toggle="collapse" href="#Customize-menu" aria-expanded="false"
+        <a class="nav-link"  data-toggle="collapse" href="#Customize-menu" aria-expanded="false"
           aria-controls="user-menu">
           <i class="mdi mdi-palette-outline dynamic-color-icon"></i>
-          <span class="menu-title">Customize Pages</span>
-          <i class="menu-arrow"></i>
+          <span class="menu-title" >System Setting</span>
+          <i class="menu-arrow" ></i>
         </a>
         <div class="collapse" id="Customize-menu">
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
-            <li class="nav-item">
-              <a class="nav-link" href="/UserDashboard">
-                <i class="mdi mdi-view-dashboard-edit"></i> User Dashboard
-              </a>
-            </li>
+            
+<li class="nav-item">
+  <!-- Single clickable area for toggling dropdown -->
+  <a class="nav-link d-flex align-items-center gap-1" data-bs-toggle="collapse" href="#userDashboardMenu"
+    aria-expanded="false" aria-controls="userDashboardMenu" style="color: white;">
+    <i class="mdi mdi-view-dashboard-edit" style="color: white;"></i>
+    User Dashboard
+    <i class="menu-arrow" style="color: white; margin-left: auto;"></i>
+  </a>
+
+  <div class="collapse" id="userDashboardMenu">
+    <ul class="nav flex-column sub-menu">
+      <li class="nav-item">
+        <a class="nav-link" href="/ColorSetting">
+          <i class="mdi mdi-palette menu-icon" style="font-size:16px; color: white;"></i>
+          Color Settings
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/BackGroundSettings">
+          <i class="mdi mdi-image-area menu-icon" style="font-size:16px; color: white;"></i>
+          Background Settings
+        </a>
+      </li>
+    </ul>
+  </div>
+</li>
+
+           
+
             <li class="nav-item">
               <a class="nav-link" href="/BrandingPage">
                 <i class="mdi mdi-image-marker-outline"></i> Slider images
               </a>
             </li>
+            
+              
             <li class="nav-item">
-              <a class="nav-link" href="/HeaderFooter">
-                <i class="mdi mdi-format-align-top"></i> Edit Footer & Header
-              </a>
-            </li>
+  <!-- Single clickable area for toggle -->
+  <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#headerFooterMenu"
+     aria-expanded="false" aria-controls="headerFooterMenu" style="color: white; margin-left: auto;">
+    <i class="mdi mdi-format-align-top"></i>
+    Edit Footer & Header
+    <i class="menu-arrow" style="color: white; margin-left: 5px;"></i>
+  </a>
+
+  <div class="collapse" id="headerFooterMenu">
+    <ul class="nav flex-column sub-menu">
+      <li class="nav-item">
+        <a class="nav-link" href="/NavbarSetting">
+          <i class="mdi mdi-view-headline" style="font-size:16px; color: white;"></i> Navbar Setting
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/FooterSetting">
+          <i class="mdi mdi-format-align-bottom" style="font-size:16px; color: white;"></i> Footer Setting
+        </a>
+      </li>
+    </ul>
+  </div>
+</li>
+
+
+
           </ul>
         </div>
       </li>
@@ -306,42 +355,42 @@
         </a>
         <div class="collapse" id="billing-payments">
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/paymentshistory">
                 <i class="bi bi-clock-history"></i>Payment History
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/pandingpayments">
                 <i class="bi bi-card-checklist"></i>Pending Payments
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/paid-users-page">
                 <i class="bi bi-check-circle"></i>Paid Users
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/pending-by-user">
                 <i class="bi bi-person-clock"></i>Pending by User
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/packages-by-status-page">
                 <i class="bi bi-box-seam"></i>Packages Status
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/all-package-requests-page">
                 <i class="bi bi-clipboard-data"></i>All Requests
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/manual-package-requests-page">
                 <i class="bi bi-hand-index"></i>Manual Requests
               </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
               <a class="nav-link" href="/unpaid-vs-active-page">
                 <i class="bi bi-graph-up"></i>Payment Analysis
               </a>
@@ -426,42 +475,52 @@
       </nav>
       <% } %>
 
-<script>
-// Sidebar Toggle for Mobile
-function toggleSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  
-  if (sidebar && overlay) {
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-  }
-}
+      
+         <style>
+              .sub-menu {
+                padding-left: 0 !important;
+                margin-left: 0 !important;
+                list-style: none;
+              }
+            
+      </style>
 
-// Auto-hide sidebar when clicking on links (mobile)
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.innerWidth <= 991) {
-    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
-    sidebarLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        if (!this.getAttribute('data-toggle')) {
-          toggleSidebar();
-        }
-      });
-    });
-  }
-});
+        <script>
+          // Sidebar Toggle for Mobile
+          function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
 
-// Handle window resize
-window.addEventListener('resize', function() {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  
-  if (window.innerWidth > 991) {
-    if (sidebar) sidebar.classList.remove('active');
-    if (overlay) overlay.classList.remove('active');
-  }
-});
-</script>
+            if (sidebar && overlay) {
+              sidebar.classList.toggle('active');
+              overlay.classList.toggle('active');
+            }
+          }
+
+          // Auto-hide sidebar when clicking on links (mobile)
+          document.addEventListener('DOMContentLoaded', function () {
+            if (window.innerWidth <= 991) {
+              const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+              sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                  if (!this.getAttribute('data-toggle')) {
+                    toggleSidebar();
+                  }
+                });
+              });
+            }
+          });
+
+          // Handle window resize
+          window.addEventListener('resize', function () {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (window.innerWidth > 991) {
+              if (sidebar) sidebar.classList.remove('active');
+              if (overlay) overlay.classList.remove('active');
+            }
+          });
+        </script>
 
         <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User -->
