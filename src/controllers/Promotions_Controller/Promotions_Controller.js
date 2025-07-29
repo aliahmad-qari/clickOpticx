@@ -39,115 +39,112 @@ exports.DeletePromotion = (req, res) => {
     });
   });
 };
-
 exports.Promotions = (req, res) => {
   const userId = req.session.userId;
-  const sql = `
-        SELECT Username, Email, Number, plan, password, role, expiry, id 
-        FROM users
-        WHERE role = 'user'
-      `;
 
-  const backgroundSql = "SELECT * FROM nav_table";
-
-  // âœ… Total notifications count (used in badge)
-  const NotifactionSql = `
-        SELECT COUNT(*) AS totalNotifactions 
-        FROM notifications 
-        WHERE is_read = 0 
-          AND created_at >= NOW() - INTERVAL 2 DAY
-      `;
-
-  // âœ… Only unread notifications from the last 2 days
-  const passwordSql = `
-        SELECT * FROM notifications 
-        WHERE is_read = 0 
-          AND created_at >= NOW() - INTERVAL 2 DAY 
-        ORDER BY id DESC
-      `;
-
-  db.query(sql, (err, results) => {
+  // 1. Delete expired promotions first (no cron needed)
+  const today = new Date().toISOString().split("T")[0];
+  const getExpired = "SELECT id, img1 FROM promotions WHERE valid_till < ?";
+  db.query(getExpired, [today], (err, expiredResults) => {
     if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).send("Internal Server Error");
+      console.error("Error checking expired promotions:", err);
+    } else {
+      expiredResults.forEach(({ id, img1 }) => {
+        const filePath = path.join(__dirname, "../../public/uploads", img1);
+
+        fs.unlink(filePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.warn(`Could not delete file ${img1}:`, unlinkErr.message);
+          }
+        });
+
+        db.query("DELETE FROM promotions WHERE id = ?", [id], (delErr) => {
+          if (delErr) {
+            console.error(`Failed to delete expired promotion ID ${id}:`, delErr);
+          }
+        });
+      });
     }
 
-    db.query(backgroundSql, (err, bg_result) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+    // 2. After deletion, continue with the rest of the page loading logic
+    const sql = `
+      SELECT Username, Email, Number, plan, password, role, expiry, id 
+      FROM users WHERE role = 'user'
+    `;
+    const backgroundSql = "SELECT * FROM nav_table";
+    const NotifactionSql = `
+      SELECT COUNT(*) AS totalNotifactions 
+      FROM notifications 
+      WHERE is_read = 0 
+        AND created_at >= NOW() - INTERVAL 2 DAY
+    `;
+    const passwordSql = `
+      SELECT * FROM notifications 
+      WHERE is_read = 0 
+        AND created_at >= NOW() - INTERVAL 2 DAY 
+      ORDER BY id DESC
+    `;
 
-      db.query(NotifactionSql, (err, NotifactionResult) => {
-        if (err) {
-          console.error("Error fetching total notifications:", err);
-          return res.status(500).send("Database error");
-        }
+    db.query(sql, (err, results) => {
+      if (err) return res.status(500).send("Internal Server Error");
 
-        const totalNotifactions = NotifactionResult[0].totalNotifactions;
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) return res.status(500).send("Internal Server Error");
 
-        db.query(passwordSql, (err, password_datass) => {
-          if (err) {
-            console.error("Database query error (Notifications):", err);
-            return res.status(500).send("Internal Server Error");
-          }
-          // hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-          const notifications_users = `
-                          SELECT COUNT(*) AS Notifactions 
-                          FROM notifications_user 
-                          WHERE user_id = ?
-                        `;
+        db.query(NotifactionSql, (err, NotifactionResult) => {
+          if (err) return res.status(500).send("Database error");
 
-          db.query(notifications_users, [userId], (err, Notifaction) => {
-            if (err) {
-              console.error("Error fetching user notifications count:", err);
-              return res.status(500).send("Database error");
-            }
+          const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
-            const Notifactions = Notifaction[0].Notifactions;
+          db.query(passwordSql, (err, password_datass) => {
+            if (err) return res.status(500).send("Internal Server Error");
 
-            const passwordSql = `
-                      SELECT * FROM notifications_user 
-                      WHERE user_id = ? 
-                      AND is_read = 0 
-                      AND created_at >= NOW() - INTERVAL 2 DAY 
-                      ORDER BY id DESC;
-                    `;
-            db.query(passwordSql, [userId], (err, notifications_users) => {
-              if (err) {
-                console.error("Error fetching notification details:", err);
-                return res.status(500).send("Server Error");
-              }
-              // hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+            const notifications_users = `
+              SELECT COUNT(*) AS Notifactions 
+              FROM notifications_user 
+              WHERE user_id = ?
+            `;
 
-              const promotion =
-                "SELECT * FROM promotions ORDER BY id DESC LIMIT 1";
-              db.query(promotion, (err, promotionresult) => {
-                if (err) {
-                  console.error("Database query error:", err);
-                  return res.status(500).send("Internal Server Error");
-                }
-                // ðŸ‘‡ Flash messages here
-                const successMsg = req.flash("success");
+            db.query(notifications_users, [userId], (err, Notifaction) => {
+              if (err) return res.status(500).send("Database error");
 
-                const isAdmin = "admin";
-                const isUser =
-                  req.session.user && req.session.user.role === "user";
+              const Notifactions = Notifaction[0].Notifactions;
 
-                res.render("Notification/Promotions", {
-                  user: results,
-                  message: null,
-                  isAdmin,
-                  bg_result,
-                  totalNotifactions,
-                  password_datass,
-                  messages: {
-                    success: successMsg.length > 0 ? successMsg[0] : null,
-                  },
-                  isUser,
-                  notifications_users,
-                  Notifactions,
-                  promotionresult,
+              const passwordSql = `
+                SELECT * FROM notifications_user 
+                WHERE user_id = ? 
+                AND is_read = 0 
+                AND created_at >= NOW() - INTERVAL 2 DAY 
+                ORDER BY id DESC;
+              `;
+
+              db.query(passwordSql, [userId], (err, notifications_users) => {
+                if (err) return res.status(500).send("Server Error");
+
+                const promotion =
+                  "SELECT * FROM promotions ORDER BY id DESC";
+                db.query(promotion, (err, promotionresult) => {
+                  if (err) return res.status(500).send("Internal Server Error");
+
+                  const successMsg = req.flash("success");
+                  const isAdmin = "admin";
+                  const isUser = req.session.user && req.session.user.role === "user";
+
+                  res.render("Notification/Promotions", {
+                    user: results,
+                    message: null,
+                    isAdmin,
+                    bg_result,
+                    totalNotifactions,
+                    password_datass,
+                    messages: {
+                      success: successMsg.length > 0 ? successMsg[0] : null,
+                    },
+                    isUser,
+                    notifications_users,
+                    Notifactions,
+                    promotionresult,
+                  });
                 });
               });
             });
@@ -158,9 +155,10 @@ exports.Promotions = (req, res) => {
   });
 };
 
+
 exports.InsertPromotions = async (req, res) => {
   try {
-    const { link } = req.body;
+    const { link, valid_till } = req.body;
 
     if (!req.file) {
       req.flash("error", "No file uploaded!");
@@ -168,10 +166,12 @@ exports.InsertPromotions = async (req, res) => {
     }
 
     const promot = req.file.filename;
-    const sql =
-      "INSERT INTO promotions (img1, link, created_at) VALUES (?, ?, NOW())";
+    const sql = `
+      INSERT INTO promotions (img1, link, valid_till, created_at) 
+      VALUES (?, ?, ?, NOW())
+    `;
 
-    db.query(sql, [promot, link], (err, result) => {
+    db.query(sql, [promot, link, valid_till], (err, result) => {
       if (err) {
         console.error(err);
         req.flash("error", "An error occurred while inserting the promotion!");
@@ -187,3 +187,4 @@ exports.InsertPromotions = async (req, res) => {
     res.redirect("/Promotions");
   }
 };
+

@@ -16,6 +16,12 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
   <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
@@ -191,6 +197,16 @@
     gap: 10px;
     cursor: pointer;
   }
+#valid_till {
+  position: relative !important;
+  z-index: 5 !important;
+  background: white !important;
+  pointer-events: auto !important;
+}
+.promo-3d-upload-section::before {
+  pointer-events: none;
+}
+
 
   .promo-3d-submit-btn:hover {
     transform: translateZ(20px) translateY(-3px);
@@ -248,6 +264,14 @@
       padding: 5px 2px;
     }
   }
+  input[type="date"] {
+  position: relative;
+  z-index: 10;
+  background: white !important;
+  color: black;
+  pointer-events: auto !important;
+}
+
 
   /* Tablet adjustments */
   @media (min-width: 769px) and (max-width: 1024px) {
@@ -354,40 +378,49 @@
                       <h4 class="promo-3d-title">Add Limited Time Offers</h4>
                     </div>
 
-                    <form action="/Promotions" method="POST" enctype="multipart/form-data">
-                      <div class="promo-3d-upload-section">
-                        <div class="promo-3d-upload-container">
-                          <label for="image-0" class="promo-3d-label">
-                            <img id="preview-0" src="https://placehold.co/500x500?text=Drag+&+Drop+or+Click"
-                              alt="Upload Image" class="promo-3d-thumbnail">
-                            <input type="file" id="image-0" name="img1" class="promo-3d-input" accept="image/*"
-                              onchange="previewImage(event, 0)">
-                            <button type="button" class="promo-3d-remove-btn" onclick="removeImage(0)">
-                              X
-                            </button>
-                          </label>
-                        </div>
+<form action="/Promotions" method="POST" enctype="multipart/form-data">
+  <div class="promo-3d-upload-section">
 
-                        <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4">
-
-                          <button type="submit" class="promo-3d-submit-btn">
-                            <span class="promo-3d-btn-text">Submit</span>
-                          </button>
-                          <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4 flex-wrap">
-  <% promotionresult.forEach((item) => { %>
-    <div class="position-relative" style="display: inline-block;">
-      <img width="100px" height="60px" style="border-radius: 7px;" src="/uploads/<%= item.img1 %>" alt="">
-
-      <form method="POST" action="/Promotions/delete/<%= item.id %>" style="position: absolute; top: 5px; right: 5px;" onsubmit="return confirm('Delete this image?')">
-        <button type="submit" class="btn btn-sm btn-danger" style="padding: 2px 7px; border-radius: 50%;">×</button>
-      </form>
+    <!-- ✅ IMAGE UPLOAD BLOCK -->
+    <div class="promo-3d-upload-container">
+      <label for="image-0" class="promo-3d-label">
+        <img id="preview-0" src="https://placehold.co/500x500?text=Drag+&+Drop+or+Click"
+          alt="Upload Image" class="promo-3d-thumbnail">
+        <input type="file" id="image-0" name="img1" class="promo-3d-input" accept="image/*"
+          onchange="previewImage(event, 0)">
+        <button type="button" class="promo-3d-remove-btn" onclick="removeImage(0)">X</button>
+      </label>
     </div>
-  <% }) %>
-</div>
 
-                        </div>
-                      </div>
-                    </form>
+    <!-- ✅ VALID TILL DATE -->
+    <div class="mt-4">
+      <label for="valid_till" class="form-label"><strong>Valid Till:</strong></label>
+      <input type="text" id="valid_till" name="valid_till" class="form-control bg-white text-dark" placeholder="Select date" required>
+
+    </div>
+
+    <!-- ✅ SUBMIT BUTTON -->
+    <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4">
+      <button type="submit" class="promo-3d-submit-btn">
+        <span class="promo-3d-btn-text">Submit</span>
+      </button>
+    </div>
+
+    <!-- ✅ EXISTING IMAGES WITH DELETE BUTTONS -->
+    <div class="text-center pt-3 d-flex justify-content-left align-items-center gap-4 flex-wrap">
+      <% promotionresult.forEach((item) => { %>
+        <div class="position-relative" style="display: inline-block;">
+          <img width="100px" height="60px" style="border-radius: 7px;" src="/uploads/<%= item.img1 %>" alt="">
+          <form method="POST" action="/Promotions/delete/<%= item.id %>" style="position: absolute; top: 5px; right: 5px;" onsubmit="return confirm('Delete this image?')">
+            <button type="submit" class="btn btn-sm btn-danger" style="padding: 2px 7px; border-radius: 50%;">×</button>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+
+  </div>
+</form>
+
                   </div>
 
 
@@ -440,7 +473,18 @@
             <!-- End custom js for this page-->
             <!-- Bootstrap  -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+           <script>
+  flatpickr("#valid_till", {
+    dateFormat: "Y-m-d",   // e.g., 2025-07-29
+    altInput: true,
+    altFormat: "F j, Y",   // e.g., July 29, 2025
+    allowInput: true,
+    defaultDate: "today"
+  });
+</script>
+
+
 </body>
 
 </html>
