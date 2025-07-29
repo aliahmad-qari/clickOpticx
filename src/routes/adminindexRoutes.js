@@ -6,6 +6,7 @@ const {
   insertPackagess,
   updatePackage,
   Newdata,
+  getDashboardData,
 } = require("../controllers/adminindexcontroller");
 
 // Get profile
@@ -19,5 +20,8 @@ router.post("/Cards", insertPackagess);
 router.post("/Cards/update/:id", updatePackage);
 
 router.post("/mark-one-read", Newdata);
+
+// Real-time dashboard data endpoint
+router.get("/api/dashboard-data", getDashboardData);
 
 module.exports = router;

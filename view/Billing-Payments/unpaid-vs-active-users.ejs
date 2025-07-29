@@ -567,6 +567,20 @@
 
     function displayUsersTable(users) {
       const tbody = document.getElementById('users-table');
+      
+      if (users.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center" style="padding: 40px;">
+              <i class="fas fa-users-slash" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Users Found</h6>
+              <p class="text-muted">No users match your current filter criteria</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = users.map(user => `
         <tr>
           <td>#${user.id}</td>
@@ -583,6 +597,20 @@
 
     function displayUsersCards(users) {
       const cardsContainer = document.getElementById('users-cards');
+      
+      if (users.length === 0) {
+        cardsContainer.innerHTML = `
+          <div class="user-status-card">
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-users-slash" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Users Found</h6>
+              <p class="text-muted">No users match your current filter criteria</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       cardsContainer.innerHTML = users.map(user => `
         <div class="user-status-card ${user.payment_status.toLowerCase().replace(' ', '-')}">
           <div class="user-status-card-header">

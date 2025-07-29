@@ -1605,22 +1605,15 @@
                           <div class="col-md-3 mb-4">
                             <div class="custom-card1 text-white text-center"
                               style="background-color: #1b263b; border: none; border-radius: 15px; padding: 20px; height: 400px;">
-                              <h5 class="mb-3">Website Visitors</h5>
-                              <div class="d-flex justify-content-center align-items-center mb-3">
-                                <svg width="150" height="150" class="mx-auto">
-                                  <circle cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="75"
-                                    stroke="#4caf50" stroke-width="10" fill="none"></circle>
-                                  <circle cx="75" cy="75" r="50" stroke-dasharray="314" stroke-dashoffset="125"
-                                    stroke="#2196f3" stroke-width="10" fill="none"></circle>
-                                  <circle cx="75" cy="75" r="40" stroke-dasharray="251" stroke-dashoffset="125"
-                                    stroke="#00bcd4" stroke-width="10" fill="none"></circle>
-                                </svg>
+                              <h5 class="mb-3">User Statistics</h5>
+                              <div class="chart-container" style="position: relative; height: 200px; margin-bottom: 20px;">
+                                <canvas id="userStatsChart"></canvas>
                               </div>
-                              <h2 class="my-3">150k</h2>
+                              <h2 class="my-3"><%= totalUsers + totalTeam %></h2>
                               <ul class="list-unstyled">
-                                <li><span class="text-success">&#9679;</span> Organic - 80%</li>
-                                <li><span class="text-white">&#9679;</span> Social - 60%</li>
-                                <li><span class="text-info">&#9679;</span> Direct - 50%</li>
+                                <li><span class="text-success">&#9679;</span> Users - <%= Math.round((totalUsers / (totalUsers + totalTeam)) * 100) %>%</li>
+                                <li><span class="text-info">&#9679;</span> Team - <%= Math.round((totalTeam / (totalUsers + totalTeam)) * 100) %>%</li>
+                                <li><span class="text-warning">&#9679;</span> Unpaid - <%= Math.round((unpaidUsers / totalUsers) * 100) %>%</li>
                               </ul>
                             </div>
                           </div>
@@ -1629,20 +1622,20 @@
                             <div class="custom-card text-white"
                               style="background-color: #1b263b; border: none; border-radius: 15px; padding: 20px; height: 400px;">
                               <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5>Revenue by Customer Type</h5>
-                                <h4>240.8K <span class="badge bg-success">14.8% &#x2191;</span></h4>
+                                <h5>System Activity Overview</h5>
+                                <h4><%= totalRequests %> <span class="badge bg-success">Live Data</span></h4>
                               </div>
 
                               <div class="chart-container" style="position: relative; height: 250px;">
-                                <canvas id="revenueChart"></canvas>
+                                <canvas id="activityChart"></canvas>
                               </div>
 
                               <div class="mt-4 d-flex justify-content-between align-items-center">
                                 <div>
-                                  <span class="text-purple">&#9679; Current clients</span>
-                                  <span class="text-white">&#9679; Subscribers</span>
+                                  <span class="text-purple">&#9679; Requests</span>
+                                  <span class="text-white">&#9679; Complaints</span>
+                                  <span class="text-info">&#9679; Completed</span>
                                 </div>
-
                               </div>
                             </div>
                           </div>
@@ -1652,45 +1645,132 @@
                       <!-- Scripts -->
                       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                       <script>
-                        const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-                        const revenueChart = new Chart(ctxRevenue, {
-                          type: 'bar',
+                        // User Statistics Doughnut Chart
+                        const ctxUserStats = document.getElementById('userStatsChart').getContext('2d');
+                        const userStatsChart = new Chart(ctxUserStats, {
+                          type: 'doughnut',
                           data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                            datasets: [
-                              { label: 'Current clients', data: [10, 30, 40, 35, 20, 25, 10, 40, 20, 10, 15, 20], backgroundColor: '#c084fc' },
-                              { label: 'Subscribers', data: [15, 20, 25, 15, 10, 30, 5, 10, 15, 10, 15, 10], backgroundColor: '#60a5fa' },
-                              { label: 'New customers', data: [10, 25, 25, 20, 5, 15, 5, 40, 5, 20, 15, 25], backgroundColor: '#22d3ee' }
-                            ]
+                            labels: ['Regular Users', 'Team Members', 'Unpaid Users'],
+                            datasets: [{
+                              data: [<%= totalUsers - unpaidUsers %>, <%= totalTeam %>, <%= unpaidUsers %>],
+                              backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
+                              borderColor: ['#4caf50', '#2196f3', '#ff9800'],
+                              borderWidth: 2
+                            }]
                           },
                           options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                              y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#334155' } },
-                              x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+                            plugins: {
+                              legend: { display: false },
+                              tooltip: {
+                                callbacks: {
+                                  label: function(context) {
+                                    const label = context.label;
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                  }
+                                }
+                              }
                             },
-                            plugins: { legend: { display: false } }
+                            cutout: '60%'
                           }
                         });
 
-                        const ctxTasks = document.getElementById('tasksChart').getContext('2d');
-                        const tasksChart = new Chart(ctxTasks, {
-                          type: 'line',
+                        // System Activity Bar Chart
+                        const ctxActivity = document.getElementById('activityChart').getContext('2d');
+                        const activityChart = new Chart(ctxActivity, {
+                          type: 'bar',
                           data: {
-                            labels: ['Jan 1', 'Jan 8', 'Jan 16', 'Jan 24', 'Jan 31', 'Feb 1', 'Feb 8', 'Feb 16', 'Feb 24'],
-                            datasets: [{ label: 'Completed Tasks', data: [0, 120, 120, 300, 90, 210, 180, 230, 90], borderColor: '#00b4d8', backgroundColor: 'rgba(0, 180, 216, 0.2)', tension: 0.4, fill: true, borderWidth: 2 }]
+                            labels: ['Total Requests', 'Total Complaints', 'Completed Tasks', 'Pending Tasks', 'Expiring Soon'],
+                            datasets: [{
+                              label: 'Count',
+                              data: [<%= totalRequests %>, <%= totalComplaints %>, <%= CompletedCount %>, <%= pendingCount %>, <%= expiringSoon %>],
+                              backgroundColor: ['#c084fc', '#60a5fa', '#22d3ee', '#fbbf24', '#f87171'],
+                              borderColor: ['#c084fc', '#60a5fa', '#22d3ee', '#fbbf24', '#f87171'],
+                              borderWidth: 1,
+                              borderRadius: 8,
+                              borderSkipped: false
+                            }]
                           },
                           options: {
                             responsive: true,
                             maintainAspectRatio: false,
                             scales: {
-                              y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#334155' } },
-                              x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+                              y: { 
+                                beginAtZero: true, 
+                                ticks: { 
+                                  color: '#ffffff',
+                                  stepSize: 1
+                                }, 
+                                grid: { color: '#334155' } 
+                              },
+                              x: { 
+                                ticks: { 
+                                  color: '#ffffff',
+                                  maxRotation: 45,
+                                  minRotation: 0
+                                }, 
+                                grid: { display: false } 
+                              }
                             },
-                            plugins: { legend: { display: false } }
+                            plugins: { 
+                              legend: { display: false },
+                              tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#ffffff',
+                                borderWidth: 1
+                              }
+                            },
+                            animation: {
+                              duration: 1500,
+                              easing: 'easeInOutQuart'
+                            }
                           }
                         });
+
+                        // Real-time data update function
+                        async function updateChartData() {
+                          try {
+                            const response = await fetch('/api/dashboard-data');
+                            const data = await response.json();
+                            
+                            // Update user stats chart
+                            userStatsChart.data.datasets[0].data = [
+                              data.totalUsers - data.unpaidUsers,
+                              data.totalTeam,
+                              data.unpaidUsers
+                            ];
+                            userStatsChart.update('none');
+                            
+                            // Update activity chart
+                            activityChart.data.datasets[0].data = [
+                              data.totalRequests,
+                              data.totalComplaints,
+                              data.CompletedCount,
+                              data.pendingCount,
+                              data.expiringSoon
+                            ];
+                            activityChart.update('none');
+                            
+                            // Update total display
+                            document.querySelector('.col-md-3 h2').textContent = data.totalUsers + data.totalTeam;
+                            
+                            console.log('✅ Charts updated with real-time data:', data);
+                          } catch (error) {
+                            console.error('❌ Error fetching dashboard data:', error);
+                          }
+                        }
+
+                        // Auto-refresh charts every 30 seconds
+                        setInterval(updateChartData, 30000);
+                        
+                        // Update immediately on load
+                        setTimeout(updateChartData, 2000);
                       </script>
 
 

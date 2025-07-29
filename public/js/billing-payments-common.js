@@ -1,77 +1,69 @@
 // Common JavaScript functionality for billing payment pages
 
-// SIDEBAR FUNCTIONALITY - GLOBAL SCOPE
+// SIDEBAR FUNCTIONALITY - COMPATIBLE WITH EXISTING SYSTEM
 // This works with the existing off-canvas.js jQuery system
-window.toggleSidebar = function() {
-  console.log('toggleSidebar called'); // Debug log
-  
-  // Use jQuery if available (preferred method)
-  if (typeof $ !== 'undefined') {
-    $('.sidebar-offcanvas').toggleClass('active');
-    console.log('Sidebar toggled via jQuery');
-    return;
-  }
-  
-  // Fallback to vanilla JavaScript
-  const sidebar = document.querySelector('.sidebar-offcanvas');
-  const overlay = document.getElementById('sidebarOverlay');
-  
-  console.log('Sidebar element:', sidebar); // Debug log
-  console.log('Overlay element:', overlay); // Debug log
-  
-  if (sidebar) {
-    sidebar.classList.toggle('active');
-    if (overlay) {
-      overlay.classList.toggle('active');
-    }
-    console.log('Sidebar toggled - Active classes:', sidebar.classList.contains('active')); // Debug log
-  } else {
-    console.warn('Sidebar elements not found:', { sidebar, overlay });
-  }
-};
-
-// Initialize sidebar functionality
-function initializeSidebar() {
-  console.log('Initializing sidebar...'); // Debug log
-  
-  // Auto-hide sidebar when clicking on links (mobile)
-  if (window.innerWidth <= 991) {
-    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
-    console.log('Found sidebar links:', sidebarLinks.length); // Debug log
+function initializeSideboard() {
+  // Only initialize if jQuery and the existing off-canvas system isn't working
+  if (typeof $ === 'undefined') {
+    console.warn('jQuery not found - initializing fallback sidebar functionality');
     
-    sidebarLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        if (!this.getAttribute('data-toggle')) {
-          console.log('Sidebar link clicked, hiding sidebar'); // Debug log
-          if (window.toggleSidebar) {
-            window.toggleSidebar();
-          }
+    // Fallback implementation for rare cases where jQuery is not available
+    const toggleButtons = document.querySelectorAll('[data-toggle="offcanvas"]');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const sidebar = document.querySelector('.sidebar-offcanvas');
+        if (sidebar) {
+          sidebar.classList.toggle('active');
         }
       });
     });
   }
+  
+  // Enhanced responsive behavior for billing pages
+  handleResponsiveSidebar();
+}
 
-  // Handle window resize
-  window.addEventListener('resize', function() {
-    const sidebar = document.getElementById('sidebar');
+// Enhanced responsive sidebar behavior
+function handleResponsiveSidebar() {
+  // Auto-hide sidebar when clicking on nav links (mobile)
+  if (window.innerWidth <= 991) {
+    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    
+    sidebarLinks.forEach(link => {
+      // Only add if not already added
+      if (!link.hasAttribute('data-billing-listener')) {
+        link.setAttribute('data-billing-listener', 'true');
+        link.addEventListener('click', function() {
+          // Don't hide sidebar for dropdown toggles
+          if (!this.getAttribute('data-toggle') && !this.getAttribute('data-bs-toggle')) {
+            setTimeout(() => {
+              if (typeof $ !== 'undefined') {
+                $('.sidebar-offcanvas').removeClass('active');
+              } else {
+                const sidebar = document.querySelector('.sidebar-offcanvas');
+                if (sidebar) sidebar.classList.remove('active');
+              }
+            }, 300); // Small delay to allow navigation
+          }
+        });
+      }
+    });
+  }
+
+  // Handle window resize properly
+  const handleResize = () => {
+    const sidebar = document.querySelector('.sidebar-offcanvas');
     const overlay = document.getElementById('sidebarOverlay');
     
     if (window.innerWidth > 991) {
       if (sidebar) sidebar.classList.remove('active');
       if (overlay) overlay.classList.remove('active');
     }
-  });
-  
-  // Ensure overlay clicks close sidebar
-  const overlay = document.getElementById('sidebarOverlay');
-  if (overlay) {
-    overlay.addEventListener('click', function() {
-      console.log('Overlay clicked, closing sidebar'); // Debug log
-      window.toggleSidebar();
-    });
-  }
-  
-  console.log('Sidebar initialization complete'); // Debug log
+  };
+
+  // Remove existing listener if any, then add new one
+  window.removeEventListener('resize', handleResize);
+  window.addEventListener('resize', handleResize);
 }
 
 // Common table responsive functionality
@@ -119,17 +111,82 @@ function showLoadingState(containerId) {
   }
 }
 
-// Common no data state
+// Common no data state with consistent styling
 function showNoDataState(containerId, message = 'No data available') {
   const container = document.getElementById(containerId);
   if (container) {
     container.innerHTML = `
-      <div class="text-center p-4">
-        <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+      <div class="billing-empty-state">
+        <i class="fas fa-inbox"></i>
         <h5>${message}</h5>
-        <p class="text-muted">Try refreshing the page or checking back later.</p>
+        <p>Try refreshing the page or checking back later.</p>
       </div>
     `;
+  }
+}
+
+// Inject consistent empty state CSS
+function injectEmptyStateCSS() {
+  if (!document.getElementById('billing-empty-state-css')) {
+    const style = document.createElement('style');
+    style.id = 'billing-empty-state-css';
+    style.textContent = `
+      .billing-empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #6c757d;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin: 1rem 0;
+      }
+      
+      .billing-empty-state i {
+        font-size: 3.5rem;
+        color: #dee2e6;
+        margin-bottom: 1.5rem;
+        display: block;
+      }
+      
+      .billing-empty-state h5 {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+      
+      .billing-empty-state p {
+        color: #6c757d;
+        margin-bottom: 0;
+        font-size: 0.9rem;
+      }
+      
+      /* Table empty state */
+      .billing-table-empty {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+      }
+      
+      .billing-table-empty i {
+        font-size: 3rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      
+      .billing-table-empty h6 {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .billing-table-empty p {
+        color: #6c757d;
+        margin-bottom: 0;
+        font-size: 0.9rem;
+      }
+    `;
+    document.head.appendChild(style);
   }
 }
 
@@ -491,8 +548,12 @@ class StatsDashboard {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-  initializeSidebar();
+  // Initialize enhanced sidebar functionality (compatible with existing system)
+  initializeSideboard();
   makeTablesResponsive();
+  
+  // Inject consistent empty state CSS
+  injectEmptyStateCSS();
   
   // Auto-initialize search after a small delay to ensure other scripts have loaded
   setTimeout(autoInitializeSearch, 500);
@@ -500,11 +561,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Ensure all utilities are available globally
 if (typeof window !== 'undefined') {
-  window.initializeSidebar = initializeSidebar;
+  window.initializeSideboard = initializeSideboard;
+  window.handleResponsiveSidebar = handleResponsiveSidebar;
   window.makeTablesResponsive = makeTablesResponsive;
   window.handleApiError = handleApiError;
   window.showLoadingState = showLoadingState;
   window.showNoDataState = showNoDataState;
+  window.injectEmptyStateCSS = injectEmptyStateCSS;
   window.exportToCSV = exportToCSV;
   window.setupSearch = setupSearch;
   

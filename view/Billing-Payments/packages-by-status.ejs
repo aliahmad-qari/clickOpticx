@@ -417,6 +417,20 @@
 
     function displayPackagesTable(packages) {
       const tbody = document.getElementById('packages-table');
+      
+      if (packages.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" class="text-center" style="padding: 40px;">
+              <i class="fas fa-box-open" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Packages Found</h6>
+              <p class="text-muted">No packages match your selected filters</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = packages.map(pkg => `
         <tr>
           <td>#${pkg.id}</td>
@@ -431,6 +445,20 @@
 
     function displayPackagesCards(packages) {
       const cardsContainer = document.getElementById('packages-cards');
+      
+      if (packages.length === 0) {
+        cardsContainer.innerHTML = `
+          <div class="package-card">
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-box-open" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Packages Found</h6>
+              <p class="text-muted">No packages match your selected filters</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       cardsContainer.innerHTML = packages.map(pkg => `
         <div class="package-card ${pkg.payment_status.toLowerCase().replace(' ', '-')}">
           <div class="package-card-header">

@@ -422,6 +422,20 @@
 
     function displayRequestsTable(requests) {
       const tbody = document.getElementById('requests-table');
+      
+      if (requests.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center" style="padding: 40px;">
+              <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Package Requests Found</h6>
+              <p class="text-muted">No package requests match your current filters</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = requests.map(req => `
         <tr>
           <td>#${req.id}</td>
@@ -437,6 +451,20 @@
 
     function displayRequestsCards(requests) {
       const cardsContainer = document.getElementById('requests-cards');
+      
+      if (requests.length === 0) {
+        cardsContainer.innerHTML = `
+          <div class="request-card">
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+              <h6>No Package Requests Found</h6>
+              <p class="text-muted">No package requests match your current filters</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       cardsContainer.innerHTML = requests.map(req => `
         <div class="request-card ${req.status || 'pending'}">
           <div class="request-card-header">

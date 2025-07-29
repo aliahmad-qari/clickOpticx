@@ -203,6 +203,94 @@ exports.Newdata = (req, res) => {
     res.sendStatus(200);
   } catch (error) {
     console.error("❌ Error marking notification:", error.message);
-    res.status(500).send("Server error");
+    res.status(500).send("Server error");
 }
+};
+
+// Real-time dashboard data endpoint
+exports.getDashboardData = (req, res) => {
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  // Get all dashboard statistics
+  Promise.all([
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS totalUsers FROM users WHERE role = 'user'", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].totalUsers);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS totalTeam FROM users WHERE role = 'team'", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].totalTeam);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS totalRequests FROM payments", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].totalRequests);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS totalComplaints FROM usercomplaint", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].totalComplaints);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS pendingCount FROM usercomplaint WHERE status = 'Pending'", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].pendingCount);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS CompletedCount FROM usercomplaint WHERE status = 'Complete'", (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].CompletedCount);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      db.query(`
+        SELECT COUNT(*) AS expiringSoon 
+        FROM payments 
+        WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+      `, (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].expiringSoon);
+      });
+    }),
+    new Promise((resolve, reject) => {
+      const unpaidSql = `
+        SELECT COUNT(*) AS unpaid_users 
+        FROM users 
+        WHERE role = 'user' 
+          AND (invoice IS NULL OR invoice = 'unpaid') 
+          AND MONTH(created_at) = ? 
+          AND YEAR(created_at) = ?
+      `;
+      db.query(unpaidSql, [currentMonth, currentYear], (err, result) => {
+        if (err) reject(err);
+        else resolve(result[0].unpaid_users);
+      });
+    })
+  ])
+  .then(([totalUsers, totalTeam, totalRequests, totalComplaints, pendingCount, CompletedCount, expiringSoon, unpaidUsers]) => {
+    res.json({
+      totalUsers,
+      totalTeam,
+      totalRequests,
+      totalComplaints,
+      pendingCount,
+      CompletedCount,
+      expiringSoon,
+      unpaidUsers,
+      timestamp: new Date().toISOString()
+    });
+  })
+  .catch(error => {
+    console.error("❌ Error fetching dashboard data:", error);
+    res.status(500).json({ error: "Server error" });
+  });
 };

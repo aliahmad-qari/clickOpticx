@@ -357,22 +357,22 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item">
               <a class="nav-link" href="/paymentshistory">
-                <i class="bi bi-clock-history"></i>Payment History
+                <i class="fas fa-history text-info me-2"></i>Payment History
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pandingpayments">
-                <i class="bi bi-card-checklist"></i>Pending Payments
+                <i class="fas fa-clock text-warning me-2"></i>Pending Payments
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/paid-users-page">
-                <i class="bi bi-check-circle"></i>Paid Users
+                <i class="fas fa-check-circle text-success me-2"></i>Paid Users
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pending-by-user">
-                <i class="bi bi-person-clock"></i>Pending by User
+                <i class="fas fa-user-clock text-warning me-2"></i>Pending by User
               </a>
             </li>
             <li class="nav-item">
@@ -483,6 +483,38 @@
                 list-style: none;
               }
             
+        
+        /* Enhanced sidebar icons */
+        .nav-link i.text-warning {
+          color: #ffc107 !important;
+        }
+        
+        .nav-link i.text-info {
+          color: #17a2b8 !important;
+        }
+        
+        .nav-link i.text-success {
+          color: #28a745 !important;
+        }
+        
+        /* Icon spacing and sizing */
+        .nav-link i.me-2 {
+          margin-right: 0.5rem !important;
+          font-size: 1rem;
+        }
+        
+        /* Hover effects for enhanced icons */
+        .nav-link:hover i.text-warning {
+          color: #e0a800 !important;
+        }
+        
+        .nav-link:hover i.text-info {
+          color: #138496 !important;
+        }
+        
+        .nav-link:hover i.text-success {
+          color: #1e7e34 !important;
+        }
       </style>
 
         <script>
