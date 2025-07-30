@@ -11,7 +11,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     const icons = document.querySelectorAll('.dynamic-color-icon');
     icons.forEach(icon => {
-      icon.style.color = color();
+      // icon.style.color = color();
     });
   });
 </script>
@@ -41,6 +41,26 @@
       margin-left: 0 !important;
       width: 100% !important;
     }
+/* Sidebar default icon + text color */
+.sidebar .nav-link i,
+.sidebar .nav-link .menu-title {
+  color: #8ba3c7;
+}
+
+/* Sidebar hover icon + text color */
+.sidebar .nav-link:hover i,
+.sidebar .nav-link:hover .menu-title {
+  color: #ffffff;
+}
+
+/* Optional: Make the nav link text itself also change to white */
+.sidebar .nav-link {
+  color: #8ba3c7;
+}
+
+.sidebar .nav-link:hover {
+  color: #ffffff;
+}
 
     .sidebar-overlay {
       position: fixed;
@@ -240,9 +260,11 @@
   <!-- Single clickable area for toggling dropdown -->
   <a class="nav-link d-flex align-items-center gap-1" data-bs-toggle="collapse" href="#userDashboardMenu"
     aria-expanded="false" aria-controls="userDashboardMenu" style="color: white;">
-    <i class="mdi mdi-view-dashboard-edit" style="color: white;"></i>
-    User Dashboard
-    <i class="menu-arrow" style="color: white; margin-left: auto;"></i>
+  <i class="mdi mdi-view-dashboard-edit"></i>
+<span class="menu-title">User Dashboard</span>
+
+   <i class="menu-arrow"></i>
+
   </a>
 
   <div class="collapse" id="userDashboardMenu">
@@ -479,69 +501,7 @@
 
       
          <style>
-              .sub-menu {
-                padding-left: 0 !important;
-                margin-left: 0 !important;
-                list-style: none;
-              }
             
-        
-        /* Enhanced sidebar icons */
-        .nav-link i.text-warning {
-          color: #ffc107 !important;
-        }
-        
-        .nav-link i.text-info {
-          color: #17a2b8 !important;
-        }
-        
-        .nav-link i.text-success {
-          color: #28a745 !important;
-        }
-        
-        /* Icon spacing and sizing */
-        .nav-link i.me-2 {
-          margin-right: 0.5rem !important;
-          font-size: 1rem;
-        }
-        
-        /* Hover effects for enhanced icons */
-        .nav-link:hover i.text-warning {
-          color: #e0a800 !important;
-        }
-        
-        .nav-link:hover i.text-info {
-          color: #138496 !important;
-        }
-        
-        .nav-link:hover i.text-success {
-          color: #1e7e34 !important;
-        }
-        
-        /* Admin sidebar text visibility fix */
-        .sidebar .nav-link {
-          color: #8ba3c7 !important;
-        }
-        
-        .sidebar .nav-link:hover {
-          color: #ffffff !important;
-        }
-        
-        .sidebar .nav-link i {
-          color: #8ba3c7 !important;
-        }
-        
-        .sidebar .nav-link:hover i {
-          color: #ffffff !important;
-        }
-        
-        .sidebar .nav-link .menu-title {
-          color: #8ba3c7 !important;
-        }
-        
-        .sidebar .nav-link:hover .menu-title {
-          color: #ffffff !important;
-        }
       </style>
 
         <script>
