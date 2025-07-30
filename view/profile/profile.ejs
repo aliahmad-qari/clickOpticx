@@ -27,457 +27,982 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .user-profile {
-      padding-bottom: 30px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
+    body {
+      background: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2d3748;
+      line-height: 1.6;
+    }
+
+    .container-scroller {
+      background: #f5f7fa;
+    }
+
+    .page-body-wrapper {
+      background: #f5f7fa;
+    }
+
+    .card-body {
+      background: #f5f7fa;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .user-profile {
+      min-height: calc(100vh - 140px);
+      padding: 0;
+    }
+
+    /* Profile Header */
     .profile-header-background {
-      margin: -30px -30px 0 -30px;
+      position: relative;
+      height: 280px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px 20px 0 0;
+      overflow: hidden;
+      margin-bottom: 0;
     }
 
     .profile-header-background img {
       width: 100%;
-      height: 135px;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
     }
 
-    .profile-info-left {
-      position: relative;
-      top: -92px;
-    }
-
-    .profile-info-left h2 {
-      font-family: "josefinslab-semibold";
+    /* Profile Card */
+    .profile-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      padding: 0;
       margin-bottom: 30px;
-    }
-
-    .profile-info-left .section {
-      margin-top: 50px;
-    }
-
-    .profile-info-left .section h3 {
-      font-size: 1.1em;
-      font-weight: 700;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
-    }
-
-    .profile-info-left ul.list-social>li {
-      line-height: 2.3;
-    }
-
-    .profile-info-left ul.list-social>li i {
-      font-size: 16px;
-      min-width: 16px;
-      line-height: 1;
       position: relative;
-      top: 1px;
+      border: 1px solid #e2e8f0;
     }
 
-    .profile-info-left ul.list-social>li a {
-      color: #696565;
-    }
-
-    .profile-info-right .tab-content {
-      padding: 30px 8px;
-      background-color: transparent;
-      border-radius: 23px;
-    }
-
-    @media screen and (max-width: 768px) {
-      .profile-info-right {
-        position: relative;
-        top: -70px;
-      }
-    }
-
-    /* Followers & Following */
-    .user-follower,
-    .user-following {
-      position: relative;
-      margin-bottom: 40px;
-    }
-
-    .user-follower img,
-    .user-following img {
-      border-radius: 2px;
-      width: 40px;
-    }
-
-    .user-follower a,
-    .user-following a {
-      font-size: 1.1em;
-    }
-
-    .user-follower .username,
-    .user-following .username {
-      font-size: 0.9em;
-      line-height: 1.5;
-    }
-
-    .user-follower .btn,
-    .user-following .btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      min-width: 92px;
-    }
-
-    /* Follow Button */
-    .btn-toggle-following {
-      background-color: #7bae16;
-      color: #fff;
-    }
-
-    .btn-toggle-following:hover {
-      background-color: #ef2020;
-      color: #fff;
-    }
-
-    .btn-toggle-following:hover span {
-      display: none;
-    }
-
-    .btn-toggle-following:hover:after {
-      content: 'Unfollow';
-    }
-
-    .btn-toggle-following:hover i:before {
-      content: '\f129';
-    }
-
-    /* Icons List */
-    .list-icons-demo li {
-      margin-bottom: 20px;
+    /* Profile Info Left */
+    .profile-info-left {
       text-align: center;
-    }
-
-    .list-icons-demo li i {
-      font-size: 24px;
-    }
-
-    .list-icons-demo2 li {
-      margin-bottom: 10px;
-    }
-
-    /* Activity Section */
-    .activity-item {
+      padding: 40px 30px 30px;
+      background: white;
+      border-radius: 20px;
       position: relative;
-      margin: 15px 0;
-      padding-top: 15px;
-      border-top: 1px dashed #ccc;
+      top: -100px;
+      margin-bottom: -70px;
     }
 
-    .activity-item:first-child {
-      border-top: none;
+    /* Avatar Styling */
+    .avatar-lg {
+      width: 160px !important;
+      height: 160px !important;
+      border-radius: 50%;
+      border: 8px solid white;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      object-fit: cover;
+      margin: 0 auto 20px;
+      display: block;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 10;
     }
 
-    .activity-item .avatar {
-      border-radius: 2px;
-      width: 32px;
+    .avatar-lg:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
     }
 
-    .activity-item>i {
-      font-size: 18px;
+    /* Profile Name */
+    .profile-info-left h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2d3748;
+      margin: 20px 0 10px;
+      line-height: 1.2;
     }
 
-    .activity-item .activity-title {
-      line-height: 1.3;
+    .profile-info-left p {
+      color: #718096;
+      font-size: 16px;
+      margin-bottom: 25px;
     }
 
-    .activity-item .activity-attachment {
+    /* Update Button */
+    .action-buttons .btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 50px;
+      padding: 14px 35px;
+      font-weight: 600;
+      font-size: 16px;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .action-buttons .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+
+    /* Right Column */
+    .profile-info-right {
       padding-top: 20px;
     }
 
-    .activity-item .well {
-      border-radius: 0;
-      box-shadow: none;
+    /* Navigation Tabs */
+    .nav-pills-custom-minimal {
+      background: white;
+      border-radius: 15px;
+      padding: 8px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 25px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .nav-pills-custom-minimal .nav-link {
+      border-radius: 12px;
+      padding: 15px 20px;
+      font-weight: 600;
+      color: #4a5568;
+      transition: all 0.3s ease;
       border: none;
-      border-left: 2px solid #cfcfcf;
-      background: #fff;
-      margin-left: 20px;
-      font-size: 0.85em;
+      margin: 0 3px;
+      font-size: 15px;
+      text-align: center;
     }
 
-    .activity-item .thumbnail {
-      display: inline;
-      border: none;
-      padding: 0;
+    .nav-pills-custom-minimal .nav-link:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      transform: translateY(-2px);
     }
 
-    .activity-item .thumbnail img {
-      border-radius: 2px;
-      width: auto;
-      margin: 0;
-    }
-
-    .activity-item .activity-actions {
-      position: absolute;
-      top: 15px;
-      right: 0;
-    }
-
-    .activity-item .activity-actions .btn i {
-      margin: 0;
-    }
-
-    .activity-item .activity-actions .dropdown-menu>li>a {
-      font-size: 0.9em;
-      padding: 3px 10px;
-    }
-
-    .activity-item+.btn {
-      margin-bottom: 15px;
-    }
-
-    /* Tabs and Pills */
-    .nav-tabs>li>a {
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-    }
-
-    .nav-tabs>li.active>a,
-    .nav-tabs>li.active>a:hover,
-    .nav-tabs>li.active>a:focus {
-      cursor: pointer;
-    }
-
-    .nav-pills>li>a {
-      border-radius: 2px;
-    }
-
-    .nav-pills>li.active>a,
-    .nav-pills>li.active>a:hover,
-    .nav-pills>li.active>a:focus {
-      background-color: #4B49AC !important;
-    }
-
-    /* Tabs Iconized */
-    .nav-tabs.tabs-iconized>li a,
-    .nav-pills.tabs-iconized>li a {
-      padding-top: 0;
-      padding-bottom: 5px;
-    }
-
-    .nav-tabs.tabs-iconized>li i,
-    .nav-pills.tabs-iconized>li i {
-      margin-right: 3px;
-      top: 4px;
-      font-size: 24px;
-      position: relative;
+    .nav-pills-custom-minimal .nav-link.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white !important;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
     }
 
     /* Tab Content */
     .tab-content {
-      padding: 30px 15px 15px;
-      background-color: #fff;
+      padding: 0;
     }
 
-    /* Custom Colored Tabs */
-    .nav.nav-tabs-custom-colored>li>a {
-      border-color: #ccc;
-      border-bottom: transparent;
+    /* Profile Detail Card */
+    .profile-detail-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      margin-bottom: 20px;
     }
 
-    .nav.nav-tabs-custom-colored>li>a:hover,
-    .nav.nav-tabs-custom-colored>li>a:focus {
-      background-color: #4B49AC;
-    }
-
-    .nav-tabs.nav-tabs-custom-colored {
-      border-bottom-color: #4B49AC;
-    }
-
-    .nav-tabs.nav-tabs-custom-colored>li {
-      margin-bottom: 0;
-      background-color: #fff;
-    }
-
-    .nav-tabs.nav-tabs-custom-colored>li>a {
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-      color: #696565;
-    }
-
-    .nav-tabs.nav-tabs-custom-colored>li>a:hover,
-    .nav-tabs.nav-tabs-custom-colored>li>a:focus {
-      color: #fff;
-      border-color: #1688ae;
-    }
-
-    .nav-tabs.nav-tabs-custom-colored>li.active>a,
-    .nav-tabs.nav-tabs-custom-colored>li.active>a:hover,
-    .nav-tabs.nav-tabs-custom-colored>li.active>a:focus {
-      color: #fff;
-      background-color: #1688ae;
-      border-color: #1688ae;
-      border-bottom: transparent;
-    }
-
-    .nav-tabs>li.active {
-      z-index: 1;
-    }
-
-    /* Custom Minimal Pills */
-    .nav-pills-custom-minimal {
-      border-bottom: 1px solid #ccc;
-    }
-
-    .nav-pills-custom-minimal>li>a {
-      border-radius: 0;
-      padding: 10px;
-      border-top: 4px solid transparent;
-      color: #696565;
-    }
-
-    .nav-pills-custom-minimal>li>a:hover,
-    .nav-pills-custom-minimal>li>a:focus {
-      background-color: transparent;
-      color: #4f4c4c;
-    }
-
-    .nav-pills-custom-minimal>li.active>a,
-    .nav-pills-custom-minimal>li.active>a:hover,
-    .nav-pills-custom-minimal>li.active>a:focus {
-      background-color: transparent;
-      border-top-color: #94c632;
-    }
-
-    .nav-pills-custom-minimal>li+li {
-      margin-left: 30px;
-    }
-
-    @media screen and (max-width: 480px) {
-      .nav-pills-custom-minimal>li+li {
-        margin-left: 0;
-      }
-    }
-
-    .nav-pills-custom-minimal.custom-minimal-bottom>li a {
-      border-top: none;
-      border-bottom: 4px solid transparent;
-    }
-
-    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a,
-    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a:hover,
-    .nav-pills-custom-minimal.custom-minimal-bottom>li.active>a:focus {
-      border-bottom-color: #94c632;
-    }
-
-    .avatar-lg {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-    }
-
-    @media (min-width: 992px) {
-      .avatar-lg {
-        width: 304px;
-        height: 304px;
-      }
-    }
-
-    .container,
-    .user-profile {
-      min-height: 100vh;
-      /* Full screen height */
-      display: flex;
-      flex-direction: column;
-    }
-
-    .user-profile {
-
-      padding: 20px 0;
-    }
-
-    .modal-custom {
-      background-color: #f8f9fa;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-header {
-      background-color: #4e73df;
+    .profile-detail-card .card-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      padding: 1rem 1.5rem;
-    }
-
-    .modal-title {
-      font-weight: 600;
-      font-size: 1.25rem;
-    }
-
-    .btn-close {
-      filter: invert(1);
-    }
-
-    .profile-img {
-      border-radius: 50%;
-      border: 3px solid #4e73df;
-      object-fit: cover;
-      height: 77px;
-    }
-
-    .custom-file-btn {
-      background-color: #4e73df;
+      padding: 25px 30px;
       border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
     }
 
-    .custom-file-btn:hover {
-      background-color: #2e59d9;
-      transform: translateY(-2px);
+    .profile-detail-card .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
     }
 
+    .profile-detail-card .card-body {
+      padding: 30px;
+      background: white;
+    }
+
+    /* Info Rows */
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #2d3748;
+      min-width: 180px;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+
+    .info-label i {
+      color: #667eea;
+      margin-right: 12px;
+      font-size: 18px;
+      width: 20px;
+    }
+
+    .info-value {
+      background: #f7fafc;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 500;
+      flex: 1;
+      margin-left: 20px;
+      border: 1px solid #e2e8f0;
+      color: #2d3748;
+      font-size: 15px;
+    }
+
+    /* Password Form Card */
+    .password-form-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      padding: 35px;
+    }
+
+    .password-form-card h4 {
+      color: #2d3748;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .password-form-card p {
+      color: #718096;
+      margin-bottom: 30px;
+    }
+
+    /* Form Controls */
     .form-control {
-      border: 1px solid #d1d3e2;
-      border-radius: 5px;
-      padding: 8px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: white;
     }
 
     .form-control:focus {
-      border-color: #bac8f3;
-      box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      background: white;
     }
 
     .form-label {
       font-weight: 600;
-      color: #5a5c69;
-      margin-bottom: 0.5rem;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .toggle-password {
+      background: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-left: none;
+      border-radius: 0 12px 12px 0;
+      color: #4a5568;
+    }
+
+    .toggle-password:hover {
+      background: #edf2f7;
+      color: #667eea;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 12px;
+      padding: 14px 30px;
+      font-weight: 600;
+      font-size: 16px;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+
+    /* Equipment Card */
+    .equipment-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      padding: 35px;
+    }
+
+    .equipment-card h4 {
+      color: #2d3748;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    /* Table Styling */
+    .table {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      margin: 0;
+    }
+
+    .table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-weight: 600;
+      padding: 15px;
+      border: none;
+      font-size: 15px;
+    }
+
+    .table td {
+      padding: 15px;
+      border: none;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+      color: #2d3748;
+    }
+
+    .table tbody tr:hover {
+      background: #f7fafc;
+    }
+
+    /* Modal Styling */
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 20px 20px 0 0;
+      border: none;
+      padding: 25px 30px;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .profile-img {
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+
+    .custom-file-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .custom-file-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      color: white;
     }
 
     .btn-success {
-      background-color: #1cc88a;
+      background: linear-gradient(135deg, #48bb78, #38a169);
       border: none;
-      padding: 8px 20px;
-      border-radius: 5px;
+      border-radius: 12px;
+      padding: 12px 25px;
       font-weight: 600;
+      color: white;
     }
 
     .btn-success:hover {
-      background-color: #17a673;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+      color: white;
     }
 
     .custom-cancel-btn {
-      background-color: #e74a3b;
+      background: linear-gradient(135deg, #f56565, #e53e3e);
       color: white;
       border: none;
-      padding: 8px 20px;
-      border-radius: 5px;
+      border-radius: 12px;
+      padding: 12px 25px;
       font-weight: 600;
     }
 
     .custom-cancel-btn:hover {
-      background-color: #be2617;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 101, 101, 0.3);
       color: white;
     }
 
-    .text-secondary {
-      color: #858796 !important;
+    /* Stats Cards */
+    .stats-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .stats-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .stats-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+    }
+
+    .stats-icon.security {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+    }
+
+    .stats-icon.equipment {
+      background: linear-gradient(135deg, #ed8936, #dd6b20);
+    }
+
+    .stats-icon.status {
+      background: linear-gradient(135deg, #9f7aea, #805ad5);
+    }
+
+    .stats-icon i {
+      color: white;
+      font-size: 24px;
+    }
+
+    .stats-info h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2d3748;
+      margin: 0 0 4px 0;
+    }
+
+    .stats-info p {
+      color: #718096;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* Profile Main Card */
+    .profile-main-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .profile-header {
+      position: relative;
+      height: 120px;
+    }
+
+    .profile-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .profile-avatar-section {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      object-fit: cover;
+    }
+
+    .profile-status {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 16px;
+      height: 16px;
+      background: #48bb78;
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+
+    .profile-body {
+      padding: 50px 24px 24px;
+      text-align: center;
+    }
+
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2d3748;
+      margin: 0 0 4px 0;
+    }
+
+    .profile-role {
+      color: #718096;
+      font-size: 14px;
+      margin: 0 0 20px 0;
+    }
+
+    .profile-stats-mini {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 24px;
+      padding: 16px 0;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .stat-mini {
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #718096;
+    }
+
+    .btn-edit-profile {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+    }
+
+    /* Quick Actions Card */
+    .quick-actions-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .quick-actions-card .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 20px;
+    }
+
+    .quick-action-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quick-action-item:last-child {
+      border-bottom: none;
+    }
+
+    .quick-action-item:hover {
+      background: #f7fafc;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      border-radius: 8px;
+    }
+
+    .quick-action-item i:first-child {
+      color: #667eea;
+      margin-right: 12px;
+      font-size: 16px;
+      width: 20px;
+    }
+
+    .quick-action-item span {
+      flex: 1;
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    .quick-action-item i:last-child {
+      color: #cbd5e0;
+      font-size: 14px;
+    }
+
+    /* Professional Tabs */
+    .professional-tabs {
+      margin-bottom: 24px;
+    }
+
+    .custom-nav-pills {
+      background: white;
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      gap: 4px;
+    }
+
+    .custom-nav-pills .nav-link {
+      flex: 1;
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-weight: 600;
+      color: #4a5568;
+      transition: all 0.3s ease;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .custom-nav-pills .nav-link i {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .custom-nav-pills .nav-link:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+
+    .custom-nav-pills .nav-link.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white !important;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Content Cards */
+    .content-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .card-header-custom {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: between;
+      background: #f8fafc;
+    }
+
+    .card-header-custom h6 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2d3748;
+      flex: 1;
+    }
+
+    .card-body-custom {
+      padding: 24px;
+    }
+
+    /* Detail Items */
+    .detail-item {
+      margin-bottom: 24px;
+    }
+
+    .detail-item label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .detail-value {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f7fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .detail-value i {
+      color: #667eea;
+      margin-right: 12px;
+      font-size: 16px;
+      width: 16px;
+    }
+
+    .detail-value span {
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    /* Activity Items */
+    .activity-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      margin-right: 12px;
+    }
+
+    .activity-icon i {
+      font-size: 16px;
+    }
+
+    .activity-content p {
+      margin: 0;
+      font-weight: 500;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .activity-content small {
+      color: #718096;
+      font-size: 12px;
+    }
+
+    /* Preference Items */
+    .preference-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .preference-item:last-child {
+      border-bottom: none;
+    }
+
+    .preference-item span {
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    /* Security Items */
+    .security-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .security-item:last-child {
+      border-bottom: none;
+    }
+
+    .security-icon {
+      margin-right: 12px;
+    }
+
+    .security-icon.success i {
+      color: #48bb78;
+      font-size: 16px;
+    }
+
+    .security-icon.warning i {
+      color: #ed8936;
+      font-size: 16px;
+    }
+
+    .security-content p {
+      margin: 0;
+      font-weight: 500;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .security-content small {
+      color: #718096;
+      font-size: 12px;
+    }
+
+    /* Login Items */
+    .login-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .login-item:last-child {
+      border-bottom: none;
+    }
+
+    .login-info p {
+      margin: 0;
+      font-weight: 500;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .login-info small {
+      color: #718096;
+      font-size: 12px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container-fluid {
+        padding: 10px;
+      }
+      
+      .custom-nav-pills {
+        flex-direction: column;
+      }
+      
+      .custom-nav-pills .nav-link {
+        justify-content: flex-start;
+      }
+      
+      .stats-card {
+        padding: 16px;
+      }
+      
+      .stats-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 12px;
+      }
+      
+      .stats-icon i {
+        font-size: 20px;
+      }
+      
+      .profile-main-card {
+        margin-bottom: 20px;
+      }
+      
+      .card-header-custom {
+        padding: 16px 20px;
+      }
+      
+      .card-body-custom {
+        padding: 20px;
+      }
+    }
+
+    /* Professional Tab Content */
+    .professional-tab-content {
+      padding: 0;
+    }
+
+    .professional-tab-content .tab-pane {
+      padding: 0;
+    }
+
+    /* Form Styling */
+    .form-check-input:checked {
+      background-color: #667eea;
+      border-color: #667eea;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    /* Animation */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 
@@ -537,133 +1062,282 @@
                   </script>
                   <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
 
-                  <div class="container">
-                    <div class="user-profile">
-                      <div class="profile-header-background mb-3">
-                        <img src="images\profile1.jpg" alt="Profile Header Background" class="img-fluid w-100" />
+                  <div class="container-fluid px-4">
+                    <div class="user-profile fade-in">
+                      <!-- Top Stats Row -->
+                      <div class="row mb-4">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                          <div class="stats-card">
+                            <div class="stats-icon">
+                              <i class="bi bi-person-check"></i>
+                            </div>
+                            <div class="stats-info">
+                              <h3>Profile</h3>
+                              <p>Complete</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                          <div class="stats-card">
+                            <div class="stats-icon security">
+                              <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div class="stats-info">
+                              <h3>Security</h3>
+                              <p>Protected</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                          <div class="stats-card">
+                            <div class="stats-icon equipment">
+                              <i class="bi bi-gear-fill"></i>
+                            </div>
+                            <div class="stats-info">
+                              <h3>Equipment</h3>
+                              <p>Active</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                          <div class="stats-card">
+                            <div class="stats-icon status">
+                              <i class="bi bi-wifi"></i>
+                            </div>
+                            <div class="stats-info">
+                              <h3>Status</h3>
+                              <p>Online</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
+                      <!-- Main Content Row -->
                       <div class="row">
                         <!-- Left Column: Profile Info -->
-                        <div class="col-lg-4 col-md-5 mb-4">
-                          <div class="profile-info-left text-center p-3 rounded shadow-sm">
+                        <div class="col-lg-4 col-xl-3 mb-4">
+                          <!-- Profile Card -->
+                          <div class="profile-main-card slide-up">
+                            <div class="profile-header">
+                              <div class="profile-bg"></div>
+                              <div class="profile-avatar-section">
+                                <img
+                                  src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                                  alt="Avatar" class="profile-avatar" />
+                                <div class="profile-status"></div>
+                              </div>
+                            </div>
+                            <div class="profile-body">
+                              <h3 class="profile-name"><%= user.Username %> <%= user.lastName %></h3>
+                              <p class="profile-role">User Account</p>
+                              <div class="profile-stats-mini">
+                                <div class="stat-mini">
+                                  <span class="stat-value">100%</span>
+                                  <span class="stat-label">Complete</span>
+                                </div>
+                                <div class="stat-mini">
+                                  <span class="stat-value">Active</span>
+                                  <span class="stat-label">Status</span>
+                                </div>
+                              </div>
+                              <button class="btn btn-primary btn-edit-profile" data-bs-toggle="modal"
+                                data-bs-target="#updateModal">
+                                <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                              </button>
+                            </div>
+                          </div>
 
-                            <img
-                              src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
-                              alt="Avatar" class="avatar rounded-circle img-fluid mb-3 avatar-lg" />
-                            <h2>
-                              <%= user.Username %>
-                                <%= user.lastName %>
-                            </h2>
-                            <div class="action-buttons mt-3">
-                              <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#updateModal" style=" background-color: #4B49AC !important;"><i
-                                  class="bi bi-person-bounding-box"></i> Update Profile
-                              </a>
+                          <!-- Quick Actions Card -->
+                          <div class="quick-actions-card slide-up">
+                            <h5 class="card-title">
+                              <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+                            </h5>
+                            <div class="quick-action-item">
+                              <i class="bi bi-key"></i>
+                              <span>Change Password</span>
+                              <i class="bi bi-chevron-right"></i>
+                            </div>
+                            <div class="quick-action-item">
+                              <i class="bi bi-gear"></i>
+                              <span>View Equipment</span>
+                              <i class="bi bi-chevron-right"></i>
+                            </div>
+                            <div class="quick-action-item">
+                              <i class="bi bi-download"></i>
+                              <span>Export Data</span>
+                              <i class="bi bi-chevron-right"></i>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Right Column: Tabs & Content -->
-                        <div class="col-lg-8 col-md-7">
-                          <div class="profile-info-right">
-                            <!-- Navigation Tabs -->
-                            <ul class="nav nav-pills flex-column flex-sm-row nav-pills-custom-minimal mb-3">
-                              <li class="nav-item flex-fill text-center">
-                                <a class="nav-link active " href="#activities" data-bs-toggle="tab"
-                                  style="border-radius: 10px; "><i class="bi bi-info-circle"></i> User Info</a>
+                        <!-- Right Column: Main Content -->
+                        <div class="col-lg-8 col-xl-9">
+                          <!-- Navigation Tabs -->
+                          <div class="professional-tabs">
+                            <ul class="nav nav-pills custom-nav-pills" role="tablist">
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-info" type="button" role="tab">
+                                  <i class="bi bi-person-lines-fill"></i>
+                                  <span>Personal Information</span>
+                                </button>
                               </li>
-                              <li class="nav-item flex-fill text-center">
-                                <a class="nav-link" href="#followers" data-bs-toggle="tab"
-                                  style="border-radius: 10px;"><i class="bi bi-shield-lock-fill"></i> Change Profile
-                                  Password</a>
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#security-settings" type="button" role="tab">
+                                  <i class="bi bi-shield-lock"></i>
+                                  <span>Security Settings</span>
+                                </button>
                               </li>
-                              <li class="nav-item flex-fill text-center">
-                                <a class="nav-link" href="#following" data-bs-toggle="tab"
-                                  style="border-radius: 10px;"><i class="bi bi-tools"></i> Equipment</a>
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#equipment-details" type="button" role="tab">
+                                  <i class="bi bi-cpu"></i>
+                                  <span>Equipment</span>
+                                </button>
                               </li>
                             </ul>
+                          </div>
 
-                            <!-- Tab Contents -->
-                            <div class="tab-content">
-                              <!-- Change Wifi Password -->
-                              <div class="tab-pane fade show active" id="activities">
-                                <div class="card profile-detail-card">
-                                  <div class="card-header bg-light">
-                                    <h5 class="card-title mb-0">
-                                      <i class="bi bi-person-lines-fill me-2"></i>Personal Information
-                                    </h5>
+                          <!-- Tab Contents -->
+                          <div class="tab-content professional-tab-content">
+                            <!-- Personal Information Tab -->
+                            <div class="tab-pane fade show active" id="profile-info" role="tabpanel">
+                              <div class="row">
+                                <!-- Personal Details -->
+                                <div class="col-lg-8 mb-4">
+                                  <div class="content-card">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-person-badge me-2"></i>Personal Details</h6>
+                                      <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                    </div>
+                                    <div class="card-body-custom">
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="detail-item">
+                                            <label>Full Name</label>
+                                            <div class="detail-value">
+                                              <i class="bi bi-person"></i>
+                                              <span><%= user.Username %> <%= user.lastName %></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="detail-item">
+                                            <label>Email Address</label>
+                                            <div class="detail-value">
+                                              <i class="bi bi-envelope"></i>
+                                              <span><%= user.Email %></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="detail-item">
+                                            <label>Phone Number</label>
+                                            <div class="detail-value">
+                                              <i class="bi bi-telephone"></i>
+                                              <span><%= user.Number %></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="detail-item">
+                                            <label>CNIC</label>
+                                            <div class="detail-value">
+                                              <i class="bi bi-card-text"></i>
+                                              <span><%= user.cnic %></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="detail-item">
+                                            <label>Address</label>
+                                            <div class="detail-value">
+                                              <i class="bi bi-geo-alt"></i>
+                                              <span><%= user.address %></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div class="card-body">
-                                    <div class="row mb-3 align-items-center">
-                                      <div class="col-md-4 fw-bold text-muted">
-                                        <i class="bi bi-person-circle me-2"></i>Full Name
+                                </div>
+                                
+                                <!-- Activity & Settings -->
+                                <div class="col-lg-4">
+                                  <div class="content-card mb-3">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-activity me-2"></i>Account Activity</h6>
+                                    </div>
+                                    <div class="card-body-custom">
+                                      <div class="activity-item">
+                                        <div class="activity-icon">
+                                          <i class="bi bi-check-circle-fill text-success"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                          <p>Profile Updated</p>
+                                          <small>2 hours ago</small>
+                                        </div>
                                       </div>
-                                      <div class="col-md-8">
-                                        <div class="p-2 bg-light rounded">
-                                          <%= user.Username %>
-                                            <%= user.lastName %>
+                                      <div class="activity-item">
+                                        <div class="activity-icon">
+                                          <i class="bi bi-shield-check text-primary"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                          <p>Password Changed</p>
+                                          <small>1 day ago</small>
+                                        </div>
+                                      </div>
+                                      <div class="activity-item">
+                                        <div class="activity-icon">
+                                          <i class="bi bi-box-arrow-in-right text-info"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                          <p>Login Successful</p>
+                                          <small>Today</small>
                                         </div>
                                       </div>
                                     </div>
-
-                                    <div class="row mb-3 align-items-center">
-                                      <div class="col-md-4 fw-bold text-muted">
-                                        <i class="bi bi-envelope-check-fill me-2"></i>Email
-                                      </div>
-                                      <div class="col-md-8">
-                                        <div class="p-2 bg-light rounded">
-                                          <%= user.Email %>
+                                  </div>
+                                  
+                                  <div class="content-card">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-sliders me-2"></i>Preferences</h6>
+                                    </div>
+                                    <div class="card-body-custom">
+                                      <div class="preference-item">
+                                        <span>Email Notifications</span>
+                                        <div class="form-check form-switch">
+                                          <input class="form-check-input" type="checkbox" checked>
                                         </div>
                                       </div>
-                                    </div>
-
-                                    <div class="row mb-3 align-items-center">
-                                      <div class="col-md-4 fw-bold text-muted">
-                                        <i class="bi bi-telephone-fill me-2"></i>Mobile Number
-                                      </div>
-                                      <div class="col-md-8">
-                                        <div class="p-2 bg-light rounded">
-                                          <%= user.Number %>
+                                      <div class="preference-item">
+                                        <span>SMS Alerts</span>
+                                        <div class="form-check form-switch">
+                                          <input class="form-check-input" type="checkbox">
                                         </div>
                                       </div>
-                                    </div>
-
-                                    <div class="row mb-3 align-items-center">
-                                      <div class="col-md-4 fw-bold text-muted">
-                                        <i class="bi bi-person-vcard-fill me-2"></i>CNIC
-                                      </div>
-                                      <div class="col-md-8">
-                                        <div class="p-2 bg-light rounded">
-                                          <%= user.cnic %>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row mb-3 align-items-center">
-                                      <div class="col-md-4 fw-bold text-muted">
-                                        <i class="bi bi-geo-alt-fill me-2"></i>Address
-                                      </div>
-                                      <div class="col-md-8">
-                                        <div class="p-2 bg-light rounded">
-                                          <%= user.address %>
+                                      <div class="preference-item">
+                                        <span>Two-Factor Auth</span>
+                                        <div class="form-check form-switch">
+                                          <input class="form-check-input" type="checkbox" checked>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+                            </div>
 
 
-                              <!-- User Info -->
-                              <div class="tab-pane fade" id="followers">
-                                <div class="card p-4 shadow-sm" style="border-radius: 10px; border: none;">
-                                  <div class="card-header bg-white border-0 px-0 pt-0">
-                                    <h4 class="card-title fw-bold mb-1">Change Your Profile Password</h4>
-                                    <p class="card-subtitle text-muted">🔑 "One Click to Keep Your Internet Safe!"</p>
-                                  </div>
-
-                                  <div class="card-body px-0 py-3">
+                            <!-- Security Settings Tab -->
+                            <div class="tab-pane fade" id="security-settings" role="tabpanel">
+                              <div class="row">
+                                <!-- Password Change -->
+                                <div class="col-lg-8 mb-4">
+                                  <div class="content-card">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-key me-2"></i>Change Password</h6>
+                                      <span class="badge bg-success">Secure</span>
+                                    </div>
+                                    <div class="card-body-custom">
                                     <form action="/sett" method="POST">
                                       <!-- Current Password -->
                                       <div class="mb-3">
@@ -705,14 +1379,75 @@
                                         </div>
                                       </div>
 
-                                      <button type="submit" class="btn btn-primary w-100 py-2 fw-medium"
-                                        style="background-color: #4B49AC; border: none; border-radius: 8px;">
-                                        Update Password
+                                      <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
+                                        <i class="bi bi-shield-check me-2"></i>Update Password
                                       </button>
                                     </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <!-- Security Info -->
+                                <div class="col-lg-4">
+                                  <div class="content-card mb-3">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-shield-check me-2"></i>Security Status</h6>
+                                    </div>
+                                    <div class="card-body-custom">
+                                      <div class="security-item">
+                                        <div class="security-icon success">
+                                          <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                        <div class="security-content">
+                                          <p>Strong Password</p>
+                                          <small>Last changed 2 days ago</small>
+                                        </div>
+                                      </div>
+                                      <div class="security-item">
+                                        <div class="security-icon success">
+                                          <i class="bi bi-shield-fill-check"></i>
+                                        </div>
+                                        <div class="security-content">
+                                          <p>Two-Factor Enabled</p>
+                                          <small>Active since setup</small>
+                                        </div>
+                                      </div>
+                                      <div class="security-item">
+                                        <div class="security-icon warning">
+                                          <i class="bi bi-exclamation-triangle-fill"></i>
+                                        </div>
+                                        <div class="security-content">
+                                          <p>Login Alerts</p>
+                                          <small>Configure notifications</small>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="content-card">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-clock-history me-2"></i>Recent Logins</h6>
+                                    </div>
+                                    <div class="card-body-custom">
+                                      <div class="login-item">
+                                        <div class="login-info">
+                                          <p>Windows • Chrome</p>
+                                          <small>Today at 2:30 PM</small>
+                                        </div>
+                                        <span class="badge bg-success">Current</span>
+                                      </div>
+                                      <div class="login-item">
+                                        <div class="login-info">
+                                          <p>Mobile • Safari</p>
+                                          <small>Yesterday at 8:15 AM</small>
+                                        </div>
+                                        <span class="badge bg-secondary">Past</span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+                            </div>
 
 
 
@@ -733,137 +1468,122 @@
                                 });
                               </script>
 
-                              <!-- Equipment Tab -->
-                              <div class="tab-pane fade" id="following">
-                                <% if (fibreData.length && fibreData[0].formType==='fibre' ) { let fibreGrandTotal=0; %>
-                                  <div class="card mt-3 p-3 shadow-sm">
-                                    <h4 class="text-center text-primary mb-3">Fibre Equipment Details</h4>
-                                    <div class="table-responsive">
-                                      <table class="table table-bordered table-sm">
-                                        <tbody>
-                                          <% fibreData.forEach((item)=> {
-                                            const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g,
-                                            '').trim()) || 0;
-                                            const totalPrice =
-                                            parsePrice(item.device_price) +
-                                            parsePrice(item.first_package_price) +
-                                            parsePrice(item.fibre_power_price) +
-                                            parsePrice(item.cable_price) +
-                                            parsePrice(item.duck_patti_price) +
-                                            parsePrice(item.patch_card_price);
-                                            fibreGrandTotal += totalPrice;
-                                            %>
-                                            <tr>
-                                              <th>Form Type</th>
-                                              <td>
-                                                <%= item.formType %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Device Label</th>
-                                              <td>
-                                                <%= item.device_label %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Device Price</th>
-                                              <td>
-                                                <%= item.device_price %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Fibre Power Label</th>
-                                              <td>
-                                                <%= item.fibre_power_label %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>First Package Price</th>
-                                              <td>
-                                                <%= item.first_package_price %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Fibre Power Price</th>
-                                              <td>
-                                                <%= item.fibre_power_price %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Fibre Color</th>
-                                              <td>
-                                                <%= item.fibre_color_value %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Supplying Value</th>
-                                              <td>
-                                                <%= item.fibre_supplying_value %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Cable Label</th>
-                                              <td>
-                                                <%= item.cable_label %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Cable Price</th>
-                                              <td>
-                                                <%= item.cable_price %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Splitter</th>
-                                              <td>
-                                                <%= item.splitter_value %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Duck Patti Label</th>
-                                              <td>
-                                                <%= item.duck_patti_label %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Duck Patti Price</th>
-                                              <td>
-                                                <%= item.duck_patti_price %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Patch Card Label</th>
-                                              <td>
-                                                <%= item.patch_card_label %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Patch Card Quantity</th>
-                                              <td>
-                                                <%= item.patch_card_custom_quantity %>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <th>Patch Card Price</th>
-                                              <td>
-                                                <%= item.patch_card_price %>
-                                              </td>
-                                            </tr>
-                                            <tr class="table-success">
-                                              <th>Total Price</th>
-                                              <td><strong>Rs: <%= totalPrice.toFixed(2) %></strong></td>
-                                            </tr>
-                                            <% }); %>
-                                              <tr class="table-info">
-                                                <th>Grand Total</th>
-                                                <td><strong>Rs: <%= fibreGrandTotal.toFixed(2) %></strong></td>
-                                              </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                  <% } %>
-                              </div>
+                            <!-- Equipment Tab -->
+                            <div class="tab-pane fade" id="equipment-details" role="tabpanel">
+                        <% if (Array.isArray(fibreData) && fibreData.length) { let fibreGrandTotal = 0; %>
+
+  <div class="content-card">
+    <div class="card-header-custom">
+      <h6><i class="bi bi-cpu me-2"></i>Fibre Equipment Overview</h6>
+      <span class="badge bg-success">Active</span>
+    </div>
+    <div class="card-body-custom">
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <tbody>
+            <% fibreData.forEach((item) => {
+                const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g, '').trim()) || 0;
+                const totalPrice = parsePrice(item.device_price) + 
+                                  parsePrice(item.first_package_price) + 
+                                  parsePrice(item.fibre_power_price) + 
+                                  parsePrice(item.cable_price) + 
+                                  parsePrice(item.duck_patti_price) + 
+                                  parsePrice(item.patch_card_price);
+                fibreGrandTotal += totalPrice;
+              %>
+              <tr>
+                <th>Form Type</th>
+                <td><%= item.formType %></td>
+              </tr>
+              <tr>
+                <th>Device Label</th>
+                <td><%= item.device_label %></td>
+              </tr>
+              <tr>
+                <th>Device Price</th>
+                <td><%= item.device_price %></td>
+              </tr>
+              <tr>
+                <th>Fibre Power Label</th>
+                <td><%= item.fibre_power_label %></td>
+              </tr>
+              <tr>
+                <th>First Package Price</th>
+                <td><%= item.first_package_price %></td>
+              </tr>
+              <tr>
+                <th>Fibre Power Price</th>
+                <td><%= item.fibre_power_price %></td>
+              </tr>
+              <tr>
+                <th>Fibre Color</th>
+                <td><%= item.fibre_color_value %></td>
+              </tr>
+              <tr>
+                <th>Supplying Value</th>
+                <td><%= item.fibre_supplying_value %></td>
+              </tr>
+              <tr>
+                <th>Cable Label</th>
+                <td><%= item.cable_label %></td>
+              </tr>
+              <tr>
+                <th>Cable Price</th>
+                <td><%= item.cable_price %></td>
+              </tr>
+              <tr>
+                <th>Splitter</th>
+                <td><%= item.splitter_value %></td>
+              </tr>
+              <tr>
+                <th>Duck Patti Label</th>
+                <td><%= item.duck_patti_label %></td>
+              </tr>
+              <tr>
+                <th>Duck Patti Price</th>
+                <td><%= item.duck_patti_price %></td>
+              </tr>
+              <tr>
+                <th>Patch Card Label</th>
+                <td><%= item.patch_card_label %></td>
+              </tr>
+              <tr>
+                <th>Patch Card Quantity</th>
+                <td><%= item.patch_card_custom_quantity %></td>
+              </tr>
+              <tr>
+                <th>Patch Card Price</th>
+                <td><%= item.patch_card_price %></td>
+              </tr>
+              <tr class="table-success">
+                <th>Total Price</th>
+                <td><strong>Rs: <%= totalPrice.toFixed(2) %></strong></td>
+              </tr>
+            <% }); %>
+            <tr class="table-info">
+              <th>Grand Total</th>
+              <td><strong>Rs: <%= fibreGrandTotal.toFixed(2) %></strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<% } else { %>
+  <div class="content-card">
+    <div class="card-header-custom">
+      <h6><i class="bi bi-cpu me-2"></i>Equipment Status</h6>
+    </div>
+    <div class="card-body-custom text-center py-5">
+      <i class="bi bi-gear" style="font-size: 3rem; color: #cbd5e0; margin-bottom: 1rem;"></i>
+      <h5 class="text-muted">No Equipment Found</h5>
+      <p class="text-muted">No equipment has been assigned to your account yet.</p>
+      <button class="btn btn-primary">Request Equipment</button>
+    </div>
+  </div>
+<% } %>
+
                             </div>
                           </div>
                         </div>

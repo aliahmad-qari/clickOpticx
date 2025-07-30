@@ -11,11 +11,10 @@
   window.addEventListener('DOMContentLoaded', () => {
     const icons = document.querySelectorAll('.dynamic-color-icon');
     icons.forEach(icon => {
-      // icon.style.color = color();
+      icon.style.color = color();
     });
   });
 </script>
-
 
 
 <style>
@@ -29,7 +28,7 @@
       width: 250px;
       z-index: 9999;
       transition: left 0.3s ease;
-      background: transparent;
+       background: #2c2c54;;
     }
 
     .sidebar.active {
@@ -44,23 +43,23 @@
 /* Sidebar default icon + text color */
 .sidebar .nav-link i,
 .sidebar .nav-link .menu-title {
-  color: #8ba3c7;
+  color: black;
 }
 
 /* Sidebar hover icon + text color */
-.sidebar .nav-link:hover i,
+/* .sidebar .nav-link:hover i,
 .sidebar .nav-link:hover .menu-title {
   color: #ffffff;
-}
+} */
 
 /* Optional: Make the nav link text itself also change to white */
 .sidebar .nav-link {
-  color: #8ba3c7;
+  color: black;
 }
 
-.sidebar .nav-link:hover {
+/* .sidebar .nav-link:hover {
   color: #ffffff;
-}
+} */
 
     .sidebar-overlay {
       position: fixed;
@@ -79,9 +78,9 @@
   }
 
   @media (max-width: 576px) {
-    .sidebar {
+    /* .sidebar {
       width: 280px;
-    }
+    } */
 
     .nav-link {
       padding: 12px 15px !important;
@@ -141,13 +140,13 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item"> <a class="nav-link" href="/AdminUser"><i class="mdi mdi-account "></i>All Users</a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/AddUser"><i class="mdi mdi-account-plus "></i> Add
+            <li class="nav-item"> <a class="nav-link" href="/AddUser"><i class="mdi mdi-account-plus dynamic-color-icon "></i> Add
                 Users</a></li>
-            <li class="nav-item"> <a class="nav-link" href="/ActiveUser"><i class="mdi mdi-account-check "></i> Active
+            <li class="nav-item"> <a class="nav-link" href="/ActiveUser"><i class="mdi mdi-account-check dynamic-color-icon "></i> Active
                 Users</a></li>
-            <li class="nav-item"> <a class="nav-link" href="/ExpiredUser"><i class="mdi mdi-account-remove "></i>
+            <li class="nav-item"> <a class="nav-link" href="/ExpiredUser"><i class="mdi mdi-account-remove dynamic-color-icon "></i>
                 Expired Users</a></li>
-            <li class="nav-item"> <a class="nav-link" href="/NonVerifiedUsers"><i class="mdi mdi-account-alert "></i>
+            <li class="nav-item"> <a class="nav-link" href="/NonVerifiedUsers"><i class="mdi mdi-account-alert dynamic-color-icon"></i>
                 Non-Verified Users</a></li>
 
           </ul>
@@ -165,12 +164,12 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item">
               <a class="nav-link" href="/AdminTeam">
-                <i class="mdi mdi-account-outline"></i> All Staff
+                <i class="mdi mdi-account-outline dynamic-color-icon"></i> All Staff
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/Allstaff">
-                <i class="mdi mdi-account-multiple-plus"></i> Add Team Member
+                <i class="mdi mdi-account-multiple-plus dynamic-color-icon"></i> Add Team Member
               </a>
             </li>
           </ul>
@@ -188,17 +187,17 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item">
               <a class="nav-link" href="/package">
-                <i class="mdi mdi-view-list"></i> View All Packages
+                <i class="mdi mdi-view-list dynamic-color-icon"></i> View All Packages
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/AddPackages">
-                <i class="mdi mdi-plus-box"></i> Add New Packages
+                <i class="mdi mdi-plus-box dynamic-color-icon"></i> Add New Packages
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-center" href="/request">
-                <i class="mdi mdi-inbox-arrow-down"></i> Package Requests
+                <i class="mdi mdi-inbox-arrow-down dynamic-color-icon"></i> Package Requests
               </a>
             </li>
           </ul>
@@ -216,27 +215,27 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item">
               <a class="nav-link" href="/ViewAllEquipments">
-                <i class="mdi mdi-format-list-bulleted"></i> All Stock
+                <i class="mdi mdi-format-list-bulleted dynamic-color-icon"></i> All Stock
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/AddNewEquipment">
-                <i class="mdi mdi-plus-box-outline"></i> Add Stock
+                <i class="mdi mdi-plus-box-outline dynamic-color-icon"></i> Add Stock
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/userEquipment">
-                <i class="mdi mdi-account-cog-outline"></i> Assign Equipment
+                <i class="mdi mdi-account-cog-outline dynamic-color-icon"></i> Assign Equipment
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/EquipmentStatus">
-                <i class="mdi mdi-clipboard-check-outline"></i> Equipment Status
+                <i class="mdi mdi-clipboard-check-outline dynamic-color-icon"></i> Equipment Status
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/RecoveryManagement">
-                <i class="mdi mdi-restore"></i> Recovery Management
+                <i class="mdi mdi-restore dynamic-color-icon"></i> Recovery Management
               </a>
             </li>
           </ul>
@@ -277,7 +276,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/BackGroundSettings">
-          <i class="mdi mdi-image-area menu-icon" style="font-size:16px;"></i>
+          <i class="mdi mdi-image-area menu-icon dynamic-color-icon" style="font-size:16px;"></i>
           Background Settings
         </a>
       </li>
@@ -289,7 +288,7 @@
 
             <li class="nav-item">
               <a class="nav-link" href="/BrandingPage">
-                <i class="mdi mdi-image-marker-outline"></i> Slider images
+                <i class="mdi mdi-image-marker-outline dynamic-color-icon"></i> Slider images
               </a>
             </li>
             
@@ -298,7 +297,7 @@
   <!-- Single clickable area for toggle -->
   <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#headerFooterMenu"
      aria-expanded="false" aria-controls="headerFooterMenu">
-    <i class="mdi mdi-format-align-top"></i>
+    <i class="mdi mdi-format-align-top dynamic-color-icon"></i>
     Edit Footer & Header
     <i class="menu-arrow" style="color: white; margin-left: 5px;"></i>
   </a>
@@ -307,12 +306,12 @@
     <ul class="nav flex-column sub-menu">
       <li class="nav-item">
         <a class="nav-link" href="/NavbarSetting">
-          <i class="mdi mdi-view-headline" style="font-size:16px;"></i> Navbar Setting
+          <i class="mdi mdi-view-headline dynamic-color-icon" style="font-size:16px;"></i> Navbar Setting
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/FooterSetting">
-          <i class="mdi mdi-format-align-bottom" style="font-size:16px;"></i> Footer Setting
+          <i class="mdi mdi-format-align-bottom dynamic-color-icon" style="font-size:16px;"></i> Footer Setting
         </a>
       </li>
     </ul>
@@ -347,9 +346,9 @@
         </a>
         <div class="collapse" id="charts">
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
-            <li class="nav-item"> <a class="nav-link" href="/addtask"><i class="mdi mdi-calendar-plus"></i>Add Task</a>
+            <li class="nav-item"> <a class="nav-link" href="/addtask"><i class="mdi mdi-calendar-plus dynamic-color-icon"></i>Add Task</a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/CompletedTask"><i class="mdi mdi-calendar-check"></i>
+            <li class="nav-item"> <a class="nav-link" href="/CompletedTask"><i class="mdi mdi-calendar-check dynamic-color-icon"></i>
                 Completed Task</a></li>
           </ul>
         </div>
@@ -365,7 +364,7 @@
         <div class="collapse" id="message">
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item"> <a class="nav-link" href="/Promotions"><i
-                  class="mdi mdi-message-image"></i>Promotions</a></li>
+                  class="mdi mdi-message-image dynamic-color-icon"></i>Promotions</a></li>
             <!-- <li class="nav-item"> <a class="nav-link" href="/Services"><i class="mdi mdi-message-alert"></i>Service Alert</a></li> -->
           </ul>
         </div>
@@ -391,32 +390,32 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/paid-users-page">
-                <i class="fas fa-check-circle text-success me-2"></i>Paid Users
+                <i class="fas fa-check-circle text-success me-2 dynamic-color-icon"></i>Paid Users
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pending-by-user">
-                <i class="fas fa-user-clock text-warning me-2"></i>Pending by User
+                <i class="fas fa-user-clock text-warning me-2 dynamic-color-icon"></i>Pending by User
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/packages-by-status-page">
-                <i class="bi bi-box-seam"></i>Packages Status
+                <i class="bi bi-box-seam dynamic-color-icon"></i>Packages Status
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/all-package-requests-page">
-                <i class="bi bi-clipboard-data"></i>All Requests
+                <i class="bi bi-clipboard-data dynamic-color-icon"></i>All Requests
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/manual-package-requests-page">
-                <i class="bi bi-hand-index"></i>Manual Requests
+                <i class="bi bi-hand-index dynamic-color-icon"></i>Manual Requests
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/unpaid-vs-active-page">
-                <i class="bi bi-graph-up"></i>Payment Analysis
+                <i class="bi bi-graph-up dynamic-color-icon"></i>Payment Analysis
               </a>
             </li>
           </ul>
@@ -431,6 +430,12 @@
     </ul>
   </nav>
   <% } %>
+
+  <style>
+    .nav-link {
+      color: #000 !important;
+      }
+  </style>
 
     <!-- Package -->
 
