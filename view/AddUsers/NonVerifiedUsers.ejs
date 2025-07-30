@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Non-Verified Users</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .status-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-unverified {
+      background-color: #fef3cd;
+      color: #664d03;
+      border: 1px solid #ffecb5;
+    }
+
+    .btn-action {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      border-radius: 0.25rem;
+      margin: 0.125rem;
+    }
+
+    .table-responsive {
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <%- include('../partials/_navbar') %>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_settings-panel.html -->
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <%- include('../partials/Sidebar') %>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+              <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                  <h3 class="font-weight-bold">Non-Verified Users Management</h3>
+                  <h6 class="font-weight-normal mb-0">Manage users who haven't verified their email addresses</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success/Error Messages -->
+          <% if (successMessage && successMessage.length > 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= successMessage %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <% } %>
+          
+          <% if (errorMessage && errorMessage.length > 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= errorMessage %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <% } %>
+
+          <!-- Search and Filters -->
+          <div class="search-container">
+            <form method="GET" action="/NonVerifiedUsers">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="search" placeholder="Search by username or email..." value="<%= search %>">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fas fa-search"></i> Search
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <a href="/NonVerifiedUsers" class="btn btn-secondary">
+                    <i class="fas fa-refresh"></i> Clear Filters
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Users Table -->
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="card-title">Non-Verified Users (<%= totalUsers %> users)</p>
+                  </div>
+                  
+                  <% if (users && users.length > 0) { %>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>CNIC</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% users.forEach((user, index) => { %>
+                            <tr>
+                              <td><%= user.id %></td>
+                              <td>
+                                <div class="d-flex align-items-center">
+                                  <i class="fas fa-user text-muted me-2"></i>
+                                  <%= user.Username %>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="d-flex align-items-center">
+                                  <i class="fas fa-envelope text-muted me-2"></i>
+                                  <%= user.Email %>
+                                </div>
+                              </td>
+                              <td>
+                                <% if (user.Number) { %>
+                                  <i class="fas fa-phone text-muted me-2"></i>
+                                  <%= user.Number %>
+                                <% } else { %>
+                                  <span class="text-muted">-</span>
+                                <% } %>
+                              </td>
+                              <td>
+                                <% if (user.cnic) { %>
+                                  <i class="fas fa-id-card text-muted me-2"></i>
+                                  <%= user.cnic %>
+                                <% } else { %>
+                                  <span class="text-muted">-</span>
+                                <% } %>
+                              </td>
+                              <td>
+                                <% if (user.created_at) { %>
+                                  <i class="fas fa-calendar text-muted me-2"></i>
+                                  <%= new Date(user.created_at).toLocaleDateString() %>
+                                <% } else { %>
+                                  <span class="text-muted">-</span>
+                                <% } %>
+                              </td>
+                              <td>
+                                <span class="status-badge status-unverified">
+                                  <i class="fas fa-exclamation-triangle"></i> Not Verified
+                                </span>
+                              </td>
+                              <td>
+                                <div class="btn-group" role="group">
+                                  <!-- Resend Email Button -->
+                                  <button type="button" class="btn btn-warning btn-action" 
+                                          onclick="resendEmail(<%= user.id %>, '<%= user.Email %>')"
+                                          title="Resend Verification Email">
+                                    <i class="fas fa-envelope"></i> Resend
+                                  </button>
+                                  
+                                  <!-- Manual Verify Button -->
+                                  <button type="button" class="btn btn-success btn-action" 
+                                          onclick="manualVerify(<%= user.id %>, '<%= user.Username %>')"
+                                          title="Manually Verify User">
+                                    <i class="fas fa-check"></i> Verify
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          <% }); %>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <% if (totalPages > 1) { %>
+                      <nav aria-label="Page navigation" class="mt-3">
+                        <ul class="pagination justify-content-center">
+                          <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage - 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>">Previous</a>
+                            </li>
+                          <% } %>
+                          
+                          <% for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                              <a class="page-link" href="?page=<%= i %><%= search ? '&search=' + encodeURIComponent(search) : '' %>"><%= i %></a>
+                            </li>
+                          <% } %>
+                          
+                          <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage + 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>">Next</a>
+                            </li>
+                          <% } %>
+                        </ul>
+                      </nav>
+                    <% } %>
+                  <% } else { %>
+                    <div class="text-center py-5">
+                      <i class="fas fa-user-check fa-3x text-muted mb-3"></i>
+                      <h5 class="text-muted">No Non-Verified Users Found</h5>
+                      <p class="text-muted">All users have verified their email addresses or no users match your search criteria.</p>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <%- include('../partials/_footer') %>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- Confirmation Modals -->
+  <div class="modal fade" id="resendEmailModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Resend Verification Email</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to resend the verification email to <strong id="resendEmailAddress"></strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <form id="resendEmailForm" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-warning">
+              <i class="fas fa-envelope"></i> Resend Email
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="manualVerifyModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Manual Verification</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to manually verify <strong id="verifyUsername"></strong>?</p>
+          <p><small class="text-muted">This will mark the user as verified without requiring email confirmation.</small></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <form id="manualVerifyForm" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-check"></i> Verify User
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- plugins:js -->
+  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="js/dataTables.select.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <script src="js/Chart.roundedBarCharts.js"></script>
+  <!-- End custom js for this page-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function resendEmail(userId, email) {
+      document.getElementById('resendEmailAddress').textContent = email;
+      document.getElementById('resendEmailForm').action = '/resend-verification/' + userId;
+      new bootstrap.Modal(document.getElementById('resendEmailModal')).show();
+    }
+
+    function manualVerify(userId, username) {
+      document.getElementById('verifyUsername').textContent = username;
+      document.getElementById('manualVerifyForm').action = '/manual-verify/' + userId;
+      new bootstrap.Modal(document.getElementById('manualVerifyModal')).show();
+    }
+
+    // Auto-hide alerts after 5 seconds
+    setTimeout(function() {
+      var alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        var bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+      });
+    }, 5000);
+  </script>
+</body>
+
+</html>

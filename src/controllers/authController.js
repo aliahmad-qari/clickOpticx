@@ -241,7 +241,7 @@ exports.signup = (req, res) => {
         INSERT INTO users (Username, Email, cnic, Number, password, verification_token, user_verified)
         VALUES (?, ?, ?, ?, ?, ?, 0)
       `;
-      db.query(insertSql, [Username, Email, cnic, phone, hashedPassword, verificationToken], (err) => {
+      db.query(insertSql, [Username, Email, cnic, phone, hashedPassword, verificationToken], async (err) => {
         if (err) {
           console.error("Signup failed:", err);
           return res.status(500).render("login/register", {
@@ -249,6 +249,21 @@ exports.signup = (req, res) => {
             showErrorModal: true,
             showToast: true,
           });
+        }
+
+        // Send new user registration notification to admin
+        try {
+          await NotificationService.handleNewUserRegistration({
+            userId: null, // Will be fetched inside the service
+            Username,
+            Email,
+            phone,
+            cnic
+          });
+          console.log("✅ Admin notification sent for new user registration");
+        } catch (notificationError) {
+          console.error("❌ Failed to send admin notification:", notificationError);
+          // Don't fail the signup process if notification fails
         }
 
         const transporter = nodemailer.createTransport({
@@ -259,7 +274,7 @@ exports.signup = (req, res) => {
           },
         });
 
-        const verifyUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
+        const verifyUrl = `https://app.clickopticx.com/verify-email?token=${verificationToken}`;
         const mailOptions = {
           from: "clickopticx@gmail.com",
           to: Email,
@@ -933,13 +948,13 @@ exports.forgotPassword = (req, res) => {
           secure: false,
           requireTLS: true,
           auth: {
-            user: "hamzahayat3029@gmail.com",
-            pass: "ceud ztsg vqwr lmtl",
+            user: "clickopticx@gmail.com",
+            pass: "qjnm esst kuxp kabq",
           },
         });
 
         const mailOptions = {
-          from: "hamzahayat3029@gmail.com",
+          from: "clickopticx@gmail.com",
           to: email,
           subject: "Password Reset OTP",
           text: `Your OTP for password reset is: ${otp}`,

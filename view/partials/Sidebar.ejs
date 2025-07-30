@@ -127,7 +127,8 @@
                 Users</a></li>
             <li class="nav-item"> <a class="nav-link" href="/ExpiredUser"><i class="mdi mdi-account-remove "></i>
                 Expired Users</a></li>
-
+            <li class="nav-item"> <a class="nav-link" href="/NonVerifiedUsers"><i class="mdi mdi-account-alert "></i>
+                Non-Verified Users</a></li>
 
           </ul>
         </div>
@@ -254,7 +255,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/BackGroundSettings">
-          <i class="mdi mdi-image-area menu-icon" style="font-size:16px; color: white;"></i>
+          <i class="mdi mdi-image-area menu-icon" style="font-size:16px;"></i>
           Background Settings
         </a>
       </li>
@@ -274,7 +275,7 @@
             <li class="nav-item">
   <!-- Single clickable area for toggle -->
   <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#headerFooterMenu"
-     aria-expanded="false" aria-controls="headerFooterMenu" style="color: white; margin-left: auto;">
+     aria-expanded="false" aria-controls="headerFooterMenu">
     <i class="mdi mdi-format-align-top"></i>
     Edit Footer & Header
     <i class="menu-arrow" style="color: white; margin-left: 5px;"></i>
@@ -284,12 +285,12 @@
     <ul class="nav flex-column sub-menu">
       <li class="nav-item">
         <a class="nav-link" href="/NavbarSetting">
-          <i class="mdi mdi-view-headline" style="font-size:16px; color: white;"></i> Navbar Setting
+          <i class="mdi mdi-view-headline" style="font-size:16px;"></i> Navbar Setting
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/FooterSetting">
-          <i class="mdi mdi-format-align-bottom" style="font-size:16px; color: white;"></i> Footer Setting
+          <i class="mdi mdi-format-align-bottom" style="font-size:16px;"></i> Footer Setting
         </a>
       </li>
     </ul>
@@ -515,6 +516,31 @@
         
         .nav-link:hover i.text-success {
           color: #1e7e34 !important;
+        }
+        
+        /* Admin sidebar text visibility fix */
+        .sidebar .nav-link {
+          color: #8ba3c7 !important;
+        }
+        
+        .sidebar .nav-link:hover {
+          color: #ffffff !important;
+        }
+        
+        .sidebar .nav-link i {
+          color: #8ba3c7 !important;
+        }
+        
+        .sidebar .nav-link:hover i {
+          color: #ffffff !important;
+        }
+        
+        .sidebar .nav-link .menu-title {
+          color: #8ba3c7 !important;
+        }
+        
+        .sidebar .nav-link:hover .menu-title {
+          color: #ffffff !important;
         }
       </style>
 

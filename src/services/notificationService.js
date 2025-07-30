@@ -4,12 +4,13 @@ require("dotenv").config();
 
 // Email configuration
 const emailTransporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  service: "gmail",
   port: 587,
-  secure: false, // true for 465, false for other ports
+  secure: false,
+  requireTLS: true,
   auth: {
-    user: process.env.GMAIL_USER || 'your-email@gmail.com',
-    pass: process.env.GMAIL_PASS || 'your-app-password'
+    user: "clickopticx@gmail.com",
+    pass: "qjnm esst kuxp kabq"
   },
   tls: {
     rejectUnauthorized: false
@@ -38,8 +39,8 @@ const getAdminEmail = () => {
       }
     });
 
-    // Get the specific admin email (abdulhadi86411@gmail.com)
-    const adminQuery = "SELECT Email FROM users WHERE role = 'admin' AND Email = 'abdulhadi86411@gmail.com' LIMIT 1";
+    // Get the specific admin email (clickopticx@gmail.com)
+    const adminQuery = "SELECT Email FROM users WHERE role = 'admin' AND Email = 'clickopticx@gmail.com' LIMIT 1";
     db.query(adminQuery, (err, results) => {
       if (err) {
         console.error("Error fetching admin email:", err);
@@ -212,6 +213,22 @@ class NotificationService {
     await this.notifyAdmin(message, userDetails, emailSubject);
   }
 
+  // Handle new user registration
+  static async handleNewUserRegistration(userData) {
+    const message = `👤 New user registered: ${userData.Username}`;
+    const emailSubject = "New User Registration";
+    
+    const userDetails = {
+      username: userData.Username,
+      email: userData.Email,
+      phone: userData.phone,
+      cnic: userData.cnic,
+      status: 'registered'
+    };
+
+    await this.notifyAdmin(message, userDetails, emailSubject);
+  }
+
   // Handle new payment
   static async handleNewPayment(paymentData) {
     const message = `💰 New payment received from ${paymentData.username} - Amount: ${paymentData.amount}`;
@@ -227,19 +244,6 @@ class NotificationService {
     await this.notifyAdmin(message, userDetails, emailSubject);
   }
 
-  // Handle new user registration
-  static async handleNewUserRegistration(userData) {
-    const message = `👤 New user registered: ${userData.username}`;
-    const emailSubject = "New User Registration";
-    
-    const userDetails = {
-      username: userData.username,
-      email: userData.email,
-      phone: userData.phone
-    };
-
-    await this.notifyAdmin(message, userDetails, emailSubject);
-  }
 
   // Handle equipment request
   static async handleEquipmentRequest(equipmentData) {

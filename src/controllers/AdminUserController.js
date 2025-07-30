@@ -1,5 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
+const crypto = require("crypto");
 
 // ✅ Get All Users
 exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
@@ -234,5 +236,208 @@ exports.DeleteUser = (req, res) => {
     }
     req.flash("success", "User deleted successfully!");
     res.redirect("/AdminUser");
+  });
+};
+
+// ✅ Get Non-Verified Users
+exports.NonVerifiedUsers = (req, res) => {
+  const perPage = 10;
+  const page = parseInt(req.query.page) || 1;
+  const search = req.query.search || "";
+
+  let sql = `
+    SELECT id, Username, Email, Number, cnic, created_at, verification_token, user_verified
+    FROM users 
+    WHERE role = 'user' AND user_verified = 0
+  `;
+
+  let countSql = `
+    SELECT COUNT(*) as total 
+    FROM users 
+    WHERE role = 'user' AND user_verified = 0
+  `;
+
+  const queryParams = [];
+
+  // Search functionality
+  if (search) {
+    sql += ` AND (Username LIKE ? OR Email LIKE ?)`;
+    countSql += ` AND (Username LIKE ? OR Email LIKE ?)`;
+    queryParams.push(`%${search}%`, `%${search}%`);
+  }
+
+ const offset = (page - 1) * perPage;
+sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+queryParams.push(perPage, offset);
+
+// Get total count for pagination
+db.query(countSql, search ? [queryParams[0], queryParams[1]] : [], (err, countResult) => {
+  if (err) {
+    console.error("Count query error:", err);
+    return res.status(500).send("Internal Server Error");
+  }
+
+  const totalUsers = countResult[0].total;
+  const totalPages = Math.ceil(totalUsers / perPage);
+
+  // Get users
+  db.query(sql, queryParams, (err, users) => {
+    if (err) {
+      console.error("Database query error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    // Get notification count for admin
+    const notificationSql = `
+      SELECT COUNT(*) as count 
+      FROM notifications 
+      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 2 DAY)
+    `;
+
+    db.query(notificationSql, (err, notificationResult) => {
+      const notificationCount = err ? 0 : notificationResult[0].count;
+
+      // Get background/navbar data
+      const bgSql = "SELECT * FROM nav_table";
+      db.query(bgSql, (err, bg_result) => {
+        if (err) {
+          console.error("Background query error:", err);
+          bg_result = [{ logo_text: "ClickOpticx" }];
+        }
+
+        // ✅ ADD THIS QUERY
+        const passwordSql = `
+          SELECT * FROM notifications 
+          WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY 
+          ORDER BY id DESC
+        `;
+
+        db.query(passwordSql, (err, password_datass) => {
+          if (err) {
+            console.error("Password notifications query error:", err);
+            password_datass = []; // fallback
+          }
+
+          res.render("AddUsers/NonVerifiedUsers", {
+            users,
+            currentPage: page,
+            totalPages,
+            totalUsers,
+            search,
+            perPage,
+            notificationCount,
+            totalNotifactions: notificationCount,
+            bg_result,
+            
+            isAdmin: true,
+            isUser: false,
+            password_datass,
+            
+            successMessage: req.flash("success"),
+            errorMessage: req.flash("error"),
+            user: req.session.user || null 
+          });
+        }); // 🔚 end passwordSql
+      }); // 🔚 end bgSql
+    }); // 🔚 end notificationSql
+  }); // 🔚 end users query
+}); // 🔚 end countSql
+}
+
+
+// ✅ Resend Verification Email
+exports.ResendVerificationEmail = (req, res) => {
+  const userId = req.params.id;
+
+  // Get user details
+  const getUserSql = "SELECT Username, Email, verification_token FROM users WHERE id = ? AND user_verified = 0";
+  db.query(getUserSql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database query error:", err);
+      req.flash("error", "Database error occurred");
+      return res.redirect("/NonVerifiedUsers");
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "User not found or already verified");
+      return res.redirect("/NonVerifiedUsers");
+    }
+
+    const user = results[0];
+    
+    // Generate new verification token if needed
+    const verificationToken = user.verification_token || crypto.randomBytes(32).toString("hex");
+    
+    // Update verification token if it was null
+    if (!user.verification_token) {
+      const updateTokenSql = "UPDATE users SET verification_token = ? WHERE id = ?";
+      db.query(updateTokenSql, [verificationToken, userId], (err) => {
+        if (err) {
+          console.error("Error updating verification token:", err);
+        }
+      });
+    }
+
+    // Send verification email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "clickopticx@gmail.com",
+        pass: "qjnm esst kuxp kabq",
+      },
+    });
+
+    const verifyUrl = `https://app.clickopticx.com/verify-email?token=${verificationToken}`;
+    const mailOptions = {
+      from: "clickopticx@gmail.com",
+      to: user.Email,
+      subject: "Verify Your Email - Resent",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #4B49AC;">Welcome, ${user.Username}!</h2>
+          <p>Your verification email has been resent by an administrator.</p>
+          <p>Click the button below to verify your account:</p>
+          <a href="${verifyUrl}" style="background-color: #4B49AC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+            Verify Email
+          </a>
+          <p style="margin-top: 20px;">Or copy and paste this link in your browser:</p>
+          <p style="color: #666; word-break: break-all;">${verifyUrl}</p>
+          <hr style="margin: 30px 0;">
+          <p style="color: #666; font-size: 12px;">This email was sent from ClickOpticx. If you didn't request this, please ignore this email.</p>
+        </div>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (err) => {
+      if (err) {
+        console.error("Email sending error:", err);
+        req.flash("error", "Failed to send verification email");
+      } else {
+        req.flash("success", `Verification email resent to ${user.Email}`);
+      }
+      res.redirect("/NonVerifiedUsers");
+    });
+  });
+};
+
+// ✅ Manual Verify User
+exports.ManualVerifyUser = (req, res) => {
+  const userId = req.params.id;
+
+  const sql = "UPDATE users SET user_verified = 1, verification_token = NULL WHERE id = ? AND user_verified = 0";
+  db.query(sql, [userId], (err, result) => {
+    if (err) {
+      console.error("Database query error:", err);
+      req.flash("error", "Database error occurred");
+      return res.redirect("/NonVerifiedUsers");
+    }
+
+    if (result.affectedRows === 0) {
+      req.flash("error", "User not found or already verified");
+    } else {
+      req.flash("success", "User verified successfully!");
+    }
+    
+    res.redirect("/NonVerifiedUsers");
   });
 };

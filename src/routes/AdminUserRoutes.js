@@ -17,6 +17,11 @@ router.get("/AdminUser", isAuthenticated, isAdmin, (req, res) => {
 // Update Admin User Routes
 router.post("/AdminUser/update/:id", AdminUserController.UpdateUser);
 
+// Non-Verified Users Management Routes
+router.get("/NonVerifiedUsers", isAuthenticated, isAdmin, AdminUserController.NonVerifiedUsers);
+router.post("/resend-verification/:id", isAuthenticated, isAdmin, AdminUserController.ResendVerificationEmail);
+router.post("/manual-verify/:id", isAuthenticated, isAdmin, AdminUserController.ManualVerifyUser);
+
 // Delete Admin User Routes
 router.delete("/AdminUser/:id", AdminUserController.DeleteUser);
 router.get("/ActiveUser", isAuthenticated, isAdmin, (req, res) => {
