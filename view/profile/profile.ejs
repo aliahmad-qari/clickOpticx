@@ -2053,7 +2053,7 @@
             const userName = '<%= user.Username %>';
             
             // Collect Fiber Data
-            const fibreData = <%-JSON.stringify(fibreData || [])%>;
+            const fibreData = <%- JSON.stringify(fibreData || []) %>;
             
             // Collect Dynamic Equipment Data from localStorage
             const equipmentData = JSON.parse(localStorage.getItem('equipmentCosts') || '{}');
