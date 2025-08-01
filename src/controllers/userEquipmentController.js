@@ -92,6 +92,17 @@ exports.Slider_imgs = (req, res) => {
                   return res.status(500).send("Internal Server Error");
                 }
 
+                // Fetch packages from database
+                const packagesSql = "SELECT id, Package, Price FROM packages ORDER BY id ASC";
+                db.query(packagesSql, (err, packages) => {
+                  if (err) {
+                    console.error("Database query error fetching packages:", err);
+                    return res.status(500).send("Internal Server Error");
+                  }
+                  
+                  console.log("Fetched packages:", packages);
+                  console.log("Package count:", packages ? packages.length : 0);
+
             const backgroundSql = "SELECT * FROM nav_table";
             db.query(backgroundSql, (err, bg_result) => {
               if (err) {
@@ -153,6 +164,7 @@ exports.Slider_imgs = (req, res) => {
                     submissions,
                     wirelessForms,
                     assigned_equipment,
+                    packages,
                     totalNotifactions,
                     password_datass,
                     messages: {
@@ -174,7 +186,8 @@ exports.Slider_imgs = (req, res) => {
                 }); // NotifactionSql query
               }); // passwordSql query  
             }); // backgroundSql query
-          }); // assignedEquipmentSql query
+          }); // packagesSql query
+        }); // assignedEquipmentSql query
         }); // wirelessSql query
       }); // wirelessCountSql query
     }); // fibreSql query
@@ -354,7 +367,8 @@ exports.updateFibreSubmission = (req, res) => {
     company_pay,
     email,
     formType,
-    first_package_price,
+    selected_package,
+    package_price,
     device_label,
     device_label_custom,
     device_price,
@@ -369,32 +383,8 @@ exports.updateFibreSubmission = (req, res) => {
     duck_patti_quantity,
     duck_patti_price,
     patch_card_quantity,
-    patch_card_price,
-    existing_equipment_id = [],
-    existing_equipment_name = [],
-    existing_equipment_quantity = [],
-    existing_equipment_unit = [],
-    existing_equipment_price = [],
-    new_equipment_name = [],
-    new_equipment_quantity = [],
-    new_equipment_unit = [],
-    new_equipment_price = [],
+    patch_card_price
   } = req.body;
-
-  // Debug: Log inputs
-  console.log(
-    `[updateFibreSubmission] Updating ID: ${id}, cable_quantity: '${cable_quantity}', splitter_value: '${splitter_value}', splitter_value_custom: '${splitter_value_custom}', duck_patti_quantity: '${duck_patti_quantity}', patch_card_quantity: '${patch_card_quantity}'`
-  );
-  console.log(
-    `[updateFibreSubmission] Existing equipment:`,
-    existing_equipment_name,
-    existing_equipment_quantity
-  );
-  console.log(
-    `[updateFibreSubmission] New equipment:`,
-    new_equipment_name,
-    new_equipment_quantity
-  );
 
   db.beginTransaction((err) => {
     if (err) {
@@ -403,532 +393,91 @@ exports.updateFibreSubmission = (req, res) => {
       return res.redirect("/userEquipment");
     }
 
-    db.query(
-      `SELECT * FROM fibre_form_submissions WHERE id = ?`,
-      [id],
-      (err, results) => {
+    // Final values for device and splitter
+    let finalDeviceLabel =
+      device_label === "Other" && device_label_custom
+        ? device_label_custom
+        : device_label || "";
+
+    const validSplitters = ["2way", "4way", "5/95", "10/90", "20/80", "8way"];
+    const splitterMap = {
+      "2way": "Splitter 2way",
+      "4way": "Splitter 4way",
+      "5/95": "Splitter 5/95 Way",
+      "10/90": "Splitter 10/90 Way",
+      "20/80": "Splitter 20/80 Way",
+      "8way": "Splitter 8way",
+    };
+
+    let finalSplitterValue = splitter_value;
+    if (splitter_value === "Other" && splitter_value_custom) {
+      finalSplitterValue = splitter_value_custom;
+    } else if (validSplitters.includes(splitter_value)) {
+      finalSplitterValue = splitterMap[splitter_value];
+    } else {
+      return db.rollback(() => {
+        req.flash("error", `Invalid splitter value: ${splitter_value}`);
+        return res.redirect("/userEquipment");
+      });
+    }
+
+    // Update main fibre submission
+    const updateQuery = `
+      UPDATE fibre_form_submissions SET
+        user_pay=?, company_pay=?, email=?, formType=?,
+        first_package_price=?, device_label=?, device_price=?,
+        fibre_power_label=?, fibre_power_price=?, fibre_color_value=?,
+        fibre_supplying_value=?, cable_quantity=?, cable_price=?,
+        splitter_value=?, duck_patti_quantity=?, duck_patti_price=?,
+        patch_card_quantity=?, patch_card_price=?
+      WHERE id=?`;
+
+    const updateValues = [
+      user_pay,
+      company_pay,
+      email,
+      formType || "fibre",
+      package_price, // Save the package price
+      finalDeviceLabel,
+      device_price,
+      fibre_power_label,
+      fibre_power_price,
+      fibre_color_value,
+      fibre_supplying_value,
+      cable_quantity,
+      cable_price,
+      finalSplitterValue,
+      duck_patti_quantity,
+      duck_patti_price,
+      patch_card_quantity,
+      patch_card_price,
+      id,
+    ];
+
+    db.query(updateQuery, updateValues, (err) => {
+      if (err) {
+        return db.rollback(() => {
+          console.error("[updateFibreSubmission] Error updating:", err);
+          req.flash("error", "Database update failed");
+          return res.redirect("/userEquipment");
+        });
+      }
+
+      db.commit((err) => {
         if (err) {
           return db.rollback(() => {
-            console.error(
-              "[updateFibreSubmission] Error fetching submission:",
-              err
-            );
-            req.flash("error", "Database fetch failed");
-            res.redirect("/userEquipment");
+            console.error("[updateFibreSubmission] Commit failed:", err);
+            req.flash("error", "Transaction commit failed");
+            return res.redirect("/userEquipment");
           });
         }
-        if (results.length === 0) {
-          return db.rollback(() => {
-            req.flash("error", "Submission not found");
-            res.redirect("/userEquipment");
-          });
-        }
-        const original = results[0];
-
-        db.query(
-          `SELECT id, equipment_name, quantity, unit, price FROM assigned_equipment WHERE submission_type = 'fibre' AND submission_id = ?`,
-          [id],
-          (err, existingEquipment) => {
-            if (err) {
-              return db.rollback(() => {
-                console.error(
-                  "[updateFibreSubmission] Error fetching assigned equipment:",
-                  err
-                );
-                req.flash("error", "Database fetch failed");
-                res.redirect("/userEquipment");
-              });
-            }
-
-            let finalDeviceLabel =
-              device_label === "Other" && device_label_custom
-                ? device_label_custom
-                : device_label || "";
-            let finalSplitterValue = splitter_value;
-
-            const validDevices = ["X-pon", "E-pon", "G-pon", "tyty"];
-            const validSplitters = ["2way", "4way", "6way", "8way"];
-
-            const splitterMap = {
-              "2way": "Splitter 2way",
-              "4way": "Splitter 4way",
-              "6way": "Splitter 6way",
-              "8way": "Splitter 8way",
-            };
-
-            // Validate device_label
-            if (device_label === "Other" && device_label_custom) {
-              finalDeviceLabel = device_label_custom;
-            } else if (!validDevices.includes(device_label)) {
-              finalDeviceLabel = device_label || "Other";
-            }
-
-            // Validate splitter_value
-            if (splitter_value === "Other" && splitter_value_custom) {
-              finalSplitterValue = splitter_value_custom;
-              console.log(
-                `[updateFibreSubmission] Using custom splitter: '${finalSplitterValue}'`
-              );
-            } else if (!validSplitters.includes(splitter_value)) {
-              console.log(
-                `[updateFibreSubmission] Invalid splitter_value: '${splitter_value}', validSplitters:`,
-                validSplitters
-              );
-              return db.rollback(() => {
-                req.flash(
-                  "error",
-                  `Invalid splitter value: ${splitter_value}. Must be 2way, 4way, 6way, 8way, or a custom value.`
-                );
-                res.redirect("/userEquipment");
-              });
-            } else {
-              finalSplitterValue = splitterMap[splitter_value];
-              console.log(
-                `[updateFibreSubmission] Mapped splitter_value: '${splitter_value}' to '${finalSplitterValue}'`
-              );
-            }
-
-            const stockUpdates = [];
-
-            // Helper function to check if equipment exists in stock
-            const checkEquipmentExists = (name, category, callback) => {
-              db.query(
-                `SELECT id FROM equipment_stock WHERE LOWER(TRIM(name)) = ? AND LOWER(TRIM(category)) = ?`,
-                [name.toLowerCase(), category.toLowerCase()],
-                (err, results) => {
-                  if (err) {
-                    console.error(
-                      "[updateFibreSubmission] Error checking equipment existence:",
-                      err
-                    );
-                    return callback(err);
-                  }
-                  console.log(
-                    `[updateFibreSubmission] Check existence for '${name}' in '${category}': ${
-                      results.length > 0 ? "Found" : "Not found"
-                    }`
-                  );
-                  callback(null, results.length > 0);
-                }
-              );
-            };
-
-            // Handle cable_quantity
-            if (
-              cable_quantity &&
-              cable_quantity !== (original.cable_quantity || null)
-            ) {
-              // Flexible regex to handle variations like "2core 100meter", "2 core 100 meter"
-              const cableRegex = /^(\d+)\s*core\s*(\d+)\s*meter\s*$/i;
-              const originalMatch = original.cable_quantity
-                ? original.cable_quantity.match(cableRegex)
-                : null;
-              const newMatch = cable_quantity.match(cableRegex);
-
-              if (!newMatch) {
-                console.error(
-                  `[updateFibreSubmission] Invalid cable_quantity format: '${cable_quantity}'. Expected format: 'X core Y meter'`
-                );
-                return db.rollback(() => {
-                  req.flash(
-                    "error",
-                    `Invalid cable quantity format: '${cable_quantity}'. Expected format: 'X core Y meter'`
-                  );
-                  res.redirect("/userEquipment");
-                });
-              }
-
-              const originalCores = originalMatch
-                ? parseInt(originalMatch[1])
-                : 0;
-              const originalMeters = originalMatch
-                ? parseInt(originalMatch[2])
-                : 0;
-              const newCores = parseInt(newMatch[1]);
-              const newMeters = parseInt(newMatch[2]);
-
-              // Validate core count and meters
-              if (newCores <= 0) {
-                console.error(
-                  `[updateFibreSubmission] Invalid core count: ${newCores}. Must be a positive integer.`
-                );
-                return db.rollback(() => {
-                  req.flash(
-                    "error",
-                    `Invalid fibre cable core count: ${newCores}. Must be a positive integer.`
-                  );
-                  res.redirect("/userEquipment");
-                });
-              }
-              if (newMeters < 0) {
-                console.error(
-                  `[updateFibreSubmission] Invalid new meters: ${newMeters}. Must be non-negative.`
-                );
-                return db.rollback(() => {
-                  req.flash(
-                    "error",
-                    `Invalid cable quantity: ${newMeters} meter. Must be non-negative.`
-                  );
-                  res.redirect("/userEquipment");
-                });
-              }
-
-              // Handle stock updates
-              if (originalCores > 0 && originalMeters > 0) {
-                const originalFibreCableName = `Fibre Cable ${originalCores} core`;
-                stockUpdates.push((cb) => {
-                  checkEquipmentExists(
-                    originalFibreCableName,
-                    "Fibre Optics",
-                    (err, exists) => {
-                      if (err) return cb(err);
-                      if (!exists) {
-                        console.warn(
-                          `[updateFibreSubmission] Skipping restoration for '${originalFibreCableName}' (not in stock)`
-                        );
-                        return cb(null);
-                      }
-                      console.log(
-                        `[updateFibreSubmission] Restoring stock for ${originalFibreCableName}, quantity: ${originalMeters} meter`
-                      );
-                      updateStock(
-                        db,
-                        "fibre",
-                        originalFibreCableName,
-                        originalMeters,
-                        "meter",
-                        cb
-                      );
-                    }
-                  );
-                });
-              }
-
-              if (newCores > 0 && newMeters > 0) {
-                const fibreCableName = `Fibre Cable ${newCores} core`;
-                // Compute delta if cores are the same
-                const deltaMeters =
-                  originalCores === newCores && originalMeters > 0
-                    ? newMeters - originalMeters
-                    : newMeters;
-                const qtyDiff =
-                  originalCores === newCores && originalMeters > 0
-                    ? -deltaMeters
-                    : -newMeters;
-                stockUpdates.push((cb) => {
-                  checkEquipmentExists(
-                    fibreCableName,
-                    "Fibre Optics",
-                    (err, exists) => {
-                      if (err) return cb(err);
-                      if (!exists) {
-                        console.error(
-                          `[updateFibreSubmission] Cannot reduce stock for '${fibreCableName}' (not in stock)`
-                        );
-                        return cb(
-                          new Error(
-                            `Equipment '${fibreCableName}' not found in stock. Please add it to inventory.`
-                          )
-                        );
-                      }
-                      console.log(
-                        `[updateFibreSubmission] Reducing stock for ${fibreCableName}, quantity: ${qtyDiff} meter (original: ${originalMeters}, new: ${newMeters}, delta: ${deltaMeters})`
-                      );
-                      updateStock(
-                        db,
-                        "fibre",
-                        fibreCableName,
-                        qtyDiff,
-                        "meter",
-                        cb
-                      );
-                    }
-                  );
-                });
-              }
-            }
-
-            // Handle device_label
-            if (device_label && device_label !== original.device_label) {
-              if (
-                original.device_label &&
-                validDevices.includes(original.device_label)
-              ) {
-                console.log(
-                  `[updateFibreSubmission] Restoring stock for device: '${original.device_label}', quantity: +1`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", original.device_label, 1, "", cb)
-                );
-              }
-              if (validDevices.includes(device_label)) {
-                console.log(
-                  `[updateFibreSubmission] Reducing stock for device: '${device_label}', quantity: -1`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", device_label, -1, "", cb)
-                );
-              }
-            }
-
-            // Handle splitter_value
-            if (splitter_value && splitter_value !== original.splitter_value) {
-              if (
-                original.splitter_value &&
-                validSplitters.includes(original.splitter_value)
-              ) {
-                const originalSplitterName =
-                  splitterMap[original.splitter_value];
-                console.log(
-                  `[updateFibreSubmission] Restoring stock for ${originalSplitterName}, quantity: +1`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", originalSplitterName, 1, "", cb)
-                );
-              }
-              if (validSplitters.includes(splitter_value)) {
-                const splitterName = splitterMap[splitter_value];
-                console.log(
-                  `[updateFibreSubmission] Reducing stock for ${splitterName}, quantity: -1`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", splitterName, -1, "", cb)
-                );
-              } else if (splitter_value === "Other" && splitter_value_custom) {
-                console.log(
-                  `[updateFibreSubmission] Reducing stock for custom splitter: '${splitter_value_custom}', quantity: -1`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", splitter_value_custom, -1, "", cb)
-                );
-              }
-            }
-
-            // Handle duck_patti_quantity
-            if (
-              duck_patti_quantity &&
-              duck_patti_quantity != original.duck_patti_quantity
-            ) {
-              const originalQty = parseInt(original.duck_patti_quantity) || 0;
-              const newQty = parseInt(duck_patti_quantity) || 0;
-              const delta = newQty - originalQty;
-              if (delta > 0) {
-                console.log(
-                  `[updateFibreSubmission] Reducing stock for Duck Patti, delta: ${-delta}`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", "Duck Patti", -delta, "", cb)
-                );
-              }
-            }
-
-            // Handle patch_card_quantity
-            if (
-              patch_card_quantity &&
-              patch_card_quantity != original.patch_card_quantity
-            ) {
-              const originalQty = parseInt(original.patch_card_quantity) || 0;
-              const newQty = parseInt(patch_card_quantity) || 0;
-              const delta = newQty - originalQty;
-              if (delta > 0) {
-                console.log(
-                  `[updateFibreSubmission] Reducing stock for Patch Card, delta: ${-delta}`
-                );
-                stockUpdates.push((cb) =>
-                  updateStock(db, "fibre", "Patch Card", -delta, "", cb)
-                );
-              }
-            }
-
-            // Handle existing equipment
-            for (let i = 0; i < existing_equipment_id.length; i++) {
-              const equipId = existing_equipment_id[i];
-              const newName = existing_equipment_name[i] || "";
-              const newQuantity = existing_equipment_quantity[i] || "";
-              const newUnit = existing_equipment_unit[i] || "";
-              const newPrice = existing_equipment_price[i] || null;
-
-              const originalEquip = existingEquipment.find(
-                (e) => e.id == equipId
-              );
-              if (!originalEquip) continue;
-
-              const isQuantityModified =
-                newQuantity !== originalEquip.quantity ||
-                newUnit !== (originalEquip.unit || "");
-
-              if (isQuantityModified && newQuantity) {
-                const originalQty =
-                  parseInt(originalEquip.quantity.match(/\d+/)) || 0;
-                const newQty = parseInt(newQuantity.match(/\d+/)) || 0;
-                const delta = newQty - originalQty;
-                if (delta > 0) {
-                  console.log(
-                    `[updateFibreSubmission] Reducing stock for ${newName}, delta: ${-delta}`
-                  );
-                  stockUpdates.push((cb) =>
-                    updateStock(db, "fibre", newName, -delta, newUnit, cb)
-                  );
-                }
-                stockUpdates.push((cb) => {
-                  db.query(
-                    `UPDATE assigned_equipment SET equipment_name = ?, quantity = ?, unit = ?, price = ? WHERE id = ?`,
-                    [
-                      newName,
-                      newQuantity,
-                      newUnit || null,
-                      newPrice || null,
-                      equipId,
-                    ],
-                    (err) => {
-                      if (err) {
-                        console.error(
-                          "[updateFibreSubmission] Error updating assigned equipment:",
-                          err
-                        );
-                        return cb(err);
-                      }
-                      cb(null);
-                    }
-                  );
-                });
-              } else if (
-                newName !== originalEquip.equipment_name ||
-                newPrice !== (originalEquip.price || null)
-              ) {
-                stockUpdates.push((cb) => {
-                  db.query(
-                    `UPDATE assigned_equipment SET equipment_name = ?, price = ? WHERE id = ?`,
-                    [newName, newPrice || null, equipId],
-                    (err) => {
-                      if (err) {
-                        console.error(
-                          "[updateFibreSubmission] Error updating assigned equipment:",
-                          err
-                        );
-                        return cb(err);
-                      }
-                      cb(null);
-                    }
-                  );
-                });
-              }
-            }
-
-            // Handle new equipment
-            for (let i = 0; i < new_equipment_name.length; i++) {
-              const name = new_equipment_name[i];
-              const quantity = new_equipment_quantity[i];
-              const unit = new_equipment_unit[i] || "";
-              const price = new_equipment_price[i] || null;
-
-              if (name && quantity) {
-                const qty = parseInt(quantity.match(/\d+/)) || 0;
-                if (qty > 0) {
-                  console.log(
-                    `[updateFibreSubmission] Reducing stock for new equipment: '${name}', quantity: ${-qty}`
-                  );
-                  stockUpdates.push((cb) =>
-                    updateStock(db, "fibre", name, -qty, unit, cb)
-                  );
-                }
-                stockUpdates.push((cb) => {
-                  db.query(
-                    `INSERT INTO assigned_equipment (submission_type, submission_id, equipment_name, quantity, unit, price)
-                   VALUES (?, ?, ?, ?, ?, ?)`,
-                    ["fibre", id, name, quantity, unit || null, price || null],
-                    (err) => {
-                      if (err) {
-                        console.error(
-                          "[updateFibreSubmission] Error inserting new equipment:",
-                          err
-                        );
-                        return cb(err);
-                      }
-                      cb(null);
-                    }
-                  );
-                });
-              }
-            }
-
-            require("async").series(stockUpdates, (err) => {
-              if (err) {
-                return db.rollback(() => {
-                  console.error(
-                    "[updateFibreSubmission] Stock update error:",
-                    err
-                  );
-                  req.flash("error", err.message);
-                  res.redirect("/userEquipment");
-                });
-              }
-
-              db.query(
-                `UPDATE fibre_form_submissions SET
-               user_pay = ?, company_pay = ?, email = ?, formType = ?,
-               first_package_price = ?, device_label = ?, device_price = ?,
-               fibre_power_label = ?, fibre_power_price = ?, fibre_color_value = ?,
-               fibre_supplying_value = ?, cable_quantity = ?, cable_price = ?,
-               splitter_value = ?, duck_patti_quantity = ?, duck_patti_price = ?,
-               patch_card_quantity = ?, patch_card_price = ?
-               WHERE id = ?`,
-                [
-                  user_pay,
-                  company_pay,
-                  email,
-                  formType || "fibre",
-                  first_package_price,
-                  finalDeviceLabel,
-                  device_price,
-                  fibre_power_label,
-                  fibre_power_price,
-                  fibre_color_value,
-                  fibre_supplying_value,
-                  cable_quantity,
-                  cable_price,
-                  finalSplitterValue,
-                  duck_patti_quantity,
-                  duck_patti_price,
-                  patch_card_quantity,
-                  patch_card_price,
-                  id,
-                ],
-                (err) => {
-                  if (err) {
-                    return db.rollback(() => {
-                      console.error(
-                        "[updateFibreSubmission] Error updating submission:",
-                        err
-                      );
-                      req.flash("error", "Database update failed");
-                      res.redirect("/userEquipment");
-                    });
-                  }
-
-                  db.commit((err) => {
-                    if (err) {
-                      return db.rollback(() => {
-                        console.error(
-                          "[updateFibreSubmission] Commit error:",
-                          err
-                        );
-                        req.flash("error", "Transaction commit failed");
-                        res.redirect("/userEquipment");
-                      });
-                    }
-                    req.flash("success", "Equipment updated successfully");
-                    res.redirect("/userEquipment");
-                  });
-                }
-              );
-            });
-          }
-        );
-      }
-    );
+        req.flash("success", "Fibre user updated successfully");
+        return res.redirect("/userEquipment");
+      });
+    });
   });
 };
+
 exports.updateWirelessForm = (req, res) => {
   const id = req.params.id;
   const {
@@ -936,7 +485,8 @@ exports.updateWirelessForm = (req, res) => {
     company_pay,
     cat6_quantity,
     cat6_price,
-    first_package_price,
+    selected_package,
+    package_price,
     clips_quantity,
     clips_price,
     raval_bold_pair,
@@ -1506,7 +1056,7 @@ exports.updateWirelessForm = (req, res) => {
                   company_pay,
                   cat6_quantity,
                   cat6_price,
-                  first_package_price,
+                  package_price, // Save the package price
                   clips_quantity,
                   clips_price,
                   raval_bold_pair,

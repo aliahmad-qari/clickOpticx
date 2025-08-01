@@ -93,12 +93,11 @@ exports.getPendingPaymentsByUser = (req, res) => {
 
 
 
-// 6. Manual Requests
 exports.getManualPackageRequests = (req, res) => {
   const sql = `
     SELECT 
       p.id,
-      p.package_name,
+      p.package,
       p.request_type,
       p.status,
       p.created_at,
@@ -106,9 +105,10 @@ exports.getManualPackageRequests = (req, res) => {
       u.Email as user_email
     FROM packages p
     LEFT JOIN users u ON p.user_id = u.id
-    WHERE p.request_type = 'manual'
+    WHERE p.request_type = 'manual' AND p.is_default = false
     ORDER BY p.created_at DESC
   `;
+
   db.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving manual requests:', err);
@@ -117,6 +117,7 @@ exports.getManualPackageRequests = (req, res) => {
     res.json(results);
   });
 };
+
 exports.renderPendingPaymentsPage = (req, res) => {
   const userId = req.session.userId;
 

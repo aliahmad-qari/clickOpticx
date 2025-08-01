@@ -592,7 +592,142 @@
         }
       }
 
+      
+
+
+      .scale-marker {
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0.7;
+      }
+
+      /* Results Grid */
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin: 40px 0;
+      }
+
+      .result-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .result-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .result-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+        opacity: 0.9;
+      }
+
+      .result-label {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.8;
+        margin-bottom: 5px;
+      }
+
+      .result-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+      }
+
+      /* Control Button */
+      .speed-control-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+      }
+
+      .speed-control-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        color: white;
+      }
+
+      .speed-control-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .status-message {
+        margin-top: 20px;
+        font-size: 16px;
+        opacity: 0.9;
+        font-weight: 500;
+      }
+
+      /* Animations */
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+
+      .testing {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes rotate {
+        from { transform: translateX(-50%) rotate(-90deg); }
+        to { transform: translateX(-50%) rotate(90deg); }
+      }
+
       @media (max-width: 480px) {
+        .speed-test-button {
+          font-size: 14px;
+          padding: 12px 24px;
+        }
+        
+        .speedometer-container {
+          width: 250px;
+          height: 160px;
+        }
+        
+        .speedometer {
+          width: 250px;
+          height: 125px;
+        }
+        
+        .current-speed {
+          font-size: 36px;
+        }
+        
+        .speed-title {
+          font-size: 28px;
+        }
+        
+        .results-grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        
+        .result-card {
+          padding: 15px;
+        }
+        
+        .speed-test-container {
+          padding: 30px 20px;
+        }
+        
         .payment-section {
           width: 100%;
           padding: 10px;
@@ -2033,6 +2168,12 @@
                   </div>
                 </div>
 
+
+      </div>
+    </div>
+  </div>
+</div>
+
                 <!-- Adds Section -->
                 <div>
                   <!-- Promotion Image Modal -->
@@ -2123,77 +2264,57 @@
 
 
                   <div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
-                    <h5 class="fw-bold text-center mb-3">Payment Model</h5>
 
-                    <div class="paid"
-                      style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
-                      <% if (subscription && user.invoice==="Paid" ) { %>
+  <% if (subscription && user.invoice === "Paid" && !isExpired) { %>
+    <h5 class="fw-bold text-center mb-3">Payment Model</h5>
+  <% } %>
 
-                        <!-- Package Name -->
-                        <div class="rs">
-                          <h4 style="font-weight: 900;">
-                            <%= matchedPackage ? matchedPackage.Package : '--' %>
-                          </h4>
-                          <p class="billing-label">Package Name</p>
-                        </div>
+  <div class="paid" style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+    
+    <% if (subscription && user.invoice === "Paid") { %>
 
-                        <!-- Package Price -->
-                        <div class="rs">
-                          <h4 style="font-weight: 900;">Rs. <%= matchedPackage ? matchedPackage.Price : '--' %>
-                          </h4>
-                          <p class="billing-label">Monthly Price</p>
-                        </div>
+      <!-- Package Name -->
+      <div class="rs">
+        <h4 style="font-weight: 900;"><%= matchedPackage ? matchedPackage.Package : '--' %></h4>
+        <p class="billing-label">Package Name</p>
+      </div>
 
-                        <!-- Payment Status -->
-                        <div class="rs">
-                          <h4 style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
-                            <%= user.invoice %>
-                          </h4>
-                          <p class="billing-label">Payment Status</p>
-                        </div>
+      <!-- Package Price -->
+      <div class="rs">
+        <h4 style="font-weight: 900;">Rs. <%= matchedPackage ? matchedPackage.Price : '--' %></h4>
+        <p class="billing-label">Monthly Price</p>
+      </div>
 
-                        <!-- Expiry Date -->
-                        <div class="rs">
-                          <h4 style="font-weight: 900;">
-                            <%= formattedDate %>
-                              <% if (isExpired) { %>
-                                <span class="badge bg-danger ms-2">Expired</span>
-                                <% } else { %>
-                                  <span class="badge bg-success ms-2">Active</span>
-                                  <% } %>
-                          </h4>
-                          <p class="billing-label">Expiry Date</p>
-                        </div>
+      <!-- Payment Status -->
+      <div class="rs">
+        <h4 style="font-weight: 900; color: <%= isExpired ? 'red' : 'green' %>;">
+          <%= isExpired ? 'Expired' : 'Paid' %>
+        </h4>
+        <p class="billing-label">Payment Status</p>
+      </div>
 
-                        <% } else { %>
-                          <!-- No subscription fallback -->
-                          <div class="rs">
-                            <h4 style="font-weight: 900;">--</h4>
-                            <p style="color: red;">No Active Subscription</p>
-                          </div>
-                          <div class="rs">
-                            <h4 style="font-weight: 900;">--</h4>
-                            <p class="billing-label">Price</p>
-                          </div>
-                          <div class="rs">
-                            <h4 style="font-weight: 900; color: red;">
-                              <%= user.invoice || "Pending" %>
-                            </h4>
-                            <p class="billing-label">Payment Status</p>
-                          </div>
-                          <div class="rs">
-                            <h4 style="font-weight: 900;">--</h4>
-                            <p class="billing-label">Expiry Date</p>
-                          </div>
-                          <% } %>
-                    </div>
+      <!-- Expiry Date -->
+      <div class="rs">
+        <h4 style="font-weight: 900;">
+          <%= formattedDate %>
+          <% if (isExpired) { %>
+            <span class="badge bg-danger ms-2">Expired</span>
+          <% } else { %>
+            <span class="badge bg-success ms-2">Active</span>
+          <% } %>
+        </h4>
+        <p class="billing-label">Expiry Date</p>
+      </div>
+
+    <% } %>
+
+  </div>
 
   <% if (subscription && user.invoice === "Paid") { %>
     <% if (isExpired) { %>
       <button 
-        class="btn btn-warning w-100 mt-3"
-        data-bs-toggle="modal"
-        data-bs-target="#paymentModal"
+        class="btn btn-warning w-100 mt-3" 
+        disabled
         data-package="<%= subscription.package_name %>"
         data-price="<%= matchedPackage ? matchedPackage.Price : '0' %>"
         data-speed="<%= matchedPackage ? matchedPackage.Speed : '' %>"
@@ -2201,14 +2322,19 @@
         data-dataused="<%= matchedPackage ? matchedPackage.Data_Used : '' %>"
         data-limits="<%= matchedPackage ? matchedPackage.limits : '' %>"
       >
-        Resubscribe
+        Expired
       </button>
     <% } else { %>
-      <button class="btn btn-success w-100 mt-3" disabled>Active</button>
+      <button class="btn btn-success w-100 mt-3" disabled>Activated</button>
     <% } %>
+  <% } else { %>
+    <h5 class="text-center text-danger fw-bold mt-4">You currently do not have any active packages.</h5>
+    <div class="text-center">
+      <a href="/package" class="btn btn-success mt-2">Browse Packages</a>
+    </div>
   <% } %>
-</div>
 
+</div>
 
 
 
@@ -2713,7 +2839,161 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap 5.3 JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+
+    <!-- Speed Test JavaScript -->
+    <script>
+      let isSpeedTestRunning = false;
+      let testResults = {
+        download: 0,
+        upload: 0,
+        ping: 0
+      };
+
+      // Initialize when document is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set up modal event listeners
+        const speedTestModal = document.getElementById('speedTestModal');
+        if (speedTestModal) {
+          speedTestModal.addEventListener('shown.bs.modal', function () {
+            resetSpeedTest();
+          });
+          
+          speedTestModal.addEventListener('hidden.bs.modal', function () {
+            if (isSpeedTestRunning) {
+              stopSpeedTest();
+            }
+          });
+        }
+      });
+
+      // Function to run the actual speed test
+      async function runSpeedTest() {
+        if (isSpeedTestRunning) return;
+        
+        isSpeedTestRunning = true;
+        const startTestBtn = document.getElementById('startTestBtn');
+        const retestBtn = document.getElementById('retestBtn');
+        const statusText = document.getElementById('statusText');
+        const spinner = document.querySelector('.spinner-border');
+        
+        // Update UI for testing state
+        startTestBtn.style.display = 'none';
+        retestBtn.style.display = 'none';
+        spinner.style.display = 'inline-block';
+        
+        try {
+          // Test Download Speed
+          statusText.textContent = 'Testing Download Speed...';
+          testResults.download = await testDownloadSpeed();
+          updateSpeedDisplay('download', testResults.download);
+          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // Test Upload Speed
+          statusText.textContent = 'Testing Upload Speed...';
+          testResults.upload = await testUploadSpeed();
+          updateSpeedDisplay('upload', testResults.upload);
+          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // Test Ping
+          statusText.textContent = 'Testing Ping...';
+          testResults.ping = await testPing();
+          updateSpeedDisplay('ping', testResults.ping);
+          
+          // Test completed
+          statusText.textContent = 'Test Completed! 🎉';
+          spinner.style.display = 'none';
+          retestBtn.style.display = 'inline-block';
+          
+        } catch (error) {
+          console.error('Speed test error:', error);
+          statusText.textContent = 'Test Failed. Please try again.';
+          spinner.style.display = 'none';
+          retestBtn.style.display = 'inline-block';
+        }
+        
+        isSpeedTestRunning = false;
+      }
+
+      // Function to update speed display
+      function updateSpeedDisplay(type, value) {
+        const speedElement = document.getElementById(type + 'Speed');
+        const progressElement = document.getElementById(type + 'Progress');
+        
+        if (type === 'ping') {
+          speedElement.textContent = value.toFixed(0);
+          // Ping: lower is better, so invert the percentage (good ping: 0-50ms)
+          const pingPercent = Math.max(0, Math.min(100, 100 - (value / 50 * 100)));
+          progressElement.style.width = pingPercent + '%';
+        } else {
+          speedElement.textContent = value.toFixed(1);
+          // Speed: calculate percentage based on typical speeds (0-100 Mbps)
+          const speedPercent = Math.max(0, Math.min(100, (value / 100) * 100));
+          progressElement.style.width = speedPercent + '%';
+        }
+        
+        // Add animation
+        progressElement.style.transition = 'width 1s ease-in-out';
+      }
+
+      // Function to reset test display
+      function resetTestDisplay() {
+        document.getElementById('downloadSpeed').textContent = '--';
+        document.getElementById('uploadSpeed').textContent = '--';
+        document.getElementById('pingSpeed').textContent = '--';
+        
+        document.getElementById('downloadProgress').style.width = '0%';
+        document.getElementById('uploadProgress').style.width = '0%';
+        document.getElementById('pingProgress').style.width = '0%';
+        
+        document.getElementById('statusText').textContent = 'Click "Start Test" to begin';
+        document.querySelector('.spinner-border').style.display = 'none';
+        document.getElementById('startTestBtn').style.display = 'inline-block';
+        document.getElementById('retestBtn').style.display = 'none';
+        
+        testResults = { download: 0, upload: 0, ping: 0 };
+        isSpeedTestRunning = false;
+      }
+      
+      
+      // Update button text when testing
+      function updateButtonState(testing = false) {
+        const btn = document.getElementById('speedTestBtn');
+        const btnText = document.getElementById('speedTestBtnText');
+        
+        if (testing) {
+          btn.disabled = true;
+          btn.style.opacity = '0.7';
+          btnText.textContent = 'Testing Speed...';
+        } else {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btnText.textContent = 'Test Internet Speed';
+        }
+      }
+      
+  function startTest() {
+    const needle = document.getElementById("needle");
+    const display = document.getElementById("speedDisplay");
+
+    let speed = 0;
+    const interval = setInterval(() => {
+      speed += Math.random() * 5;
+      if (speed >= 100) {
+        clearInterval(interval);
+        speed = (Math.random() * 80 + 10).toFixed(1);
+      }
+      display.innerText= `${speed} Mbps`;
+
+      const deg = Math.min(180, (speed / 100) * 180);
+      needle.style.transform = `translateX(-50%) rotate(${deg - 90}deg)`;
+    }, 80);
+  }
+
+
+    </script>
 
     <%- include('./partials/_footer.ejs') %>
   </body>

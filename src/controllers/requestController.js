@@ -125,7 +125,7 @@ exports.profile = (req, res) => {
   });
 };
 
-exports.UpdateUser = async (req, res) => {
+exports.UpdateUser = (req, res) => {
   const { userId, package, invoice, expiry } = req.body;
 
   if (!userId || !package || !invoice || !expiry) {
@@ -134,24 +134,21 @@ exports.UpdateUser = async (req, res) => {
       .json({ message: "User ID, Package, Invoice, and Expiry are required." });
   }
 
-  try {
-    const updateQuery =
-      "UPDATE users SET plan = ?, invoice = ?, expiry = ? WHERE id = ?";
-    const [result] = await db.execute(updateQuery, [
-      package,
-      invoice,
-      expiry,
-      userId,
-    ]);
+  const updateQuery =
+    "UPDATE users SET plan = ?, invoice = ?, expiry = ? WHERE id = ?";
+  
+  db.query(updateQuery, [package, invoice, expiry, userId], (err, result) => {
+    if (err) {
+      console.error("Database update error:", err);
+      return res.status(500).json({ message: "Database update failed." });
+    }
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "User not found." });
     }
 
-  } catch (error) {
-    console.error("Database update error:", error);
-    res.redirect("/request");
-  }
+    res.status(200).json({ message: "User updated successfully." });
+  });
 };
 
 exports.DeleteUser = (req, res) => {

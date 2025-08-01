@@ -988,13 +988,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Package Price -->
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" name="first_package_price" id="first_package_price_<%= s.id %>" value="<%= s.first_package_price %>" placeholder="First Package Price">
-                                        <label for="first_package_price_<%= s.id %>">First Package Price</label>
-                                    </div>
-                                </div>
                                 
                                 <!-- Device Information -->  
                                 <div class="col-md-6">
@@ -1031,8 +1024,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="fibre_power_price" id="fibre_power_price_<%= s.id %>" value="<%= s.fibre_power_price %>" placeholder="Optical Power Price">
-                                        <label for="fibre_power_price_<%= s.id %>">Optical Power Price</label>
+                                        <input type="text" class="form-control" name="fibre_power_price" id="fibre_power_price_<%= s.id %>" value="<%= s.fibre_power_price %>" placeholder="Fiber Wire Price">
+                                        <label for="fibre_power_price_<%= s.id %>">Fiber Wire Price</label>
                                     </div>
                                 </div>
                                 
@@ -1083,46 +1076,123 @@
                                         <select class="form-select" name="splitter_value" id="splitter_value_<%= s.id %>">
                                             <option value="2way" <%= s.splitter_value === '2way' ? 'selected' : '' %>>2 Way</option>
                                             <option value="4way" <%= s.splitter_value === '4way' ? 'selected' : '' %>>4 Way</option>
-                                            <option value="6way" <%= s.splitter_value === '6way' ? 'selected' : '' %>>6 Way</option>
+                                            <option value="5/95" <%= s.splitter_value === '5/95' ? 'selected' : '' %>>5/95 Way</option>
+                                            <option value="10/90" <%= s.splitter_value === '10/90' ? 'selected' : '' %>>10/90 Way</option>
+                                            <option value="20/80" <%= s.splitter_value === '20/80' ? 'selected' : '' %>>20/80 Way</option>
                                             <option value="8way" <%= s.splitter_value === '8way' ? 'selected' : '' %>>8 Way</option>
-                                            <option value="Other" <%= !['2way', '4way', '6way', '8way'].includes(s.splitter_value) ? 'selected' : '' %>>Other</option>
+                                            <option value="Other" <%= !['2way', '4way', '5/95', '10/90', '20/80', '8way'].includes(s.splitter_value) ? 'selected' : '' %>>Other</option>
                                         </select>
                                         <label for="splitter_value_<%= s.id %>">Splitter</label>
                                     </div>
                                 </div>
                                 
-                                <!-- Duck Patti -->
-                                <div class="col-md-6">
+                                <!-- Duck Patti with Dynamic Calculation -->
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" name="duck_patti_quantity" id="duck_patti_quantity_<%= s.id %>" value="<%= s.duck_patti_quantity %>" placeholder="Duck Patti Quantity">
+                                        <input type="number" class="form-control quantity-input" 
+                                               name="duck_patti_quantity" 
+                                               id="duck_patti_quantity_<%= s.id %>" 
+                                               value="<%= s.duck_patti_quantity %>" 
+                                               placeholder="Duck Patti Quantity"
+                                               data-price-target="duck_patti_price_<%= s.id %>"
+                                               data-total-target="duck_patti_total_<%= s.id %>">
                                         <label for="duck_patti_quantity_<%= s.id %>">Duck Patti Quantity</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="duck_patti_price" id="duck_patti_price_<%= s.id %>" value="<%= s.duck_patti_price %>" placeholder="Duck Patti Price">
-                                        <label for="duck_patti_price_<%= s.id %>">Duck Patti Price</label>
+                                        <input type="number" class="form-control price-input" 
+                                               name="duck_patti_price" 
+                                               id="duck_patti_price_<%= s.id %>" 
+                                               value="<%= s.duck_patti_price %>" 
+                                               placeholder="Duck Patti Unit Price"
+                                               data-quantity-target="duck_patti_quantity_<%= s.id %>"
+                                               data-total-target="duck_patti_total_<%= s.id %>">
+                                        <label for="duck_patti_price_<%= s.id %>">Duck Patti Unit Price</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-display" 
+                                               name="duck_patti_total" 
+                                               id="duck_patti_total_<%= s.id %>" 
+                                               readonly
+                                               placeholder="Auto Calculated Total"
+                                               style="background-color: #e8f5e8; font-weight: bold; color: #2e7d32;">
+                                        <label for="duck_patti_total_<%= s.id %>">Duck Patti Total</label>
                                     </div>
                                 </div>
                                 
-                                <!-- Patch Card -->
-                                <div class="col-md-6">
+                                <!-- Patch Card with Dynamic Calculation -->
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" name="patch_card_quantity" id="patch_card_quantity_<%= s.id %>" value="<%= s.patch_card_quantity %>" placeholder="Patch Card Quantity">
+                                        <input type="number" class="form-control quantity-input" 
+                                               name="patch_card_quantity" 
+                                               id="patch_card_quantity_<%= s.id %>" 
+                                               value="<%= s.patch_card_quantity %>" 
+                                               placeholder="Patch Card Quantity"
+                                               data-price-target="patch_card_price_<%= s.id %>"
+                                               data-total-target="patch_card_total_<%= s.id %>">
                                         <label for="patch_card_quantity_<%= s.id %>">Patch Card Quantity</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="patch_card_price" id="patch_card_price_<%= s.id %>" value="<%= s.patch_card_price %>" placeholder="Patch Card Price">
-                                        <label for="patch_card_price_<%= s.id %>">Patch Card Price</label>
+                                        <input type="number" class="form-control price-input" 
+                                               name="patch_card_price" 
+                                               id="patch_card_price_<%= s.id %>" 
+                                               value="<%= s.patch_card_price %>" 
+                                               placeholder="Patch Card Unit Price"
+                                               data-quantity-target="patch_card_quantity_<%= s.id %>"
+                                               data-total-target="patch_card_total_<%= s.id %>">
+                                        <label for="patch_card_price_<%= s.id %>">Patch Card Unit Price</label>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-display" 
+                                               name="patch_card_total" 
+                                               id="patch_card_total_<%= s.id %>" 
+                                               readonly
+                                               placeholder="Auto Calculated Total"
+                                               style="background-color: #e8f5e8; font-weight: bold; color: #2e7d32;">
+                                        <label for="patch_card_total_<%= s.id %>">Patch Card Total</label>
+                                    </div>
+                                </div>
+
+                                <!-- Package Selection -->
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="selected_package" id="selected_package_<%= s.id %>" onchange="updatePackagePrice('<%= s.id %>')" style="border: 2px solid #17a2b8;">
+                                            <option value="">Select Package</option>
+                                            <% if (packages && Array.isArray(packages) && packages.length > 0) { %>
+                                                <% packages.forEach(function(pkg) { %>
+                                                    <option value="<%= pkg.id %>" data-price="<%= pkg.Price || 0 %>">
+                                                        <%= pkg.Package || 'Unnamed Package' %> - Rs<%= pkg.Price || 0 %>
+                                                    </option>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <option value="" disabled>No packages available</option>
+                                            <% } %>
+                                        </select>
+                                        <label for="selected_package_<%= s.id %>">Package Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-input" name="package_price" id="package_price_<%= s.id %>" placeholder="Package Price" readonly style="background: #e8f5e8; border: 2px solid #28a745; font-weight: bold;">
+                                        <label for="package_price_<%= s.id %>">Package Price (Rs)</label>
+                                    </div>
+                                </div>
+                                
+
                             </div>
                         </div>
                         <div class="modal-footer" style="padding: 20px 30px; border: none;">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" style="background: linear-gradient(90deg, #6c5ce7, #a29bfe); border: none;">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="background-color: #dc3545; border: none; border-radius: 25px;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success" style="background-color: #28a745; border: none; border-radius: 25px;">
                                 <i class="fas fa-save me-2"></i>Update User
                             </button>
                         </div>
@@ -1160,39 +1230,69 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Package Price -->
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" name="first_package_price" id="first_package_price_<%= w.id %>" value="<%= w.first_package_price %>" placeholder="First Package Price">
-                                        <label for="first_package_price_<%= w.id %>">First Package Price</label>
-                                    </div>
-                                </div>
                                 
                                 <!-- Cat 6 Wire -->
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="cat6_meter" id="cat6_meter_<%= w.id %>" value="<%= w.cat6_meter %>" placeholder="Cat 6 Meters">
+                                        <input type="number" class="form-control quantity-input" name="cat6_meter" id="cat6_meter_<%= w.id %>" value="<%= w.cat6_meter %>" placeholder="Cat 6 Meters" data-price-target="cat6_price_<%= w.id %>" data-total-target="cat6_total_<%= w.id %>" style="border: 2px solid #007bff;">
                                         <label for="cat6_meter_<%= w.id %>">Cat 6 Wire (Meters)</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" name="cat6_price" id="cat6_price_<%= w.id %>" value="<%= w.cat6_price %>" placeholder="Cat 6 Price">
+                                        <input type="number" class="form-control price-input" name="cat6_price" id="cat6_price_<%= w.id %>" value="<%= w.cat6_price %>" placeholder="Cat 6 Price" data-quantity-target="cat6_meter_<%= w.id %>" data-total-target="cat6_total_<%= w.id %>" style="border: 2px solid #007bff;">
                                         <label for="cat6_price_<%= w.id %>">Cat 6 Price (Rs)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-input" name="cat6_total" id="cat6_total_<%= w.id %>" placeholder="Total" readonly style="background: #e8f5e8; border: 2px solid #28a745; font-weight: bold;">
+                                        <label for="cat6_total_<%= w.id %>">Cat 6 Total (Rs)</label>
                                     </div>
                                 </div>
                                 
                                 <!-- Clips -->
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" name="clips_count" id="clips_count_<%= w.id %>" value="<%= w.clips_count %>" placeholder="Clips Count">
+                                        <input type="number" class="form-control quantity-input" name="clips_count" id="clips_count_<%= w.id %>" value="<%= w.clips_count %>" placeholder="Clips Count" data-price-target="clips_price_<%= w.id %>" data-total-target="clips_total_<%= w.id %>" style="border: 2px solid #007bff;">
                                         <label for="clips_count_<%= w.id %>">Number of Clips</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" name="clips_price" id="clips_price_<%= w.id %>" value="<%= w.clips_price %>" placeholder="Clips Price">
+                                        <input type="number" class="form-control price-input" name="clips_price" id="clips_price_<%= w.id %>" value="<%= w.clips_price %>" placeholder="Clips Price" data-quantity-target="clips_count_<%= w.id %>" data-total-target="clips_total_<%= w.id %>" style="border: 2px solid #007bff;">
                                         <label for="clips_price_<%= w.id %>">Clips Price (Rs)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-input" name="clips_total" id="clips_total_<%= w.id %>" placeholder="Total" readonly style="background: #e8f5e8; border: 2px solid #28a745; font-weight: bold;">
+                                        <label for="clips_total_<%= w.id %>">Clips Total (Rs)</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Package Selection -->
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="selected_package" id="selected_package_<%= w.id %>" onchange="updatePackagePrice('<%= w.id %>')" style="border: 2px solid #17a2b8;">
+                                            <option value="">Select Package</option>
+                                            <% if (packages && Array.isArray(packages) && packages.length > 0) { %>
+                                                <% packages.forEach(function(pkg) { %>
+                                                    <option value="<%= pkg.id %>" data-price="<%= pkg.Price || 0 %>">
+                                                        <%= pkg.Package || 'Unnamed Package' %> - Rs<%= pkg.Price || 0 %>
+                                                    </option>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <option value="" disabled>No packages available</option>
+                                            <% } %>
+                                        </select>
+                                        <label for="selected_package_<%= w.id %>">Package Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control total-input" name="package_price" id="package_price_<%= w.id %>" placeholder="Package Price" readonly style="background: #e8f5e8; border: 2px solid #28a745; font-weight: bold;">
+                                        <label for="package_price_<%= w.id %>">Package Price (Rs)</label>
                                     </div>
                                 </div>
                                 
@@ -1318,10 +1418,47 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            
+                            <!-- Custom Form Fields Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="card" style="background: rgba(255, 248, 220, 0.8); border: 1px solid #ffc107; border-radius: 15px;">
+                                        <div class="card-header" style="background: rgba(255, 193, 7, 0.1); border-bottom: 1px solid #ffc107; border-radius: 15px 15px 0 0;">
+                                            <h6 class="mb-0" style="color: #856404;">
+                                                <i class="fas fa-plus-square me-2"></i>Custom Form Fields
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="custom-form-fields-<%= w.id %>" class="custom-form-container">
+                                                <!-- Custom form fields will be added here -->
+                                            </div>
+                                            <button type="button" class="btn btn-outline-warning btn-sm mt-3" onclick="addCustomFormField('<%= w.id %>', 'wireless')" style="border-radius: 20px;">
+                                                <i class="fas fa-plus me-2"></i>Add New Form Field
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Grand Total Display -->
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="card" style="background: linear-gradient(45deg, #00b894, #00cec9); border: none; border-radius: 15px;">
+                                        <div class="card-body text-center" style="padding: 15px;">
+                                            <h5 class="mb-0" style="color: white; font-weight: 600;">
+                                                <i class="fas fa-calculator me-2"></i>Grand Total: Rs <span id="grand-total-<%= w.id %>" style="font-size: 1.2em; font-weight: bold;">0</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer" style="padding: 20px 30px; border: none;">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" style="background: linear-gradient(90deg, #00cec9, #74b9ff); border: none;">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="background-color: #dc3545; border: none; border-radius: 25px;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success" style="background-color: #28a745; border: none; border-radius: 25px;">
                                 <i class="fas fa-save me-2"></i>Update User
                             </button>
                         </div>
@@ -1330,5 +1467,473 @@
             </div>
         </div>
     <% }); %>
+
+    <script>
+        // Dynamic pricing calculation system
+
+        // Initialize calculations when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing dynamic pricing system...');
+            initializePricingCalculations();
+            
+            // Initialize calculations for all existing modals
+            document.querySelectorAll('.modal').forEach(modal => {
+                const modalId = modal.id.replace('editModal', '');
+                if (modalId) {
+                    calculateGrandTotal(modalId);
+                }
+            });
+        });
+
+        function initializePricingCalculations() {
+            // Add event listeners for all quantity and price inputs
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('quantity-input') || e.target.classList.contains('price-input')) {
+                    console.log('Input detected on:', e.target.id);
+                    calculateTotal(e.target);
+                }
+            });
+
+            document.addEventListener('keyup', function(e) {
+                if (e.target.classList.contains('quantity-input') || e.target.classList.contains('price-input')) {
+                    console.log('Keyup detected on:', e.target.id);
+                    calculateTotal(e.target);
+                }
+            });
+
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('quantity-input') || e.target.classList.contains('price-input')) {
+                    console.log('Change detected on:', e.target.id);
+                    calculateTotal(e.target);
+                }
+            });
+        }
+
+        function calculateTotal(inputElement) {
+            const priceTarget = inputElement.dataset.priceTarget;
+            const quantityTarget = inputElement.dataset.quantityTarget;
+            const totalTarget = inputElement.dataset.totalTarget;
+
+            let quantityInput, priceInput, totalInput;
+
+            if (inputElement.classList.contains('quantity-input')) {
+                quantityInput = inputElement;
+                priceInput = document.getElementById(priceTarget);
+                totalInput = document.getElementById(totalTarget);
+            } else {
+                priceInput = inputElement;
+                quantityInput = document.getElementById(quantityTarget);
+                totalInput = document.getElementById(totalTarget);
+            }
+
+            if (quantityInput && priceInput && totalInput) {
+                const quantity = parseFloat(quantityInput.value) || 0;
+                const price = parseFloat(priceInput.value) || 0;
+                const total = quantity * price;
+
+                totalInput.value = total.toFixed(2);
+                console.log(`Calculation: ${quantity} × ${price} = ${total}`);
+
+                // Extract modal ID from any of the inputs
+                const modalId = totalInput.id.split('_').pop();
+                calculateGrandTotal(modalId);
+
+                // Add visual feedback
+                totalInput.style.background = total > 0 ? '#e8f5e8' : '#fff';
+                totalInput.style.color = total > 0 ? '#28a745' : '#333';
+            }
+        }
+
+        function calculateGrandTotal(modalId) {
+            console.log('Calculating grand total for modal:', modalId);
+            let grandTotal = 0;
+
+            // Find all total inputs in this specific modal
+            const modal = document.getElementById('editModal' + modalId);
+            if (modal) {
+                const totalInputs = modal.querySelectorAll('.total-input');
+                console.log('Found total inputs:', totalInputs.length);
+
+                totalInputs.forEach(input => {
+                    const value = parseFloat(input.value) || 0;
+                    grandTotal += value;
+                    console.log(`Adding ${value} to grand total`);
+                });
+
+                // Update grand total display
+                const grandTotalDisplay = document.getElementById('grand-total-' + modalId);
+                if (grandTotalDisplay) {
+                    grandTotalDisplay.textContent = grandTotal.toFixed(2);
+                    console.log('Updated grand total to:', grandTotal.toFixed(2));
+                }
+
+                // Save to localStorage for profile display
+                saveEquipmentCost(modalId, grandTotal);
+            }
+        }
+
+        function saveEquipmentCost(userId, total) {
+            // Get detailed equipment data for this user
+            const modal = document.getElementById('editModal' + userId);
+            if (!modal) return;
+
+            const equipmentDetails = {};
+            
+            // Get Duck Patti details (for fiber users)
+            const duckPattiQty = modal.querySelector(`#duck_patti_quantity_${userId}`);
+            const duckPattiPrice = modal.querySelector(`#duck_patti_price_${userId}`);
+            const duckPattiTotal = modal.querySelector(`#duck_patti_total_${userId}`);
+            
+            if (duckPattiQty && duckPattiPrice && duckPattiTotal) {
+                equipmentDetails.duck_patti = {
+                    quantity: parseFloat(duckPattiQty.value) || 0,
+                    price: parseFloat(duckPattiPrice.value) || 0,
+                    total: parseFloat(duckPattiTotal.value) || 0
+                };
+            }
+
+            // Get Patch Card details (for fiber users)
+            const patchCardQty = modal.querySelector(`#patch_card_quantity_${userId}`);
+            const patchCardPrice = modal.querySelector(`#patch_card_price_${userId}`);
+            const patchCardTotal = modal.querySelector(`#patch_card_total_${userId}`);
+            
+            if (patchCardQty && patchCardPrice && patchCardTotal) {
+                equipmentDetails.patch_card = {
+                    quantity: parseFloat(patchCardQty.value) || 0,
+                    price: parseFloat(patchCardPrice.value) || 0,
+                    total: parseFloat(patchCardTotal.value) || 0
+                };
+            }
+
+            // Get Cat 6 details (for wireless users)
+            const cat6Qty = modal.querySelector(`#cat6_meter_${userId}`);
+            const cat6Price = modal.querySelector(`#cat6_price_${userId}`);
+            const cat6Total = modal.querySelector(`#cat6_total_${userId}`);
+            
+            if (cat6Qty && cat6Price && cat6Total) {
+                equipmentDetails.cat6_wire = {
+                    quantity: parseFloat(cat6Qty.value) || 0,
+                    price: parseFloat(cat6Price.value) || 0,
+                    total: parseFloat(cat6Total.value) || 0
+                };
+            }
+
+            // Get Clips details (for wireless users)
+            const clipsQty = modal.querySelector(`#clips_count_${userId}`);
+            const clipsPrice = modal.querySelector(`#clips_price_${userId}`);
+            const clipsTotal = modal.querySelector(`#clips_total_${userId}`);
+            
+            if (clipsQty && clipsPrice && clipsTotal) {
+                equipmentDetails.clips = {
+                    quantity: parseFloat(clipsQty.value) || 0,
+                    price: parseFloat(clipsPrice.value) || 0,
+                    total: parseFloat(clipsTotal.value) || 0
+                };
+            }
+
+            // Get dynamic equipment fields
+            const dynamicFields = modal.querySelectorAll('.dynamic-field');
+            dynamicFields.forEach((field, index) => {
+                const name = field.querySelector('input[name^="custom_equipment_name"]')?.value;
+                const qty = field.querySelector('.quantity-input')?.value;
+                const price = field.querySelector('.price-input')?.value;
+                const total = field.querySelector('.total-input')?.value;
+                
+                if (name && qty && price) {
+                    equipmentDetails[`custom_${index + 1}`] = {
+                        name: name,
+                        quantity: parseFloat(qty) || 0,
+                        price: parseFloat(price) || 0,
+                        total: parseFloat(total) || 0
+                    };
+                }
+            });
+
+            // Save to localStorage
+            const costs = JSON.parse(localStorage.getItem('equipmentCosts') || '{}');
+            costs[userId] = {
+                grandTotal: total,
+                details: equipmentDetails,
+                lastUpdated: new Date().toISOString()
+            };
+            localStorage.setItem('equipmentCosts', JSON.stringify(costs));
+            console.log('Saved detailed equipment cost for user', userId, ':', costs[userId]);
+        }
+
+
+
+        function showToast(message, type = 'info') {
+            // Create toast if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 9999;
+                `;
+                document.body.appendChild(toastContainer);
+            }
+
+            const toastId = 'toast-' + Date.now();
+            const bgColor = type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8';
+            
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            toast.style.cssText = `
+                background: ${bgColor};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle me-2"></i>${message}`;
+
+            toastContainer.appendChild(toast);
+
+            // Animate in
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Modal event listeners for recalculation when opened
+        document.addEventListener('shown.bs.modal', function(e) {
+            const modalId = e.target.id.replace('editModal', '');
+            if (modalId) {
+                console.log('Modal opened:', modalId);
+                setTimeout(() => {
+                    calculateGrandTotal(modalId);
+                }, 100);
+            }
+        });
+
+        // Custom Form Field Management
+        let customFieldCounter = 0;
+
+        function addCustomFormField(modalId, type) {
+            console.log('Adding custom form field for modal:', modalId, 'type:', type);
+            
+            // Ask for field name first
+            const fieldName = prompt('Enter the field name (e.g., "Phone Number", "Special Instructions"):');
+            if (!fieldName || fieldName.trim() === '') {
+                showToast('Field name is required!', 'error');
+                return;
+            }
+            
+            customFieldCounter++;
+            
+            const container = document.getElementById('custom-form-fields-' + modalId);
+            if (!container) {
+                console.error('Custom form field container not found for modal:', modalId);
+                return;
+            }
+
+            const fieldId = `custom_form_field_${modalId}_${customFieldCounter}`;
+            const cleanFieldName = fieldName.trim();
+            
+            // Create field type options
+            const fieldTypes = [
+                { value: 'text', label: 'Text Input', icon: 'fas fa-font' },
+                { value: 'number', label: 'Number Input', icon: 'fas fa-hashtag' },
+                { value: 'email', label: 'Email Input', icon: 'fas fa-envelope' },
+                { value: 'tel', label: 'Phone Input', icon: 'fas fa-phone' },
+                { value: 'url', label: 'URL Input', icon: 'fas fa-link' },
+                { value: 'date', label: 'Date Input', icon: 'fas fa-calendar' },
+                { value: 'textarea', label: 'Text Area', icon: 'fas fa-align-left' },
+                { value: 'select', label: 'Dropdown Select', icon: 'fas fa-list' }
+            ];
+
+            let fieldTypeOptions = '';
+            fieldTypes.forEach(fieldType => {
+                fieldTypeOptions += `<option value="${fieldType.value}">${fieldType.label}</option>`;
+            });
+
+            const fieldHtml = `
+                <div class="row mb-3 custom-form-field" id="${fieldId}" style="border: 2px solid #ffc107; border-radius: 15px; padding: 20px; background: linear-gradient(45deg, rgba(255, 248, 220, 0.8), rgba(255, 235, 59, 0.1)); box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);">
+                    <div class="col-12 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0 text-warning">
+                                <i class="fas fa-plus-square me-2"></i>Custom Field: <span class="text-dark">${cleanFieldName}</span>
+                            </h6>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomFormField('${fieldId}')" style="border-radius: 20px;">
+                                <i class="fas fa-trash me-1"></i>Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="custom_field_label_${customFieldCounter}" value="${cleanFieldName}" placeholder="Field Label" required style="border: 2px solid #17a2b8; background: rgba(255, 255, 255, 0.9);">
+                            <label><i class="fas fa-tag me-1"></i>Field Label</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="custom_field_type_${customFieldCounter}" onchange="handleFieldTypeChange(this, '${fieldId}')" style="border: 2px solid #17a2b8; background: rgba(255, 255, 255, 0.9);">
+                                ${fieldTypeOptions}
+                            </select>
+                            <label><i class="fas fa-cogs me-1"></i>Field Type</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 mb-3">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" name="custom_field_placeholder_${customFieldCounter}" placeholder="Enter placeholder text..." style="border: 2px solid #6c757d; background: rgba(255, 255, 255, 0.9);">
+                            <label><i class="fas fa-comment-dots me-1"></i>Placeholder Text (Optional)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="card" style="background: rgba(255, 255, 255, 0.7); border: 1px solid #dee2e6; border-radius: 10px;">
+                            <div class="card-header py-2" style="background: rgba(23, 162, 184, 0.1); border-bottom: 1px solid #dee2e6;">
+                                <small class="text-muted"><i class="fas fa-eye me-1"></i>Live Preview:</small>
+                            </div>
+                            <div class="card-body" id="preview-content-${fieldId}">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" placeholder="Enter ${cleanFieldName.toLowerCase()}" disabled>
+                                    <label>${cleanFieldName}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden field to store the actual form field -->
+                    <div class="col-12 mt-3" id="actual-field-${fieldId}">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" name="custom_${cleanFieldName.toLowerCase().replace(/\s+/g, '_')}_${customFieldCounter}" placeholder="Enter ${cleanFieldName.toLowerCase()}">
+                            <label>${cleanFieldName}</label>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', fieldHtml);
+            console.log('Added custom form field:', fieldId);
+
+            // Show success message
+            showToast(`Custom field "${cleanFieldName}" added successfully!`, 'success');
+            
+            // Auto-focus on the field label input for editing
+            setTimeout(() => {
+                const labelInput = document.querySelector(`#${fieldId} input[name^="custom_field_label"]`);
+                if (labelInput) {
+                    labelInput.focus();
+                    labelInput.select();
+                }
+            }, 100);
+        }
+
+        function removeCustomFormField(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.remove();
+                console.log('Removed custom form field:', fieldId);
+                showToast('Custom form field removed!', 'info');
+            }
+        }
+
+        function handleFieldTypeChange(selectElement, fieldId) {
+            const selectedType = selectElement.value;
+            const previewContainer = document.getElementById('preview-content-' + fieldId);
+            const labelInput = selectElement.closest('.custom-form-field').querySelector('input[name^="custom_field_label"]');
+            const placeholderInput = selectElement.closest('.custom-form-field').querySelector('input[name^="custom_field_placeholder"]');
+            
+            const label = labelInput.value || 'New Field';
+            const placeholder = placeholderInput.value || 'Enter ' + label.toLowerCase();
+
+            let previewHTML = '';
+            
+            switch(selectedType) {
+                case 'textarea':
+                    previewHTML = `
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="${placeholder}" disabled style="height: 80px;"></textarea>
+                            <label>${label}</label>
+                        </div>
+                    `;
+                    break;
+                case 'select':
+                    previewHTML = `
+                        <div class="form-floating">
+                            <select class="form-select" disabled>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                            </select>
+                            <label>${label}</label>
+                        </div>
+                    `;
+                    break;
+                case 'date':
+                    previewHTML = `
+                        <div class="form-floating">
+                            <input type="date" class="form-control" disabled>
+                            <label>${label}</label>
+                        </div>
+                    `;
+                    break;
+                default:
+                    previewHTML = `
+                        <div class="form-floating">
+                            <input type="${selectedType}" class="form-control" placeholder="${placeholder}" disabled>
+                            <label>${label}</label>
+                        </div>
+                    `;
+            }
+            
+            previewContainer.innerHTML = previewHTML;
+            
+            // Update preview when label changes
+            labelInput.addEventListener('input', function() {
+                const newLabel = this.value || 'New Field';
+                const labelElement = previewContainer.querySelector('label');
+                if (labelElement) {
+                    labelElement.textContent = newLabel;
+                }
+            });
+        }
+
+        // Package price update function
+        function updatePackagePrice(modalId) {
+            const packageSelect = document.getElementById('selected_package_' + modalId);
+            const packagePriceInput = document.getElementById('package_price_' + modalId);
+            
+            if (packageSelect && packagePriceInput) {
+                const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+                const price = selectedOption.getAttribute('data-price') || 0;
+                
+                packagePriceInput.value = price;
+                
+                if (price > 0) {
+                    showToast(`Package price updated to Rs${price}`, 'success');
+                } else {
+                    showToast('Package deselected', 'info');
+                }
+                
+                // Trigger grand total recalculation
+                calculateGrandTotal(modalId);
+            }
+        }
+
+        console.log('Dynamic pricing system loaded successfully!');
+    </script>
 </body>
 </html>

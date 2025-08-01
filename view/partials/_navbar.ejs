@@ -16,6 +16,38 @@
   }
 }
 
+/* Speed Test Button in Navbar */
+.nav-speed-test-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  margin-left: 15px;
+}
+
+.nav-speed-test-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  color: white;
+}
+
+.nav-speed-test-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .nav-speed-test-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+}
+
 </style>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -54,6 +86,12 @@
             </h4>
           </form>
         </div>
+      </li>
+      <li class="nav-item">
+        <button id="navSpeedTestBtn" class="btn nav-speed-test-btn" onclick="showSpeedTestModal()">
+          <i class="fas fa-tachometer-alt me-1"></i>
+          <span class="d-none d-md-inline">Speed Test</span>
+        </button>
       </li>
     </ul>
     <ul class="navbar-nav navbar-nav-right">

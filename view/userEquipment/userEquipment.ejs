@@ -26,6 +26,57 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+        /* Equipment Calculation Styles */
+        .total-display {
+            background-color: #e8f5e8 !important;
+            font-weight: bold !important;
+            color: #2e7d32 !important;
+            border: 2px solid #4caf50 !important;
+        }
+
+        .quantity-input, .price-input {
+            border: 2px solid #2196f3 !important;
+        }
+
+        .quantity-input:focus, .price-input:focus {
+            border-color: #1976d2 !important;
+            box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25) !important;
+        }
+
+        .dynamic-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0 !important;
+        }
+
+        .dynamic-field:hover {
+            border-color: #2196f3 !important;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.15);
+        }
+
+        .equipment-total-card {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+        }
+
+        .grand-total {
+            font-size: 1.2rem !important;
+            font-weight: bold !important;
+            color: #d32f2f !important;
+        }
+
+        .btn-outline-primary {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -315,51 +366,119 @@
                                                                     </div>
 
                                                                     <!-- Duck Patti -->
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
                                                                         <label class="form-label">Duck Patti
                                                                             Quantity</label>
-                                                                        <input type="text" name="duck_patti_label"
-                                                                            class="form-control"
-                                                                            value="<%= s.duck_patti_label %>">
+                                                                        <input type="number" name="duck_patti_label"
+                                                                            class="form-control quantity-input"
+                                                                            value="<%= s.duck_patti_label %>"
+                                                                            data-price-target="duck_patti_price"
+                                                                            data-total-target="duck_patti_total">
                                                                     </div>
 
-                                                                    <div class="col-md-6">
-                                                                        <label class="form-label">Duck Patti
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Duck Patti Unit
                                                                             Price</label>
-                                                                        <input type="text" name="duck_patti_price"
-                                                                            class="form-control"
-                                                                            value="<%= s.duck_patti_price %>">
+                                                                        <input type="number" name="duck_patti_price"
+                                                                            class="form-control price-input"
+                                                                            value="<%= s.duck_patti_price %>"
+                                                                            data-quantity-target="duck_patti_label"
+                                                                            data-total-target="duck_patti_total">
+                                                                    </div>
+
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Duck Patti Total</label>
+                                                                        <input type="number" name="duck_patti_total"
+                                                                            class="form-control total-display"
+                                                                            id="duck_patti_total" readonly
+                                                                            style="background-color: #f8f9fa; font-weight: bold;">
                                                                     </div>
 
                                                                     <!-- Patch Card -->
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
                                                                         <label class="form-label">Patch Card
                                                                             Quantity</label>
-                                                                        <input type="text" name="patch_card_label"
-                                                                            class="form-control"
-                                                                            value="<%= s.patch_card_label %>">
+                                                                        <input type="number" name="patch_card_label"
+                                                                            class="form-control quantity-input"
+                                                                            value="<%= s.patch_card_label %>"
+                                                                            data-price-target="patch_card_price"
+                                                                            data-total-target="patch_card_total">
                                                                     </div>
 
-                                                                    <div class="col-md-6">
-                                                                        <label class="form-label">Patch Card
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Patch Card Unit
                                                                             Price</label>
-                                                                        <input type="text" name="patch_card_price"
-                                                                            class="form-control"
-                                                                            value="<%= s.patch_card_price %>">
+                                                                        <input type="number" name="patch_card_price"
+                                                                            class="form-control price-input"
+                                                                            value="<%= s.patch_card_price %>"
+                                                                            data-quantity-target="patch_card_label"
+                                                                            data-total-target="patch_card_total">
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <label class="form-label"> Custom Patch Card
-                                                                            Price</label>
+
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Patch Card Total</label>
+                                                                        <input type="number" name="patch_card_total"
+                                                                            class="form-control total-display"
+                                                                            id="patch_card_total" readonly
+                                                                            style="background-color: #f8f9fa; font-weight: bold;">
+                                                                    </div>
+
+                                                                    <div class="col-md-12">
+                                                                        <label class="form-label">Custom Patch Card
+                                                                            Notes</label>
                                                                         <input type="text" name="patch_card_custom_quantity"
                                                                             class="form-control"
-                                                                            value="<%= s.patch_card_custom_quantity %>">
+                                                                            value="<%= s.patch_card_custom_quantity %>"
+                                                                            placeholder="Additional notes for patch cards">
+                                                                    </div>
+
+                                                                    <!-- Dynamic Equipment Fields Container -->
+                                                                    <div id="dynamicFieldsContainer<%= s.id %>" class="col-md-12 mt-4">
+                                                                        <h6 class="fw-bold text-primary mb-3">
+                                                                            <i class="fas fa-tools"></i> Additional Equipment
+                                                                        </h6>
+                                                                        <div id="dynamicFields<%= s.id %>">
+                                                                            <!-- Dynamic fields will be added here -->
+                                                                        </div>
+                                                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" 
+                                                                                onclick="addEquipmentField('<%= s.id %>')">
+                                                                            <i class="fas fa-plus"></i> Add Equipment Field
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <!-- Total Cost Display -->
+                                                                    <div class="col-md-12 mt-4">
+                                                                        <div class="card bg-light">
+                                                                            <div class="card-body">
+                                                                                <h6 class="card-title text-success">
+                                                                                    <i class="fas fa-calculator"></i> Total Equipment Cost
+                                                                                </h6>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Duck Patti Total</label>
+                                                                                        <div class="fw-bold text-primary" id="display_duck_patti_total<%= s.id %>">₹0</div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Patch Card Total</label>
+                                                                                        <div class="fw-bold text-primary" id="display_patch_card_total<%= s.id %>">₹0</div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Grand Total</label>
+                                                                                        <div class="fw-bold text-success fs-5" id="grandTotal<%= s.id %>">₹0</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="submit"
-                                                                        class="btn btn-warning w-100 fw-bold">Update
-                                                                        Fibre Submission</button>
+                                                                    <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal" style="background-color: #dc3545; border: none; border-radius: 25px;">
+                                                                        <i class="fas fa-times me-2"></i>Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-success" style="background-color: #28a745; border: none; border-radius: 25px;">
+                                                                        <i class="fas fa-save me-2"></i>Update Fibre Submission
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -493,19 +612,30 @@
 
                                                                     <!-- Row 1: Cat 6 -->
                                                                     <div class="row mb-3">
-                                                                        <div class="col-md-6">
+                                                                        <div class="col-md-4">
                                                                             <label class="form-label">Cat 6 Wire
                                                                                 (Meters)</label>
                                                                             <input type="number" name="cat6_meter"
-                                                                                class="form-control"
-                                                                                value="<%= form.cat6_meter %>">
+                                                                                class="form-control quantity-input"
+                                                                                value="<%= form.cat6_meter %>"
+                                                                                data-price-target="cat6_price"
+                                                                                data-total-target="cat6_total">
                                                                         </div>
-                                                                        <div class="col-md-6">
-                                                                            <label class="form-label">Cat 6 Price
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Cat 6 Unit Price
                                                                                 (Rs)</label>
                                                                             <input type="number" name="cat6_price"
-                                                                                class="form-control"
-                                                                                value="<%= form.cat6_price %>">
+                                                                                class="form-control price-input"
+                                                                                value="<%= form.cat6_price %>"
+                                                                                data-quantity-target="cat6_meter"
+                                                                                data-total-target="cat6_total">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Cat 6 Total</label>
+                                                                            <input type="number" name="cat6_total"
+                                                                                class="form-control total-display"
+                                                                                id="cat6_total" readonly
+                                                                                style="background-color: #f8f9fa; font-weight: bold;">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -528,19 +658,30 @@
                                                                     </div>
                                                                     <!-- Row 2: Clips -->
                                                                     <div class="row mb-3">
-                                                                        <div class="col-md-6">
+                                                                        <div class="col-md-4">
                                                                             <label class="form-label">Number of
                                                                                 Clips</label>
                                                                             <input type="number" name="clips_count"
-                                                                                class="form-control"
-                                                                                value="<%= form.clips_count %>">
+                                                                                class="form-control quantity-input"
+                                                                                value="<%= form.clips_count %>"
+                                                                                data-price-target="clips_price"
+                                                                                data-total-target="clips_total">
                                                                         </div>
-                                                                        <div class="col-md-6">
-                                                                            <label class="form-label">Clips Price
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Clips Unit Price
                                                                                 (Rs)</label>
                                                                             <input type="number" name="clips_price"
-                                                                                class="form-control"
-                                                                                value="<%= form.clips_price %>">
+                                                                                class="form-control price-input"
+                                                                                value="<%= form.clips_price %>"
+                                                                                data-quantity-target="clips_count"
+                                                                                data-total-target="clips_total">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="form-label">Clips Total</label>
+                                                                            <input type="number" name="clips_total"
+                                                                                class="form-control total-display"
+                                                                                id="clips_total" readonly
+                                                                                style="background-color: #f8f9fa; font-weight: bold;">
                                                                         </div>
                                                                     </div>
 
@@ -711,12 +852,54 @@
                                                                             class="form-control"
                                                                             value="<%= form.wireless_field %>">
                                                                     </div>
+
+                                                                    <!-- Dynamic Equipment Fields Container for Wireless -->
+                                                                    <div class="mb-4">
+                                                                        <h6 class="fw-bold text-primary mb-3">
+                                                                            <i class="fas fa-tools"></i> Additional Equipment
+                                                                        </h6>
+                                                                        <div id="dynamicFields<%= form.id %>">
+                                                                            <!-- Dynamic fields will be added here -->
+                                                                        </div>
+                                                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" 
+                                                                                onclick="addEquipmentField('<%= form.id %>')">
+                                                                            <i class="fas fa-plus"></i> Add Equipment Field
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <!-- Total Cost Display for Wireless -->
+                                                                    <div class="mb-3">
+                                                                        <div class="card bg-light">
+                                                                            <div class="card-body">
+                                                                                <h6 class="card-title text-success">
+                                                                                    <i class="fas fa-calculator"></i> Total Equipment Cost
+                                                                                </h6>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Cat 6 Total</label>
+                                                                                        <div class="fw-bold text-primary" id="display_cat6_total<%= form.id %>">₹0</div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Clips Total</label>
+                                                                                        <div class="fw-bold text-primary" id="display_clips_total<%= form.id %>">₹0</div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label class="form-label">Grand Total</label>
+                                                                                        <div class="fw-bold text-success fs-5" id="grandTotal<%= form.id %>">₹0</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="modal-footer bg-light">
-                                                                    <button type="submit"
-                                                                        class="btn btn-success w-100">Update Wireless
-                                                                        Form</button>
+                                                                    <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal" style="background-color: #dc3545; border: none; border-radius: 25px;">
+                                                                        <i class="fas fa-times me-2"></i>Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-success" style="background-color: #28a745; border: none; border-radius: 25px;">
+                                                                        <i class="fas fa-save me-2"></i>Update Wireless Form
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -767,6 +950,252 @@
     <!-- Bootstrap  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dynamic Equipment Calculation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize price calculations for all existing modals
+            initializePriceCalculations();
+            
+            // Calculate initial totals
+            calculateAllTotals();
+            
+            // Add modal show event listeners
+            document.querySelectorAll('.modal').forEach(function(modal) {
+                modal.addEventListener('shown.bs.modal', function() {
+                    // Re-initialize calculations when modal opens
+                    initializePriceCalculations();
+                    calculateAllTotals();
+                });
+            });
+        });
+
+        function initializePriceCalculations() {
+            // Add event listeners to all quantity and price inputs
+            document.querySelectorAll('.quantity-input, .price-input').forEach(function(input) {
+                // Remove existing listeners first
+                input.removeEventListener('input', handleInputChange);
+                input.removeEventListener('keyup', handleInputChange);
+                input.removeEventListener('change', handleInputChange);
+                
+                // Add new listeners
+                input.addEventListener('input', handleInputChange);
+                input.addEventListener('keyup', handleInputChange);
+                input.addEventListener('change', handleInputChange);
+            });
+        }
+
+        function handleInputChange() {
+            calculatePrice(this);
+            updateGrandTotal(this);
+        }
+
+        function calculatePrice(input) {
+            const form = input.closest('form');
+            const modal = input.closest('.modal');
+            const modalId = modal?.id.replace('editModal', '').replace('editWirelessModal', '');
+            
+            const priceTarget = input.getAttribute('data-price-target');
+            const quantityTarget = input.getAttribute('data-quantity-target');
+            const totalTarget = input.getAttribute('data-total-target');
+            
+            if (!totalTarget || !form) return;
+            
+            let quantity = 0;
+            let price = 0;
+            
+            if (priceTarget) {
+                // This is a quantity input
+                quantity = parseFloat(input.value) || 0;
+                const priceInput = form.querySelector(`input[name="${priceTarget}"]`);
+                price = parseFloat(priceInput?.value) || 0;
+                console.log(`Quantity: ${quantity}, Price: ${price}, Target: ${totalTarget}`);
+            } else if (quantityTarget) {
+                // This is a price input
+                price = parseFloat(input.value) || 0;
+                const quantityInput = form.querySelector(`input[name="${quantityTarget}"]`);
+                quantity = parseFloat(quantityInput?.value) || 0;
+                console.log(`Price: ${price}, Quantity: ${quantity}, Target: ${totalTarget}`);
+            }
+            
+            const total = quantity * price;
+            console.log(`Calculated total: ${total}`);
+            
+            // Update the total input field
+            const totalInput = form.querySelector(`input[name="${totalTarget}"]`);
+            if (totalInput) {
+                totalInput.value = total.toFixed(2);
+                console.log(`Updated total input: ${totalInput.value}`);
+            }
+            
+            // Update display elements
+            updateTotalDisplay(totalTarget.replace('_total', ''), total, modalId);
+        }
+
+        function updateTotalDisplay(fieldName, total, modalId) {
+            const displayElement = document.getElementById(`display_${fieldName}_total${modalId}`);
+            if (displayElement) {
+                displayElement.textContent = `₹${total.toFixed(2)}`;
+            }
+        }
+
+        function updateGrandTotal(input) {
+            const form = input.closest('form');
+            const modalId = input.closest('.modal')?.id.replace('editModal', '').replace('editWirelessModal', '');
+            
+            let grandTotal = 0;
+            
+            // Sum all total fields
+            form.querySelectorAll('.total-display').forEach(function(totalInput) {
+                const value = parseFloat(totalInput.value) || 0;
+                grandTotal += value;
+            });
+            
+            // Sum dynamic fields
+            form.querySelectorAll('.dynamic-total').forEach(function(totalInput) {
+                const value = parseFloat(totalInput.value) || 0;
+                grandTotal += value;
+            });
+            
+            const grandTotalElement = document.getElementById(`grandTotal${modalId}`);
+            if (grandTotalElement) {
+                grandTotalElement.textContent = `₹${grandTotal.toFixed(2)}`;
+            }
+        }
+
+        function calculateAllTotals() {
+            // Calculate initial totals for all forms
+            document.querySelectorAll('.quantity-input, .price-input').forEach(function(input) {
+                calculatePrice(input);
+            });
+            
+            document.querySelectorAll('.quantity-input, .price-input').forEach(function(input) {
+                updateGrandTotal(input);
+            });
+        }
+
+        let dynamicFieldCounter = 0;
+
+        function addEquipmentField(modalId) {
+            dynamicFieldCounter++;
+            const container = document.getElementById(`dynamicFields${modalId}`);
+            
+            if (!container) {
+                console.error(`Container dynamicFields${modalId} not found`);
+                return;
+            }
+            
+            const fieldId = `dynamic_${modalId}_${dynamicFieldCounter}`;
+            
+            const fieldHTML = `
+                <div class="row mb-3 dynamic-field border rounded p-3 bg-light" id="field_${fieldId}">
+                    <div class="col-md-12 mb-2">
+                        <h6 class="text-primary mb-2">
+                            <i class="fas fa-plus-circle"></i> Additional Equipment #${dynamicFieldCounter}
+                        </h6>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Equipment Name</label>
+                        <input type="text" name="dynamic_name_${fieldId}" class="form-control" 
+                               placeholder="e.g. Cable, Router, Switch">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" name="dynamic_quantity_${fieldId}" 
+                               class="form-control quantity-input dynamic-quantity" 
+                               data-price-target="dynamic_price_${fieldId}"
+                               data-total-target="dynamic_total_${fieldId}"
+                               placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Unit Price (₹)</label>
+                        <input type="number" name="dynamic_price_${fieldId}" 
+                               class="form-control price-input dynamic-price" 
+                               data-quantity-target="dynamic_quantity_${fieldId}"
+                               data-total-target="dynamic_total_${fieldId}"
+                               placeholder="0.00" min="0" step="0.01">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Total Amount</label>
+                        <input type="number" name="dynamic_total_${fieldId}" 
+                               class="form-control total-display dynamic-total" 
+                               readonly 
+                               style="background-color: #e3f2fd; font-weight: bold; color: #1976d2;"
+                               placeholder="0.00">
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger btn-sm" 
+                                onclick="removeEquipmentField('field_${fieldId}', '${modalId}')"
+                                title="Remove this equipment">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', fieldHTML);
+            
+            // Add event listeners to new fields
+            const newField = document.getElementById(`field_${fieldId}`);
+            if (newField) {
+                newField.querySelectorAll('.quantity-input, .price-input').forEach(function(input) {
+                    input.addEventListener('input', handleInputChange);
+                    input.addEventListener('keyup', handleInputChange);
+                    input.addEventListener('change', handleInputChange);
+                });
+                
+                console.log(`Added equipment field ${fieldId} to modal ${modalId}`);
+            }
+        }
+
+        function removeEquipmentField(fieldId, modalId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.remove();
+                // Recalculate grand total after removing field
+                const form = document.querySelector(`#editModal${modalId} form, #editWirelessModal${modalId} form`);
+                if (form) {
+                    const firstInput = form.querySelector('.quantity-input, .price-input');
+                    if (firstInput) {
+                        updateGrandTotal(firstInput);
+                    }
+                }
+            }
+        }
+
+        // Save equipment data to show in user profile
+        function saveEquipmentToProfile(formData, email) {
+            // This function can be called when form is submitted
+            // to save equipment data for display in user profile
+            const equipmentData = {
+                email: email,
+                equipmentCosts: {},
+                grandTotal: 0
+            };
+            
+            // Extract equipment costs from form
+            const form = formData.target || formData;
+            form.querySelectorAll('.total-display').forEach(function(input) {
+                const fieldName = input.name.replace('_total', '');
+                const value = parseFloat(input.value) || 0;
+                equipmentData.equipmentCosts[fieldName] = value;
+                equipmentData.grandTotal += value;
+            });
+            
+            // Store in localStorage for now (can be sent to server)
+            const existingData = JSON.parse(localStorage.getItem('userEquipmentCosts') || '{}');
+            existingData[email] = equipmentData;
+            localStorage.setItem('userEquipmentCosts', JSON.stringify(existingData));
+        }
+
+        // Optional: Add form submission handler to save data
+        document.querySelectorAll('form[action*="update-fibre"], form[action*="update-wireless"]').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                const email = this.querySelector('input[name="email"]').value;
+                saveEquipmentToProfile(this, email);
+            });
+        });
+    </script>
 </body>
 
 </html>

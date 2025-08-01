@@ -368,6 +368,40 @@
       text-align: center;
     }
 
+    /* Equipment Calculation Styles */
+    .equipment-calculation {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .equipment-calculation .d-flex {
+      font-size: 0.9rem;
+    }
+
+    .equipment-calculation .text-primary {
+      font-size: 1rem;
+    }
+
+    .equipment-summary-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .dynamic-equipment-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    }
+
     /* Table Styling */
     .table {
       background: white;
@@ -686,6 +720,24 @@
       font-size: 14px;
     }
 
+    /* Export Data Button Special Styling */
+    #exportDataButton:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      color: white;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      border-radius: 8px;
+    }
+
+    #exportDataButton:hover span {
+      color: white;
+    }
+
+    #exportDataButton:hover i {
+      color: white !important;
+    }
+
     /* Professional Tabs */
     .professional-tabs {
       margin-bottom: 24px;
@@ -917,37 +969,37 @@
       .container-fluid {
         padding: 10px;
       }
-      
+
       .custom-nav-pills {
         flex-direction: column;
       }
-      
+
       .custom-nav-pills .nav-link {
         justify-content: flex-start;
       }
-      
+
       .stats-card {
         padding: 16px;
       }
-      
+
       .stats-icon {
         width: 50px;
         height: 50px;
         margin-right: 12px;
       }
-      
+
       .stats-icon i {
         font-size: 20px;
       }
-      
+
       .profile-main-card {
         margin-bottom: 20px;
       }
-      
+
       .card-header-custom {
         padding: 16px 20px;
       }
-      
+
       .card-body-custom {
         padding: 20px;
       }
@@ -984,6 +1036,7 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -999,6 +1052,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -1128,7 +1182,10 @@
                               </div>
                             </div>
                             <div class="profile-body">
-                              <h3 class="profile-name"><%= user.Username %> <%= user.lastName %></h3>
+                              <h3 class="profile-name">
+                                <%= user.Username %>
+                                  <%= user.lastName %>
+                              </h3>
                               <p class="profile-role">User Account</p>
                               <div class="profile-stats-mini">
                                 <div class="stat-mini">
@@ -1162,7 +1219,7 @@
                               <span>View Equipment</span>
                               <i class="bi bi-chevron-right"></i>
                             </div>
-                            <div class="quick-action-item">
+                            <div class="quick-action-item" id="exportDataButton">
                               <i class="bi bi-download"></i>
                               <span>Export Data</span>
                               <i class="bi bi-chevron-right"></i>
@@ -1176,19 +1233,22 @@
                           <div class="professional-tabs">
                             <ul class="nav nav-pills custom-nav-pills" role="tablist">
                               <li class="nav-item" role="presentation">
-                                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-info" type="button" role="tab">
+                                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-info"
+                                  type="button" role="tab">
                                   <i class="bi bi-person-lines-fill"></i>
                                   <span>Personal Information</span>
                                 </button>
                               </li>
                               <li class="nav-item" role="presentation">
-                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#security-settings" type="button" role="tab">
+                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#security-settings"
+                                  type="button" role="tab">
                                   <i class="bi bi-shield-lock"></i>
                                   <span>Security Settings</span>
                                 </button>
                               </li>
                               <li class="nav-item" role="presentation">
-                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#equipment-details" type="button" role="tab">
+                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#equipment-details"
+                                  type="button" role="tab">
                                   <i class="bi bi-cpu"></i>
                                   <span>Equipment</span>
                                 </button>
@@ -1215,7 +1275,10 @@
                                             <label>Full Name</label>
                                             <div class="detail-value">
                                               <i class="bi bi-person"></i>
-                                              <span><%= user.Username %> <%= user.lastName %></span>
+                                              <span>
+                                                <%= user.Username %>
+                                                  <%= user.lastName %>
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -1224,7 +1287,9 @@
                                             <label>Email Address</label>
                                             <div class="detail-value">
                                               <i class="bi bi-envelope"></i>
-                                              <span><%= user.Email %></span>
+                                              <span>
+                                                <%= user.Email %>
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -1233,7 +1298,9 @@
                                             <label>Phone Number</label>
                                             <div class="detail-value">
                                               <i class="bi bi-telephone"></i>
-                                              <span><%= user.Number %></span>
+                                              <span>
+                                                <%= user.Number %>
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -1242,7 +1309,9 @@
                                             <label>CNIC</label>
                                             <div class="detail-value">
                                               <i class="bi bi-card-text"></i>
-                                              <span><%= user.cnic %></span>
+                                              <span>
+                                                <%= user.cnic %>
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -1251,7 +1320,9 @@
                                             <label>Address</label>
                                             <div class="detail-value">
                                               <i class="bi bi-geo-alt"></i>
-                                              <span><%= user.address %></span>
+                                              <span>
+                                                <%= user.address %>
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -1259,7 +1330,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                
+
                                 <!-- Activity & Settings -->
                                 <div class="col-lg-4">
                                   <div class="content-card mb-3">
@@ -1296,7 +1367,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  
+
                                   <div class="content-card">
                                     <div class="card-header-custom">
                                       <h6><i class="bi bi-sliders me-2"></i>Preferences</h6>
@@ -1338,55 +1409,55 @@
                                       <span class="badge bg-success">Secure</span>
                                     </div>
                                     <div class="card-body-custom">
-                                    <form action="/sett" method="POST">
-                                      <!-- Current Password -->
-                                      <div class="mb-3">
-                                        <label for="password" class="form-label fw-medium">Current Password</label>
-                                        <div class="input-group">
-                                          <input type="password" class="form-control py-2" id="password" name="password"
-                                            required>
-                                          <button class="btn btn-outline-secondary toggle-password" type="button"
-                                            data-target="password">
-                                            <i class="bi bi-eye"></i>
-                                          </button>
+                                      <form action="/sett" method="POST">
+                                        <!-- Current Password -->
+                                        <div class="mb-3">
+                                          <label for="password" class="form-label fw-medium">Current Password</label>
+                                          <div class="input-group">
+                                            <input type="password" class="form-control py-2" id="password"
+                                              name="password" required>
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                              data-target="password">
+                                              <i class="bi bi-eye"></i>
+                                            </button>
+                                          </div>
                                         </div>
-                                      </div>
 
-                                      <!-- New Password -->
-                                      <div class="mb-3">
-                                        <label for="newPassword" class="form-label fw-medium">New Password</label>
-                                        <div class="input-group">
-                                          <input type="password" class="form-control py-2" id="newPassword"
-                                            name="newPassword" required>
-                                          <button class="btn btn-outline-secondary toggle-password" type="button"
-                                            data-target="newPassword">
-                                            <i class="bi bi-eye"></i>
-                                          </button>
+                                        <!-- New Password -->
+                                        <div class="mb-3">
+                                          <label for="newPassword" class="form-label fw-medium">New Password</label>
+                                          <div class="input-group">
+                                            <input type="password" class="form-control py-2" id="newPassword"
+                                              name="newPassword" required>
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                              data-target="newPassword">
+                                              <i class="bi bi-eye"></i>
+                                            </button>
+                                          </div>
                                         </div>
-                                      </div>
 
-                                      <!-- Confirm Password -->
-                                      <div class="mb-4">
-                                        <label for="confirmPassword" class="form-label fw-medium">Confirm
-                                          Password</label>
-                                        <div class="input-group">
-                                          <input type="password" class="form-control py-2" id="confirmPassword"
-                                            name="confirmPassword" required>
-                                          <button class="btn btn-outline-secondary toggle-password" type="button"
-                                            data-target="confirmPassword">
-                                            <i class="bi bi-eye"></i>
-                                          </button>
+                                        <!-- Confirm Password -->
+                                        <div class="mb-4">
+                                          <label for="confirmPassword" class="form-label fw-medium">Confirm
+                                            Password</label>
+                                          <div class="input-group">
+                                            <input type="password" class="form-control py-2" id="confirmPassword"
+                                              name="confirmPassword" required>
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                              data-target="confirmPassword">
+                                              <i class="bi bi-eye"></i>
+                                            </button>
+                                          </div>
                                         </div>
-                                      </div>
 
-                                      <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
-                                        <i class="bi bi-shield-check me-2"></i>Update Password
-                                      </button>
-                                    </form>
+                                        <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
+                                          <i class="bi bi-shield-check me-2"></i>Update Password
+                                        </button>
+                                      </form>
                                     </div>
                                   </div>
                                 </div>
-                                
+
                                 <!-- Security Info -->
                                 <div class="col-lg-4">
                                   <div class="content-card mb-3">
@@ -1423,7 +1494,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  
+
                                   <div class="content-card">
                                     <div class="card-header-custom">
                                       <h6><i class="bi bi-clock-history me-2"></i>Recent Logins</h6>
@@ -1451,138 +1522,198 @@
 
 
 
-                              <script>
-                                // Simple password visibility toggle
-                                document.querySelectorAll('.toggle-password').forEach(button => {
-                                  button.addEventListener('click', function () {
-                                    const target = document.getElementById(this.dataset.target);
-                                    const icon = this.querySelector('i');
-                                    if (target.type === 'password') {
-                                      target.type = 'text';
-                                      icon.classList.replace('bi-eye', 'bi-eye-slash');
-                                    } else {
-                                      target.type = 'password';
-                                      icon.classList.replace('bi-eye-slash', 'bi-eye');
-                                    }
-                                  });
+                            <script>
+                              // Simple password visibility toggle
+                              document.querySelectorAll('.toggle-password').forEach(button => {
+                                button.addEventListener('click', function () {
+                                  const target = document.getElementById(this.dataset.target);
+                                  const icon = this.querySelector('i');
+                                  if (target.type === 'password') {
+                                    target.type = 'text';
+                                    icon.classList.replace('bi-eye', 'bi-eye-slash');
+                                  } else {
+                                    target.type = 'password';
+                                    icon.classList.replace('bi-eye-slash', 'bi-eye');
+                                  }
                                 });
-                              </script>
+                              });
+                            </script>
 
                             <!-- Equipment Tab -->
                             <div class="tab-pane fade" id="equipment-details" role="tabpanel">
-                        <% if (Array.isArray(fibreData) && fibreData.length) { let fibreGrandTotal = 0; %>
+                              <% if (Array.isArray(fibreData) && fibreData.length) { let fibreGrandTotal=0; %>
 
-  <div class="content-card">
-    <div class="card-header-custom">
-      <h6><i class="bi bi-cpu me-2"></i>Fibre Equipment Overview</h6>
-      <span class="badge bg-success">Active</span>
-    </div>
-    <div class="card-body-custom">
-      <div class="table-responsive">
-        <table class="table table-bordered table-sm">
-          <tbody>
-            <% fibreData.forEach((item) => {
-                const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g, '').trim()) || 0;
-                const totalPrice = parsePrice(item.device_price) + 
-                                  parsePrice(item.first_package_price) + 
-                                  parsePrice(item.fibre_power_price) + 
-                                  parsePrice(item.cable_price) + 
-                                  parsePrice(item.duck_patti_price) + 
-                                  parsePrice(item.patch_card_price);
-                fibreGrandTotal += totalPrice;
-              %>
-              <tr>
-                <th>Form Type</th>
-                <td><%= item.formType %></td>
-              </tr>
-              <tr>
-                <th>Device Label</th>
-                <td><%= item.device_label %></td>
-              </tr>
-              <tr>
-                <th>Device Price</th>
-                <td><%= item.device_price %></td>
-              </tr>
-              <tr>
-                <th>Fibre Power Label</th>
-                <td><%= item.fibre_power_label %></td>
-              </tr>
-              <tr>
-                <th>First Package Price</th>
-                <td><%= item.first_package_price %></td>
-              </tr>
-              <tr>
-                <th>Fibre Power Price</th>
-                <td><%= item.fibre_power_price %></td>
-              </tr>
-              <tr>
-                <th>Fibre Color</th>
-                <td><%= item.fibre_color_value %></td>
-              </tr>
-              <tr>
-                <th>Supplying Value</th>
-                <td><%= item.fibre_supplying_value %></td>
-              </tr>
-              <tr>
-                <th>Cable Label</th>
-                <td><%= item.cable_label %></td>
-              </tr>
-              <tr>
-                <th>Cable Price</th>
-                <td><%= item.cable_price %></td>
-              </tr>
-              <tr>
-                <th>Splitter</th>
-                <td><%= item.splitter_value %></td>
-              </tr>
-              <tr>
-                <th>Duck Patti Label</th>
-                <td><%= item.duck_patti_label %></td>
-              </tr>
-              <tr>
-                <th>Duck Patti Price</th>
-                <td><%= item.duck_patti_price %></td>
-              </tr>
-              <tr>
-                <th>Patch Card Label</th>
-                <td><%= item.patch_card_label %></td>
-              </tr>
-              <tr>
-                <th>Patch Card Quantity</th>
-                <td><%= item.patch_card_custom_quantity %></td>
-              </tr>
-              <tr>
-                <th>Patch Card Price</th>
-                <td><%= item.patch_card_price %></td>
-              </tr>
-              <tr class="table-success">
-                <th>Total Price</th>
-                <td><strong>Rs: <%= totalPrice.toFixed(2) %></strong></td>
-              </tr>
-            <% }); %>
-            <tr class="table-info">
-              <th>Grand Total</th>
-              <td><strong>Rs: <%= fibreGrandTotal.toFixed(2) %></strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+                                <div class="content-card">
+                                  <div class="card-header-custom">
+                                    <h6><i class="bi bi-cpu me-2"></i>Fibre Equipment Overview</h6>
+                                    <span class="badge bg-success">Active</span>
+                                  </div>
+                                  <div class="card-body-custom">
+                                    <div class="table-responsive">
 
-<% } else { %>
-  <div class="content-card">
-    <div class="card-header-custom">
-      <h6><i class="bi bi-cpu me-2"></i>Equipment Status</h6>
-    </div>
-    <div class="card-body-custom text-center py-5">
-      <i class="bi bi-gear" style="font-size: 3rem; color: #cbd5e0; margin-bottom: 1rem;"></i>
-      <h5 class="text-muted">No Equipment Found</h5>
-      <p class="text-muted">No equipment has been assigned to your account yet.</p>
-      <button class="btn btn-primary">Request Equipment</button>
-    </div>
-  </div>
-<% } %>
+                                      <table class="table table-bordered table-sm">
+                                        <tbody>
+                                          <% fibreData.forEach((item)=> {
+                                            const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g,
+                                            '').trim()) || 0;
+                                            // Calculate Duck Patti total (quantity × price)
+                                            const duckPattiTotal = (parseFloat(item.duck_patti_quantity) || 0) * parsePrice(item.duck_patti_price);
+                                            // Calculate Patch Card total (quantity × price)
+                                            const patchCardTotal = (parseFloat(item.patch_card_quantity) || 0) * parsePrice(item.patch_card_price);
+                                            
+                                            const totalPrice = parsePrice(item.device_price) +
+                                            parsePrice(item.first_package_price) +
+                                            parsePrice(item.fibre_power_price) +
+                                            parsePrice(item.cable_price) +
+                                            duckPattiTotal +
+                                            patchCardTotal;
+                                            fibreGrandTotal += totalPrice;
+                                            %>
+                                            <tr>
+                                              <th>Form Type</th>
+                                              <td>
+                                                <%= item.formType %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Device Label</th>
+                                              <td>
+                                                <%= item.device_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Device Price</th>
+                                              <td>
+                                                <%= item.device_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Power Label</th>
+                                              <td>
+                                                <%= item.fibre_power_label %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Power Price</th>
+                                              <td>
+                                                <%= item.fibre_power_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Package Price</th>
+                                              <td>
+                                                Rs<%= item.first_package_price || 0 %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Fibre Color</th>
+                                              <td>
+                                                <%= item.fibre_color_value %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Supplying Value</th>
+                                              <td>
+                                                <%= item.fibre_supplying_value %>
+                                              </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <th>Cable Price</th>
+                                              <td>
+                                                <%= item.cable_price %>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>Splitter</th>
+                                              <td>
+                                                <%= item.splitter_value %>
+                                              </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <th>Duck Patti Details</th>
+                                              <td>
+                                                <div>
+                                                  <div class="d-flex justify-content-between">
+                                                    <span>Quantity: <strong><%= item.duck_patti_quantity || 0 %></strong></span>
+                                                    <span>Unit Price: <strong>Rs<%= item.duck_patti_price || 0 %></strong></span>
+                                                  </div>
+                                                  <div class="mt-1">
+                                                    <span class="text-primary fw-bold">
+                                                      Total: Rs<%= ((parseFloat(item.duck_patti_quantity) || 0) * (parseFloat(item.duck_patti_price) || 0)).toFixed(2) %>
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <th>Patch Card Details</th>
+                                              <td>
+                                                <div>
+                                                  <div class="d-flex justify-content-between">
+                                                    <span>Quantity: <strong><%= item.patch_card_quantity || 0 %></strong></span>
+                                                    <span>Unit Price: <strong>Rs<%= item.patch_card_price || 0 %></strong></span>
+                                                  </div>
+                                                  <div class="mt-1">
+                                                    <span class="text-primary fw-bold">
+                                                      Total: Rs<%= ((parseFloat(item.patch_card_quantity) || 0) * (parseFloat(item.patch_card_price) || 0)).toFixed(2) %>
+                                                    </span>
+                                                  </div>
+                                                  <% if (item.patch_card_custom_quantity) { %>
+                                                    <div class="mt-1">
+                                                      <small class="text-muted">Notes: <%= item.patch_card_custom_quantity %></small>
+                                                    </div>
+                                                  <% } %>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr class="table-success">
+                                              <th>Total Price</th>
+                                              <td><strong>Rs: <%= totalPrice.toFixed(2) %></strong></td>
+                                            </tr>
+                                            <% }); %>
+                                              <tr class="table-info">
+                                                <th>Grand Total</th>
+                                                <td><strong>Rs: <%= fibreGrandTotal.toFixed(2) %></strong></td>
+                                              </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Dynamic Equipment Section -->
+                                <div class="content-card mt-4">
+                                  <div class="card-header-custom">
+                                    <h6><i class="bi bi-gear-fill me-2"></i>Additional Equipment Costs</h6>
+                                    <span class="badge bg-info">Admin Assigned</span>
+                                  </div>
+                                  <div class="card-body-custom">
+                                    <div id="dynamicEquipmentDisplay">
+                                      <div class="text-center py-3">
+                                        <i class="bi bi-tools" style="font-size: 2rem; color: #cbd5e0; margin-bottom: 1rem;"></i>
+                                        <p class="text-muted">Loading additional equipment costs...</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <% } else { %>
+                                  <div class="content-card">
+                                    <div class="card-header-custom">
+                                      <h6><i class="bi bi-cpu me-2"></i>Equipment Status</h6>
+                                    </div>
+                                    <div class="card-body-custom text-center py-5">
+                                      <i class="bi bi-gear"
+                                        style="font-size: 3rem; color: #cbd5e0; margin-bottom: 1rem;"></i>
+                                      <h5 class="text-muted">No Equipment Found</h5>
+                                      <p class="text-muted">No equipment has been assigned to your account yet.</p>
+                                      <button class="btn btn-primary">Request Equipment</button>
+                                    </div>
+                                  </div>
+                                  <% } %>
 
                             </div>
                           </div>
@@ -1623,7 +1754,7 @@
               </div>
 
               <script>
-                document.getElementById('profilePicInput').addEventListener('change', function(event) {
+                document.getElementById('profilePicInput').addEventListener('change', function (event) {
                   const fileInput = event.target;
                   const fileNameDisplay = document.getElementById('fileNameDisplay');
                   const profileImg = document.querySelector('.profile-img');
@@ -1633,7 +1764,7 @@
                     fileNameDisplay.textContent = file.name;
 
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                       profileImg.src = e.target.result;
                     };
                     reader.readAsDataURL(file);
@@ -1643,46 +1774,46 @@
                   }
                 });
               </script>
-              </div>
+            </div>
 
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label class="form-label">First Name</label>
-                  <input type="text" class="form-control" id="Username" name="Username" value="<%= user.Username %>"">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="Username" name="Username" value="<%= user.Username %>">
               </div>
               <div class=" col-md-6">
-                  <label class="form-label">last Name</label>
-                  <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>">
-                </div>
+                <label class="form-label">last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>">
               </div>
+            </div>
 
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" id="Email" name="Email" value="<%= user.Email %>">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Mobile Number</label>
-                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                    value="<%= user.phoneNumber %>">
-                </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="Email" name="Email" value="<%= user.Email %>">
               </div>
+              <div class="col-md-6">
+                <label class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                  value="<%= user.phoneNumber %>">
+              </div>
+            </div>
 
-              <div class="row mb-4">
-                <div class="col-md-6">
-                  <label class="form-label">Identity Number (CNIC)</label>
-                  <input type="number" class="form-control" id="cnic" name="cnic" value="<%= user.cnic %>">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" value="<%= user.address %>">
-                </div>
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label class="form-label">Identity Number (CNIC)</label>
+                <input type="number" class="form-control" id="cnic" name="cnic" value="<%= user.cnic %>">
               </div>
+              <div class="col-md-6">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="<%= user.address %>">
+              </div>
+            </div>
 
-              <div class="d-flex justify-content-end gap-2">
-                <button type="submit" class="btn text-white " style="background: #198754;">Update</button>
-                <button type="button" class="btn custom-cancel-btn" data-bs-dismiss="modal">Cancel</button>
-              </div>
+            <div class="d-flex justify-content-end gap-2">
+              <button type="submit" class="btn text-white " style="background: #198754;">Update</button>
+              <button type="button" class="btn custom-cancel-btn" data-bs-dismiss="modal">Cancel</button>
+            </div>
           </form>
         </div>
       </div>
@@ -1775,6 +1906,351 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Dynamic Equipment Display Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDynamicEquipmentCosts();
+            setupExportButton();
+        });
+
+        function loadDynamicEquipmentCosts() {
+            const userId = '<%= user.id %>'; // Get current user ID
+            const equipmentData = JSON.parse(localStorage.getItem('equipmentCosts') || '{}');
+            const userEquipmentData = equipmentData[userId];
+            
+            const displayContainer = document.getElementById('dynamicEquipmentDisplay');
+            
+            if (userEquipmentData && userEquipmentData.details && Object.keys(userEquipmentData.details).length > 0) {
+                let equipmentHTML = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Equipment Type</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                let calculatedGrandTotal = 0;
+                
+                for (const [equipmentType, details] of Object.entries(userEquipmentData.details)) {
+                    if (details.total && details.total > 0) {
+                        let displayName = '';
+                        if (equipmentType === 'duck_patti') {
+                            displayName = 'Duck Patti';
+                        } else if (equipmentType === 'patch_card') {
+                            displayName = 'Patch Card';
+                        } else if (equipmentType === 'cat6_wire') {
+                            displayName = 'Cat 6 Wire';
+                        } else if (equipmentType === 'clips') {
+                            displayName = 'Clips';
+                        } else if (equipmentType.startsWith('custom_')) {
+                            displayName = details.name || 'Custom Equipment';
+                        } else {
+                            displayName = equipmentType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        }
+                        
+                        equipmentHTML += `
+                            <tr>
+                                <td><strong>${displayName}</strong></td>
+                                <td>
+                                    <div class="equipment-calculation">
+                                        <span class="text-primary"><strong>${details.quantity}</strong></span>
+                                        <div class="mt-1">
+                                            <small class="text-muted">${equipmentType === 'cat6_wire' ? 'meters' : 'units'}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-calculation">
+                                        <span class="text-info"><strong>Rs${details.price.toFixed(2)}</strong></span>
+                                        <div class="mt-1">
+                                            <small class="text-muted">per ${equipmentType === 'cat6_wire' ? 'meter' : 'unit'}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong class="text-success" style="font-size: 1.1em;">Rs${details.total.toFixed(2)}</strong>
+                                    <div class="mt-1">
+                                        <small class="text-muted">${details.quantity} × Rs${details.price.toFixed(2)}</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        calculatedGrandTotal += details.total;
+                    }
+                }
+                
+                equipmentHTML += `
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-success">
+                                    <th colspan="3">Total Equipment Cost</th>
+                                    <th><strong style="font-size: 1.2em;">Rs${calculatedGrandTotal.toFixed(2)}</strong></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="equipment-summary-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Total Equipment Cost</h6>
+                                <small>Calculated by admin: quantity × unit price</small>
+                            </div>
+                            <div class="text-end">
+                                <h4 class="mb-0">Rs${calculatedGrandTotal.toFixed(2)}</h4>
+                                <small>Last updated: ${new Date(userEquipmentData.lastUpdated).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                displayContainer.innerHTML = equipmentHTML;
+            } else {
+                displayContainer.innerHTML = `
+                    <div class="text-center py-3">
+                        <i class="bi bi-tools" style="font-size: 2rem; color: #cbd5e0; margin-bottom: 1rem;"></i>
+                        <h6 class="text-muted">No Equipment Costs Calculated</h6>
+                        <p class="text-muted mb-0">Admin hasn't calculated any equipment costs yet.</p>
+                        <button class="btn btn-outline-primary btn-sm mt-2" onclick="refreshEquipmentData()">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Refresh Data
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Function to manually refresh equipment data
+        function refreshEquipmentData() {
+            loadDynamicEquipmentCosts();
+        }
+
+        // Add refresh button functionality if needed
+        const refreshBtn = document.getElementById('refreshEquipmentBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', refreshEquipmentData);
+        }
+
+        // Setup Export Button
+        function setupExportButton() {
+            const exportButton = document.getElementById('exportDataButton');
+            if (exportButton) {
+                exportButton.addEventListener('click', exportEquipmentData);
+            }
+        }
+
+        // Export Equipment Data Function as PDF
+        function exportEquipmentData() {
+            const { jsPDF } = window.jspdf;
+            const userId = '<%= user.id %>';
+            const userName = '<%= user.Username %>';
+            
+            // Collect Fiber Data
+            const fibreData = <%-JSON.stringify(fibreData || [])%>;
+            
+            // Collect Dynamic Equipment Data from localStorage
+            const equipmentData = JSON.parse(localStorage.getItem('equipmentCosts') || '{}');
+            const userEquipmentData = equipmentData[userId] || {};
+            
+            // Create new PDF document
+            const pdf = new jsPDF();
+            
+            // Set font
+            pdf.setFont("helvetica", "normal");
+            
+            // Add logo first
+            const logoImg = new Image();
+            logoImg.crossOrigin = "anonymous";
+            logoImg.onload = function() {
+                try {
+                    // Add logo to PDF (centered at top)
+                    const logoWidth = 40;
+                    const logoHeight = 20;
+                    const logoX = (210 - logoWidth) / 2; // Center on A4 page (210mm width)
+                    pdf.addImage(logoImg, 'PNG', logoX, 10, logoWidth, logoHeight);
+                    
+                    // Add header below logo
+                    pdf.setFontSize(20);
+                    pdf.text("Equipment Report", 105, 40, { align: 'center' });
+                    
+                    pdf.setFontSize(14);
+                    pdf.text("User: " + userName, 20, 55);
+                    pdf.text("Export Date: " + new Date().toLocaleDateString(), 20, 65);
+                    
+                    generatePDFContent(75);
+                } catch (error) {
+                    console.log("Could not load logo, generating PDF without logo");
+                    // If logo fails to load, generate PDF without logo
+                    pdf.setFontSize(20);
+                    pdf.text("Equipment Report", 105, 20, { align: 'center' });
+                    
+                    pdf.setFontSize(14);
+                    pdf.text("User: " + userName, 20, 35);
+                    pdf.text("Export Date: " + new Date().toLocaleDateString(), 20, 45);
+                    
+                    generatePDFContent(60);
+                }
+            };
+            
+            logoImg.onerror = function() {
+                console.log("Logo not found, generating PDF without logo");
+                // If logo fails to load, generate PDF without logo
+                pdf.setFontSize(20);
+                pdf.text("Equipment Report", 105, 20, { align: 'center' });
+                
+                pdf.setFontSize(14);
+                pdf.text("User: " + userName, 20, 35);
+                pdf.text("Export Date: " + new Date().toLocaleDateString(), 20, 45);
+                
+                generatePDFContent(60);
+            };
+            
+            // Set logo source
+            logoImg.src = "/images/ClickTake.png";
+            
+            // Function to generate PDF content
+            function generatePDFContent(startY) {
+                let yPosition = startY;
+            
+                // Helper function to add text and manage page breaks
+                function addText(text, x, y, fontSize = 12) {
+                    if (y > 270) { // If near bottom of page
+                        pdf.addPage();
+                        y = 20;
+                    }
+                    pdf.setFontSize(fontSize);
+                    pdf.text(text, x, y);
+                    return y;
+                }
+            
+            // Fiber Equipment Section
+            let fiberTotal = 0;
+            if (fibreData && fibreData.length > 0) {
+                yPosition = addText("FIBER EQUIPMENT", 20, yPosition, 16);
+                yPosition += 10;
+                
+                // Table headers
+                pdf.setFontSize(10);
+                pdf.text("Item", 20, yPosition);
+                pdf.text("Details", 60, yPosition);
+                pdf.text("Unit Price", 120, yPosition);
+                pdf.text("Total", 160, yPosition);
+                yPosition += 5;
+                
+                // Draw line under headers
+                pdf.line(20, yPosition, 190, yPosition);
+                yPosition += 10;
+                
+                fibreData.forEach(item => {
+                    const parsePrice = (val) => parseFloat((val || '0').toString().replace(/,/g, '').trim()) || 0;
+                    
+                    // Check page break
+                    if (yPosition > 260) {
+                        pdf.addPage();
+                        yPosition = 20;
+                    }
+                    
+                    // Add items
+                    pdf.text("Device", 20, yPosition);
+                    pdf.text(item.device_label || 'N/A', 60, yPosition);
+                    pdf.text("Rs" + (item.device_price || 0), 120, yPosition);
+                    pdf.text("Rs" + (item.device_price || 0), 160, yPosition);
+                    yPosition += 8;
+                    
+                    pdf.text("Package", 20, yPosition);
+                    pdf.text("Selected Package", 60, yPosition);
+                    pdf.text("Rs" + (item.first_package_price || 0), 120, yPosition);
+                    pdf.text("Rs" + (item.first_package_price || 0), 160, yPosition);
+                    yPosition += 8;
+                    
+                    pdf.text("Fibre Power", 20, yPosition);
+                    pdf.text(item.fibre_power_label || 'N/A', 60, yPosition);
+                    pdf.text("Rs" + (item.fibre_power_price || 0), 120, yPosition);
+                    pdf.text("Rs" + (item.fibre_power_price || 0), 160, yPosition);
+                    yPosition += 8;
+                    
+                    const duckPattiTotal = (parseFloat(item.duck_patti_quantity) || 0) * parsePrice(item.duck_patti_price);
+                    pdf.text("Duck Patti", 20, yPosition);
+                    pdf.text("Qty: " + (item.duck_patti_quantity || 0), 60, yPosition);
+                    pdf.text("Rs" + (item.duck_patti_price || 0), 120, yPosition);
+                    pdf.text("Rs" + duckPattiTotal.toFixed(2), 160, yPosition);
+                    yPosition += 8;
+                    
+                    const patchCardTotal = (parseFloat(item.patch_card_quantity) || 0) * parsePrice(item.patch_card_price);
+                    pdf.text("Patch Card", 20, yPosition);
+                    pdf.text("Qty: " + (item.patch_card_quantity || 0), 60, yPosition);
+                    pdf.text("Rs" + (item.patch_card_price || 0), 120, yPosition);
+                    pdf.text("Rs" + patchCardTotal.toFixed(2), 160, yPosition);
+                    yPosition += 10;
+                    
+                    const itemTotal = parsePrice(item.device_price) + parsePrice(item.first_package_price) + parsePrice(item.fibre_power_price) + 
+                                    parsePrice(item.cable_price) + duckPattiTotal + patchCardTotal;
+                    fiberTotal += itemTotal;
+                });
+                
+                // Draw line and show fiber total
+                pdf.line(20, yPosition, 190, yPosition);
+                yPosition += 10;
+                pdf.setFontSize(12);
+                pdf.text("Fiber Equipment Total: Rs" + fiberTotal.toFixed(2), 120, yPosition);
+                yPosition += 20;
+            }
+            
+            // Dynamic Equipment Section
+            let dynamicTotal = 0;
+            if (userEquipmentData.details && Object.keys(userEquipmentData.details).length > 0) {
+                yPosition = addText("ADDITIONAL EQUIPMENT", 20, yPosition, 16);
+                yPosition += 10;
+                
+                for (const [equipmentType, details] of Object.entries(userEquipmentData.details)) {
+                    if (details.total && details.total > 0) {
+                        let displayName = '';
+                        if (equipmentType === 'duck_patti') displayName = 'Duck Patti';
+                        else if (equipmentType === 'patch_card') displayName = 'Patch Card';
+                        else if (equipmentType === 'cat6_wire') displayName = 'Cat 6 Wire';
+                        else if (equipmentType === 'clips') displayName = 'Clips';
+                        else displayName = equipmentType.replace('_', ' ').toUpperCase();
+                        
+                        if (yPosition > 260) {
+                            pdf.addPage();
+                            yPosition = 20;
+                        }
+                        
+                        pdf.setFontSize(10);
+                        pdf.text(displayName, 20, yPosition);
+                        pdf.text("Qty: " + details.quantity, 60, yPosition);
+                        pdf.text("Rs" + details.price.toFixed(2), 120, yPosition);
+                        pdf.text("Rs" + details.total.toFixed(2), 160, yPosition);
+                        yPosition += 8;
+                        
+                        dynamicTotal += details.total;
+                    }
+                }
+                
+                yPosition += 10;
+                pdf.setFontSize(12);
+                pdf.text("Additional Equipment Total: Rs" + dynamicTotal.toFixed(2), 120, yPosition);
+                yPosition += 20;
+            }
+            
+                // Grand Total
+                pdf.line(20, yPosition, 190, yPosition);
+                yPosition += 10;
+                pdf.setFontSize(14);
+                pdf.text("GRAND TOTAL: Rs" + (fiberTotal + dynamicTotal).toFixed(2), 105, yPosition, { align: 'center' });
+                
+                // Save the PDF
+                pdf.save("equipment_data_" + userName + "_" + new Date().toISOString().split('T')[0] + ".pdf");
+            }
+        }
+    </script>
 
 </body>
 
