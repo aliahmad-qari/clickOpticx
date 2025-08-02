@@ -67,18 +67,34 @@ exports.profile = (req, res) => {
             // 👇 Flash messages here
             const successMsg = req.flash("success");
 
-            res.render("Tasbeeh/tasbeeh", {
-              user: results,
-              message: null,
-              isAdmin,
-              paymentCount,
-              bg_result,
-              messages: {
-                success: successMsg.length > 0 ? successMsg[0] : null,
-              },
-              totalNotifactions,
-              password_datass,
-              isUser,
+            // Get user-specific notifications for users
+            const userNotifSql = `
+              SELECT * FROM notifications 
+              WHERE is_read = 0 
+              AND created_at >= NOW() - INTERVAL 2 DAY 
+              ORDER BY id DESC
+            `;
+            db.query(userNotifSql, (err, notifications_users) => {
+              if (err) {
+                console.error("Error fetching user notifications:", err);
+                notifications_users = [];
+              }
+
+              res.render("Tasbeeh/tasbeeh", {
+                user: results,
+                message: null,
+                isAdmin,
+                paymentCount,
+                bg_result,
+                messages: {
+                  success: successMsg.length > 0 ? successMsg[0] : null,
+                },
+                totalNotifactions,
+                password_datass,
+                isUser,
+                Notifactions: notifications_users.length || 0,
+                notifications_users: notifications_users || [],
+              });
             });
           });
         });
