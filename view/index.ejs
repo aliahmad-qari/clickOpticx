@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Isp ClickTakeTec</title>
+    <title>ClickOpticx - Professional ISP Dashboard</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
@@ -30,68 +30,1696 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-      /* profile */
-      #cont1 {
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-        object-fit: cover;
-        height: 320px;
-        width: 100%;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        border-bottom-right-radius: 18px;
-        border-bottom-left-radius: 18px;
+      /* Global Theme Variables */
+      :root {
+        /* Brand Colors - Same for both themes */
+        --primary-color: #4F46E5;
+        --primary-dark: #3730A3;
+        --primary-light: #8B5CF6;
+        --secondary-color: #10B981;
+        --secondary-dark: #059669;
+        --accent-color: #F59E0B;
+        --accent-dark: #D97706;
+        --danger-color: #EF4444;
+        --success-color: #22C55E;
+        --warning-color: #F59E0B;
+        --info-color: #3B82F6;
+
+        /* Light Theme Colors */
+        --bg-primary: #FFFFFF;
+        --bg-secondary: #F8FAFC;
+        --bg-tertiary: #F1F5F9;
+        --text-primary: #1E293B;
+        --text-secondary: #475569;
+        --text-tertiary: #64748B;
+        --border-primary: #E2E8F0;
+        --border-secondary: #CBD5E1;
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --shadow-medium: rgba(0, 0, 0, 0.15);
+        --shadow-heavy: rgba(0, 0, 0, 0.25);
+        --card-bg: #FFFFFF;
+        --navbar-bg: #FFFFFF;
+        --sidebar-bg: #FFFFFF;
       }
 
-      .grid-item img {
-        width: 100%;
-        height: auto;
-        border: 2px solid black;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        padding: 10px;
-        background-color: white;
-        transition: transform 0.2s ease;
+      /* Dark Theme Colors */
+      [data-theme="dark"] {
+        --bg-primary: #0F172A;
+        --bg-secondary: #1E293B;
+        --bg-tertiary: #334155;
+        --text-primary: #F8FAFC;
+        --text-secondary: #CBD5E1;
+        --text-tertiary: #94A3B8;
+        --border-primary: #334155;
+        --border-secondary: #475569;
+        --shadow-light: rgba(0, 0, 0, 0.3);
+        --shadow-medium: rgba(0, 0, 0, 0.4);
+        --shadow-heavy: rgba(0, 0, 0, 0.6);
+        --card-bg: #1E293B;
+        --navbar-bg: #0F172A;
+        --sidebar-bg: #1E293B;
+        
+        /* Dark theme specific grays */
+        --gray-50: #1E293B;
+        --gray-100: #334155;
+        --gray-200: #475569;
+        --gray-300: #64748B;
+        --gray-400: #94A3B8;
+        --gray-500: #CBD5E1;
+        --gray-600: #E2E8F0;
+        --gray-700: #F1F5F9;
+        --gray-800: #F8FAFC;
+        --gray-900: #FFFFFF;
       }
 
-
-      .grid-item img {
-        width: 50px;
-        height: 50px;
+      :root {        
+        /* Gray Scale for light theme */
+        --gray-50: #F9FAFB;
+        --gray-100: #F3F4F6;
+        --gray-200: #E5E7EB;
+        --gray-300: #D1D5DB;
+        --gray-400: #9CA3AF;
+        --gray-500: #6B7280;
+        --gray-600: #4B5563;
+        --gray-700: #374151;
+        --gray-800: #1F2937;
+        --gray-900: #111827;
+        
+        /* Shadows */
+        --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        
+        /* Border Radius */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+        --radius-2xl: 24px;
+        --radius-3xl: 32px;
+        
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 0.75rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+        --spacing-3xl: 4rem;
       }
 
-      .grid-item:hover {
-        transform: scale(1.05);
+      /* Base Typography */
+      * {
+        box-sizing: border-box;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
       }
 
-      .header-section {
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary) !important;
+        background-color: var(--bg-secondary) !important;
+        font-feature-settings: 'cv11', 'ss01';
+        font-variation-settings: 'opsz' 32;
+        transition: all 0.3s ease;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        color: var(--text-primary) !important;
+        line-height: 1.3;
+      }
+
+      /* Main Panel Improvements */
+      .main-panel {
+        background: transparent;
+        transition: all 0.3s ease;
+      }
+      
+      /* Content Wrapper */
+      .content-wrapper {
+        background: var(--bg-secondary) !important;
+        transition: all 0.3s ease;
+      }
+
+      .content-wrapper {
+        padding: var(--spacing-xl);
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Hero Section */
+      .hero-container {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 50%, var(--primary-light) 100%);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        margin-bottom: var(--spacing-xl);
+        position: relative;
+        overflow: hidden;
+        min-height: 200px;
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
         align-items: center;
+        box-shadow: var(--shadow-xl);
       }
 
-      .head-icons a i {
+      .hero-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+          radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+      }
+
+      .hero-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23ffffff" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+        pointer-events: none;
+      }
+
+      .user-profile-section {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        color: white;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+      }
+
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .profile-avatar:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .user-info {
+        flex: 1;
+      }
+
+      .user-info h6 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 var(--spacing-xs) 0;
+      }
+
+      .user-plan {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .plan-badge {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: var(--spacing-xs) var(--spacing-md);
+        border-radius: 20px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .plan-arrow {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .plan-arrow:hover {
         color: white;
       }
 
-      .head-icons {
+      /* Action Buttons */
+      .action-buttons {
+        position: absolute;
+        top: var(--spacing-xl);
+        right: var(--spacing-xl);
         display: flex;
-        flex-direction: row;
-        gap: 2rem;
+        gap: var(--spacing-md);
+        z-index: 3;
       }
 
-      /* top section */
-      .content-section {
+      .action-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         display: flex;
-        gap: 1vw;
-        justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 1.25rem;
       }
 
+      .action-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: var(--shadow-lg);
+      }
+
+      /* Stats Cards Container */
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .stat-card {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-2xl);
+        box-shadow: 0 4px 6px -1px var(--shadow-light), 0 2px 4px -1px var(--shadow-light);
+        border: 1px solid var(--border-primary) !important;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px var(--shadow-medium), 0 10px 10px -5px var(--shadow-light);
+      }
+
+      .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      }
+
+      .stat-card.primary::before {
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+      }
+
+      .stat-card.secondary::before {
+        background: linear-gradient(90deg, var(--secondary-color), var(--secondary-dark));
+      }
+
+      .stat-card.accent::before {
+        background: linear-gradient(90deg, var(--accent-color), var(--accent-dark));
+      }
+
+      .stat-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--spacing-lg);
+        font-size: 1.75rem;
+        position: relative;
+      }
+
+      .stat-card.primary .stat-icon {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05));
+        color: var(--primary-color);
+        border: 1px solid rgba(79, 70, 229, 0.1);
+      }
+
+      .stat-card.secondary .stat-icon {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+        color: var(--secondary-color);
+        border: 1px solid rgba(16, 185, 129, 0.1);
+      }
+
+      .stat-card.accent .stat-icon {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+        color: var(--accent-color);
+        border: 1px solid rgba(245, 158, 11, 0.1);
+      }
+
+      .stat-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-secondary) !important;
+        margin: 0 0 var(--spacing-sm) 0;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .stat-value {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--text-primary) !important;
+        margin: 0 0 var(--spacing-xs) 0;
+      }
+
+      .stat-subtitle {
+        color: var(--text-tertiary) !important;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      /* Quick Actions Section */
+      .quick-actions {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        box-shadow: 0 4px 6px -1px var(--shadow-light), 0 2px 4px -1px var(--shadow-light);
+        border: 1px solid var(--border-primary) !important;
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary) !important;
+        margin-bottom: var(--spacing-xl);
+        text-align: center;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        border-radius: 2px;
+      }
+
+      .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: var(--spacing-lg);
+      }
+
+      .action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        padding: var(--spacing-xl) var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        background: var(--bg-tertiary) !important;
+        border: 1px solid var(--border-primary) !important;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .action-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .action-item:hover::before {
+        left: 100%;
+      }
+
+      .action-item:hover {
+        background: var(--card-bg) !important;
+        box-shadow: 0 10px 15px -3px var(--shadow-light), 0 4px 6px -2px var(--shadow-light);
+        transform: translateY(-4px);
+        text-decoration: none;
+        border-color: var(--border-secondary) !important;
+      }
+
+      .action-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-lg);
+        background: var(--card-bg) !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--spacing-md);
+        box-shadow: 0 1px 2px 0 var(--shadow-light);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+      }
+
+      .action-item:hover .action-icon {
+        box-shadow: 0 4px 6px -1px var(--shadow-medium), 0 2px 4px -1px var(--shadow-light);
+        transform: scale(1.1);
+      }
+
+      .action-icon i {
+        font-size: 1.5rem;
+      }
+
+      .action-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary) !important;
+        text-align: center;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Payment Section */
+      .payment-section {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        box-shadow: 0 4px 6px -1px var(--shadow-light), 0 2px 4px -1px var(--shadow-light);
+        border: 1px solid var(--border-primary) !important;
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .payment-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-lg);
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        border-radius: var(--radius-lg);
+        color: white;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .payment-status.pending {
+        background: linear-gradient(135deg, var(--warning-color), var(--accent-dark));
+      }
+
+      .payment-status.expired {
+        background: linear-gradient(135deg, var(--danger-color), #DC2626);
+      }
+
+      .status-text {
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .status-icon {
+        font-size: 1.5rem;
+      }
+
+      /* Package Cards */
+      .package-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .package-card {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-2xl);
+        padding: 0;
+        box-shadow: 0 10px 15px -3px var(--shadow-light), 0 4px 6px -2px var(--shadow-light);
+        border: 2px solid var(--border-primary) !important;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Basic Plan - Blue Theme */
+      .package-card:nth-child(1) {
+        background: linear-gradient(135deg, #EBF4FF 0%, #DBEAFE 100%);
+        border: 2px solid #3B82F6;
+      }
+
+      .package-card:nth-child(1):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.4);
+        border-color: #2563EB;
+      }
+
+      .package-card:nth-child(1)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      }
+
+      /* Standard Plan - Purple Theme (Featured) */
+      .package-card.featured {
+        background: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 100%);
+        border: 3px solid #8B5CF6;
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.3);
+      }
+
+      .package-card.featured:hover {
+        transform: scale(1.02) translateY(-8px);
+        box-shadow: 0 35px 60px -12px rgba(139, 92, 246, 0.5);
+        border-color: #7C3AED;
+      }
+
+      .package-card.featured::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #8B5CF6, #7C3AED, #6D28D9);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+        z-index: 1;
+      }
+
+      /* Premium Plan - Emerald Theme */
+      .package-card:nth-child(3) {
+        background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+        border: 2px solid #10B981;
+      }
+
+      .package-card:nth-child(3):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.4);
+        border-color: #059669;
+      }
+
+      .package-card:nth-child(3)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #10B981, #059669);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: -3px;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
+        color: white;
+        text-align: center;
+        padding: var(--spacing-md);
+        font-weight: 800;
+        font-size: 0.9rem;
+        letter-spacing: 0.8px;
+        z-index: 3;
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        text-transform: uppercase;
+      }
+
+      .popular-badge i {
+        margin-right: var(--spacing-xs);
+        color: #FDE047;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        animation: sparkle 2s ease-in-out infinite;
+      }
+
+      @keyframes sparkle {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+
+      .package-content {
+        padding: var(--spacing-2xl);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .package-card.featured .package-content {
+        padding-top: calc(var(--spacing-2xl) + var(--spacing-lg));
+      }
+
+      .package-tier {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .package-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: var(--spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Basic Plan Title */
+      .package-card:nth-child(1) .package-title {
+        color: #1E40AF;
+      }
+
+      /* Featured Plan Title */
+      .package-card.featured .package-title {
+        color: #6D28D9;
+      }
+
+      /* Premium Plan Title */
+      .package-card:nth-child(3) .package-title {
+        color: #047857;
+      }
+
+      .tier-stars {
+        font-size: 1.3rem;
+        letter-spacing: 3px;
+        margin-top: var(--spacing-xs);
+      }
+
+      /* Basic Plan Stars */
+      .package-card:nth-child(1) .tier-stars {
+        color: #3B82F6;
+        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+      }
+
+      /* Featured Plan Stars */
+      .package-card.featured .tier-stars {
+        color: #FDE047;
+        filter: drop-shadow(0 2px 6px rgba(253, 224, 71, 0.5));
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      /* Premium Plan Stars */
+      .package-card:nth-child(3) .tier-stars {
+        color: #10B981;
+        filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+      }
+
+      @keyframes glow {
+        from {
+          filter: drop-shadow(0 2px 6px rgba(253, 224, 71, 0.5));
+        }
+        to {
+          filter: drop-shadow(0 4px 12px rgba(253, 224, 71, 0.8));
+        }
+      }
+
+      .package-price-section {
+        text-align: center;
+        margin-bottom: var(--spacing-2xl);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-xl);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Basic Plan Pricing */
+      .package-card:nth-child(1) .package-price-section {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.2));
+        border-color: rgba(59, 130, 246, 0.3);
+      }
+
+      .package-card:nth-child(1) .package-name {
+        color: #1D4ED8;
+      }
+
+      .package-card:nth-child(1) .package-price {
+        color: #1E40AF;
+      }
+
+      /* Featured Plan Pricing */
+      .package-card.featured .package-price-section {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(196, 181, 253, 0.25));
+        border-color: rgba(139, 92, 246, 0.4);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+      }
+
+      .package-card.featured .package-name {
+        color: #7C3AED;
+      }
+
+      .package-card.featured .package-price {
+        color: #6D28D9;
+      }
+
+      /* Premium Plan Pricing */
+      .package-card:nth-child(3) .package-price-section {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.2));
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+
+      .package-card:nth-child(3) .package-name {
+        color: #059669;
+      }
+
+      .package-card:nth-child(3) .package-price {
+        color: #047857;
+      }
+
+      .package-name {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      .package-price {
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .package-price span {
+        font-size: 1.1rem;
+        color: var(--gray-600);
+        font-weight: 600;
+      }
+
+      .package-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: var(--spacing-2xl);
+        flex-grow: 1;
+      }
+
+      .package-features li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+        color: var(--gray-700);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        gap: var(--spacing-sm);
+      }
+
+      .package-features li i {
+        margin-top: 2px;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      /* Basic Plan Features */
+      .package-card:nth-child(1) .package-features li i {
+        color: #3B82F6;
+      }
+
+      /* Featured Plan Features */
+      .package-card.featured .package-features li i {
+        color: #8B5CF6;
+      }
+
+      /* Premium Plan Features */
+      .package-card:nth-child(3) .package-features li i {
+        color: #10B981;
+      }
+
+      .package-features li span {
+        font-weight: 500;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        flex: 1;
+        line-height: 1.5;
+      }
+
+      .package-btn {
+        width: 100%;
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border: none;
+        border-radius: var(--radius-xl);
+        color: white;
+        font-weight: 800;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Basic Plan Button */
+      .package-card:nth-child(1) .package-btn {
+        background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      }
+
+      .package-card:nth-child(1) .package-btn:hover {
+        background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+        transform: translateY(-3px);
+      }
+
+      /* Featured Plan Button */
+      .package-card.featured .package-btn {
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.3);
+        font-size: 1.2rem;
+        padding: var(--spacing-xl) var(--spacing-2xl);
+      }
+
+      .package-card.featured .package-btn:hover {
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #5B21B6 100%);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.5);
+        transform: translateY(-4px);
+      }
+
+      /* Premium Plan Button */
+      .package-card:nth-child(3) .package-btn {
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      }
+
+      .package-card:nth-child(3) .package-btn:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        transform: translateY(-3px);
+      }
+
+      .package-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.8s ease;
+      }
+
+      .package-btn:hover::before {
+        left: 100%;
+      }
+
+      .package-btn:hover {
+        color: white;
+        text-decoration: none;
+      }
+
+      .package-btn i {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
+
+      .no-packages {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--spacing-3xl);
+        background: var(--gray-50);
+        border-radius: var(--radius-xl);
+        border: 2px dashed var(--gray-300);
+      }
+
+      /* View All Packages Button */
+      .view-all-packages-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-lg) var(--spacing-2xl);
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+        color: white !important;
+        text-decoration: none;
+        border-radius: var(--radius-xl);
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px var(--shadow-light), 0 4px 6px -2px var(--shadow-light);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .view-all-packages-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s ease;
+      }
+
+      .view-all-packages-btn:hover::before {
+        left: 100%;
+      }
+
+      .view-all-packages-btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px var(--shadow-medium), 0 10px 10px -5px var(--shadow-light);
+        color: white !important;
+        text-decoration: none;
+      }
+
+      .view-all-packages-btn i:first-child {
+        font-size: 1.2rem;
+      }
+
+      .view-all-packages-btn i:last-child {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .view-all-packages-btn:hover i:last-child {
+        transform: translateX(4px);
+      }
+
+      /* Services Section */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-xl);
+      }
+
+      .service-card {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-2xl);
+        box-shadow: 0 4px 6px -1px var(--shadow-light), 0 2px 4px -1px var(--shadow-light);
+        border: 1px solid var(--border-primary) !important;
+        transition: all 0.3s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .service-card:hover::before {
+        left: 100%;
+      }
+
+      .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 25px -5px var(--shadow-medium), 0 10px 10px -5px var(--shadow-light);
+        border-color: var(--primary-color) !important;
+      }
+
+      .service-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--bg-tertiary), var(--card-bg)) !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-lg) auto;
+        box-shadow: 0 1px 2px 0 var(--shadow-light);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+      }
+
+      .service-card:hover .service-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 6px -1px var(--shadow-medium), 0 2px 4px -1px var(--shadow-light);
+      }
+
+      .service-icon i {
+        font-size: 2rem;
+      }
+
+      .service-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary) !important;
+        margin-bottom: var(--spacing-sm);
+        position: relative;
+        z-index: 1;
+      }
+
+      .service-description {
+        color: var(--text-secondary) !important;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: var(--spacing-lg);
+        position: relative;
+        z-index: 1;
+      }
+
+      .service-btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+      }
+
+      .service-btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: white;
+        text-decoration: none;
+      }
+
+      /* Dark theme support for services section */
+      [data-theme="dark"] .service-card {
+        background: var(--card-bg, #1E293B) !important;
+        border-color: var(--border-primary, #334155) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      }
+
+      [data-theme="dark"] .service-card:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        border-color: var(--primary-color, #4F46E5) !important;
+      }
+
+      [data-theme="dark"] .service-card::before {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      }
+
+      [data-theme="dark"] .service-icon {
+        background: linear-gradient(135deg, var(--bg-tertiary, #334155), var(--card-bg, #1E293B)) !important;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] .service-card:hover .service-icon {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] .service-title {
+        color: var(--text-primary, #F8FAFC) !important;
+      }
+
+      [data-theme="dark"] .service-description {
+        color: var(--text-secondary, #94A3B8) !important;
+      }
+
+
+      /* Animation Enhancements */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .hero-container,
+      .stats-container > *,
+      .quick-actions,
+      .payment-section,
+      .package-cards > * {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .stats-container > *:nth-child(1) { animation-delay: 0.1s; }
+      .stats-container > *:nth-child(2) { animation-delay: 0.2s; }
+      .stats-container > *:nth-child(3) { animation-delay: 0.3s; }
+      .quick-actions { animation-delay: 0.4s; }
+      .payment-section { animation-delay: 0.5s; }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .content-wrapper {
+          padding: var(--spacing-lg);
+        }
+        
+        .stats-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .actions-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-container {
+          padding: var(--spacing-lg);
+          flex-direction: column;
+          text-align: center;
+          min-height: auto;
+        }
+
+        .action-buttons {
+          position: static;
+          justify-content: center;
+          margin-top: var(--spacing-lg);
+        }
+
+        .user-profile-section {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .profile-avatar {
+          width: 64px;
+          height: 64px;
+        }
+
+        .user-info h6 {
+          font-size: 1.5rem;
+        }
+
+        .stats-container {
+          gap: var(--spacing-lg);
+        }
+
+        .stat-card {
+          padding: var(--spacing-lg);
+        }
+
+        .actions-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--spacing-md);
+        }
+
+        .action-item {
+          padding: var(--spacing-lg) var(--spacing-sm);
+        }
+
+        .action-icon {
+          width: 48px;
+          height: 48px;
+        }
+
+        .action-icon i {
+          font-size: 1.25rem;
+        }
+
+        .action-label {
+          font-size: 0.8rem;
+        }
+
+        .package-cards {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-lg);
+        }
+        
+        .package-card {
+          margin: 0 10px;
+        }
+        
+        .package-card.featured {
+          transform: none;
+          scale: 1;
+        }
+        
+        .package-card.featured:hover {
+          transform: translateY(-8px);
+        }
+        
+        .package-content {
+          padding: var(--spacing-lg) var(--spacing-md);
+        }
+        
+        .package-title {
+          font-size: 1.3rem;
+          line-height: 1.2;
+          margin-bottom: var(--spacing-sm);
+        }
+        
+        .package-price {
+          font-size: 2.2rem;
+          line-height: 1.1;
+        }
+        
+        .package-price span {
+          font-size: 0.9rem;
+        }
+        
+        .package-name {
+          font-size: 1rem;
+          line-height: 1.3;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+        }
+        
+        .package-features {
+          gap: var(--spacing-sm);
+        }
+        
+        .package-features li {
+          font-size: 0.95rem;
+          line-height: 1.4;
+          padding: var(--spacing-xs) 0;
+        }
+        
+        .package-features li span {
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          display: inline-block;
+          max-width: calc(100% - 30px);
+        }
+        
+        .package-btn {
+          font-size: 1rem;
+          padding: var(--spacing-md) var(--spacing-lg);
+          margin-top: var(--spacing-md);
+        }
+        
+        .services-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--spacing-lg);
+        }
+        
+        .service-card {
+          padding: var(--spacing-lg);
+        }
+        
+        .service-icon {
+          width: 64px;
+          height: 64px;
+        }
+        
+        .service-icon i {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .content-wrapper {
+          padding: var(--spacing-md);
+        }
+
+        .hero-container {
+          padding: var(--spacing-md);
+        }
+
+        .section-title {
+          font-size: 1.25rem;
+        }
+
+        .stat-value {
+          font-size: 1.75rem;
+        }
+
+        .actions-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .package-price {
+          font-size: 2rem;
+        }
+        
+        /* Enhanced Mobile Package Styling */
+        .package-cards {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-md);
+          margin: 0 5px;
+        }
+        
+        .package-card {
+          margin: 0 5px;
+          border-radius: var(--radius-xl);
+        }
+        
+        .package-content {
+          padding: var(--spacing-md) var(--spacing-sm);
+        }
+        
+        .package-title {
+          font-size: 1.2rem;
+          line-height: 1.2;
+          margin-bottom: var(--spacing-xs);
+          letter-spacing: 0.5px;
+        }
+        
+        .tier-stars {
+          font-size: 1.1rem;
+          margin-top: var(--spacing-xs);
+        }
+        
+        .package-price-section {
+          padding: var(--spacing-md) var(--spacing-sm);
+          margin: var(--spacing-sm) 0;
+        }
+        
+        .package-name {
+          font-size: 0.9rem;
+          line-height: 1.3;
+          margin-bottom: var(--spacing-xs);
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
+        }
+        
+        .package-price {
+          font-size: 1.8rem !important;
+          line-height: 1;
+        }
+        
+        .package-price span {
+          font-size: 0.8rem;
+        }
+        
+        .package-features {
+          gap: var(--spacing-xs);
+          margin: var(--spacing-sm) 0;
+        }
+        
+        .package-features li {
+          font-size: 0.85rem;
+          line-height: 1.3;
+          padding: 2px 0;
+          display: flex;
+          align-items: flex-start;
+          gap: var(--spacing-xs);
+        }
+        
+        .package-features li i {
+          margin-top: 2px;
+          flex-shrink: 0;
+          font-size: 0.9rem;
+        }
+        
+        .package-features li span {
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
+          flex: 1;
+          line-height: 1.4;
+        }
+        
+        .package-btn {
+          font-size: 0.9rem;
+          padding: var(--spacing-sm) var(--spacing-md);
+          margin-top: var(--spacing-sm);
+          border-radius: var(--radius-lg);
+        }
+        
+        .popular-badge {
+          font-size: 0.8rem;
+          padding: var(--spacing-sm) var(--spacing-md);
+        }
+        
+        .services-grid {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-md);
+        }
+        
+        .service-card {
+          padding: var(--spacing-md);
+        }
+        
+        .service-title {
+          font-size: 1.1rem;
+        }
+        
+        .service-description {
+          font-size: 0.85rem;
+        }
+      }
+
+      /* Modal Improvements */
+      .modal-content {
+        border-radius: var(--radius-xl);
+        border: none;
+        box-shadow: 0 25px 50px -12px var(--shadow-heavy);
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .modal-header {
+        border-bottom: 1px solid var(--border-primary);
+        padding: var(--spacing-xl);
+        background: var(--card-bg) !important;
+      }
+
+      .modal-body {
+        padding: var(--spacing-xl);
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .modal-footer {
+        border-top: 1px solid var(--border-primary);
+        padding: var(--spacing-xl);
+        background: var(--card-bg) !important;
+      }
+
+      .modal-title {
+        color: var(--text-primary) !important;
+      }
+
+      /* Form Improvements */
+      .form-control {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-primary) !important;
+        padding: var(--spacing-md);
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .form-control::placeholder {
+        color: var(--text-tertiary) !important;
+      }
+
+      .btn {
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      /* Bootstrap Button Theme Support */
+      .btn-warning {
+        background: var(--warning-color, #F59E0B) !important;
+        border-color: var(--warning-color, #F59E0B) !important;
+        color: white !important;
+      }
+
+      .btn-warning:hover {
+        background: var(--accent-dark, #D97706) !important;
+        border-color: var(--accent-dark, #D97706) !important;
+        color: white !important;
+      }
+
+      .btn-success {
+        background: var(--success-color, #22C55E) !important;
+        border-color: var(--success-color, #22C55E) !important;
+        color: white !important;
+      }
+
+      .btn-success:hover {
+        background: var(--secondary-dark, #059669) !important;
+        border-color: var(--secondary-dark, #059669) !important;
+        color: white !important;
+      }
+
+      .btn-close {
+        color: var(--text-primary, #1E293B) !important;
+      }
+
+      [data-theme="dark"] .btn-close {
+        color: var(--text-primary, #F8FAFC) !important;
+        filter: invert(1);
+      }
+
+      /* Additional Theme Support */
+      .billing-label,
+      .package-info,
+      .package-features,
+      .user-content p,
+      .user-content span {
+        color: var(--text-secondary, #475569) !important;
+      }
+
+      [data-theme="dark"] .billing-label,
+      [data-theme="dark"] .package-info,
+      [data-theme="dark"] .package-features,
+      [data-theme="dark"] .user-content p,
+      [data-theme="dark"] .user-content span {
+        color: var(--text-secondary, #CBD5E1) !important;
+      }
+
+      /* Dropdown and list theme support */
+      .dropdown-menu {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border-primary) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .dropdown-item {
+        color: var(--text-primary) !important;
+      }
+
+      .dropdown-item:hover {
+        background: var(--bg-tertiary) !important;
+        color: var(--text-primary) !important;
+      }
+
+      /* Payment Modal Theme Support */
+      .card {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border-primary) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .card-body {
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .card-body h6 {
+        color: var(--text-primary) !important;
+      }
+
+      .card-body p {
+        color: var(--text-secondary) !important;
+      }
+
+      .form-label {
+        color: var(--text-primary) !important;
+        font-weight: 600;
+      }
+
+      .form-select,
+      select.form-control {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border-primary) !important;
+        color: var(--text-primary) !important;
+      }
+
+      .form-select:focus,
+      select.form-control:focus {
+        background: var(--card-bg) !important;
+        border-color: var(--primary-color) !important;
+        color: var(--text-primary) !important;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+
+      .form-select option,
+      select.form-control option {
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+      }
+
+      /* Payment method info styling */
+      .modal-body p {
+        color: var(--text-secondary) !important;
+      }
+
+      .modal-body p strong {
+        color: var(--text-primary) !important;
+      }
+
+      .modal-body span {
+        color: var(--text-primary) !important;
+      }
+
+      /* Payment logos hover effect */
+      .payment-logo {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        padding: 8px;
+      }
+
+      .payment-logo:hover {
+        background: var(--bg-tertiary) !important;
+        transform: scale(1.05);
+      }
+
+      /* No subscription message styling */
+      .text-center h5[style*="color: red"] {
+        color: var(--danger-color) !important;
+      }
+
+      .text-muted {
+        color: var(--text-tertiary) !important;
+      }
+
+      /* No packages message */
+      .no-packages {
+        padding: var(--spacing-xl);
+        text-align: center;
+      }
+
+      .no-packages p {
+        color: var(--text-secondary) !important;
+      }
+
+      /* Legacy Compatibility */
       .test,
       .user-content h6 {
         max-width: none;
@@ -100,2181 +1728,654 @@
         text-overflow: unset;
       }
 
-      .loyal p {
-        margin-bottom: -0.16rem;
-        font-size: clamp(12px, 1vw, 16px);
-      }
-
-      @media (max-width: 1024px) {
-        .content-section {
-          flex-direction: row;
-          gap: 1rem;
-          align-items: center;
-        }
-      }
-
-      @media (max-width: 768px) {
-
-        .test,
-        .user-content .loyal {
-          flex-direction: row;
-        }
-
-        .content-section {
-          margin-top: 20px;
-          padding: 0.8rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .content-section {
-          margin-top: 15px;
-          padding: 0.1rem;
-        }
-
-        .loyal p {
-          font-size: 20px;
-        }
-      }
-
-      .login-btn {
-        background-color: transparent;
-        border: 0;
-        color: orange;
-        font-size: 26px;
-        outline: 0;
-        margin-top: 20px;
-      }
-
-      .login-btn:hover {
-        color: white !important;
-      }
-
-      /* profile */
-      .custom-card {
-        display: flex;
-        color: white;
-        border-radius: 78px;
-        padding: 4px;
-        width: 100%;
-      }
-
-      .right-side,
-      .left-side {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-      }
-
-      .left-side {
-        border-right: 2px solid white;
-        border-top-left-radius: 76px;
-        border-bottom-left-radius: 76px;
-      }
-
-      .right-side {
-        border-top-right-radius: 76px;
-        border-bottom-right-radius: 76px;
-      }
-
-      .left-side img,
-      .right-side img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      /* sssssssss */
-      .main-icons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .main-slider {
-        height: 330px;
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 30px;
-        padding: 0px 10px;
-      }
-
-      .slider {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: nowrap;
-        overflow: hidden;
-      }
-
-      .slider-img {
-        max-width: 100%;
-        height: auto;
-        width: 100%;
-        object-fit: fill;
-        border-radius: 15px;
-      }
-
-      .slider-imgss {
-        max-width: 100%;
-        height: auto;
-        width: 100%;
-        object-fit: fill;
-        border-radius: 15px;
-      }
-
-      @media (max-width: 768px) {
-        .slider-img {
-          max-width: 90%;
-          height: 140px;
-        }
-
-        .slider-imgss {
-          max-width: 90%;
-          height: 140px;
-        }
-      }
-
-      /* icon Card css */
-      .grid-container {
-        background: transparent;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
-
-      @media (max-width: 400px) {
-        .grid-container {
-          padding: 2px;
-        }
-      }
-
-
-
-
-
-      @media (max-width: 576px) {
-        .grid-item img {
-          max-width: 50px;
-        }
-      }
-
-      @media (max-width: 400px) {
-        .grid-item img {
-          width: 50px;
-          height: 50px;
-        }
-      }
-
-      .grid-item:hover {
-        transform: scale(1.05);
-      }
-
-
-
-
-      .profile-card {
-        background: white;
-        padding: 15px;
-        color: black;
-        border-bottom-right-radius: 40px;
-        border-bottom-left-radius: 40px;
-      }
-
-      .samll-img {
-        height: 60px;
-        width: 60px;
-      }
-
-      .credit-main {
-        width: 100%;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .credit-box {
-        background: white;
-        border-radius: 15px;
-        padding: 15px;
-        width: 100%;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .credit-icon i {
-        font-size: 40px;
-        color: black;
-      }
-
-      .boost {
-        width: 100%;
+      /* Loading Spinner */
+      .loader {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
         border-radius: 50%;
-        margin-top: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .boost-content p {
-        font-size: 19px;
-        line-height: 1.5;
-      }
-
-      .wifi-icon {
-        color: orange;
-      }
-
-      @media (max-width: 354px) {
-        .boost-content p {
-          font-size: 14px;
-        }
-      }
-
-      .boost-btn {
-        height: 120px;
-        width: 120px;
-        border-radius: 50%;
-        border: 10px solid #9bb0ddde;
-        color: black;
-        font-weight: 800;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: white;
-        outline: 0;
-        font-size: 22px;
-      }
-
-      @media (max-width: 440px) {
-        .boost-btn {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          font-size: 12px;
-        }
-      }
-
-      .credit-content h5,
-      small {
-        color: black;
-        font-size: 1.5rem;
-      }
-
-      .total-data {
-        height: 100px;
-        width: 78vw;
-        background-color: rgb(255, 255, 255);
-        margin: 20px 0px;
-        border-radius: 15px;
-      }
-
-      .data-content small {
-        font-size: 12px;
-      }
-
-      section {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px 0;
-      }
-
-      .carousel {
-        position: relative;
-        z-index: 1;
-      }
-
-      @media (max-width: 768px) {
-        .slider-imgss {
-          max-width: 90%;
-          height: auto;
-        }
-      }
-
-      .row {
-        justify-content: center;
-      }
-
-      .col-sm-4 {
-        display: flex;
-        justify-content: center;
-      }
-
-      .data-card {
-        width: 180px;
-        height: 330px;
-        background: #fffbf5;
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Cards */
-      .crudd-container {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-evenly;
-        gap: 20px;
-        width: 100%;
-        margin: 25px 0px;
-        position: relative;
-      }
-
-      @media (max-width: 600px) {
-        .crudd-container {
-          flex-wrap: nowrap;
-        }
-      }
-
-      .crudd {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        padding: 10px 50px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        border-bottom: 30px solid #E97451;
-        height: 165px;
-        position: relative;
-        overflow: visible;
-        margin-top: 39px;
-      }
-
-      @media (max-width: 600px) {
-        .crudd {
-          padding: 10px 30px;
-          gap: 5px;
-          height: 152px;
-        }
-
-        .imgicon-1 {
-          top: -41% !important;
-          left: 11px !important;
-        }
-
-        .imgicon-2 {
-          top: -41% !important;
-          left: 17px !important;
-        }
-
-        .imgicon-3 {
-          top: -41% !important;
-          left: 11px !important;
-        }
-      }
-
-      @media (max-width: 400px) {
-        .crudd {
-          padding: 10px 12px;
-          height: 135px;
-          gap: 8px;
-        }
-
-        .imgicon-1 {
-          top: -41% !important;
-          left: 11px !important;
-        }
-
-        .imgicon-2 {
-          top: -41% !important;
-          left: 7px !important;
-        }
-
-        .imgicon-3 {
-          top: -41% !important;
-          left: 11px !important;
-        }
-
-        .crudd img {
-          width: 64px;
-          position: absolute !important;
-        }
-      }
-
-      .rem {
-        font-size: 12px;
-        color: #333;
-        margin-top: 58px;
-      }
-
-      .crudd img {
-        position: absolute;
-      }
-
-      .icone {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 60px;
-        height: 60px;
-      }
-
-      /* payments start */
-      .payment-section {
-        width: 100%;
-        background: #c6cfdb;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        margin-top: 3%;
-        padding: 20px;
-        border-radius: 15px;
-      }
-
-      .payment-header {
-        font-weight: bold;
-        color: #1f3b82;
-        font-size: 22px;
-        text-align: left;
-        margin-bottom: 5px;
-      }
-
-      .payment-details {
-        display: flex;
-        justify-content: space-between;
-        font-weight: bold;
-        margin-bottom: 5px;
-        gap: 5px;
-      }
-
-      .payment-labels {
-        display: flex;
-        color: #666;
-        font-size: 14px;
-        justify-content: space-between;
-        gap: 5px;
-      }
-
-      .paid-status {
-        color: green;
-        font-weight: bold;
-        margin-right: 35px;
-      }
-
-      .payy-btn {
-        width: 30%;
-        background: #1f3b82;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        margin: auto;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-      }
-
-      .payy-btn:hover {
-        background: #16306c;
-      }
-
-      @media (max-width: 768px) {
-        .payment-section {
-          width: 100%;
-          padding: 15px;
-          flex-direction: row;
-          justify-content: space-between;
-        }
-
-        .payy-btn {
-          width: 100%;
-          margin-top: 10px;
-        }
-      }
-
-      
-
-
-      .scale-marker {
-        font-size: 12px;
-        font-weight: 600;
-        opacity: 0.7;
-      }
-
-      /* Results Grid */
-      .results-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin: 40px 0;
-      }
-
-      .result-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .result-card:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.25);
-      }
-
-      .result-icon {
-        font-size: 24px;
-        margin-bottom: 10px;
-        opacity: 0.9;
-      }
-
-      .result-label {
-        font-size: 14px;
-        font-weight: 500;
-        opacity: 0.8;
-        margin-bottom: 5px;
-      }
-
-      .result-value {
-        font-size: 20px;
-        font-weight: 700;
-        color: white;
-      }
-
-      /* Control Button */
-      .speed-control-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        padding: 15px 40px;
-        border-radius: 50px;
-        font-size: 18px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        cursor: pointer;
-      }
-
-      .speed-control-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateY(-2px);
-        color: white;
-      }
-
-      .speed-control-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      .status-message {
-        margin-top: 20px;
-        font-size: 16px;
-        opacity: 0.9;
-        font-weight: 500;
-      }
-
-      /* Animations */
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-      }
-
-      .testing {
-        animation: pulse 2s infinite;
-      }
-
-      @keyframes rotate {
-        from { transform: translateX(-50%) rotate(-90deg); }
-        to { transform: translateX(-50%) rotate(90deg); }
-      }
-
-      @media (max-width: 480px) {
-        .speed-test-button {
-          font-size: 14px;
-          padding: 12px 24px;
-        }
-        
-        .speedometer-container {
-          width: 250px;
-          height: 160px;
-        }
-        
-        .speedometer {
-          width: 250px;
-          height: 125px;
-        }
-        
-        .current-speed {
-          font-size: 36px;
-        }
-        
-        .speed-title {
-          font-size: 28px;
-        }
-        
-        .results-grid {
-          grid-template-columns: 1fr;
-          gap: 15px;
-        }
-        
-        .result-card {
-          padding: 15px;
-        }
-        
-        .speed-test-container {
-          padding: 30px 20px;
-        }
-        
-        .payment-section {
-          width: 100%;
-          padding: 10px;
-          flex-direction: row;
-          justify-content: space-between;
-        }
-
-        .payy-btn {
-          width: 100%;
-          margin-top: 10px;
-        }
-      }
-
-      /* ads */
-      .card-container {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        cursor: grab;
-        perspective: 1000px;
-      }
-
-      .deal-card {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #72c6ef, #5442f5);
-        color: white;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-        transition: all 0.5s ease;
-        transform-origin: center;
-        will-change: transform, opacity, z-index;
-      }
-
-      .deal-card:nth-child(1) {
-        z-index: 6;
-        transform: rotate(-5deg) scale(1);
-      }
-
-      .deal-card:nth-child(2) {
-        z-index: 5;
-        transform: rotate(-3deg) scale(0.95);
-        top: 15px;
-        background: #091123;
-      }
-
-      .deal-card:nth-child(3) {
-        z-index: 4;
-        transform: rotate(0deg) scale(0.9);
-        top: 25px;
-        background: #222;
-      }
-
-      .deal-card:nth-child(4) {
-        z-index: 3;
-        transform: rotate(2deg) scale(0.85);
-        top: 35px;
-        background: #333;
-      }
-
-      .deal-card:nth-child(5) {
-        z-index: 2;
-        transform: rotate(4deg) scale(0.8);
-        top: 45px;
-        background: #444;
-      }
-
-      .deal-card:nth-child(6) {
-        z-index: 1;
-        transform: rotate(6deg) scale(0.75);
-        top: 55px;
-        background: #555;
-      }
-
-      .deal-card h5 {
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-
-      .price-old {
-        text-decoration: line-through;
-        opacity: 0.7;
-      }
-
-      .price-new {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-
-      .buy-btn {
-        background-color: #ffc107;
-        color: black;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-weight: bold;
-      }
-
-      .product-img {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        height: 150px;
-        border-radius: 10px;
-      }
-
-      @media (max-width: 768px) {
-        .product-img {
-          height: 120px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .product-img {
-          height: 100px;
-        }
-      }
-
-      @media (max-width: 360px) {
-        .product-img {
-          height: 70px;
-        }
-      }
-
-      @media (max-width: 338px) {
-        .product-img {
-          height: 60px;
-        }
-      }
-
-      .swiped {
-        transition: transform 0.5s ease, opacity 0.5s ease;
-      }
-
-      .pass {
-        padding-right: 2px;
-        padding-left: 10px;
-      }
-
-      /* ads-end */
-      .progress-circle {
-        width: 120px;
-        height: 120px;
-        position: relative;
-        text-align: center;
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      .progress-circle svg {
-        transform: rotate(-90deg);
-      }
-
-      .progress-circle circle {
-        fill: none;
-        stroke-width: 10;
-        stroke-linecap: round;
-        transition: stroke-dasharray 0.3s ease;
-      }
-
-      .progress-circle .bg {
-        stroke: #ddd;
-      }
-
-      .progress-circle .progress {
-        stroke: #007bff;
-        stroke-dasharray: 0, 283;
-      }
-
-      .progress-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #007bff;
-      }
-
-      /* Custom Modal Styling */
-      .modal-content {
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-      }
-
-      .modal-footer {
-        border-top: none;
-      }
-
-      #loader-container {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0);
-        padding: 20px;
-        border-radius: 10px;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
       }
 
       @keyframes spin {
-
-        0%,
-        25% {
-          transform: scaleX(var(--direction)) rotate(0);
-        }
-
-        75%,
-        100% {
-          transform: scaleX(var(--direction)) rotate(1turn);
+        to {
+          transform: rotate(360deg);
         }
       }
 
-      @keyframes diamonds {
-
-        0%,
-        20% {
-          transform: var(--transform-start);
-        }
-
-        50% {
-          clip-path: polygon(75% 25%, 100% 50%, 75% 75%, 0% 50%);
-          transform: translate3d(calc(cos(var(--deg)) * var(--radius) * var(--pull)),
-              calc(sin(var(--deg)) * var(--radius) * var(--pull)),
-              5rem) rotate(calc(var(--deg) + 90deg));
-        }
-      }
-
-      .main-div {
-        color: '<%= bg_result[0]?.text_color || "#000000" %>' !important;
-      }
-
-      .btn-class-name {
-        --primary: 255, 90, 120;
-        --secondary: 150, 50, 60;
-        width: 60px;
-        height: 50px;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        user-select: none;
-        touch-action: manipulation;
-        outline: 10px solid rgb(var(--primary), .5);
-        border-radius: 100%;
-        position: relative;
-        transition: .3s;
-      }
-
-      .btn-class-name .back {
-        background: rgb(var(--secondary));
-        border-radius: 100%;
-        position: absolute;
-        left: 0;
+      /* Professional Boost Modal Styles */
+      .professional-boost-modal {
+        position: fixed;
         top: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .btn-class-name .front {
-        background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
-        box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
-        border-radius: 100%;
-        position: absolute;
-        border: 1px solid rgb(var(--secondary));
         left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(12px);
         display: flex;
-        justify-content: center;
         align-items: center;
-        font-size: 0.6rem;
-        font-weight: 600;
-        font-family: inherit;
-        transform: translateY(-15%);
-        transition: .15s;
-        color: rgb(var(--secondary));
-        text-transform: uppercase;
-      }
-
-      .btn-class-name:active .front {
-        transform: translateY(0%);
-        box-shadow: 0 0;
-      }
-
-      @media (max-width: 400px) {
-        .crod p {
-          padding-top: 45px;
-        }
-      }
-
-      /* new cards */
-      .cards-main {
-        display: flex;
-        flex-wrap: wrap;
         justify-content: center;
-        gap: 20px;
-        width: 100%;
+        z-index: 10000;
+        animation: fadeIn 0.4s ease-out;
       }
 
-      .custom-cardd {
-        background: #222;
-        color: white;
-        border-radius: 20px;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-        position: relative;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        flex: 0 0 30%;
-        max-width: 300px;
-        min-width: 307px;
-        width: 100%;
+      .boost-modal-content {
+        background: var(--card-bg);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-primary);
+        animation: slideInUp 0.5s ease-out;
       }
 
-      .card-top {
-        padding: 15px 10px 60px;
+      .boost-header {
         text-align: center;
-        clip-path: polygon(0 0, 100% 0, 100% 45%, 54% 100%, 0 45%);
+        margin-bottom: var(--spacing-2xl);
         position: relative;
-        z-index: 1;
       }
 
-      .basic .card-top {
-        background: linear-gradient(135deg, #00f5c9, #00b8ff);
-      }
-
-      .standard .card-top {
-        background: linear-gradient(135deg, #ff00aa, #9f00ff);
-      }
-
-      .premium .card-top {
-        background: linear-gradient(135deg, #ffc400, #ff6a00);
-      }
-
-      .stars {
-        color: #eee;
-        font-size: 16px;
-        letter-spacing: 4px;
-      }
-
-      .price-circle {
-        background: #111;
-        width: 120px;
-        height: 120px;
+      .boost-close-btn {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-primary);
         border-radius: 50%;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        position: absolute;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-weight: bold;
-        font-size: 12px;
-        z-index: 2;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--text-secondary);
+        font-size: 16px;
+        z-index: 10;
       }
 
-      .basic .price-circle {
-        border: 4px solid #00f5c9;
+      .boost-close-btn:hover {
+        background: var(--danger-color);
+        border-color: var(--danger-color);
+        color: white;
+        transform: scale(1.1);
       }
 
-      .standard .price-circle {
-        border: 4px solid #ff00aa;
+      .boost-icon-container {
+        margin-bottom: var(--spacing-lg);
       }
 
-      .premium .price-circle {
-        border: 4px solid #ffc400;
-      }
-
-      .features {
-        padding: 100px 20px 10px;
-        text-align: left;
-      }
-
-      .features p {
-        margin: 10px 0;
+      .boost-icon-pulse {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        font-size: 14px;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 2.5rem;
+        color: white;
+        animation: pulseGlow 2s infinite;
+        position: relative;
       }
 
-      .features span {
-        font-size: 18px;
-        margin-right: 10px;
+      .boost-icon-pulse::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: ripple 2s infinite;
       }
 
-      .basic .features span {
-        color: #00ff00;
+      @keyframes ripple {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.1); opacity: 0.1; }
       }
 
-      .standard .features span {
-        color: #ff0066;
+      .boost-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
       }
 
-      .premium .features span {
-        color: #ffc400;
+      .boost-subtitle {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin-bottom: 0;
       }
 
-      .card-button {
+      .boost-progress-section {
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .boost-step {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+        border-radius: var(--radius-lg);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-primary);
+        transition: all 0.3s ease;
+        opacity: 0.5;
+      }
+
+      .boost-step.active {
+        opacity: 1;
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05));
+        border-color: rgba(79, 70, 229, 0.3);
+        transform: translateX(4px);
+      }
+
+      .boost-step.completed {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+        border-color: rgba(34, 197, 94, 0.3);
+      }
+
+      .boost-step i {
+        font-size: 1.2rem;
+        margin-right: var(--spacing-md);
+        color: var(--primary-color);
+        width: 24px;
         text-align: center;
-        padding: 15px;
       }
 
-      .card-button button {
-        background: linear-gradient(to right, #00f5c9, #00b8ff);
+      .boost-step.completed i {
+        color: var(--success-color);
+      }
+
+      .boost-step span {
+        flex: 1;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .step-status {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--bg-secondary);
+        border: 2px solid var(--border-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--success-color);
+      }
+
+      .boost-progress-bar-container {
+        margin-bottom: var(--spacing-2xl);
+        text-align: center;
+      }
+
+      .boost-progress-bar {
+        width: 100%;
+        height: 12px;
+        background: var(--bg-tertiary);
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border-primary);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .boost-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+        width: 0%;
+        transition: width 0.3s ease;
+        border-radius: 6px;
+        box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+      }
+
+      .boost-percentage {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .boost-stats-preview {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: var(--spacing-lg);
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-primary);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--success-color);
+        margin-bottom: var(--spacing-xs);
+        animation: numberPop 0.6s ease-out;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      @keyframes numberPop {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      .boost-complete-btn {
+        width: 100%;
+        padding: var(--spacing-lg) var(--spacing-2xl);
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        color: white;
         border: none;
         border-radius: 50px;
-        padding: 10px 25px;
-        color: black;
-        font-weight: bold;
+        font-size: 1.1rem;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
       }
 
-      .standard .card-button button {
-        background: linear-gradient(to right, #ff00aa, #9f00ff);
+      .boost-complete-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(34, 197, 94, 0.4);
       }
 
-      .premium .card-button button {
-        background: linear-gradient(to right, #ffc400, #ff6a00);
+      /* Enhanced Toast Styles */
+      .boost-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        font-weight: 600;
+        animation: slideInUp 0.4s ease-out;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        max-width: 400px;
       }
 
-      /* Pricing Carousel Styles */
-      .pricing-carousel {
-        display: none;
-      }
-
-
-      @media (max-width: 992px) {
-        .cards-main {
-          display: none;
-        }
-
-        .pricing-carousel {
-          display: block;
-          padding: 0 15px;
-        }
-
-        .carousel-inner {
-          border-radius: 15px;
-          overflow: hidden;
-        }
-
-        .carousel-item {
-          padding: 20px;
-        }
-
-        .carousel-control-prev,
-        .carousel-control-next {
-          width: 40px;
-          height: 40px;
-          background-color: rgba(0, 0, 0, 0.9);
-          border-radius: 50%;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-
-        .carousel-indicators {
-          bottom: -30px;
-        }
-
-        .carousel-indicators button {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: #6c8ce6;
-        }
-      }
-
-      .carousel-card {
-        background: #222;
+      .boost-toast-info {
+        background: linear-gradient(135deg, var(--info-color), #2563EB);
         color: white;
-        border-radius: 20px;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-        position: relative;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        width: 100%;
-        margin: 0 auto;
-        max-width: 350px;
       }
 
-      /* MEDIA QUERIES */
-      @media (max-width: 992px) {
-        .custom-card {
-          flex: 0 0 45%;
+      .boost-toast-processing {
+        background: linear-gradient(135deg, var(--warning-color), #D97706);
+        color: white;
+      }
+
+      .boost-toast-success {
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        color: white;
+      }
+
+      .boost-toast-warning {
+        background: linear-gradient(135deg, var(--warning-color), #DC2626);
+        color: white;
+      }
+
+      @keyframes pulseGlow {
+        0%, 100% {
+          box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(79, 70, 229, 0.8);
         }
       }
 
-      @media (max-width: 638px) {
-        .custom-card {
-          flex: 0 0 80%;
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .boost-modal-content {
+          margin: 15px;
+          padding: var(--spacing-lg);
+          max-width: calc(100vw - 30px);
+          max-height: calc(100vh - 30px);
+          overflow-y: auto;
+        }
+        
+        .boost-header {
+          margin-bottom: var(--spacing-lg);
+        }
+        
+        .boost-close-btn {
+          top: -5px;
+          right: -5px;
+          width: 35px;
+          height: 35px;
+          font-size: 14px;
+        }
+        
+        .boost-icon-pulse {
+          width: 60px;
+          height: 60px;
+        }
+        
+        .boost-icon-pulse i {
+          font-size: 24px;
+        }
+        
+        .boost-title {
+          font-size: 1.3rem;
+          margin-bottom: var(--spacing-xs);
+        }
+        
+        .boost-subtitle {
+          font-size: 0.9rem;
+        }
+        
+        .boost-progress-section {
+          margin-bottom: var(--spacing-lg);
+        }
+        
+        .boost-step {
+          padding: var(--spacing-sm);
+          font-size: 0.85rem;
+        }
+        
+        .boost-step i {
+          font-size: 14px;
+          margin-right: var(--spacing-xs);
+        }
+        
+        .boost-stats-preview {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-lg);
+        }
+        
+        .stat-value {
+          font-size: 1.5rem;
+        }
+        
+        .stat-label {
+          font-size: 0.8rem;
+        }
+        
+        .boost-complete-btn {
+          padding: var(--spacing-sm) var(--spacing-lg);
+          font-size: 0.9rem;
+        }
+        
+        .boost-toast {
+          right: 10px;
+          left: 10px;
+          max-width: none;
+          margin: 0 10px;
         }
       }
 
       @media (max-width: 480px) {
-        .custom-card {
-          flex: 0 0 95%;
-          max-width: 95%;
-          min-width: 260px;
+        .boost-modal-content {
+          margin: 10px;
+          padding: var(--spacing-md);
+          border-radius: var(--radius-lg);
         }
-
-        .price-circle {
-          width: 90px;
-          height: 90px;
-          font-size: 10px;
+        
+        .boost-close-btn {
+          top: 5px;
+          right: 5px;
+          width: 32px;
+          height: 32px;
+          font-size: 12px;
         }
-
-        .card-top h2 {
-          font-size: 18px;
+        
+        .boost-icon-pulse {
+          width: 50px;
+          height: 50px;
         }
-
-        .features p {
-          font-size: 13px;
+        
+        .boost-icon-pulse i {
+          font-size: 20px;
         }
-
-        .card-button button {
-          font-size: 14px;
-          padding: 8px 20px;
+        
+        .boost-title {
+          font-size: 1.1rem;
         }
-      }
-
-      /* Billing sec */
-      .billing-sec {
-        width: 100%;
-        background-color: #f5f7ff;
-        height: 200px;
-        margin-top: 10px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        border-radius: 10px;
-      }
-
-      /* Heading Animation */
-      .billing-sec h2 {
-        animation: bounceFade 1.2s ease forwards;
-      }
-
-      /* Card block (individual .rs divs) */
-      .billing-sec .rs {
-        animation: cardPop 1s ease forwards;
-        transition: transform 0.3s ease;
-      }
-
-      .billing-sec .rs:hover {
-        transform: translateY(-5px);
-      }
-
-      /* Button hover enhancement */
-      .billing-sec a.btn {
-        animation: fadeInUp 1.5s ease;
-        transition: background 0.3s ease, transform 0.2s ease;
-      }
-
-      .billing-sec a.btn:hover {
-        transform: scale(1.02);
-        background: #3534a0 !important;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+        
+        .boost-subtitle {
+          font-size: 0.8rem;
         }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        
+        .boost-step {
+          padding: var(--spacing-xs) var(--spacing-sm);
+          font-size: 0.8rem;
+        }
+        
+        .stat-item {
+          padding: var(--spacing-sm);
+        }
+        
+        .stat-value {
+          font-size: 1.3rem;
         }
       }
 
-      @keyframes slideUp {
-        from {
-          transform: translateY(20px);
-          opacity: 0;
-        }
-
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
+      /* Utility Classes */
+      .text-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
-      @keyframes fadeInSlide {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
       }
 
-      @keyframes bounceFade {
-        0% {
-          opacity: 0;
-          transform: scale(0.95);
-        }
-
-        60% {
-          opacity: 0.6;
-          transform: scale(1.03);
-        }
-
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
+      .hidden {
+        display: none;
       }
 
-      @keyframes cardPop {
-        from {
-          opacity: 0;
-          transform: scale(0.9);
-        }
-
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(15px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Billing sec */
-
-      /* sssssssssss */
-      .icon-slider {
-        display: block;
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
         overflow: hidden;
-        border: 1px solid #ddd;
-        position: relative;
-        padding: 10px 0px;
-      }
-
-      .icon-track {
-        display: flex;
-        width: max-content;
-        animation: scrollIcons 20s linear infinite;
-        gap: 40px;
-        font-size: 2.5rem;
-        padding-left: 100%;
-      }
-
-      .icon-slider:hover .icon-track {
-        animation-play-state: paused;
-      }
-
-      @keyframes scrollIcons {
-        0% {
-          transform: translateX(0);
-        }
-
-        100% {
-          transform: translateX(-100%);
-        }
-      }
-
-      /* ssssssssssssss */
-
-      /* From Uiverse.io by ilkhoeri */
-      .card123 {
-        --black: 0, 0%, 0%;
-        --white-smoke: 0, 0%, 89%;
-        --black-muted: 0, 0%, 13%;
-        --green-light: 87, 73%, 63%;
-        --gap: 12px;
-        --h-card: 280px;
-        --p-card: 1rem;
-        --gap-action: 6px;
-        --sz-action: 58px;
-        --round-card: calc(var(--sz-action) / 2 + calc(var(--gap-action) / 2));
-
-        height: var(--h-card);
-        border-radius: var(--round-card);
-        position: relative;
-        background-color: hsl(var(--green-light));
-        padding: var(--p-card);
-        box-shadow: rgba(0, 0, 0, 0.15) -1.95px 1.95px 2.6px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .corner {
-        position: absolute;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        right: 0;
-        top: 0;
-        background-color: hsl(var(--white-smoke));
-        z-index: 2;
-        border-bottom-left-radius: var(--round-card);
-        padding-bottom: var(--gap-action);
-        padding-left: var(--gap-action);
-        gap: var(--gap-action);
-      }
-
-
-      .corner .action {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 9999px;
-        height: var(--sz-action);
-        width: var(--sz-action);
-        border: none;
-        outline: none;
-        transition: all 0.5s ease;
-        background-color: hsl(var(--white-smoke));
-        color: hsl(var(--black-muted));
-        box-shadow:
-          rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-          rgba(27, 31, 35, 0.15) 0px 0px 0px 1px,
-          rgba(0, 0, 0, 0.07) 0px 1px 2px,
-          rgba(0, 0, 0, 0.07) 0px 2px 4px;
-      }
-
-      .corner .action:hover {
-        background-color: #4B49AC;
-      }
-
-      .corner .action:hover i {
-        color: white;
-      }
-
-      .box-body {
-        --sz-img: 32px;
-        gap: 16px;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        z-index: 9;
-      }
-
-      .box-body .box-content {
-        gap: 16px;
-        display: flex;
-        align-items: start;
-        justify-content: flex-start;
-        flex-direction: row;
-        position: relative;
-      }
-
-      .box-body .caption {
-        gap: 4px;
-        font-size: 1.25rem;
-        line-height: 1.5;
-        font-weight: 400;
-        display: flex;
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .box-foot {
-        position: relative;
-        z-index: 9;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      .box-foot::before {
-        content: attr(data-title);
-        position: absolute;
-        bottom: calc(100% + 4px);
-        color: hsl(var(--black-muted));
-        min-width: max-content;
-        font-size: 14px;
-      }
-
-      .box-foot-actions {
-        gap: var(--gap);
-        display: grid;
-        grid-auto-flow: column;
-      }
-
-      .img {
-        font-size: 24px;
-        font-weight: 800;
-        border-radius: 9999px;
-        height: var(--sz-img);
-        width: var(--sz-img);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        color: hsl(var(--black-muted), 0);
-        border: 1px solid hsl(var(--black-muted), 0);
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .box-body .img {
-        border-radius: 0;
-      }
-
-      .font-semibold {
-        font-weight: 600;
-      }
-
-      .text-sm {
-        font-size: 14px;
-      }
-
-      @media screen and (max-width: 768px) {
-        .card123 {
-          padding: 0 !important;
-        }
-      }
-
-      figure {
-        --size: 15vmin;
-        --duration: 4s;
-        --direction: 1;
-        --pull: -1.25;
-        perspective: 30rem;
-        display: grid;
-        grid-template-areas: "figure";
-        place-items: center;
-        inline-size: var(--size);
-        aspect-ratio: 1;
-        animation: spin var(--duration) ease-in-out infinite;
-      }
-
-      figure>* {
-        --radius: calc(var(--size) / 2);
-        --deg: calc(var(--i) * (360deg / 12));
-        --hs: 225 100%;
-        --transform-start: translate3d(calc(cos(var(--deg)) * var(--radius)),
-            calc(sin(var(--deg)) * var(--radius)),
-            0) rotate(calc(var(--deg)));
-        grid-area: figure;
-        background-color: hsl(var(--hs) var(--l, 60%));
-        inline-size: calc(var(--size) / 4);
-        aspect-ratio: 1;
-        clip-path: polygon(25% 25%, 100% 50%, 25% 75%, 0% 50%);
-        transform: var(--transform-start);
-        transform-style: preserve-3d;
-        animation: diamonds var(--duration) cubic-bezier(0.87, 0, 0.13, 1) infinite;
-      }
-
-      .tooltip-container {
-        position: relative;
-        display: inline-block;
-      }
-
-      .tooltip-text {
-        position: absolute;
-        top: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #333;
-        color: #fff;
-        padding: 6px 12px;
-        border-radius: 6px;
+        clip: rect(0, 0, 0, 0);
         white-space: nowrap;
-        font-size: 12px;
-        z-index: 1;
-        opacity: 1;
-      }
-
-      .tooltip-text::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 6px;
-        border-style: solid;
-        border-color: transparent transparent #333 transparent;
-      }
-
-      .status-container {
-        text-align: left;
-      }
-
-      .status-label {
-        font-size: 14px;
-        margin-bottom: 5px;
-        color: #333;
-      }
-
-      .status-button {
-        display: inline-flex;
-        align-items: center;
-        background-color: #6C8CE6;
-        border: 1px solid #6C8CE6;
-        padding: 8px 16px;
-        border-radius: 30px;
-        cursor: pointer;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-
-      .status-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        margin-right: 10px;
-        border: 2px solid #ccc;
-      }
-
-      .status-text {
-        font-weight: bold;
-        margin-right: 6px;
-      }
-
-      .status-arrow {
-        font-size: 16px;
-      }
-
-      @keyframes fadeSlide {
-        0% {
-          opacity: 0;
-          transform: translateX(20px);
-        }
-
-        50% {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        100% {
-          opacity: 0;
-          transform: translateX(20px);
-        }
-      }
-
-      .wifi-boost-animate {
-        animation: fadeSlide 2s ease-in-out infinite;
-      }
-
-      /* From Uiverse.io by adamgiebl */
-      .dots-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-      }
-
-      .dot {
-        height: 20px;
-        width: 20px;
-        margin-right: 10px;
-        border-radius: 10px;
-        background-color: #b3d4fc;
-        animation: pulse 1.5s infinite ease-in-out;
-      }
-
-      .dot:last-child {
-        margin-right: 0;
-      }
-
-      .dot:nth-child(1) {
-        animation-delay: -0.3s;
-      }
-
-      .dot:nth-child(2) {
-        animation-delay: -0.1s;
-      }
-
-      .dot:nth-child(3) {
-        animation-delay: 0.1s;
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(0.8);
-          background-color: #b3d4fc;
-          box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
-        }
-
-        50% {
-          transform: scale(1.2);
-          background-color: #6793fb;
-          box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
-        }
-
-        100% {
-          transform: scale(0.8);
-          background-color: #b3d4fc;
-          box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
-        }
-      }
-
-      @media (max-width: 576px) {
-
-        /* Fix Boost button and corner layout */
-        .corner {
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 10px;
-          justify-content: center;
-          align-items: center;
-          padding: 8px;
-          border-radius: 20px !important;
-        }
-
-        .corner .action {
-          width: 44px;
-          height: 44px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .corner .action i {
-          font-size: 18px;
-        }
-
-        /* Fix tooltip for smaller screen */
-        .tooltip-text {
-          font-size: 11px;
-          padding: 6px 10px;
-          white-space: nowrap;
-          max-width: 120px;
-        }
-
-        /* Handle long names in profile */
-        .user-content h6 {
-          max-width: 140px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: block;
-        }
-
-        .test,
-        .user-content {
-          flex-wrap: wrap;
-          max-width: 100%;
-          overflow-x: auto;
-        }
-      }
-
-      @media (max-width: 576px) {
-
-        /* Responsive layout for action buttons (Boost, etc.) */
-        .corner {
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 8px;
-          justify-content: center;
-          padding: 10px;
-        }
-
-        .corner .action {
-          width: 44px;
-          height: 44px;
-        }
-
-        .corner .action i {
-          font-size: 18px;
-        }
-
-        .tooltip-text {
-          font-size: 11px;
-          padding: 6px 10px;
-          white-space: nowrap;
-          max-width: 120px;
-        }
-
-        /* Trim long names in profile display */
-        .user-content h6 {
-          max-width: 140px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: block;
-        }
-
-        .user-content h6::after {
-          content: attr(title);
-          display: none;
-        }
-
-        .test,
-        .user-content {
-          flex-wrap: wrap;
-          max-width: 100%;
-          overflow-x: auto;
-        }
-
-        .profile .pic {
-          width: 100px;
-          height: 100px;
-        }
-
-        .profile .bio {
-          font-size: 14px;
-          text-align: center;
-        }
-      }
-
-      .user-content {
-        max-width: 100%;
-        overflow-x: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .billing-label {
-        color: #000000;
-        /* Pure black */
-        font-weight: 600;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.6px;
-        margin-top: 4px;
-        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        border: 0;
       }
     </style>
   </head>
 
-  <body style="background-color: #F3F3F9;">
+  <body style="background-color: #F8FAFC;">
     <div class="container-scroller">
       <!-- Navbar Partial -->
       <%- include ('./partials/_navbar.ejs') %>
 
-        <div class="container-fluid  page-body-wrapper"
-          style="padding-left: 0px !important; padding-right: 0px !important;">
-          <!-- Sidebar Start -->
-          <%- include('./partials/Sidebar.ejs') %>
+      <div class="container-fluid page-body-wrapper" style="padding-left: 0px !important; padding-right: 0px !important;">
+        <!-- Sidebar Start -->
+        <%- include('./partials/Sidebar.ejs') %>
 
-            <!-- Main Content -->
-            <div class="main-panel">
-              <div class="content-wrapper">
-                <!-- Hero Section -->
-                <form action="/textChange" method="post">
-                  <div class="card123 main-div"
-                    style="background-image: url('/uploads/<%= bg_result[0].background_img %>'); background-color: <%= bg_result[0].background_color %>; background-size: cover; padding: 20px; position: relative;">
-                    <!-- Loader inside card123 -->
-                    <div id="loader-container"
-                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 999;">
-                      <figure class="loader">
-                        <div style="--i: 1"></div>
-                        <div style="--i: 2"></div>
-                        <div style="--i: 3"></div>
-                        <div style="--i: 4"></div>
-                        <div style="--i: 5"></div>
-                        <div style="--i: 6"></div>
-                        <div style="--i: 7"></div>
-                        <div style="--i: 8"></div>
-                        <div style="--i: 9"></div>
-                        <div style="--i: 10"></div>
-                        <div style="--i: 11"></div>
-                        <div style="--i: 12"></div>
-                      </figure>
-                    </div>
+        <!-- Main Content -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            
+            <!-- Hero Section -->
+            <form action="/textChange" method="post">
+              <div class="hero-container">
+                <!-- Loader -->
+                <div id="loader-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 999;">
+                  <div class="loader"></div>
+                </div>
 
-                    <div class="content-section">
-                      <div class="test d-flex align-items-center">
-                        <div class="profile">
-                          <a href="/profile">
-                            <img
-                              src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
-                              alt="Profile" width="65px" height="65px" style="border-radius: 50%;">
-                          </a>
-                        </div>
-                        &nbsp;
-                        <div class="user-content">
-<% const fullName=`${user.Username} ${user.lastName}`.replace(/\s+/g, ' ' ).trim(); const firstWord=fullName.split(' ')[0]; %>
-                          <h6
-                            style="font-size: 20px; color: white; white-space: nowrap; overflow: visible; text-overflow: unset;"
-                            title="<%= fullName %>">
-                            <%= firstWord %>
-                          </h6>
-                          <div class="loyal d-flex align-items-center">
-                            <div class="loyal d-flex align-items-center">
-                              <p class="ml-2 mb-0">
-                                <%= user.plan %> Mbps
-                              </p>
-                              <a href="/package">
-                                <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i>
-                              </a>
-                            </div>
-                            <a href="/package">
-                              <!-- <i class="fa-solid fa-chevron-right ml-2" style="font-size: 14px; color: white;"></i> -->
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                  <div data-action="notif" class="action-btn" title="Boost WiFi">
+                    <i class="bi bi-rocket-takeoff"></i>
+                  </div>
+                  <a href="/contactus" class="action-btn" title="Support">
+                    <i class="bi bi-headset"></i>
+                  </a>
+                  <a href="/complaint" class="action-btn" title="Wallet">
+                    <i class="bi bi-wallet2"></i>
+                  </a>
+                </div>
 
-                    <div class="corner" style="background-color: #F3F3F9 !important; border-radius: 50px;">
-                      <div class="tooltip-container">
-                        <div data-action="notif" class="action">
-                          <i class="bi bi-rocket-takeoff" style="font-size: xx-large;"></i>
-                        </div>
-                        <div class="tooltip-text">
-                          <section class="dots-container" style="display: none;">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                          </section>
-                          Boost WiFi
-                        </div>
-                      </div>
-
-                      <script>
-                        const actionBtn = document.querySelector(' [data-action="notif" ]'); const
-                          dotsContainer = document.querySelector('.dots-container'); actionBtn.addEventListener('click',
-                            () => {
-                              dotsContainer.style.display = 'flex';
-                              setTimeout(() => {
-                                dotsContainer.style.display = 'none';
-                              }, 10000);
-                            });
-                      </script>
-
-                            <div data-action="more" class="action">
-                              <a href="/contactus"><i class="bi bi-headset" style="font-size: xx-large;"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="box-body">
-                          <div class="box-content">
-                            <span class="img"></span>
-                            <div class="caption">
-                              <div>
-                                <p class="text-sm">
-                                  <time class="font-semibold"></time>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="box-foot-actions"
-                          style="display: flex; justify-content: space-between; align-items: center;">
-                          <div class="status-container">
-                            <div class="status-button">
-                              <a href="/complaint" style="color: white; text-decoration: none;">
-                                <img src="https://img.icons8.com/color/96/wallet--v1.png" alt="wallet--v1"
-                                  class="status-avatar">
-                                <span class="status-text">Wallet</span>
-                                <span class="status-arrow">→</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                </form>
-
-                <!-- Stats Cards -->
-                <div class="crudd-container">
-  <% if(user) { %>
-    <a href="/History" style="text-decoration: none;">
-      <div class="crudd" style="background-color: #6D8DE6; border-bottom: 30px solid #4A69C9;">
-        <img class="imgicon-1" width="100" height="100"
-          src="https://img.icons8.com/3d-fluency/188/wi-fi-logo.png" style="top: -50px; left: 28px;">
-        <div class="icone"></div>
-        <h3 class="rem zem">Total GB</h3>
-        <p id="numberDisplay"
-          style="font-size: 14px; font-weight: bold; margin-top: 12%; text-decoration: none; color:black;">
-          0
-        </p>
-        <script>
-          const display = document.getElementById("numberDisplay");
-
-          const START_VALUE = 1500;
-          const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-          const THIRTY_DAYS_MS = 30 * ONE_DAY_MS;
-
-          let data = JSON.parse(localStorage.getItem("counterData")) || {
-            number: START_VALUE,
-            startTime: Date.now(),
-            lastUpdate: Date.now()
-          };
-
-          const now = Date.now();
-
-          // Reset if 30 days passed since startTime
-          if (now - data.startTime >= THIRTY_DAYS_MS) {
-            data = {
-              number: 0,
-              startTime: now,
-              lastUpdate: now
-            };
-          }
-
-          // Check if a day passed since last update
-          if (now - data.lastUpdate >= ONE_DAY_MS) {
-            const daysPassed = Math.floor((now - data.lastUpdate) / ONE_DAY_MS);
-            for (let i = 0; i < daysPassed; i++) {
-              const increment = Math.random() < 0.5 ? 3 : 4;
-              data.number += increment;
-            }
-            data.lastUpdate += daysPassed * ONE_DAY_MS;
-          }
-
-          // Save updated data
-          localStorage.setItem("counterData", JSON.stringify(data));
-
-          // Display the number
-          display.innerText = data.number;
-        </script>
-      </div>
-    </a>
-
-    <a href="/changepassword" style="text-decoration: none;">
-      <div class="crudd crod" style="background-color: #E0AFA0; border-bottom: 30px solid #C87941;">
-        <img class="imgicon-2" width="76" height="76" src="images/wifi4.png"
-          style="top: -50px; right: 48px;">
-        <div class="icone"></div>
-        <p style="font-size: 14px; font-weight: bold; color: black;">
-          Change <br>wifi <br> Password
-        </p>
-      </div>
-    </a>
-
-    <a href="/package" style="text-decoration: none;">
-      <div class="crudd" style="background-color: #2C2C29; border-bottom: 30px solid #555555;">
-        <img class="imgicon-3" width="96" height="96" src="images/router-img.png"
-          style="top: -50px;right: 33px;">
-        <div class="icone"></div>
-        <h3 class="rem text-white">Speed</h3>
-        <p style="font-size: 14px; font-weight: bold; color: white;">
-          <%= user.plan %> Mbps
-        </p>
-      </div>
-    </a>
-  <% } %>
-</div>
-
-
-                <!-- Icon Grid -->
-                <h3 style="text-align: center; color: black;"> Quick look</h3>
-                <div class="container" style="background: #f5f7ff; border-radius: 15px;padding-top: 19px;">
-                  <div class="row">
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/prayer" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img src="/images/prayer.png" alt="Prayer">
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Prayer</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/quran" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img src="/images/quran1.png" alt="Quran">
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Quran</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/tasbeeh" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img src="https://img.icons8.com/3d-fluency/94/praying-beads.png" alt="Tasbeeh">
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Tasbeeh</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/weather" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img width="64" height="64" src="https://img.icons8.com/fluency/96/partly-cloudy-day.png"
-                            alt="partly-cloudy-day" />
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Weather</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/package" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img width="48" height="48" src="/images/1f4e6.png" alt="Packages" />
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Packages</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/History" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img width="100" height="100" src="/images/clock.png" alt="history" />
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            History</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/contactUs" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img src="images\customer-support.png" alt="Contact">
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Support</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-3 col-sm-3 p-3 text-center">
-                      <a href="/profile" style="text-decoration: none;">
-                        <div class="grid-item">
-                          <img width="96" height="96" src="images\profile1.png" alt="admin-settings-male" />
-                          <p
-                            style="margin-top: 8px; font-size: 16px; font-weight: bold; color: black; text-decoration: none;">
-                            Profile</p>
-                        </div>
-
+                <!-- User Profile Section -->
+                <div class="user-profile-section">
+                  <div class="profile">
+                    <a href="/profile">
+                      <img class="profile-avatar"
+                        src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                        alt="Profile">
+                    </a>
+                  </div>
+                  <div class="user-info">
+                    <% const fullName=`${user.Username} ${user.lastName}`.replace(/\s+/g, ' ' ).trim(); const firstWord=fullName.split(' ')[0]; %>
+                    <h6 title="<%= fullName %>">
+                      Welcome back, <%= firstWord %>
+                    </h6>
+                    <div class="user-plan">
+                      <span class="plan-badge"><%= user.plan %> Mbps</span>
+                      <a href="/package" class="plan-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
                       </a>
                     </div>
                   </div>
                 </div>
+              </div>
+            </form>
 
-
-      </div>
-    </div>
-  </div>
-</div>
-
-                <!-- Adds Section -->
-                <div>
-                  <!-- Promotion Image Modal -->
-                  <div class="modal fade" id="imageModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                      <div class="modal-content border-0 p-0 overflow-hidden rounded"
-                        style="max-height: 600px; margin: auto; width: 72%; height: 500px;">
-
-                        <!-- Close button with black icon -->
-                        <button type="button" class="btn-close black position-absolute top-0 end-0 m-2 z-3"
-                          data-bs-dismiss="modal" aria-label="Close" style="font-size: 2rem;"></button>
-
-                        <% if (typeof promotresult !=='undefined' && promotresult.length> 0 && promotresult[0].img1) {
-                          %>
-                          <div class="w-100 h-100 position-relative">
-                            <img src="Uploads/<%= promotresult[0].img1 %>" alt="Promotion Image"
-                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
-                          </div>
-                          <% } else { %>
-                            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                              <p class="text-center m-0">No promotion image available.</p>
-                            </div>
-                            <% } %>
-                      </div>
+            <!-- Stats Cards -->
+            <div class="stats-container">
+              <% if(user) { %>
+                <a href="/History" style="text-decoration: none;">
+                  <div class="stat-card primary">
+                    <div class="stat-icon">
+                      <i class="bi bi-bar-chart-line"></i>
                     </div>
+                    <h3 class="stat-title">Data Usage</h3>
+                    <p class="stat-value" id="numberDisplay">0</p>
+                    <p class="stat-subtitle">GB this month</p>
                   </div>
+                </a>
 
-                  <!-- Add this style block somewhere in your <head> or main CSS file -->
-                  <style>
-                    .btn-close.black {
-                      filter: none;
-                      background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3e%3cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-                    }
-                  </style>
+                <a href="/changepassword" style="text-decoration: none;">
+                  <div class="stat-card secondary">
+                    <div class="stat-icon">
+                      <i class="bi bi-shield-lock"></i>
+                    </div>
+                    <h3 class="stat-title">Security</h3>
+                    <p class="stat-value">WiFi</p>
+                    <p class="stat-subtitle">Change password</p>
+                  </div>
+                </a>
 
+                <a href="/package" style="text-decoration: none;">
+                  <div class="stat-card accent">
+                    <div class="stat-icon">
+                      <i class="bi bi-speedometer2"></i>
+                    </div>
+                    <h3 class="stat-title">Plan Speed</h3>
+                    <p class="stat-value"><%= user.plan %></p>
+                    <p class="stat-subtitle">Mbps current plan</p>
+                  </div>
+                </a>
+              <% } %>
+            </div>
 
-                  <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                      let imageModalShown = false;
-                      const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), { keyboard: false });
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+              <h3 class="section-title">Quick Actions</h3>
+              <div class="actions-grid">
+                <a href="/prayer" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-sun" style="color: var(--accent-color);"></i>
+                  </div>
+                  <p class="action-label">Prayer</p>
+                </a>
+                
+                <a href="/quran" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-book" style="color: var(--secondary-color);"></i>
+                  </div>
+                  <p class="action-label">Quran</p>
+                </a>
+                
+                <a href="/tasbeeh" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-circle-fill" style="color: var(--primary-color);"></i>
+                  </div>
+                  <p class="action-label">Tasbeeh</p>
+                </a>
+                
+                <a href="/weather" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-cloud-sun" style="color: #06B6D4;"></i>
+                  </div>
+                  <p class="action-label">Weather</p>
+                </a>
+                
+                <a href="/package" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-box" style="color: var(--accent-color);"></i>
+                  </div>
+                  <p class="action-label">Packages</p>
+                </a>
+                
+                <a href="/History" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-clock-history" style="color: var(--gray-600);"></i>
+                  </div>
+                  <p class="action-label">History</p>
+                </a>
+                
+                <a href="/contactUs" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-headset" style="color: var(--primary-color);"></i>
+                  </div>
+                  <p class="action-label">Support</p>
+                </a>
+                
+                <a href="/profile" class="action-item">
+                  <div class="action-icon">
+                    <i class="bi bi-person-gear" style="color: var(--gray-600);"></i>
+                  </div>
+                  <p class="action-label">Profile</p>
+                </a>
+              </div>
+            </div>
 
-                      const promotresultExists = <%= typeof promotresult !== 'undefined' && promotresult.length > 0 && promotresult[0].img1 ? 'true' : 'false' %>;
+           <div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
 
-                      const createdAtString = "<%= promotresult && promotresult[0] && promotresult[0].created_at ? promotresult[0].created_at.toISOString ? promotresult[0].created_at.toISOString() : promotresult[0].created_at : '' %>";
-                      const promotionCreatedAt = new Date(createdAtString);
-                      const now = new Date();
-                      const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
-                      const isNewPromotion = (now - promotionCreatedAt) < threeDaysInMs;
-                        
-                              <% if (typeof userJustLoggedIn !== 'undefined' && userJustLoggedIn) { %>
-                                if (promotresultExists && isNewPromotion && !imageModalShown) {
-                          imageModal.show();
-                          imageModalShown = true;
-                        }
-                              <% } %>
-                            });
-                  </script>
-                </div>
-
-
-
-                <!-- Adds Section -->
-
-               <%
-  // Find the matching package safely without optional chaining
-  const matchedPackage = packages.find(p =>
-    subscription &&
-    subscription.package_name &&
-    p.Package.trim().toLowerCase() === subscription.package_name.trim().toLowerCase()
-  );
-
-  // Default values
-  let isExpired = false;
-  let formattedDate = '--';
-
-  // Check expiry date
-  if (subscription && subscription.expiry_date) {
-    const expiryDate = new Date(subscription.expiry_date);
-    const now = new Date();
-    isExpired = now > expiryDate;
-
-    const day = String(expiryDate.getDate()).padStart(2, '0');
-    const month = String(expiryDate.getMonth() + 1).padStart(2, '0');
-    const year = expiryDate.getFullYear();
-    formattedDate = `${day}-${month}-${year}`;
-  }
-%>
-
-
-                  <div class="card p-4 mb-4" style="border: 1px solid #ccc; border-radius: 10px;">
-
-  <% if (subscription && user.invoice === "Paid" && !isExpired) { %>
+  <% if (subscription && user.invoice === "Paid") { %>
     <h5 class="fw-bold text-center mb-3">Payment Model</h5>
-  <% } %>
 
-  <div class="paid" style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
-    
-    <% if (subscription && user.invoice === "Paid") { %>
-
+    <div class="paid"
+         style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
       <!-- Package Name -->
       <div class="rs">
-        <h4 style="font-weight: 900;"><%= matchedPackage ? matchedPackage.Package : '--' %></h4>
+        <h4 style="font-weight: 900;">
+          <%= matchedPackage ? matchedPackage.Package : '--' %>
+        </h4>
         <p class="billing-label">Package Name</p>
       </div>
 
@@ -2286,8 +2387,8 @@
 
       <!-- Payment Status -->
       <div class="rs">
-        <h4 style="font-weight: 900; color: <%= isExpired ? 'red' : 'green' %>;">
-          <%= isExpired ? 'Expired' : 'Paid' %>
+        <h4 style="font-weight: 900; color: <%= user.invoice === 'Paid' ? 'green' : 'red' %>;">
+          <%= user.invoice %>
         </h4>
         <p class="billing-label">Payment Status</p>
       </div>
@@ -2304,695 +2405,823 @@
         </h4>
         <p class="billing-label">Expiry Date</p>
       </div>
+    </div>
 
-    <% } %>
-
-  </div>
-
-  <% if (subscription && user.invoice === "Paid") { %>
     <% if (isExpired) { %>
-      <button 
-        class="btn btn-warning w-100 mt-3" 
-        disabled
-        data-package="<%= subscription.package_name %>"
-        data-price="<%= matchedPackage ? matchedPackage.Price : '0' %>"
-        data-speed="<%= matchedPackage ? matchedPackage.Speed : '' %>"
-        data-offer="<%= matchedPackage ? matchedPackage.Offer_Valid : '' %>"
-        data-dataused="<%= matchedPackage ? matchedPackage.Data_Used : '' %>"
-        data-limits="<%= matchedPackage ? matchedPackage.limits : '' %>"
-      >
-        Expired
+      <button class="btn btn-warning w-100 mt-3"
+              data-bs-toggle="modal"
+              data-bs-target="#paymentModal"
+              data-package="<%= subscription.package_name %>"
+              data-price="<%= matchedPackage ? matchedPackage.Price : '0' %>"
+              data-speed="<%= matchedPackage ? matchedPackage.Speed : '' %>"
+              data-offer="<%= matchedPackage ? matchedPackage.Offer_Valid : '' %>"
+              data-dataused="<%= matchedPackage ? matchedPackage.Data_Used : '' %>"
+              data-limits="<%= matchedPackage ? matchedPackage.limits : '' %>">
+        Resubscribe
       </button>
     <% } else { %>
       <button class="btn btn-success w-100 mt-3" disabled>Activated</button>
     <% } %>
+
   <% } else { %>
-    <h5 class="text-center text-danger fw-bold mt-4">You currently do not have any active packages.</h5>
-    <div class="text-center">
-      <a href="/package" class="btn btn-success mt-2">Browse Packages</a>
+    <!-- No subscription fallback -->
+    <div class="text-center w-100 py-4">
+      <h5 style="font-weight: bold; color: red;">You don't have any active subscription</h5>
+      <p class="text-muted">Choose a package now and enjoy uninterrupted service.</p>
+      <a href="/package" class="btn btn-primary mt-2">View All Packages</a>
     </div>
   <% } %>
-
 </div>
 
-
-
-
-                  <!-- Custom Card Section -->
-                  <div class="container mt-4">
-                    <div class="row justify-content-center">
-                      <div class="col-12 col-md-12">
-                        <div class="custom-card d-flex">
-                          <a href="https://www.clicktaketech.com/" class="left-side" style="flex: 1;">
-                            <img src="/images/2.png" alt="Left Image" style="width: 100%; height: auto;">
-                          </a>
-                          <div class="right-side" style="flex: 1;">
-                            <img src="/images/1.png" alt="Right Image" style="width: 100%; height: auto;">
-                          </div>
+            <!-- Package Cards -->
+            <div class="quick-actions">
+              <h3 class="section-title">Popular Packages</h3>
+              <div class="package-cards">
+                <% if (typeof cards !== 'undefined' && cards.length > 0) { %>
+                  <% cards.forEach(function(card, index) { %>
+                    <div class="package-card <%= index === 1 ? 'featured' : '' %>">
+                      <% if (index === 1) { %>
+                        <div class="popular-badge">
+                          <i class="bi bi-star-fill"></i>
+                          Most Popular
                         </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mt-4">
-                    <!-- Slider Column -->
-                    <div class="col-md-6">
-                      <div class="card position-relative">
-                        <div class="card-body p-0">
-                          <div id="detailedReports" class="carousel slide" data-ride="carousel" data-interval="2000">
-                            <ol class="carousel-indicators">
-                              <% slider.forEach(function(slider, index) { %>
-                                <li data-target="#detailedReports" data-slide-to="<%= index %>"
-                                  class="<%= index === 0 ? 'active' : '' %>"></li>
-                                <% }); %>
-                            </ol>
-
-                            <div class="carousel-inner" style="border-radius: 15px;">
-                              <% slider.forEach(function(slider, index) { %>
-                                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                                  <img src="/uploads/<%= slider.Slider_1 %>" alt="Slider Image"
-                                    class="d-block w-100 img-fluid"
-                                    style="object-fit: cover; width: 100%; height: 100%; border-radius: 15px;">
-                                </div>
-                                <% }); %>
-                            </div>
-                          </div>
+                      <% } %>
+                      <div class="package-content">
+                        <div class="package-tier">
+                          <% if (index === 0) { %>
+                            <h4 class="package-title">Basic Plan</h4>
+                            <div class="tier-stars">★★★<span style="opacity: 0.3;">★★</span></div>
+                          <% } else if (index === 1) { %>
+                            <h4 class="package-title">Standard Plan</h4>
+                            <div class="tier-stars">★★★★<span style="opacity: 0.3;">★</span></div>
+                          <% } else { %>
+                            <h4 class="package-title">Premium Plan</h4>
+                            <div class="tier-stars">★★★★★</div>
+                          <% } %>
                         </div>
-                      </div>
-                    </div>
-
-                    <style>
-
-                      
-                      @media (max-width: 576px) {
-                        .carousel-inner img {
-                          height: 200px;
-                        }
-
-                        .corner {
-                          flex-direction: row;
-                          flex-wrap: wrap;
-                          justify-content: center;
-                          align-items: center;
-                          gap: 10px;
-                          padding: 10px;
-                          border-radius: 20px !important;
-                        }
-
-                        .corner .action {
-                          width: 44px;
-                          height: 44px;
-                        }
-
-                        .corner .action i {
-                          font-size: 18px;
-                        }
-
-                        .container.mt-4 {
-                          padding-right: 0 !important;
-                          padding-left: 0 !important;
-                        }
-
-                        .col-md-12 {
-                          display: flex;
-                          justify-content: center;
-                        }
-                      }
-
-                      /* Optional Tap Feedback */
-                      .corner .action:active {
-                        transform: scale(0.95);
-                        background-color: #4B49AC;
-                        transition: transform 0.2s ease;
-                      }
-                    </style>
-
-
-                    <script>
-                      function showLoader() {
-                        const loader = document.getElementById("loader-container");
-                        loader.style.display = "block";
-                        setTimeout(() => {
-                          loader.style.display = "none";
-                          alert("Internet Boost complete!");
-                        }, 10000); // 10 seconds
-                      }
-
-                      // Attach event listener to the notif action
-                      document.querySelector('[data-action="notif"]').addEventListener("click", showLoader);
-                    </script>
-
-                    <!-- Other Services Column -->
-                    <div class="col-md-6 mt-2">
-                      <h3 style="text-align: center; color:black;">Our Other Services</h3>
-                      <div class="card-container d-flex flex-wrap justify-content-center" id="cardContainer">
-                        <!-- Example card -->
-                        <div class="deal-card text-center m-2">
-                          <h2 class="fw-bold">Graphic Designing</h2>
-                          <p class="text-light" style="font-size: 20px;">Features</p>
-                          <p class="price-new">Letterhead Design, <br> Logo and Business Card Design</p>
-                          <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/graphic-design-services/"
-                              target="_blank">See more</a></button>
+                        
+                        <div class="package-price-section">
+                          <div class="package-name"><%= card.Package %></div>
+                          <div class="package-price">Rs. <%= card.Price %><span>/month</span></div>
                         </div>
-                        <div class="deal-card text-center">
-                          <h2 class="fw-bold">Web Development</h2>
-                          <p class="text-danger" style="font-size: 20px;">Features</p>
-                          <p class="price-new">E-Commerce Website, <br>Business Website</p>
-                          <button class="buy-btn mt-2"><a
-                              href="https://www.clicktaketech.com/web-development-services/">See
-                              more</a></button>
-                        </div>
-                        <div class="deal-card text-center">
-                          <h2 class="fw-bold">SEO Services <span class="fw-light"></span></h2>
-                          <p class="text-danger" style="font-size: 20px;">Features</p>
-                          <p class="price-new">Targeted Traffic, <br> Enhanced User <br> Experience</p>
-                          <button class="buy-btn mt-2"><a href="https://www.clicktaketech.com/seo-services/">See
-                              more</a></button>
-                        </div>
-                        <div class="deal-card text-center">
-                          <h2 class="fw-bold">Video Editing</h2>
-                          <p class="text-danger" style="font-size: 20px;">Features</p>
-                          <p class="price-new">Vlog Video Editing Services, <br> Real Estate Video Editing</p>
-                          <button class="buy-btn mt-2"><a
-                              href="https://www.clicktaketech.com/video-editing-services/">See
-                              more</a></button>
-                        </div>
-                        <div class="deal-card text-center">
-                          <h2 class="fw-bold">Social Media Marketing</h2>
-                          <p class="text-danger" style="font-size: 20px;">Features</p>
-                          <p class="price-new">Youtube Marketing, <br> Facebook Marketing</p>
-                          <button class="buy-btn mt-2"><a
-                              href="https://www.clicktaketech.com/marketing-solutions/social-media-marketing/">See
-                              more</a></button>
-                        </div>
-                        <div class="deal-card text-center">
-                          <h2 class="fw-bold">Wordpress Development</h2>
-                          <p class="text-danger" style="font-size: 20px;">Features</p>
-                          <p class="price-new">Strategic Planning, <br> Plugin Integration</p>
-                          <button class="buy-btn mt-2"><a
-                              href="https://www.clicktaketech.com/wordpress-development/">See
-                              more</a></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
- <style>
-
-                    /* Make Payment Model Responsive */
-.paid {
-  display: flex;
-  align-items: flex-start;      /* Changed to avoid vertical stretching */
-  justify-content: center;      /* Center items instead of spacing apart */
-  flex-wrap: wrap;
-  gap: 30px;                    /* Controlled spacing instead of space-evenly */
-}
-
-/* Each "rs" block responsive */
-.paid .rs {
-  flex: 1 1 200px;
-  text-align: center;
-}
-.btn-center {
-  display: block;
-  margin: 0 auto;
-}
-
-
-/* Responsive typography */
-.paid .rs h4 {
-  font-size: 1.2rem;
-  word-wrap: break-word;
-}
-.paid .rs p {
-  font-size: 0.9rem;
-}
-
-/* Card adjustments for smaller screens */
-@media (max-width: 768px) {
-  
-
-  .paid {
-    
-    align-items: center;      /* Center everything on mobile */
-    text-align: center;
-    gap: 20px;                /* Reduce spacing on small devices */
-  }
-
-  .paid .rs {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .paid .rs h4 {
-    font-size: 1rem;
-  }
-  .paid .rs p {
-    font-size: 0.85rem;
-  }
-
-  .btn {
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .paid .rs h4 {
-    font-size: 0.95rem;
-  }
-  .paid .rs p {
-    font-size: 0.8rem;
-  }
-}
-
- </style>
-
-                  <!-- Pricing Cards -->
-                  <div class="container mt-5">
-                    <h3 style="text-align: center;"> Popular package </h3>
-
-                    <!-- Desktop View (Original Grid) -->
-                    <div class="cards-main">
-                      <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' : index===1 ? 'standard'
-                        : 'premium' ; %>
-                        <div class="card custom-cardd <%= cardType %>">
-                          <div class="card-top">
-                            <% if (index===0) { %>
-                              <h2>BASIC</h2>
-                              <div class="stars">★★★<span style="color: gray;">★★</span></div>
-                              <% } else if (index===1) { %>
-                                <h2>STANDARD</h2>
-                                <div class="stars">★★★★<span style="color: gray;">★</span></div>
-                                <% } else { %>
-                                  <h2>PREMIUM</h2>
-                                  <div class="stars">★★★★★</div>
-                                  <% } %>
-                          </div>
-
-                          <div class="price-circle">
-                            <div>
-                              <%= card.Package %>
-                            </div>
-                            <div>PER MONTH</div>
-                          </div>
-
-                          <div class="features">
-                            <p><span>✔</span> Rs. <%= card.Price %>
-                            </p>
-                            <p><span>✔</span>
-                              <%= card.Speed %> Mbs speed
-                            </p>
-                            <p><span>✔</span>
-                              <%= card.Offer_Valid %>
-                            </p>
-                            <p><span>✔</span>
-                              <%= card.Data_Used %> GB Usage
-                            </p>
-                            <p><span>✔</span>
-                              <%= card.limits %> GB Limits
-                            </p>
-                          </div>
-
-                          <div class="card-button">
-                            <button data-bs-toggle="modal" data-bs-target="#paymentModal"
-                              data-package="<%= card.Package %>" data-price="<%= card.Price %>"
-                              data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
-                              data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE NOW</button>
-                          </div>
-                        </div>
-                        <% }); %>
-                    </div>
-
-                    <!-- Mobile Carousel -->
-                    <div id="pricingCarousel" class="carousel slide pricing-carousel" data-bs-ride="carousel">
-                      <div class="carousel-inner">
-                        <% cards.forEach(function(card, index) { let cardType=index===0 ? 'basic' : index===1
-                          ? 'standard' : 'premium' ; %>
-                          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                            <div class="carousel-card <%= cardType %>">
-                              <div class="card-top">
-                                <% if (index===0) { %>
-                                  <h2>BASIC</h2>
-                                  <div class="stars">★★★<span style="color: gray;">★★</span></div>
-                                  <% } else if (index===1) { %>
-                                    <h2>STANDARD</h2>
-                                    <div class="stars">★★★★<span style="color: gray;">★</span></div>
-                                    <% } else { %>
-                                      <h2>PREMIUM</h2>
-                                      <div class="stars">★★★★★</div>
-                                      <% } %>
-                              </div>
-
-                              <div class="price-circle">
-                                <div>
-                                  <%= card.Package %>
-                                </div>
-                                <div>PER MONTH</div>
-                              </div>
-
-                              <div class="features">
-                                <p><span>✔</span> Rs. <%= card.Price %>
-                                </p>
-                                <p><span>✔</span>
-                                  <%= card.Speed %> Mbs speed
-                                </p>
-                                <p><span>✔</span>
-                                  <%= card.Offer_Valid %>
-                                </p>
-                                <p><span>✔</span>
-                                  <%= card.Data_Used %> GB Usage
-                                </p>
-                                <p><span>✔</span>
-                                  <%= card.limits %> GB Limits
-                                </p>
-                              </div>
-
-                              <div class="card-button">
-                                <button data-bs-toggle="modal" data-bs-target="#paymentModal"
-                                  data-package="<%= card.Package %>" data-price="<%= card.Price %>"
-                                  data-speed="<%= card.Speed %>" data-offer="<%= card.Offer_Valid %>"
-                                  data-dataused="<%= card.Data_Used %>" data-limits="<%= card.limits %>">ACTIVE
-                                  NOW</button>
-                              </div>
-                            </div>
-                          </div>
-                          <% }); %>
-                      </div>
-
-                      <!-- Carousel Controls -->
-                      <button class="carousel-control-prev" type="button" data-bs-target="#pricingCarousel"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#pricingCarousel"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                      </button>
-
-                      <!-- Indicators -->
-                      <div class="carousel-indicators">
-                        <% cards.forEach(function(card, index) { %>
-                          <button type="button" data-bs-target="#pricingCarousel" data-bs-slide-to="<%= index %>"
-                            class="<%= index === 0 ? 'active' : '' %>"
-                            aria-current="<%= index === 0 ? 'true' : 'false' %>"
-                            aria-label="Slide <%= index + 1 %>"></button>
-                          <% }); %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="icon-slider">
-                    <div class="icon-track">
-                      <% Iconresult.forEach((icon)=> { %>
-                        <a href="<%= icon.Link %>" target="_blank">
-                          <img src="/uploads/<%= icon.Icon %>" width="50px" height="40px" alt="">
+                        
+                        <ul class="package-features">
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><%= card.Speed %> Mbps Speed</span>
+                          </li>
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><%= card.Data_Used %> GB Usage</span>
+                          </li>
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><%= card.limits %> GB Limit</span>
+                          </li>
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><%= card.Offer_Valid %></span>
+                          </li>
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>24/7 Customer Support</span>
+                          </li>
+                          <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Free Installation</span>
+                          </li>
+                        </ul>
+                        
+                        <a href="/package" class="package-btn">
+                          <i class="bi bi-arrow-right-circle"></i>
+                          Choose Plan
                         </a>
-                        <% }); %>
+                      </div>
                     </div>
+                  <% }); %>
+                <% } else { %>
+                  <div class="no-packages">
+                    <p class="text-center text-muted">No packages available at the moment.</p>
+                    <a href="/package" class="btn btn-primary">View All Packages</a>
                   </div>
+                <% } %>
+              </div>
+              
+              <!-- View All Packages Button -->
+              <div class="text-center mt-4">
+                <a href="/package" class="view-all-packages-btn">
+                  <i class="bi bi-grid-3x3-gap"></i>
+                  View All Packages
+                  <i class="bi bi-arrow-right"></i>
+                </a>
               </div>
             </div>
-            <!-- Payment Modal -->
-            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <!-- Services Section -->
+            <div class="quick-actions">
+              <h3 class="section-title">Our Other Services</h3>
+              <div class="services-grid">
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-palette" style="color: var(--primary-color);"></i>
                   </div>
-                  <div class="modal-body">
-                    <p><strong>Selected Package:</strong> <span id="selectedPackage"></span></p>
-                    <div class="d-flex flex-wrap justify-content-center gap-3">
-                      <a href="#" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo">
-                        <img src="/images/Jazz cash logo.svg" alt="JazzCash" class="img-fluid payment-logo"
-                          style="max-width: 80px;">
-                      </a>
-                      <a href="#" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo">
-                        <img src="/images/EASYPAISA logo.svg" alt="Easypaisa" class="img-fluid payment-logo"
-                          style="max-width: 80px;">
-                      </a>
-                      <a href="#" data-bs-toggle="collapse" data-bs-target="#raastInfo">
-                        <img src="/images/Raast-Logo.png" alt="Raast" class="img-fluid payment-logo"
-                          style="max-width: 80px;">
-                      </a>
-                    </div>
-                    <div id="jazzCashInfo" class="collapse text-center mt-2">
-                      <img src="/images/JAZZCASH QR.png" alt="JazzCash QR" class="payment-qr" style="max-width: 150px;">
-                      <p><strong>JazzCash:</strong> ‪+92 306 9753003‬</p>
-                    </div>
-                    <div id="easypaisaInfo" class="collapse text-center mt-2">
-                      <img src="/images/EASYPAISA QR.png" alt="Easypaisa QR" class="payment-qr"
-                        style="max-width: 150px;">
-                      <p><strong>Easypaisa:</strong> ‪+92 306 9753003‬</p>
-                    </div>
-                    <div id="raastInfo" class="collapse text-center mt-2">
-                      <p><strong>Raast:</strong> ‪+92 306 9753003‬</p>
-                    </div>
-                    <% if(user) { %>
-                      <form id="paymentForm" action="/process-payment" method="POST" class="mt-3">
-                        <input type="hidden" id="package_name" name="package_name">
-                        <input type="hidden" id="user_id" name="user_id" value="<%= user.id %>">
-                        <div class="mb-3">
-                          <label for="username">Username:</label>
-                          <input type="text" id="username" name="username" class="form-control"
-                            value="<%= user.Username %>" readonly>
-                        </div>
-                        <% } %>
-                          <% if(cards) { %>
-                            <div class="mb-3">
-                              <label for="transaction_id">Transaction ID:</label>
-                              <input type="text" id="transaction_id" name="transaction_id" class="form-control"
-                                required>
-                            </div>
-                            <div class="mb-3">
-                              <label for="amount">Amount:</label>
-                              <input type="number" id="amount" value="cards[0].Price" name="amount" class="form-control"
-                                readonly>
-                            </div>
-                            <% } %>
-                              <button type="submit" class="btn btn-success">Confirm</button>
-                      </form>
+                  <h4 class="service-title">Graphic Designing</h4>
+                  <p class="service-description">Letterhead Design, Logo and Business Card Design</p>
+                  <a href="https://www.clicktaketech.com/graphic-design-services/" target="_blank" class="service-btn">See more</a>
+                </div>
+                
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-code-slash" style="color: var(--secondary-color);"></i>
                   </div>
+                  <h4 class="service-title">Web Development</h4>
+                  <p class="service-description">E-Commerce Website, Business Website</p>
+                  <a href="https://www.clicktaketech.com/web-development-services/" target="_blank" class="service-btn">See more</a>
+                </div>
+                
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-search" style="color: var(--accent-color);"></i>
+                  </div>
+                  <h4 class="service-title">SEO Services</h4>
+                  <p class="service-description">Targeted Traffic, Enhanced User Experience</p>
+                  <a href="https://www.clicktaketech.com/seo-services/" target="_blank" class="service-btn">See more</a>
+                </div>
+                
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-play-circle" style="color: var(--danger-color);"></i>
+                  </div>
+                  <h4 class="service-title">Video Editing</h4>
+                  <p class="service-description">Vlog Video Editing Services, Real Estate Video Editing</p>
+                  <a href="https://www.clicktaketech.com/video-editing-services/" target="_blank" class="service-btn">See more</a>
+                </div>
+                
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-megaphone" style="color: var(--info-color);"></i>
+                  </div>
+                  <h4 class="service-title">Social Media Marketing</h4>
+                  <p class="service-description">Youtube Marketing, Facebook Marketing</p>
+                  <a href="https://www.clicktaketech.com/marketing-solutions/social-media-marketing/" target="_blank" class="service-btn">See more</a>
+                </div>
+                
+                <div class="service-card">
+                  <div class="service-icon">
+                    <i class="bi bi-wordpress" style="color: var(--primary-color);"></i>
+                  </div>
+                  <h4 class="service-title">WordPress Development</h4>
+                  <p class="service-description">Strategic Planning, Plugin Integration</p>
+                  <a href="https://www.clicktaketech.com/wordpress-development/" target="_blank" class="service-btn">See more</a>
                 </div>
               </div>
             </div>
 
-            <script>
-              // Initialize carousel and handle payment modal for both desktop and mobile
-              document.addEventListener('DOMContentLoaded', function () {
-                // Handle payment modal for both original cards and carousel cards
-                document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
-                  button.addEventListener('click', function () {
-                    const packageName = this.getAttribute('data-package');
-                    const packagePrice = this.getAttribute('data-price');
 
-                    document.getElementById('selectedPackage').textContent = packageName;
-                    document.getElementById('package_name').value = packageName;
-                    document.getElementById('amount').value = packagePrice;
-                  });
-                });
-
-                // Initialize carousel with touch support
-                if (typeof bootstrap !== 'undefined' && bootstrap.Carousel) {
-                  new bootstrap.Carousel(document.getElementById('pricingCarousel'), {
-                    touch: true,
-                    interval: 5000
-                  });
-                }
-              });
-            </script>
-
+          </div>
+          <!-- content-wrapper ends -->
         </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
     </div>
-    </div>
+    <!-- container-scroller -->
+
+    <!-- Promotion Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 p-0 overflow-hidden rounded"
+          style="max-height: 600px; margin: auto; width: 72%; height: 500px;">
+          <!-- Close button with black icon -->
+          <button type="button" class="btn-close black position-absolute top-0 end-0 m-2 z-3"
+            data-bs-dismiss="modal" aria-label="Close" style="font-size: 2rem;"></button>
+          <% if (typeof promotresult !=='undefined' && promotresult.length> 0 && promotresult[0].img1) { %>
+            <div class="w-100 h-100 position-relative">
+              <img src="Uploads/<%= promotresult[0].img1 %>" alt="Promotion Image"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
+            </div>
+          <% } else { %>
+            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+              <p class="text-center m-0">No promotion image available.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="vendors\js\vendor.bundle.base.js"></script>
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Selected Package:</strong> <span id="selectedPackage"></span></p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+              <a href="#" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo">
+                <img src="/images/Jazz cash logo.svg" alt="JazzCash" class="img-fluid payment-logo"
+                  style="max-width: 80px;">
+              </a>
+              <a href="#" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo">
+                <img src="/images/EASYPAISA logo.svg" alt="Easypaisa" class="img-fluid payment-logo"
+                  style="max-width: 80px;">
+              </a>
+              <a href="#" data-bs-toggle="collapse" data-bs-target="#raastInfo">
+                <img src="/images/Raast logo.svg" alt="Raast" class="img-fluid payment-logo" style="max-width: 80px;">
+              </a>
+            </div>
+
+            <!-- Payment Method Details -->
+            <div class="collapse mt-3" id="jazzCashInfo">
+              <div class="card card-body">
+                <h6>JazzCash Payment</h6>
+                <p><strong>Account Number:</strong> 03001234567</p>
+                <p><strong>Account Title:</strong> ClickTakeTech</p>
+                <p>Send payment and provide transaction ID below.</p>
+              </div>
+            </div>
+
+            <div class="collapse mt-3" id="easypaisaInfo">
+              <div class="card card-body">
+                <h6>Easypaisa Payment</h6>
+                <p><strong>Account Number:</strong> 03001234567</p>
+                <p><strong>Account Title:</strong> ClickTakeTech</p>
+                <p>Send payment and provide transaction ID below.</p>
+              </div>
+            </div>
+
+            <div class="collapse mt-3" id="raastInfo">
+              <div class="card card-body">
+                <h6>Raast Payment</h6>
+                <p><strong>IBAN:</strong> PK12ABCD0000001234567890</p>
+                <p><strong>Account Title:</strong> ClickTakeTech</p>
+                <p>Send payment and provide transaction ID below.</p>
+              </div>
+            </div>
+
+            <!-- Payment Form -->
+            <form action="/submit-payment" method="POST" class="mt-3">
+              <input type="hidden" id="package_name" name="package_name">
+              <input type="hidden" id="amount" name="amount">
+              
+              <div class="mb-3">
+                <label for="transaction_id" class="form-label">Transaction ID</label>
+                <input type="text" class="form-control" id="transaction_id" name="transaction_id" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="payment_method" class="form-label">Payment Method</label>
+                <select class="form-control" id="payment_method" name="payment_method" required>
+                  <option value="">Select Payment Method</option>
+                  <option value="jazzcash">JazzCash</option>
+                  <option value="easypaisa">Easypaisa</option>
+                  <option value="raast">Raast</option>
+                </select>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100">Submit Payment</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><section id="servicesOffer" class="services-offer-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+<h2 class="fw-bold">System Alerts & Promotions</h2>
+<p class="text-muted">From service notifications to exclusive deals — view what's currently live on your dashboard.</p>
+
+    </div>
+
+    <% if (slider && slider.length > 0) { %>
+      <div class="row g-0 justify-content-center">
+        <div class="col-12">
+          <div class="container-fluid shadow-sm border-0">
+            <div class="offer-image-wrapper full-width-offer">
+              <img src="/uploads/<%= slider[0].Slider_1 %>" alt="Featured Offer" >
+            </div>
+            <div class="card-body text-center">
+             <h5 class="card-title fw-semibold">Live Alert</h5>
+<a href="/package" class="btn btn-outline-primary btn-sm mt-2">View Details</a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <p class="text-center text-muted">
+        No slider images available. Please upload images in the admin panel.
+      </p>
+    <% } %>
+  </div>
+</section>
+
+<style>
+  /* Services & Offers Section Dark Theme Support */
+  .services-offer-section {
+    background: var(--bg-tertiary) !important;
+    transition: background-color 0.3s ease; 
+  }
+
+  [data-theme="dark"] .services-offer-section {
+    background: var(--bg-secondary) !important;
+  }
+
+  .services-offer-section h2 {
+    color: var(--text-primary) !important;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .services-offer-section .text-muted {
+    color: var(--text-secondary) !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .container-fluid.shadow-sm {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow-medium) !important;
+    transition: all 0.3s ease;
+  }
+
+  .container-fluid.shadow-sm:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px var(--shadow-heavy) !important;
+  }
+
+  .card-body {
+    background: var(--card-bg) !important;
+    padding: 2rem;
+  }
+
+  .card-title {
+    color: var(--text-primary) !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .btn-outline-primary {
+    border: 2px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background: transparent;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-outline-primary:hover {
+    background: var(--primary-color) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+  }
+
+  .offer-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+
+  .offer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px var(--shadow-medium);
+  }
+
+.offer-image-wrapper.full-width-offer {
+  width: 100%;
+  height: auto; /* allow natural height */
+}
+
+.offer-image-wrapper.full-width-offer img {
+  width: 100%;
+  height: auto; /* keeps aspect ratio */
+  object-fit: contain; /* ensures image not cut */
+  object-position: center;
+  display: block;
+}
+
+
+
+  .offer-card:hover .offer-image-wrapper img {
+    transform: scale(1.05);
+  }
+</style>
+
+    <!-- plugins:js -->
+    <script src="vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="vendors\chart.js/Chart.min.js"></script>
+    <script src="vendors/chart.js/Chart.min.js"></script>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="js/dataTables.select.min.js"></script>
-
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="js/off-canvas.js"></script>
     <script src="js/hoverable-collapse.js"></script>
     <script src="js/template.js"></script>
     <script src="js/settings.js"></script>
+    <script src="js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="js/dashboard.js"></script>
     <script src="js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-    <!-- jQuery (required for Bootstrap 4 components) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap 4 JS (compatible with existing components) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  
 
-    <!-- Speed Test JavaScript -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
-      let isSpeedTestRunning = false;
-      let testResults = {
-        download: 0,
-        upload: 0,
-        ping: 0
+      // Data Usage Counter
+      const display = document.getElementById("numberDisplay");
+      if (display) {
+        const START_VALUE = 1500;
+        const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+        const THIRTY_DAYS_MS = 30 * ONE_DAY_MS;
+
+        let data = JSON.parse(localStorage.getItem("counterData")) || {
+          number: START_VALUE,
+          startTime: Date.now(),
+          lastUpdate: Date.now()
+        };
+
+        const now = Date.now();
+
+        // Reset if 30 days passed since startTime
+        if (now - data.startTime >= THIRTY_DAYS_MS) {
+          data = {
+            number: 0,
+            startTime: now,
+            lastUpdate: now
+          };
+        }
+
+        // Check if a day passed since last update
+        if (now - data.lastUpdate >= ONE_DAY_MS) {
+          const daysPassed = Math.floor((now - data.lastUpdate) / ONE_DAY_MS);
+          for (let i = 0; i < daysPassed; i++) {
+            const increment = Math.random() < 0.5 ? 3 : 4;
+            data.number += increment;
+          }
+          data.lastUpdate += daysPassed * ONE_DAY_MS;
+        }
+
+        // Save updated data
+        localStorage.setItem("counterData", JSON.stringify(data));
+
+        // Display the number with animation
+        let currentNumber = 0;
+        const targetNumber = data.number;
+        const increment = targetNumber / 100;
+        
+        const timer = setInterval(() => {
+          currentNumber += increment;
+          if (currentNumber >= targetNumber) {
+            currentNumber = targetNumber;
+            clearInterval(timer);
+          }
+          display.innerText = Math.floor(currentNumber);
+        }, 20);
+      }
+
+      // Professional WiFi Boost System
+      const actionBtn = document.querySelector('[data-action="notif"]');
+      if (actionBtn) {
+        actionBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          startProfessionalBoost();
+        });
+      }
+
+      function startProfessionalBoost() {
+        // Disable button during boost
+        const actionBtn = document.querySelector('[data-action="notif"]');
+        actionBtn.style.pointerEvents = 'none';
+        actionBtn.style.opacity = '0.7';
+        
+        // Show initial scanning toast
+        showBoostToast('Initializing WiFi optimizer...', 'info');
+        
+        setTimeout(() => {
+          showBoostModal();
+        }, 1500);
+        
+        // Re-enable button after boost completes
+        setTimeout(() => {
+          actionBtn.style.pointerEvents = 'auto';
+          actionBtn.style.opacity = '1';
+        }, 12000);
+      }
+
+      function showBoostModal() {
+        const modal = document.createElement('div');
+        modal.className = 'professional-boost-modal';
+        
+        // Generate realistic performance improvements
+        const improvements = generateBoostData();
+        
+        modal.innerHTML = `
+          <div class="boost-modal-content">
+            <div class="boost-header">
+              <button class="boost-close-btn" onclick="closeBoostModal()" aria-label="Close modal">
+                <i class="bi bi-x-lg"></i>
+              </button>
+              <div class="boost-icon-container">
+                <div class="boost-icon-pulse">
+                  <i class="bi bi-wifi"></i>
+                </div>
+              </div>
+              <h2 class="boost-title">WiFi Optimization in Progress</h2>
+              <p class="boost-subtitle">Analyzing and enhancing your network performance</p>
+            </div>
+            
+            <div class="boost-progress-section">
+              <div class="boost-step active" data-step="1">
+                <i class="bi bi-search"></i>
+                <span>Scanning network configuration</span>
+                <div class="step-status">✓</div>
+              </div>
+              <div class="boost-step" data-step="2">
+                <i class="bi bi-gear"></i>
+                <span>Optimizing connection parameters</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="boost-step" data-step="3">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Enhancing signal strength</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="boost-step" data-step="4">
+                <i class="bi bi-shield-check"></i>
+                <span>Applying security optimizations</span>
+                <div class="step-status"></div>
+              </div>
+            </div>
+            
+            <div class="boost-progress-bar-container">
+              <div class="boost-progress-bar">
+                <div class="boost-progress-fill"></div>
+              </div>
+              <div class="boost-percentage">0%</div>
+            </div>
+            
+            <div class="boost-stats-preview" style="display: none;">
+              <div class="stat-item">
+                <div class="stat-value">${improvements.speedIncrease}%</div>
+                <div class="stat-label">Speed Boost</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">-${improvements.latencyReduction}ms</div>
+                <div class="stat-label">Latency Reduced</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${improvements.stabilityScore}%</div>
+                <div class="stat-label">Stability</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${improvements.signalStrength}%</div>
+                <div class="stat-label">Signal Quality</div>
+              </div>
+            </div>
+            
+            <div class="boost-actions" style="display: none;">
+              <button class="boost-complete-btn" onclick="closeBoostModal()">
+                <i class="bi bi-check-circle me-2"></i>
+                Optimization Complete
+              </button>
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add click outside to close functionality
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            closeBoostModal();
+          }
+        });
+        
+        // Add escape key to close functionality
+        document.addEventListener('keydown', function handleEscape(e) {
+          if (e.key === 'Escape') {
+            closeBoostModal();
+            document.removeEventListener('keydown', handleEscape);
+          }
+        });
+        
+        // Start the boost sequence
+        startBoostSequence(modal, improvements);
+      }
+
+      function startBoostSequence(modal, improvements) {
+        const steps = modal.querySelectorAll('.boost-step');
+        const progressFill = modal.querySelector('.boost-progress-fill');
+        const percentage = modal.querySelector('.boost-percentage');
+        const statsPreview = modal.querySelector('.boost-stats-preview');
+        const actions = modal.querySelector('.boost-actions');
+        
+        let currentStep = 0;
+        let progress = 0;
+        
+        // Professional boost messages
+        const boostMessages = [
+          "Analyzing network topology...",
+          "Detecting interference sources...",
+          "Optimizing channel allocation...",
+          "Calibrating antenna patterns...",
+          "Enhancing QoS parameters...",
+          "Updating firmware protocols...",
+          "Applying bandwidth optimizations...",
+          "Finalizing performance tweaks..."
+        ];
+        
+        function processStep() {
+          if (currentStep < steps.length) {
+            // Mark current step as active
+            steps[currentStep].classList.add('active');
+            
+            // Show professional message
+            showBoostToast(boostMessages[currentStep * 2] || "Processing optimizations...", 'processing');
+            
+            setTimeout(() => {
+              // Complete current step
+              steps[currentStep].classList.add('completed');
+              steps[currentStep].querySelector('.step-status').innerHTML = '✓';
+              
+              // Show completion message
+              showBoostToast(boostMessages[currentStep * 2 + 1] || "Step completed successfully", 'success');
+              
+              currentStep++;
+              setTimeout(processStep, 1200);
+            }, 2000);
+          } else {
+            // All steps completed
+            setTimeout(() => {
+              statsPreview.style.display = 'grid';
+              actions.style.display = 'block';
+              showBoostToast('WiFi optimization completed successfully!', 'success');
+            }, 500);
+          }
+        }
+        
+        // Update progress bar
+        const progressInterval = setInterval(() => {
+          progress += Math.random() * 3 + 1;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(progressInterval);
+          }
+          
+          progressFill.style.width = progress + '%';
+          percentage.textContent = Math.floor(progress) + '%';
+        }, 200);
+        
+        // Start the sequence
+        setTimeout(processStep, 1000);
+      }
+
+      function generateBoostData() {
+        return {
+          speedIncrease: Math.floor(Math.random() * 35) + 25, // 25-60%
+          latencyReduction: Math.floor(Math.random() * 25) + 15, // 15-40ms
+          stabilityScore: Math.floor(Math.random() * 8) + 92, // 92-100%
+          signalStrength: Math.floor(Math.random() * 15) + 85, // 85-100%
+        };
+      }
+
+      function showBoostToast(message, type = 'info') {
+        // Remove existing toasts
+        const existingToasts = document.querySelectorAll('.boost-toast');
+        existingToasts.forEach(toast => toast.remove());
+        
+        const toast = document.createElement('div');
+        toast.className = `boost-toast boost-toast-${type}`;
+        
+        const icons = {
+          info: 'bi-info-circle',
+          processing: 'bi-gear',
+          success: 'bi-check-circle-fill',
+          warning: 'bi-exclamation-triangle'
+        };
+        
+        toast.innerHTML = `
+          <i class="bi ${icons[type]} me-2"></i>
+          ${message}
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.style.animation = 'fadeOut 0.4s ease-out forwards';
+          setTimeout(() => toast.remove(), 400);
+        }, 3000);
+      }
+
+      function closeBoostModal() {
+        const modal = document.querySelector('.professional-boost-modal');
+        if (modal) {
+          modal.style.animation = 'fadeOut 0.4s ease-out forwards';
+          setTimeout(() => {
+            modal.remove();
+            showFinalBoostSummary();
+          }, 400);
+        }
+      }
+      
+      function showFinalBoostSummary() {
+        showBoostToast('WiFi performance optimized! Your connection is now running at peak efficiency.', 'success');
+      }
+
+      // Make function globally accessible
+      window.closeBoostModal = closeBoostModal;
+
+
+      // Add fade-out animation for toast notifications
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeOut {
+          to {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       };
 
-      // Initialize when document is ready
-      document.addEventListener('DOMContentLoaded', function() {
-        // Set up modal event listeners
-        const speedTestModal = document.getElementById('speedTestModal');
-        if (speedTestModal) {
-          speedTestModal.addEventListener('shown.bs.modal', function () {
-            resetSpeedTest();
-          });
-          
-          speedTestModal.addEventListener('hidden.bs.modal', function () {
-            if (isSpeedTestRunning) {
-              stopSpeedTest();
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll('.stat-card, .action-item, .package-card, .service-card');
+        animatedElements.forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          observer.observe(el);
+        });
+        
+        // Initialize promotion modal
+        const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), { keyboard: false });
+        const promotresultExists = <%= typeof promotresult !== 'undefined' && promotresult.length > 0 && promotresult[0].img1 ? 'true' : 'false' %>;
+        const createdAtString = "<%= promotresult && promotresult[0] && promotresult[0].created_at ? promotresult[0].created_at.toISOString ? promotresult[0].created_at.toISOString() : promotresult[0].created_at : '' %>";
+        const promotionCreatedAt = new Date(createdAtString);
+        const now = new Date();
+        const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+        const isNewPromotion = (now - promotionCreatedAt) < threeDaysInMs;
+        
+        <% if (typeof userJustLoggedIn !== 'undefined' && userJustLoggedIn) { %>
+          if (promotresultExists && isNewPromotion && !sessionStorage.getItem('imageModalShown')) {
+            imageModal.show();
+            sessionStorage.setItem('imageModalShown', 'true');
+          }
+        <% } %>
+        
+        // Handle payment modal
+        document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+          button.addEventListener('click', function () {
+            const packageName = this.getAttribute('data-package');
+            const packagePrice = this.getAttribute('data-price');
+            
+            if (packageName && packagePrice) {
+              document.getElementById('selectedPackage').textContent = packageName;
+              document.getElementById('package_name').value = packageName;
+              document.getElementById('amount').value = packagePrice;
             }
           });
-        }
+        });
       });
-
-      // Function to run the actual speed test
-      async function runSpeedTest() {
-        if (isSpeedTestRunning) return;
-        
-        isSpeedTestRunning = true;
-        const startTestBtn = document.getElementById('startTestBtn');
-        const retestBtn = document.getElementById('retestBtn');
-        const statusText = document.getElementById('statusText');
-        const spinner = document.querySelector('.spinner-border');
-        
-        // Update UI for testing state
-        startTestBtn.style.display = 'none';
-        retestBtn.style.display = 'none';
-        spinner.style.display = 'inline-block';
-        
-        try {
-          // Test Download Speed
-          statusText.textContent = 'Testing Download Speed...';
-          testResults.download = await testDownloadSpeed();
-          updateSpeedDisplay('download', testResults.download);
-          
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-          // Test Upload Speed
-          statusText.textContent = 'Testing Upload Speed...';
-          testResults.upload = await testUploadSpeed();
-          updateSpeedDisplay('upload', testResults.upload);
-          
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-          // Test Ping
-          statusText.textContent = 'Testing Ping...';
-          testResults.ping = await testPing();
-          updateSpeedDisplay('ping', testResults.ping);
-          
-          // Test completed
-          statusText.textContent = 'Test Completed! 🎉';
-          spinner.style.display = 'none';
-          retestBtn.style.display = 'inline-block';
-          
-        } catch (error) {
-          console.error('Speed test error:', error);
-          statusText.textContent = 'Test Failed. Please try again.';
-          spinner.style.display = 'none';
-          retestBtn.style.display = 'inline-block';
-        }
-        
-        isSpeedTestRunning = false;
-      }
-
-      // Function to update speed display
-      function updateSpeedDisplay(type, value) {
-        const speedElement = document.getElementById(type + 'Speed');
-        const progressElement = document.getElementById(type + 'Progress');
-        
-        if (type === 'ping') {
-          speedElement.textContent = value.toFixed(0);
-          // Ping: lower is better, so invert the percentage (good ping: 0-50ms)
-          const pingPercent = Math.max(0, Math.min(100, 100 - (value / 50 * 100)));
-          progressElement.style.width = pingPercent + '%';
-        } else {
-          speedElement.textContent = value.toFixed(1);
-          // Speed: calculate percentage based on typical speeds (0-100 Mbps)
-          const speedPercent = Math.max(0, Math.min(100, (value / 100) * 100));
-          progressElement.style.width = speedPercent + '%';
-        }
-        
-        // Add animation
-        progressElement.style.transition = 'width 1s ease-in-out';
-      }
-
-      // Function to reset test display
-      function resetTestDisplay() {
-        document.getElementById('downloadSpeed').textContent = '--';
-        document.getElementById('uploadSpeed').textContent = '--';
-        document.getElementById('pingSpeed').textContent = '--';
-        
-        document.getElementById('downloadProgress').style.width = '0%';
-        document.getElementById('uploadProgress').style.width = '0%';
-        document.getElementById('pingProgress').style.width = '0%';
-        
-        document.getElementById('statusText').textContent = 'Click "Start Test" to begin';
-        document.querySelector('.spinner-border').style.display = 'none';
-        document.getElementById('startTestBtn').style.display = 'inline-block';
-        document.getElementById('retestBtn').style.display = 'none';
-        
-        testResults = { download: 0, upload: 0, ping: 0 };
-        isSpeedTestRunning = false;
-      }
-      
-      
-      // Update button text when testing
-      function updateButtonState(testing = false) {
-        const btn = document.getElementById('speedTestBtn');
-        const btnText = document.getElementById('speedTestBtnText');
-        
-        if (testing) {
-          btn.disabled = true;
-          btn.style.opacity = '0.7';
-          btnText.textContent = 'Testing Speed...';
-        } else {
-          btn.disabled = false;
-          btn.style.opacity = '1';
-          btnText.textContent = 'Test Internet Speed';
-        }
-      }
-      
-  function startTest() {
-    const needle = document.getElementById("needle");
-    const display = document.getElementById("speedDisplay");
-
-    let speed = 0;
-    const interval = setInterval(() => {
-      speed += Math.random() * 5;
-      if (speed >= 100) {
-        clearInterval(interval);
-        speed = (Math.random() * 80 + 10).toFixed(1);
-      }
-      display.innerText= `${speed} Mbps`;
-
-      const deg = Math.min(180, (speed / 100) * 180);
-      needle.style.transform = `translateX(-50%) rotate(${deg - 90}deg)`;
-    }, 80);
-  }
-
-
     </script>
 
+    <!-- Include Footer -->
     <%- include('./partials/_footer.ejs') %>
   </body>
-
 </html>
