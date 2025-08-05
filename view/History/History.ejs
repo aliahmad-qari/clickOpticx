@@ -26,24 +26,76 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
   <style>
+    /* Global Theme Variables */
     :root {
-      --primary: #6c5ce7;
-      --primary-light: #a29bfe;
-      --secondary: #00cec9;
-      --success: #198754;
-      --success-light: #198754;
-      --warning: #fdcb6e;
-      --danger: #d63031;
-      --dark: #2d3436;
-      --light: #f5f6fa;
-      --gray: #dfe6e9;
-      --card-bg: rgba(255, 255, 255, 0.9);
+      /* Brand Colors - Same for both themes */
+      --primary-color: #4F46E5;
+      --primary-dark: #3730A3;
+      --primary-light: #8B5CF6;
+      --secondary-color: #10B981;
+      --secondary-dark: #059669;
+      --accent-color: #F59E0B;
+      --accent-dark: #D97706;
+      --danger-color: #EF4444;
+      --success-color: #22C55E;
+      --warning-color: #F59E0B;
+      --info-color: #3B82F6;
+
+      /* Light Theme Colors */
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8FAFC;
+      --bg-tertiary: #F1F5F9;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-tertiary: #64748B;
+      --border-primary: #E2E8F0;
+      --border-secondary: #CBD5E1;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.15);
+      --shadow-heavy: rgba(0, 0, 0, 0.25);
+      --card-bg: #FFFFFF;
+      --navbar-bg: #FFFFFF;
+      --sidebar-bg: #FFFFFF;
+    }
+
+    /* Dark Theme Colors */
+    [data-theme="dark"] {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #334155;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --border-primary: #334155;
+      --border-secondary: #475569;
+      --shadow-light: rgba(0, 0, 0, 0.3);
+      --shadow-medium: rgba(0, 0, 0, 0.4);
+      --shadow-heavy: rgba(0, 0, 0, 0.6);
+      --card-bg: #1E293B;
+      --navbar-bg: #0F172A;
+      --sidebar-bg: #1E293B;
+    }
+
+    /* Legacy compatibility */
+    :root {
+      --primary: var(--primary-color);
+      --primary-light: var(--primary-light);
+      --secondary: var(--secondary-color);
+      --success: var(--success-color);
+      --success-light: var(--success-color);
+      --warning: var(--warning-color);
+      --danger: var(--danger-color);
+      --dark: var(--text-primary);
+      --light: var(--bg-secondary);
+      --gray: var(--border-primary);
+      --card-bg: var(--card-bg);
       --glass-effect: rgba(255, 255, 255, 0.15);
     }
 
     body {
-      background: #f5f6fa;
-      color: var(--dark);
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+      transition: all 0.3s ease;
     }
     @media (max-width: 767px) {
   .equipment-table {
@@ -86,12 +138,13 @@
     }
 
     .card {
-      background: #ffffff;
+      background: var(--card-bg) !important;
       border-radius: 12px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-      border: none;
+      box-shadow: 0 4px 24px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
       overflow: hidden;
       margin-bottom: 30px;
+      color: var(--text-primary) !important;
     }
 
     .card-header {
@@ -146,24 +199,25 @@
       left: 15px;
       top: 50%;
       transform: translateY(-50%);
-      color: #9e9e9e;
+      color: var(--text-tertiary);
     }
 
     .search-input {
       width: 100%;
       padding: 12px 15px 12px 45px;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--border-primary);
       border-radius: 8px;
       font-size: 0.95rem;
       transition: all 0.3s ease;
-      background-color: #f9f9f9;
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
     }
 
     .search-input:focus {
       outline: none;
-      border-color: #1a73e8;
-      background-color: white;
-      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+      border-color: var(--primary-color);
+      background-color: var(--card-bg);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
     }
 
     .filter-options {
@@ -174,15 +228,16 @@
 
     .form-select {
       padding: 10px 15px;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--border-primary);
       border-radius: 8px;
       font-size: 0.95rem;
-      background-color: #f9f9f9;
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
       cursor: pointer;
     }
 
     .btn-add {
-      background: #4b49ac;
+      background: var(--primary-color);
       color: white;
       border: none;
       padding: 10px 20px;
@@ -193,19 +248,19 @@
       align-items: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
     }
 
     .btn-add:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     }
 
     .table-responsive {
       overflow-x: auto;
       border-radius: 10px;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      background: var(--card-bg);
+      box-shadow: 0 2px 8px var(--shadow-light);
     }
 
     
@@ -222,19 +277,20 @@
 }
 
     .equipment-table th {
-      background-color: #f5f8ff;
-      color: #1a73e8;
+      background-color: var(--bg-tertiary);
+      color: var(--primary-color);
       font-weight: 600;
       padding: 16px 20px;
       text-align: left;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid var(--border-primary);
       white-space: nowrap;
     }
 
     .equipment-table td {
       padding: 14px 20px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--border-primary);
       vertical-align: middle;
+      color: var(--text-primary);
     }
     .equipment-table td,
 .equipment-table th {
@@ -243,7 +299,7 @@
 
 
     .equipment-table tr:hover {
-      background-color: #f9fbff;
+      background-color: var(--bg-tertiary);
     }
 
     .equipment-image {

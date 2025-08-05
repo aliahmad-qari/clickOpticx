@@ -18,6 +18,18 @@
 
 
 <style>
+  /* ===== SIDEBAR THEME VARIABLES ===== */
+  .sidebar {
+    background: var(--sidebar-bg, #FFFFFF) !important;
+    color: var(--text-primary, #1E293B) !important;
+    transition: all 0.3s ease;
+  }
+
+  [data-theme="dark"] .sidebar {
+    background: var(--sidebar-bg, #1E293B) !important;
+    color: var(--text-primary, #F8FAFC) !important;
+  }
+
   /* ===== RESPONSIVE SIDEBAR ===== */
   @media (max-width: 991px) {
     .sidebar {
@@ -27,39 +39,191 @@
       height: 100vh;
       width: 250px;
       z-index: 9999;
-      transition: left 0.3s ease;
-       background: #2c2c54;;
+      transition: left 0.3s ease, background 0.3s ease, color 0.3s ease;
+      background: var(--sidebar-bg, #FFFFFF) !important;
     }
 
     .sidebar.active {
       left: 0;
-      background: #ffffff;
+      background: var(--sidebar-bg, #FFFFFF) !important;
+    }
+
+    [data-theme="dark"] .sidebar {
+      background: var(--sidebar-bg, #1E293B) !important;
+    }
+
+    [data-theme="dark"] .sidebar.active {
+      background: var(--sidebar-bg, #1E293B) !important;
     }
 
     .main-panel {
       margin-left: 0 !important;
       width: 100% !important;
     }
-/* Sidebar default icon + text color */
+/* Sidebar navigation theme colors */
+.sidebar .nav-link {
+  color: var(--text-primary, #1E293B) !important;
+  transition: all 0.3s ease;
+}
+
 .sidebar .nav-link i,
 .sidebar .nav-link .menu-title {
-  color: black;
+  color: var(--text-primary, #1E293B) !important;
+  transition: all 0.3s ease;
 }
 
-/* Sidebar hover icon + text color */
-/* .sidebar .nav-link:hover i,
+.sidebar .nav-link:hover {
+  color: var(--primary-color, #4F46E5) !important;
+  background: var(--bg-tertiary, #F1F5F9) !important;
+}
+
+.sidebar .nav-link:hover i,
 .sidebar .nav-link:hover .menu-title {
-  color: #ffffff;
-} */
-
-/* Optional: Make the nav link text itself also change to white */
-.sidebar .nav-link {
-  color: black;
+  color: var(--primary-color, #4F46E5) !important;
 }
 
-/* .sidebar .nav-link:hover {
-  color: #ffffff;
-} */
+/* Dark theme sidebar navigation */
+[data-theme="dark"] .sidebar .nav-link {
+  color: var(--text-primary, #F8FAFC) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-link i,
+[data-theme="dark"] .sidebar .nav-link .menu-title {
+  color: var(--text-primary, #F8FAFC) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-link:hover {
+  background: var(--bg-tertiary, #334155) !important;
+}
+
+/* Sub-menu styling for dark theme */
+.sidebar .nav.sub-menu .nav-link {
+  color: var(--text-secondary, #64748B) !important;
+  padding-left: 3rem !important;
+}
+
+[data-theme="dark"] .sidebar .nav.sub-menu .nav-link {
+  color: var(--text-secondary, #94A3B8) !important;
+}
+
+[data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover {
+  color: var(--primary-color, #4F46E5) !important;
+  background: var(--bg-tertiary, #334155) !important;
+}
+
+/* Menu arrow styling */
+.sidebar .menu-arrow {
+  color: var(--text-primary, #1E293B) !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .sidebar .menu-arrow {
+  color: var(--text-primary, #F8FAFC) !important;
+}
+
+/* Enhanced text styling for better readability in dark mode */
+.sidebar .menu-title {
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .sidebar .menu-title {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Better contrast for nav links in dark mode */
+[data-theme="dark"] .sidebar .nav-link {
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .sidebar .nav-link:hover {
+  background: linear-gradient(135deg, var(--bg-tertiary, #334155) 0%, rgba(79, 70, 229, 0.1) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+/* Active/current page styling */
+.sidebar .nav-link.active {
+  background: linear-gradient(135deg, var(--primary-color, #4F46E5) 0%, var(--primary-dark, #4338CA) 100%) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.sidebar .nav-link.active .menu-title,
+.sidebar .nav-link.active i {
+  color: white !important;
+}
+
+/* Sub-menu improvements */
+[data-theme="dark"] .sidebar .nav.sub-menu {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  margin: 4px 16px;
+  padding: 8px 0;
+}
+
+[data-theme="dark"] .sidebar .nav.sub-menu .nav-link {
+  margin: 1px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  padding: 8px 16px !important;
+}
+
+[data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover {
+  background: rgba(79, 70, 229, 0.2) !important;
+  transform: translateX(8px);
+}
+
+/* User panel specific dark theme fixes */
+[data-theme="dark"] .sidebar .nav-item .nav-link,
+[data-theme="dark"] .sidebar .nav-item a {
+  color: var(--text-primary, #F8FAFC) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-item .nav-link:hover,
+[data-theme="dark"] .sidebar .nav-item a:hover {
+  color: var(--primary-color, #4F46E5) !important;
+  background: var(--bg-tertiary, #334155) !important;
+}
+
+/* All sub-menu links in user panel */
+[data-theme="dark"] .sidebar .sub-menu .nav-item .nav-link,
+[data-theme="dark"] .sidebar .sub-menu .nav-item a {
+  color: var(--text-secondary, #94A3B8) !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] .sidebar .sub-menu .nav-item .nav-link:hover,
+[data-theme="dark"] .sidebar .sub-menu .nav-item a:hover {
+  color: var(--primary-color, #4F46E5) !important;
+  background: rgba(79, 70, 229, 0.15) !important;
+}
+
+/* Override Bootstrap color classes in dark mode */
+[data-theme="dark"] .sidebar .text-info,
+[data-theme="dark"] .sidebar .text-warning,
+[data-theme="dark"] .sidebar .text-success,
+[data-theme="dark"] .sidebar .text-danger,
+[data-theme="dark"] .sidebar .text-primary {
+  color: var(--text-secondary, #94A3B8) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-link:hover .text-info,
+[data-theme="dark"] .sidebar .nav-link:hover .text-warning,
+[data-theme="dark"] .sidebar .nav-link:hover .text-success,
+[data-theme="dark"] .sidebar .nav-link:hover .text-danger,
+[data-theme="dark"] .sidebar .nav-link:hover .text-primary {
+  color: var(--primary-color, #4F46E5) !important;
+}
+
+/* Ensure all text inside nav links uses proper dark theme colors */
+[data-theme="dark"] .sidebar .nav-link * {
+  color: inherit !important;
+}
 
     .sidebar-overlay {
       position: fixed;
@@ -258,8 +422,8 @@
 <li class="nav-item">
   <!-- Single clickable area for toggling dropdown -->
   <a class="nav-link d-flex align-items-center gap-1" data-bs-toggle="collapse" href="#userDashboardMenu"
-    aria-expanded="false" aria-controls="userDashboardMenu" style="color: white;">
-  <i class="mdi mdi-view-dashboard-edit"></i>
+    aria-expanded="false" aria-controls="userDashboardMenu">
+  <i class="mdi mdi-view-dashboard-edit dynamic-color-icon"></i>
 <span class="menu-title">User Dashboard</span>
 
    <i class="menu-arrow"></i>
@@ -270,7 +434,7 @@
     <ul class="nav flex-column sub-menu">
       <li class="nav-item">
         <a class="nav-link" href="/ColorSetting">
-          <i class="mdi mdi-palette menu-icon" style="font-size:16px; color: white;"></i>
+          <i class="mdi mdi-palette menu-icon dynamic-color-icon" style="font-size:16px;"></i>
           Color Settings
         </a>
       </li>
@@ -299,7 +463,7 @@
      aria-expanded="false" aria-controls="headerFooterMenu">
     <i class="mdi mdi-format-align-top dynamic-color-icon"></i>
     Edit Footer & Header
-    <i class="menu-arrow" style="color: white; margin-left: 5px;"></i>
+    <i class="menu-arrow dynamic-color-icon" style="margin-left: 5px;"></i>
   </a>
 
   <div class="collapse" id="headerFooterMenu">
@@ -380,22 +544,22 @@
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
             <li class="nav-item">
               <a class="nav-link" href="/paymentshistory">
-                <i class="fas fa-history text-info me-2"></i>Payment History
+                <i class="fas fa-history dynamic-color-icon me-2"></i>Payment History
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pandingpayments">
-                <i class="fas fa-clock text-warning me-2"></i>Pending Payments
+                <i class="fas fa-clock dynamic-color-icon me-2"></i>Pending Payments
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/paid-users-page">
-                <i class="fas fa-check-circle text-success me-2 dynamic-color-icon"></i>Paid Users
+                <i class="fas fa-check-circle dynamic-color-icon me-2"></i>Paid Users
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pending-by-user">
-                <i class="fas fa-user-clock text-warning me-2 dynamic-color-icon"></i>Pending by User
+                <i class="fas fa-user-clock dynamic-color-icon me-2"></i>Pending by User
               </a>
             </li>
             <li class="nav-item">
@@ -432,9 +596,7 @@
   <% } %>
 
   <style>
-    .nav-link {
-      color: #000 !important;
-      }
+    /* Sidebar theme colors now handled above */
   </style>
 
     <!-- Package -->

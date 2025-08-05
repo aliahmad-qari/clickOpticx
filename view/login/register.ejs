@@ -42,15 +42,41 @@
       z-index: 1;
     }
 
-    /* Improved form styling */
+    /* Modern professional form styling */
     .auth-form-light {
-      background-color: rgba(255, 255, 255, 0.2) !important;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 20px;
-      padding: 30px 40px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      background: rgba(40, 44, 52, 0.85) !important;
+      backdrop-filter: blur(15px) saturate(120%);
+      -webkit-backdrop-filter: blur(15px) saturate(120%);
+      border-radius: 24px;
+      padding: 40px 45px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      position: relative;
+      overflow: hidden;
+      max-width: 500px;
+      margin: 0 auto;
+      transition: all 0.3s ease;
+    }
+
+    .auth-form-light::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
+      opacity: 0.8;
+    }
+
+    .auth-form-light:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     /* Text and icon visibility */
@@ -62,7 +88,202 @@
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    /* Add this to your <style> section in both files */
+    /* Modern input field styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 12px !important;
+      padding: 14px 18px !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      color: #1a1a1a !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 1) !important;
+      border-color: #4F46E5 !important;
+      box-shadow: 
+        0 0 0 3px rgba(79, 70, 229, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.15) !important;
+      outline: none !important;
+      color: #000000 !important;
+    }
+
+    .form-control::placeholder {
+      color: rgba(100, 100, 100, 0.8) !important;
+      font-weight: 400 !important;
+    }
+
+    /* Modern input group styling */
+    .input-group {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .input-group:focus-within {
+      box-shadow: 
+        0 0 0 3px rgba(79, 70, 229, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.15);
+      border-color: #4F46E5;
+    }
+
+    .input-group-text {
+      background: rgba(79, 70, 229, 0.08) !important;
+      border: none !important;
+      border-radius: 12px 0 0 12px !important;
+      padding: 14px 16px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .input-group-text i {
+      color: #4F46E5 !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+    }
+
+    .input-group .form-control {
+      border: none !important;
+      border-radius: 0 12px 12px 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .input-group .form-control:focus {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Modern button styling */
+    .btn-primary {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 14px 28px !important;
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.3px !important;
+      text-transform: uppercase !important;
+      color: white !important;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4) !important;
+      transition: all 0.3s ease !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3730A3, #6D28D9) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5) !important;
+      color: white !important;
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 10px rgba(79, 70, 229, 0.4) !important;
+    }
+
+    /* Modern typography */
+    .auth-form-light h4 {
+      font-size: 1.8rem !important;
+      font-weight: 700 !important;
+      margin-bottom: 8px !important;
+      color: #ffffff !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .auth-form-light h6 {
+      font-size: 0.95rem !important;
+      font-weight: 400 !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+      margin-bottom: 30px !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Password toggle button */
+    .fa-eye-slash,
+    .fa-eye {
+      color: #4F46E5 !important;
+      transition: color 0.2s ease !important;
+      font-size: 16px !important;
+    }
+
+    .btn-link:hover .fa-eye-slash,
+    .btn-link:hover .fa-eye {
+      color: #3730A3 !important;
+    }
+
+    .btn-link {
+      border: none !important;
+      padding: 0 !important;
+      background: none !important;
+    }
+
+    /* Links styling */
+    .text-info {
+      color: rgba(255, 255, 255, 0.9) !important;
+      transition: all 0.2s ease !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+    }
+
+    .text-info:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6) !important;
+      text-decoration: underline !important;
+    }
+
+    /* Validation error styling */
+    .text-danger {
+      color: #ff4757 !important;
+      font-size: 0.85rem !important;
+      font-weight: 500 !important;
+      margin-top: 6px !important;
+      background: rgba(255, 71, 87, 0.15);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border-left: 3px solid #ff4757;
+      backdrop-filter: blur(10px);
+    }
+
+    /* White text sections */
+    .font-weight-light {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 400 !important;
+    }
+
+    /* Autofill styling */
+    input.form-control:-webkit-autofill,
+    input.form-control:-webkit-autofill:focus,
+    input.form-control:-webkit-autofill:hover,
+    input.form-control:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.95) inset !important;
+      box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.95) inset !important;
+      -webkit-text-fill-color: #2d3748 !important;
+      color: #2d3748 !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+
+    /* Logo styling */
+    .brand-logo img {
+      max-width: 200px;
+      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    }
+
+    /* Alert styling */
     .alert .btn-close {
       padding: 0 !important;
       margin-left: 1rem !important;
@@ -72,56 +293,82 @@
       align-items: center;
     }
 
-    /* Input group icons */
-    .input-group-text {
-      background-color: rgba(255, 255, 255, 0.3) !important;
-      border-color: rgba(255, 255, 255, 0.3) !important;
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .auth-form-light {
+        padding: 32px 24px !important;
+        margin: 16px !important;
+        border-radius: 24px !important;
+      }
+
+      .auth-form-light h4 {
+        font-size: 1.75rem !important;
+      }
+
+      .auth-form-light h6 {
+        font-size: 0.95rem !important;
+      }
+
+      .form-control {
+        padding: 14px 16px !important;
+        font-size: 16px !important;
+      }
+
+      .input-group-text {
+        padding: 14px 16px !important;
+      }
+
+      .btn-primary {
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+      }
+
+      .brand-logo img {
+        max-width: 160px !important;
+      }
     }
 
-    /* Logo styling */
-    .brand-logo img {
-      max-width: 200px;
-      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
-    }
+    @media (max-width: 480px) {
+      .auth-form-light {
+        padding: 24px 20px !important;
+        margin: 12px !important;
+        border-radius: 20px !important;
+      }
 
-    a.text-info {
-      /* color: inherit !important; */
-      text-decoration: none !important;
-    }
+      .auth-form-light h4 {
+        font-size: 1.5rem !important;
+      }
 
-    a.text-info:hover {
-      /* color: inherit !important; */
-      /* Prevent blue hover */
-      text-decoration: underline !important;
-      /* Optional: add underline on hover */
-    }
+      .auth-form-light h6 {
+        font-size: 0.9rem !important;
+      }
 
-    .form-control::placeholder {
-      color: #fff;
-    }
+      .form-control {
+        padding: 12px 14px !important;
+        font-size: 16px !important;
+      }
 
-    .form-control,
-    .form-control:focus,
-    .form-control:-webkit-autofill {
-      color: white !important;
-      background-color: rgba(255, 255, 255, 0.2) !important;
-      -webkit-text-fill-color: white !important;
-    }
+      .input-group-text {
+        padding: 12px 14px !important;
+      }
 
-    input.form-control:-webkit-autofill,
-    input.form-control:-webkit-autofill:focus,
-    input.form-control:-webkit-autofill:hover,
-    input.form-control:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
-      box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.2) inset !important;
-      -webkit-text-fill-color: white !important;
-      color: white !important;
-      background-color: rgba(255, 255, 255, 0.2) !important;
-      transition: background-color 5000s ease-in-out 0s !important;
-    }
+      .btn-primary {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+      }
 
-    .fa-eye {
-      color: black;
+      .brand-logo img {
+        max-width: 140px !important;
+      }
+
+      .col-lg-4 {
+        padding: 0 10px !important;
+      }
+
+      .text-danger {
+        font-size: 0.8rem !important;
+        padding: 3px 6px !important;
+      }
     }
   </style>
 
@@ -162,15 +409,8 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light px-4 px-sm-5 d-flex flex-column align-items-center text-center">
               <!-- Logo -->
-              <div class="brand-logo mb-3">
-                <% if (bg_result && bg_result[0] && bg_result[0].nav_imgs) { %>
-                  <img src="/images/profile-1743219091310.png" alt="Company Logo" class="mt-3">
-                  <% } else { %>
-                    <div class="logo-placeholder d-flex align-items-center justify-content-center"
-                      style="width:150px;height:80px;background:rgba(255,255,255,0.2);border-radius:10px;">
-                      <span class="text-white fw-bold">LOGO</span>
-                    </div>
-                    <% } %>
+              <div class="brand-logo mb-4">
+                <img src="/images/ClickTake.png" alt="Company Logo" class="mt-3" style="max-width: 200px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));">
               </div>
 
               <!-- Headings -->

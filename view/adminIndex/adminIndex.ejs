@@ -44,6 +44,219 @@
       --gray: #dfe6e9;
       --card-bg: rgba(255, 255, 255, 0.9);
       --glass-effect: rgba(255, 255, 255, 0.15);
+      
+      /* Dark theme variables for admin panel */
+      --primary-color: #4F46E5;
+      --primary-dark: #3730A3;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8FAFC;
+      --bg-tertiary: #F1F5F9;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-tertiary: #64748B;
+      --border-primary: #E2E8F0;
+      --border-secondary: #CBD5E1;
+      --sidebar-bg: #FFFFFF;
+    }
+
+    /* Dark Theme Colors for Admin */
+    [data-theme="dark"] {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #334155;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --border-primary: #334155;
+      --border-secondary: #475569;
+      --sidebar-bg: #1E293B;
+    }
+
+    /* LIGHT MODE - Admin Panel Sidebar Dropdown Fix */
+    .sidebar .nav-link,
+    .sidebar .nav-link .menu-title,
+    .sidebar .nav-link i {
+      color: #1E293B !important; /* Dark text for light mode */
+    }
+
+    .sidebar .nav.sub-menu .nav-link,
+    .sidebar .sub-menu .nav-link {
+      color: #475569 !important; /* Darker gray for light mode dropdowns */
+      background: transparent !important;
+    }
+
+    .sidebar .nav.sub-menu .nav-link:hover,
+    .sidebar .sub-menu .nav-link:hover {
+      color: #4F46E5 !important; /* Blue on hover */
+      background: #F1F5F9 !important; /* Light gray background */
+    }
+
+    /* Light mode dropdown menu text colors */
+    .sidebar .collapse .nav-link,
+    .sidebar .collapsing .nav-link,
+    .sidebar .collapse a,
+    .sidebar .collapsing a,
+    .sidebar .show .nav-link,
+    .sidebar .show a {
+      color: #475569 !important; /* Dark gray for readability */
+      background: transparent !important;
+    }
+
+    .sidebar .collapse .nav-link:hover,
+    .sidebar .collapsing .nav-link:hover,
+    .sidebar .collapse a:hover,
+    .sidebar .collapsing a:hover,
+    .sidebar .show .nav-link:hover,
+    .sidebar .show a:hover {
+      color: #4F46E5 !important; /* Blue on hover */
+      background: rgba(79, 70, 229, 0.08) !important; /* Light blue background */
+    }
+
+    /* Light mode icons in dropdowns */
+    .sidebar .collapse i,
+    .sidebar .collapsing i,
+    .sidebar .show i {
+      color: #475569 !important;
+    }
+
+    .sidebar .collapse .nav-link:hover i,
+    .sidebar .collapsing .nav-link:hover i,
+    .sidebar .show .nav-link:hover i {
+      color: #4F46E5 !important;
+    }
+
+    /* DARK MODE - Admin Panel Sidebar Dropdown Fix */
+    [data-theme="dark"] .sidebar .nav-link,
+    [data-theme="dark"] .sidebar .nav-link .menu-title,
+    [data-theme="dark"] .sidebar .nav-link i {
+      color: var(--text-primary) !important; /* Light text for dark mode */
+    }
+
+    [data-theme="dark"] .sidebar .nav.sub-menu .nav-link,
+    [data-theme="dark"] .sidebar .sub-menu .nav-link {
+      color: var(--text-secondary) !important; /* Light gray for dark mode dropdowns */
+      background: transparent !important;
+    }
+
+    [data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover,
+    [data-theme="dark"] .sidebar .sub-menu .nav-link:hover {
+      color: var(--primary-color) !important;
+      background: var(--bg-tertiary) !important;
+    }
+
+    /* Dark mode dropdown menu text colors */
+    [data-theme="dark"] .sidebar .collapse .nav-link,
+    [data-theme="dark"] .sidebar .collapsing .nav-link,
+    [data-theme="dark"] .sidebar .collapse a,
+    [data-theme="dark"] .sidebar .collapsing a,
+    [data-theme="dark"] .sidebar .show .nav-link,
+    [data-theme="dark"] .sidebar .show a {
+      color: var(--text-secondary) !important; /* Light gray: #CBD5E1 */
+      background: transparent !important;
+    }
+
+    [data-theme="dark"] .sidebar .collapse .nav-link:hover,
+    [data-theme="dark"] .sidebar .collapsing .nav-link:hover,
+    [data-theme="dark"] .sidebar .collapse a:hover,
+    [data-theme="dark"] .sidebar .collapsing a:hover,
+    [data-theme="dark"] .sidebar .show .nav-link:hover,
+    [data-theme="dark"] .sidebar .show a:hover {
+      color: var(--primary-color) !important; /* Blue on hover */
+      background: rgba(79, 70, 229, 0.1) !important;
+    }
+
+    /* Dark mode icons in dropdowns */
+    [data-theme="dark"] .sidebar .collapse i,
+    [data-theme="dark"] .sidebar .collapsing i,
+    [data-theme="dark"] .sidebar .show i {
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="dark"] .sidebar .collapse .nav-link:hover i,
+    [data-theme="dark"] .sidebar .collapsing .nav-link:hover i,
+    [data-theme="dark"] .sidebar .show .nav-link:hover i {
+      color: var(--primary-color) !important;
+    }
+
+    /* DARK MODE - Fix active/selected and hover states */
+    [data-theme="dark"] .sidebar .nav-link.active,
+    [data-theme="dark"] .sidebar .nav-link.active .menu-title,
+    [data-theme="dark"] .sidebar .nav-link.active i,
+    [data-theme="dark"] .sidebar .nav-item.active .nav-link,
+    [data-theme="dark"] .sidebar .nav-item.active .nav-link .menu-title,
+    [data-theme="dark"] .sidebar .nav-item.active .nav-link i {
+      color: white !important; /* White text on blue background for active items */
+      background: var(--primary-color) !important; /* Blue background for active */
+    }
+
+    [data-theme="dark"] .sidebar .nav-link:hover,
+    [data-theme="dark"] .sidebar .nav-link:hover .menu-title,
+    [data-theme="dark"] .sidebar .nav-link:hover i {
+      color: var(--text-primary) !important; /* Light gray on hover, not white */
+      background: var(--bg-tertiary) !important; /* Dark gray background */
+    }
+
+    /* Override any Bootstrap active states that might be causing white text */
+    [data-theme="dark"] .sidebar .nav-link.show,
+    [data-theme="dark"] .sidebar .nav-link.show .menu-title,
+    [data-theme="dark"] .sidebar .nav-link.show i,
+    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"],
+    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"] .menu-title,
+    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"] i {
+      color: var(--text-primary) !important; /* Light text for expanded dropdowns */
+      background: transparent !important;
+    }
+
+    /* Fix dropdown active/selected states */
+    [data-theme="dark"] .sidebar .collapse .nav-link.active,
+    [data-theme="dark"] .sidebar .collapse a.active,
+    [data-theme="dark"] .sidebar .show .nav-link.active,
+    [data-theme="dark"] .sidebar .show a.active {
+      color: white !important; /* White text on blue for active dropdown items */
+      background: var(--primary-color) !important;
+    }
+
+    /* Dropdown hover - make sure it's not white */
+    [data-theme="dark"] .sidebar .collapse .nav-link:hover,
+    [data-theme="dark"] .sidebar .collapse a:hover,
+    [data-theme="dark"] .sidebar .show .nav-link:hover,
+    [data-theme="dark"] .sidebar .show a:hover {
+      color: var(--text-primary) !important; /* Light gray, not white */
+      background: var(--bg-tertiary) !important;
+    }
+
+    /* Ensure proper text inheritance for all nested elements */
+    .sidebar .collapse *,
+    .sidebar .collapsing *,
+    .sidebar .show * {
+      color: inherit !important;
+    }
+
+    [data-theme="dark"] .sidebar .collapse *,
+    [data-theme="dark"] .sidebar .collapsing *,
+    [data-theme="dark"] .sidebar .show * {
+      color: inherit !important;
+    }
+
+    /* Override any white text that might be coming from other sources */
+    [data-theme="dark"] .sidebar * {
+      color: inherit !important;
+    }
+
+    [data-theme="dark"] .sidebar .text-white,
+    [data-theme="dark"] .sidebar .text-light {
+      color: var(--text-primary) !important;
+    }
+
+    /* Apply theme to body and main elements */
+    [data-theme="dark"] body {
+      background-color: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .sidebar {
+      background: var(--sidebar-bg) !important;
+      color: var(--text-primary) !important;
     }
 
     body {

@@ -1,15 +1,26 @@
 <style>
   :root {
-    /* Color Variables */
+    /* Light Theme Color Variables */
     --footer-bg: rgba(255, 255, 255, 0.95);
     --footer-border: rgba(0, 0, 0, 0.08);
     --footer-icon-size: 24px;
     --footer-text-size: 11px;
-    --footer-active-color: #6a5acd;
-    --footer-inactive-color: #888;
-    --footer-hover-color: #333;
-    --footer-glow: 0 5px 15px rgba(106, 90, 205, 0.2);
+    --footer-active-color: #4F46E5;
+    --footer-inactive-color: #64748B;
+    --footer-hover-color: #1E293B;
+    --footer-glow: 0 5px 15px rgba(79, 70, 229, 0.3);
     --footer-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Dark Theme Color Variables */
+  [data-theme="dark"] {
+    --footer-bg: rgba(30, 41, 59, 0.95);
+    --footer-border: rgba(255, 255, 255, 0.1);
+    --footer-active-color: #8B5CF6;
+    --footer-inactive-color: #94A3B8;
+    --footer-hover-color: #F8FAFC;
+    --footer-glow: 0 5px 15px rgba(139, 92, 246, 0.4);
+    --footer-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   }
 
   /* Reset and Base Styles */
@@ -111,6 +122,17 @@
   @supports (-webkit-touch-callout: none) {
     .footer {
       padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Add bottom padding to main content on mobile to prevent footer overlap */
+  @media (max-width: 768px) {
+    .main-panel {
+      padding-bottom: 80px !important;
+    }
+    
+    .content-wrapper {
+      padding-bottom: 20px !important;
     }
   }
 </style>

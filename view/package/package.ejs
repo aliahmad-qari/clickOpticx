@@ -16,195 +16,1126 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
+      /* Global Theme Variables */
       :root {
-        --primary: #6c5ce7;
-        --primary-light: #a29bfe;
-        --secondary: #00cec9;
-        --success: #198754;
-        --success-light: #198754;
-        --warning: #fdcb6e;
-        --danger: #d63031;
-        --dark: #2d3436;
-        --light: #f5f6fa;
-        --gray: #dfe6e9;
-        --card-bg: rgba(255, 255, 255, 0.9);
-        --glass-effect: rgba(255, 255, 255, 0.15);
-      }
-  
-      .custom-container {
-  border: 2px solid #4b49ac;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f8f9fa;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100%;
-  margin-top: 7px;
-  border-radius: 20px;
-  margin-bottom: 25px;
-}
+        /* Brand Colors - Same for both themes */
+        --primary-color: #4F46E5;
+        --primary-dark: #3730A3;
+        --primary-light: #8B5CF6;
+        --secondary-color: #10B981;
+        --secondary-dark: #059669;
+        --accent-color: #F59E0B;
+        --accent-dark: #D97706;
+        --danger-color: #EF4444;
+        --success-color: #22C55E;
+        --warning-color: #F59E0B;
+        --info-color: #3B82F6;
 
-      .card-info h3 {
-        font-weight: 700;
-        font-family: 'arial';
-        padding: 9px 0px;
+        /* Light Theme Colors */
+        --bg-primary: #FFFFFF;
+        --bg-secondary: #F8FAFC;
+        --bg-tertiary: #F1F5F9;
+        --text-primary: #1E293B;
+        --text-secondary: #475569;
+        --text-tertiary: #64748B;
+        --border-primary: #E2E8F0;
+        --border-secondary: #CBD5E1;
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --shadow-medium: rgba(0, 0, 0, 0.15);
+        --shadow-heavy: rgba(0, 0, 0, 0.25);
+        --card-bg: #FFFFFF;
+        --navbar-bg: #FFFFFF;
+        --sidebar-bg: #FFFFFF;
+      }
+
+      /* Dark Theme Colors */
+      [data-theme="dark"] {
+        --bg-primary: #0F172A;
+        --bg-secondary: #1E293B;
+        --bg-tertiary: #334155;
+        --text-primary: #F8FAFC;
+        --text-secondary: #CBD5E1;
+        --text-tertiary: #94A3B8;
+        --border-primary: #334155;
+        --border-secondary: #475569;
+        --shadow-light: rgba(0, 0, 0, 0.3);
+        --shadow-medium: rgba(0, 0, 0, 0.4);
+        --shadow-heavy: rgba(0, 0, 0, 0.6);
+        --card-bg: #1E293B;
+        --navbar-bg: #0F172A;
+        --sidebar-bg: #1E293B;
+      }
+
+      /* Legacy compatibility */
+      :root {
+        --primary: var(--primary-color);
+        --primary-light: var(--primary-light);
+        --secondary: var(--secondary-color);
+        --success: var(--success-color);
+        --success-light: var(--success-color);
+        --warning: var(--warning-color);
+        --danger: var(--danger-color);
+        --dark: var(--text-primary);
+        --light: var(--bg-secondary);
+        --gray: var(--border-primary);
+        --card-bg: var(--card-bg);
+        --glass-effect: rgba(255, 255, 255, 0.15);
+        
+        /* Additional Variables for Package Cards */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+        --radius-2xl: 24px;
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 0.75rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --shadow-medium: rgba(0, 0, 0, 0.15);
+        --shadow-heavy: rgba(0, 0, 0, 0.25);
+      }
+
+      /* Apply theme to body and main elements */
+      body {
+        background-color: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        transition: all 0.3s ease;
+      }
+
+      /* Main content card background */
+      .main-content-card {
+        background-color: var(--bg-secondary) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      /* Page body wrapper */
+      .container-fluid.page-body-wrapper {
+        background-color: var(--bg-secondary) !important;
+      }
+
+      /* Card-body inside main content */
+      .main-content-card .card-body {
+        background-color: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
       }
   
-      .buy {
-        gap: 17px;
-        margin-bottom: 15px;
+      /* Package Cards Container */
+      .package-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+        background-color: transparent !important;
+      }
+
+      /* Ensure all Bootstrap cards use theme colors */
+      .card {
+        background-color: var(--card-bg) !important;
+        border-color: var(--border-primary) !important;
+        color: var(--text-primary) !important;
+      }
+
+      /* Main wrapper backgrounds */
+      .container-scroller {
+        background-color: var(--bg-secondary) !important;
+      }
+
+      .package-card {
+        background: var(--card-bg) !important;
+        border-radius: var(--radius-2xl);
+        padding: 0;
+        box-shadow: 0 10px 15px -3px var(--shadow-light), 0 4px 6px -2px var(--shadow-light);
+        border: 2px solid var(--border-primary) !important;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Ensure all package cards use theme colors */
+      [data-theme="dark"] .package-card {
+        background: var(--card-bg) !important;
+        border-color: var(--border-primary) !important;
+      }
+
+      .package-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px var(--shadow-medium);
+      }
+
+      /* Basic Plan - Blue Theme */
+      .package-card:nth-child(1) {
+        background: linear-gradient(135deg, #EBF4FF 0%, #DBEAFE 100%) !important;
+        border: 2px solid #3B82F6 !important;
+      }
+
+      .package-card:nth-child(1):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.4);
+        border-color: #2563EB !important;
+      }
+
+      .package-card:nth-child(1)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      }
+
+      /* Dark theme overrides for Basic Plan */
+      [data-theme="dark"] .package-card:nth-child(1) {
+        background: var(--card-bg) !important;
+        border: 2px solid var(--border-primary) !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(1):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px var(--shadow-medium);
+        border-color: var(--border-secondary) !important;
+      }
+
+      /* Standard Plan - Purple Theme (Featured) */
+      .package-card.featured {
+        background: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 100%) !important;
+        border: 3px solid #8B5CF6 !important;
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.3);
+      }
+
+      .package-card.featured:hover {
+        transform: scale(1.02) translateY(-8px);
+        box-shadow: 0 35px 60px -12px rgba(139, 92, 246, 0.5);
+        border-color: #7C3AED !important;
+      }
+
+      .package-card.featured::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #8B5CF6, #7C3AED);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+        z-index: 1;
+      }
+
+      /* Dark theme overrides for Featured Plan */
+      [data-theme="dark"] .package-card.featured {
+        background: var(--card-bg) !important;
+        border: 2px solid var(--border-primary) !important;
+      }
+
+      [data-theme="dark"] .package-card.featured:hover {
+        transform: scale(1.02) translateY(-8px);
+        box-shadow: 0 25px 50px -12px var(--shadow-medium);
+        border-color: var(--border-secondary) !important;
+      }
+
+      /* Premium Plan - Emerald Theme */
+      .package-card:nth-child(3) {
+        background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important;
+        border: 2px solid #10B981 !important;
+      }
+
+      .package-card:nth-child(3):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.4);
+        border-color: #059669 !important;
+      }
+
+      .package-card:nth-child(3)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #10B981, #059669);
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      }
+
+      /* Dark theme overrides for Premium Plan */
+      [data-theme="dark"] .package-card:nth-child(3) {
+        background: var(--card-bg) !important;
+        border: 2px solid var(--border-primary) !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px var(--shadow-medium);
+        border-color: var(--border-secondary) !important;
+      }
+
+      .package-content {
+        padding: var(--spacing-2xl);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .package-card.featured .package-content {
+        padding-top: calc(var(--spacing-2xl) + var(--spacing-lg));
+      }
+
+      /* Popular Badge */
+      .popular-badge {
+        position: absolute;
+        top: var(--spacing-lg);
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #FDE047, #FACC15);
+        color: #92400E;
+        padding: var(--spacing-xs) var(--spacing-lg);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 2;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+      }
+
+      /* Admin Badge */
+      .admin-badge {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        z-index: 2;
+      }
+
+      .user-count-badge {
+        background: var(--accent-color);
+        color: white;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-lg);
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .package-tier {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .package-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: var(--spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: var(--text-primary) !important;
+      }
+
+      /* Basic Plan Title */
+      .package-card:nth-child(1) .package-title {
+        color: #1E40AF !important;
+      }
+
+      /* Featured Plan Title */
+      .package-card.featured .package-title {
+        color: #6D28D9 !important;
+      }
+
+      /* Premium Plan Title */
+      .package-card:nth-child(3) .package-title {
+        color: #047857 !important;
+      }
+
+      /* Dark theme overrides for package titles */
+      [data-theme="dark"] .package-card:nth-child(1) .package-title {
+        color: #60A5FA !important;
+      }
+
+      [data-theme="dark"] .package-card.featured .package-title {
+        color: #A78BFA !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3) .package-title {
+        color: #34D399 !important;
+      }
+
+      /* For packages beyond the first 3 */
+      .package-card:nth-child(n+4) .package-title {
+        color: var(--text-primary) !important;
+      }
+
+      .tier-stars {
+        font-size: 1.3rem;
+        letter-spacing: 3px;
+        margin-top: var(--spacing-xs);
+      }
+
+      /* Basic Plan Stars */
+      .package-card:nth-child(1) .tier-stars {
+        color: #3B82F6;
+        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+      }
+
+      /* Featured Plan Stars */
+      .package-card.featured .tier-stars {
+        color: #FDE047;
+        filter: drop-shadow(0 2px 6px rgba(253, 224, 71, 0.5));
+      }
+
+      /* Premium Plan Stars */
+      .package-card:nth-child(3) .tier-stars {
+        color: #10B981;
+        filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+      }
+
+      /* Dark theme - all packages use primary color for stars */
+      [data-theme="dark"] .package-card:nth-child(1) .tier-stars {
+        color: var(--primary-color) !important;
+        filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.3));
+      }
+
+      [data-theme="dark"] .package-card.featured .tier-stars {
+        color: var(--primary-color) !important;
+        filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.3));
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3) .tier-stars {
+        color: var(--primary-color) !important;
+        filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.3));
+      }
+
+      .package-price-section {
+        text-align: center;
+        margin-bottom: var(--spacing-2xl);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-xl);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Basic Plan Pricing */
+      .package-card:nth-child(1) .package-price-section {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.2)) !important;
+        border-color: rgba(59, 130, 246, 0.3) !important;
+      }
+
+      /* Featured Plan Pricing */
+      .package-card.featured .package-price-section {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(196, 181, 253, 0.25)) !important;
+        border-color: rgba(139, 92, 246, 0.4) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+      }
+
+      /* Premium Plan Pricing */
+      .package-card:nth-child(3) .package-price-section {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.2)) !important;
+        border-color: rgba(16, 185, 129, 0.3) !important;
+      }
+
+      /* Dark theme pricing sections - same style for all */
+      [data-theme="dark"] .package-card:nth-child(1) .package-price-section {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05)) !important;
+        border-color: rgba(79, 70, 229, 0.3) !important;
+      }
+
+      [data-theme="dark"] .package-card.featured .package-price-section {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05)) !important;
+        border-color: rgba(79, 70, 229, 0.3) !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3) .package-price-section {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05)) !important;
+        border-color: rgba(79, 70, 229, 0.3) !important;
+      }
+
+      .discount-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--danger-color);
+        color: white;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-lg);
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .package-price {
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: var(--spacing-sm);
+        color: var(--text-primary) !important;
+      }
+
+      /* Basic Plan Price */
+      .package-card:nth-child(1) .package-price {
+        color: #1E40AF !important;
+      }
+
+      /* Featured Plan Price */
+      .package-card.featured .package-price {
+        color: #6D28D9 !important;
+      }
+
+      /* Premium Plan Price */
+      .package-card:nth-child(3) .package-price {
+        color: #047857 !important;
+      }
+
+      /* Dark theme overrides for package prices */
+      [data-theme="dark"] .package-card:nth-child(1) .package-price {
+        color: #60A5FA !important;
+      }
+
+      [data-theme="dark"] .package-card.featured .package-price {
+        color: #A78BFA !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3) .package-price {
+        color: #34D399 !important;
+      }
+
+      /* For packages beyond the first 3 */
+      .package-card:nth-child(n+4) .package-price {
+        color: var(--text-primary) !important;
+      }
+
+      .package-card:nth-child(n+4) {
+        background: var(--card-bg) !important;
+        border: 2px solid var(--border-primary) !important;
+      }
+
+      .package-card:nth-child(n+4):hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px var(--shadow-medium);
+        border-color: var(--border-secondary) !important;
+      }
+
+      .package-card:nth-child(n+4)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      }
+
+      .package-card:nth-child(n+4) .package-price-section {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05)) !important;
+        border-color: rgba(79, 70, 229, 0.3) !important;
+      }
+
+      .package-card:nth-child(n+4) .package-features li i {
+        color: var(--primary-color) !important;
+      }
+
+      .package-card:nth-child(n+4) .tier-stars {
+        color: var(--primary-color) !important;
+        filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.3));
+      }
+
+      /* Dark theme overrides for packages beyond first 3 */
+      [data-theme="dark"] .package-card:nth-child(n+4) {
+        background: var(--card-bg) !important;
+        border: 2px solid var(--border-primary) !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(n+4) .package-price-section {
+        background: linear-gradient(135deg, var(--bg-tertiary), rgba(79, 70, 229, 0.1)) !important;
+        border-color: rgba(79, 70, 229, 0.3) !important;
+      }
+
+      .package-price .period {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      .original-price {
+        display: block;
+        font-size: 1.2rem;
+        color: var(--text-tertiary);
+        text-decoration: line-through;
+        margin-top: var(--spacing-xs);
+      }
+
+      /* Status Badges */
+      .status-badge {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-lg);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .status-badge.active {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        color: var(--success-color);
+      }
+
+      .status-badge.inactive {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        color: var(--warning-color);
+      }
+
+      .status-info {
+        flex: 1;
+      }
+
+      .expiry-info {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        margin-top: 2px;
+      }
+
+      .package-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: var(--spacing-2xl);
+        flex-grow: 1;
+      }
+
+      .package-features li {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-sm) 0;
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      .package-features li i {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      /* Basic Plan Features */
+      .package-card:nth-child(1) .package-features li i {
+        color: #3B82F6;
+      }
+
+      /* Featured Plan Features */
+      .package-card.featured .package-features li i {
+        color: #8B5CF6;
+      }
+
+      /* Premium Plan Features */
+      .package-card:nth-child(3) .package-features li i {
+        color: #10B981;
+      }
+
+      /* Dark theme - all packages use primary color for features */
+      [data-theme="dark"] .package-card:nth-child(1) .package-features li i {
+        color: var(--primary-color) !important;
+      }
+
+      [data-theme="dark"] .package-card.featured .package-features li i {
+        color: var(--primary-color) !important;
+      }
+
+      [data-theme="dark"] .package-card:nth-child(3) .package-features li i {
+        color: var(--primary-color) !important;
+      }
+
+      .package-features li span {
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .package-footer {
+        margin-top: auto;
+      }
+
+      .tax-info {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-xs);
+      }
+
+      .package-actions {
         display: flex;
         justify-content: center;
       }
-  
-      .subscribe-btn {
-        margin-left: 5px;
-        border-radius: 24px;
-        font-size: 16px;
-        color: #FFFFFF;
-        font-weight: 600;
-        padding: 8px 4px 8px 4px;
+
+      .package-btn {
         width: 100%;
-        max-width: 162px;
-        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        background: #4b49ac;
-        transition: all 0.3s;
-        outline: 0;
-        border: 0;
-      }
-  
-      .subscribe {
-        margin-left: 5px;
-        border-radius: 24px;
-        font-size: 16px;
-        color: #FFFFFF;
-        font-weight: 600;
-        padding: 10px 5px 10px 5px;
-        width: 100%;
-        min-width: 110px;
-        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        background: #f82804;
-        transition: all 0.3s;
-        outline: 0;
-        border: 0;
-      }
-  
-      .discount {
-        margin-left: 5px;
-        border-radius: 24px;
-        font-size: 16px;
-        color: #FFFFFF;
-        font-weight: 600;
-        padding: 10px 5px 10px 5px;
-        width: 100%;
-        max-width: 133px;
-        -webkit-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        -moz-box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        box-shadow: 0px 5px 15px 0px rgba(1, 1, 1, 0.3);
-        background: #4B49AC;
-        transition: all 0.3s;
-        outline: 0;
-        border: 0;
-      }
-  
-      .buy-btn:hover {
-        background-color: #A5CC4D;
-      }
-  
-      .img-txt-1 {
-        position: absolute;
-        top: 2%;
-        left: 10%;
-        color: #eeeaea;
-        font-size: 40px;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: 500;
-      }
-  
-      .img-txt-2 {
-        position: absolute;
-        top: 6%;
-        left: 10%;
-        color: #FFFFFF;
-        font-size: 56px;
-      }
-  
-      .img-txt-3 {
-        position: absolute;
-        top: 23%;
-        left: 54%;
-        color: #FFFFFF;
-        font-size: 50px;
-        font-weight: 500;
-      }
-  
-      .img-fluids {
-        max-width: 100%;
-        height: 200px;
-        border-top-left-radius: 18px;
-        border-top-right-radius: 18px;
-      }
-  
-      @media (max-width: 768px) {
-        .custom-container {
-          margin-top: 7px;
-        }
-      }
-  
-      @media (max-width: 405px) {
-        .buy {
-          flex-direction: column-reverse;
-          align-items: center;
-        }
-  
-        .discount {
-          font-weight: 600;
-          padding: 10px 5px 10px 5px;
-          width: 100%;
-          max-width: 150px;
-        }
-  
-        .subscribe {
-          font-weight: 600;
-          padding: 10px 5px 10px 5px;
-          width: 100%;
-          min-width: 150px;
-        }
-  
-        .img-txt-3 {
-          position: absolute;
-          top: 24%;
-          left: 53%;
-        }
-  
-        .img-txt-2 {
-          position: absolute;
-          top: 8%;
-        }
-      }
-  
-      .payment-logo {
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: white;
         cursor: pointer;
-        width: 70px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       }
-  
-      .payment-qr {
-        border-radius: 0;
-        width: 180px;
+
+      .package-btn {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
       }
-  
-      .custom-cardimg {
-        background-image: url('../images/Packagesimg.jpg');
-        object-fit: contain;
-        background-position: center;
-        width: 100%;
-        height: 200px;
-        border-top-right-radius: 15px;
-        border-top-left-radius: 15px;
+
+      .package-btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+        box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+        transform: translateY(-3px);
+        color: white;
+        text-decoration: none;
+      }
+
+      .package-btn i {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
+
+      /* Admin Actions */
+      .admin-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        justify-content: center;
+      }
+
+      .admin-btn {
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .admin-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .delete-btn {
+        background: var(--danger-color);
+      }
+
+      .delete-btn:hover {
+        background: #DC2626;
+      }
+
+      .edit-btn {
+        background: var(--success-color);
+      }
+
+      .edit-btn:hover {
+        background: #16A34A;
+      }
+
+      .discount-btn {
+        background: var(--primary-color);
+      }
+
+      .discount-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .package-cards {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-lg);
+          margin: 0;
+          padding: 0 var(--spacing-sm);
+        }
+        
+        .package-card {
+          margin: 0;
+          min-height: auto;
+        }
+        
+        .package-card.featured {
+          transform: none;
+          scale: 1;
+        }
+        
+        .package-card.featured:hover {
+          transform: translateY(-8px);
+        }
+        
+        .package-content {
+          padding: var(--spacing-lg);
+        }
+        
+        .package-title {
+          font-size: 1.3rem;
+          line-height: 1.2;
+          margin-bottom: var(--spacing-sm);
+        }
+        
+        .package-price {
+          font-size: 2.2rem;
+          line-height: 1.1;
+        }
+        
+        .package-price .period {
+          font-size: 0.9rem;
+        }
+        
+        .package-price-section {
+          padding: var(--spacing-lg) var(--spacing-md);
+        }
+        
+        .package-features {
+          margin-bottom: var(--spacing-lg);
+        }
+        
+        .package-features li {
+          padding: var(--spacing-xs) 0;
+          font-size: 0.9rem;
+        }
+        
+        .status-badge {
+          padding: var(--spacing-sm);
+          font-size: 0.85rem;
+        }
+        
+        .admin-actions {
+          justify-content: space-around;
+          flex-wrap: wrap;
+        }
+        
+        .admin-btn {
+          width: 48px;
+          height: 48px;
+          margin: 2px;
+        }
+
+        .user-count-badge {
+          font-size: 0.8rem;
+          padding: 4px 8px;
+        }
+
+        .popular-badge {
+          font-size: 0.75rem;
+          padding: 4px 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .package-cards {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-md);
+          margin: 0;
+          padding: 0 var(--spacing-xs);
+        }
+        
+        .package-card {
+          margin: 0;
+          border-radius: var(--radius-xl);
+        }
+        
+        .package-content {
+          padding: var(--spacing-md);
+        }
+        
+        .package-title {
+          font-size: 1.2rem;
+          line-height: 1.2;
+          margin-bottom: var(--spacing-xs);
+          letter-spacing: 0.5px;
+        }
+        
+        .tier-stars {
+          font-size: 1.1rem;
+          margin-top: var(--spacing-xs);
+        }
+        
+        .package-price-section {
+          padding: var(--spacing-md) var(--spacing-sm);
+          margin: var(--spacing-sm) 0;
+        }
+        
+        .package-price {
+          font-size: 1.8rem !important;
+          line-height: 1;
+        }
+        
+        .package-price .period {
+          font-size: 0.8rem;
+        }
+        
+        .package-features {
+          gap: var(--spacing-xs);
+          margin: var(--spacing-sm) 0;
+        }
+        
+        .package-features li {
+          font-size: 0.85rem;
+          padding: 4px 0;
+        }
+        
+        .admin-actions {
+          flex-wrap: wrap;
+          gap: var(--spacing-xs);
+          justify-content: center;
+        }
+        
+        .admin-btn {
+          width: 44px;
+          height: 44px;
+          font-size: 0.95rem;
+        }
+
+        .tax-info {
+          font-size: 0.8rem;
+          margin-bottom: var(--spacing-sm);
+        }
+
+        .package-btn {
+          padding: var(--spacing-md) var(--spacing-lg);
+          font-size: 1rem;
+        }
+
+        .status-badge {
+          padding: var(--spacing-sm);
+          font-size: 0.8rem;
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .status-info {
+          margin-top: var(--spacing-xs);
+        }
+
+        .expiry-info {
+          font-size: 0.75rem;
+        }
+
+        .discount-badge {
+          font-size: 0.7rem;
+          padding: 2px 6px;
+        }
+
+        .user-count-badge {
+          font-size: 0.75rem;
+          padding: 2px 6px;
+        }
+
+        .popular-badge {
+          font-size: 0.7rem;
+          padding: 2px 8px;
+        }
+      }
+
+      /* Boost Animation and Toast Styles */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes pulseGlow {
+        0%, 100% {
+          box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(34, 197, 94, 0.8);
+        }
+      }
+
+      @keyframes boostProgress {
+        0% { width: 0%; }
+        100% { width: 100%; }
+      }
+
+      @keyframes numberCount {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .boost-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        z-index: 9999;
+        font-weight: 600;
+        animation: slideInUp 0.4s ease-out;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .boost-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .boost-content {
+        background: var(--card-bg);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--border-primary);
+        animation: slideInUp 0.4s ease-out;
+      }
+
+      .boost-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-lg);
+        font-size: 2.5rem;
+        color: white;
+        animation: pulseGlow 2s infinite;
+      }
+
+      .boost-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .boost-subtitle {
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .boost-progress-container {
+        background: var(--bg-tertiary);
+        border-radius: 50px;
+        height: 12px;
+        margin-bottom: var(--spacing-lg);
+        overflow: hidden;
+        border: 1px solid var(--border-primary);
+      }
+
+      .boost-progress-bar {
+        height: 100%;
+        background: linear-gradient(135deg, var(--success-color), #16A34A);
+        border-radius: 50px;
+        animation: boostProgress 3s ease-in-out;
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+      }
+
+      .boost-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .boost-stat {
+        background: var(--bg-tertiary);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-primary);
+      }
+
+      .boost-stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--success-color);
+        animation: numberCount 0.6s ease-out 1.5s both;
+      }
+
+      .boost-stat-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: var(--spacing-xs);
+      }
+
+      .boost-close-btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        border: none;
+        padding: var(--spacing-md) var(--spacing-xl);
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: var(--spacing-lg);
+      }
+
+      .boost-close-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
   
       /* form css */
@@ -433,7 +1364,7 @@
         <div class="container-fluid page-body-wrapper" style="padding-left: 0%; padding-right: 0%;">
             <%- include ('../partials/SettingsDow.ejs') %>
             <%- include ('../partials/Sidebar.ejs') %>
-            <div class="card col-md-10 col-lg-10 mx-auto" style="padding-left: 0%;background-color: #F3F3F9;">
+            <div class="card col-md-10 col-lg-10 mx-auto main-content-card" style="padding-left: 0%;">
                 <% if (messages.success) { %>
                     <div style="display: flex; justify-content: end;">
                         <div id="pusher-message-box" style="display: flex; border-left: 8px solid #45439e; color: green; font-weight: bold; font-size: 16px; justify-content: end; align-items: center; height: 70px;" class="mt-3 alert alert-primary">
@@ -472,263 +1403,192 @@
                       </div>
                   </div>
 
-                    <div class="row g-4 px-2 py-3">
-                        <% packages.forEach(function(package){ %>
-                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-                                <div class="custom-container">
-                                    <div class="custom-cardimg">
-                                        <% if (isAdmin) { %>
-                                            <div style="display: flex; justify-content: flex-end; position: relative;">
-                                                <div class="icon" style="background-color: #EEA006; display: flex; justify-content: center; font-size: 25px; font-weight: 700; height:40px; width:40px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); margin-right: 10px;">
-                                                    <%= package.userCount %>
-                                                </div>
+                    <!-- Package Cards with Modern Design -->
+                    <div class="package-cards">
+                        <% packages.forEach(function(package, index){ %>
+                            <div class="package-card <%= index === 1 ? 'featured' : '' %>">
+                                <% if (index === 1) { %>
+                                    <div class="popular-badge">
+                                        <i class="bi bi-star-fill"></i>
+                                        Most Popular
+                                    </div>
+                                <% } %>
+                                
+                                <% if (isAdmin) { %>
+                                    <div class="admin-badge">
+                                        <div class="user-count-badge">
+                                            <i class="bi bi-people-fill"></i>
+                                            <%= package.userCount %>
+                                        </div>
+                                    </div>
+                                <% } %>
+                                
+                                <div class="package-content">
+                                    <div class="package-tier">
+                                        <h4 class="package-title"><%= package.Package %></h4>
+                                        <div class="tier-stars">
+                                            <% if (index === 0) { %>
+                                                ★★★<span style="opacity: 0.3;">★★</span>
+                                            <% } else if (index === 1) { %>
+                                                ★★★★<span style="opacity: 0.3;">★</span>
+                                            <% } else { %>
+                                                ★★★★★
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="package-price-section">
+                                        <% if (package.discountPercentage > 0) { 
+                                            const originalPrice = (package.Price / (1 - package.discountPercentage / 100)).toFixed(0);
+                                        %>
+                                            <div class="discount-badge">
+                                                <i class="bi bi-tags-fill"></i>
+                                                <%= package.discountPercentage %>% OFF
                                             </div>
+                                            <div class="package-price">
+                                                Rs. <%= package.Price %>
+                                                <span class="original-price">Rs. <%= originalPrice %></span>
+                                                <span class="period">/month</span>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="package-price">Rs. <%= package.Price %><span class="period">/month</span></div>
                                         <% } %>
                                     </div>
-                                    <span class="img-txt-2"><%= package.Package %></span>
-                                    <div class="card-info pl-3 pr-3">
-                                        <div class="d-flex justify-content-between align-items-center">
-                            <% if (package.discountPercentage > 0) { 
-     const originalPrice = (package.Price / (1 - package.discountPercentage / 100)).toFixed(0);
-%>
-  <div>
-    <h4 style="font-weight: bold; color: red; margin: 0;">
-      New: Rs. <%= package.Price %>
-      <del style="color: gray; font-size: 15px; margin-left: 8px;">
-        Old: Rs. <%= originalPrice %>
-      </del>
-    </h4>
-    <div style="
-  font-size: 15px;
-  color: #28a745;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-top: 4px;
-  text-shadow: 0 0 1px #28a745;
-">
-  <i class="bi bi-tags-fill" style="margin-right: 4px;"></i>
-  Discount: <%= package.discountPercentage %>%
-</div>
 
-  </div>
-<% } else { %>
-  <h4 style="font-weight: bold;">Rs. <%= package.Price %></h4>
-<% } %>
+                                    <%
+                                        const normalize = str => (str || "").trim().toLowerCase();
+                                        const isActive = subscription &&
+                                                       normalize(subscription.package_name) === normalize(package.Package) &&
+                                                       user.invoice === "Paid";
 
+                                        const expiryDate = isActive && subscription.expiry_date ? new Date(subscription.expiry_date) : null;
+                                        const now = new Date();
+                                        const daysLeft = expiryDate ? Math.max(Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)), 0) : null;
+                                    %>
 
+                                    <% if (isActive) { %>
+                                        <div class="status-badge active">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            <div class="status-info">
+                                                <strong>Active Plan</strong>
+                                                <% if (expiryDate) { %>
+                                                    <div class="expiry-info">
+                                                        Expires: <%= expiryDate.toLocaleDateString("en-GB") %>
+                                                        (<%= daysLeft %> day<%= daysLeft === 1 ? '' : 's' %> left)
+                                                    </div>
+                                                <% } %>
+                                            </div>
                                         </div>
-                                 <%
-  const normalize = str => (str || "").trim().toLowerCase();
-  const isActive = subscription &&
-                   normalize(subscription.package_name) === normalize(package.Package) &&
-                   user.invoice === "Paid";
-
-  const expiryDate = isActive && subscription.expiry_date ? new Date(subscription.expiry_date) : null;
-  const now = new Date();
-  const daysLeft = expiryDate ? Math.max(Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)), 0) : null;
-%>
-
-
-<% if (isActive) { %>
-  <div class="bg-success text-white rounded p-2 text-center mb-2" style="font-size: 14px;">
-    <strong>Status:</strong> Activated <br/>
-    <% if (expiryDate) { %>
-      <span>
-        <strong>Expiry:</strong> <%= expiryDate.toLocaleDateString("en-GB") %>
-        (<%= daysLeft %> day<%= daysLeft === 1 ? '' : 's' %> remaining)
-      </span>
-    <% } %>
-  </div>
-<% } else { %>
-  <div class="alert alert-warning text-center" style="border: 1px solid #45439e;">
-    No active plan for this package.
-  </div>
-<% } %>
-
-                                        <div class="mbs d-flex pt-1">
-                                            <img src="/images/wifi1.png" alt="">
-                                            <span class="ml-3 font-weight-bold">Upto <%= package.Speed %> speed</span>
+                                    <% } else { %>
+                                        <div class="status-badge inactive">
+                                            <i class="bi bi-exclamation-circle-fill"></i>
+                                            <span>No active plan for this package</span>
                                         </div>
-                                        <div class="phone d-flex pt-2">
-                                            <img src="/images/speedometer1.png" alt="">
-                                            <span class="ml-3 font-weight-bold">Data Usage in month <%= package.Data_Used %></span>
-                                        </div>
-                                        <div class="stream d-flex pt-2">
-                                            <img src="/images/open-hand1.png" alt="">
-                                            <span class="ml-3 pt-1 font-weight-bold">Offer valid till <%= package.Offer_Valid %></span>
-                                        </div>
-                                        <div class="App d-flex pt-2">
-                                            <img src="/images/smarthome1.png" alt="">
-                                            <span class="ml-3 font-weight-bold"><%= package.limits %></span>
-                                        </div>
-                                        <p class="pt-3 font-weight-bold" style="font-size: 17px; margin-bottom: 20px;">
-                                            Internet Bundles prices are inclusive of all taxes
+                                    <% } %>
+                                    
+                                    <ul class="package-features">
+                                        <li>
+                                            <i class="bi bi-wifi"></i>
+                                            <span>Up to <%= package.Speed %> Mbps Speed</span>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-graph-up-arrow"></i>
+                                            <span><%= package.Data_Used %> GB Monthly Usage</span>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-clock-history"></i>
+                                            <span>Valid until <%= package.Offer_Valid %></span>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-shield-check"></i>
+                                            <span><%= package.limits %> Limits</span>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-headset"></i>
+                                            <span>24/7 Customer Support</span>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-tools"></i>
+                                            <span>Free Installation</span>
+                                        </li>
+                                    </ul>
+                                    
+                                    <div class="package-footer">
+                                        <p class="tax-info">
+                                            <i class="bi bi-info-circle"></i>
+                                            Prices inclusive of all taxes
                                         </p>
-                                        <div class="buy d-flex align-items-center">
-                                          <% if (isAdmin) { %>
-                                            <% if (packages.length> 0) { %>
-                                              <form action="/package/<%= package.id %>?_method=DELETE" method="POST"
-                                                style="display:inline;"
-                                                onsubmit="return confirm('Are you sure you want to delete this package?');">
-                                                <button
-                                                  style="border-radius: 20px; background:#DC3545; border: none;width: 40px; height: 40px; font-size: 19px;"
-                                                  type="submit" class="btn-action  view" title="Delete">
-                                                  <i class="bi bi-trash text-white"></i>
-                                                </button>
-                                              </form>
-                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
-                                              <!-- ssss -->
-                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
-                                              <!-- ssss -->
-    
-                                              <!-- Edit Modal  -->
-                                              <button
-                                                style="border-radius: 20px; width: 40px; height: 40px; background: green; border: none; color: white; font-size: 19px;"
-                                                data-bs-toggle="modal" data-bs-target="#updateModal<%= package.id %>">
-                                                <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
-                                              </button>
-                                              <!-- Edit Modal  -->
-    
-                                              <!-- discountModal -->
-                                              <button
-                                                style="border-radius: 20px; width: 40px; height: 40px; background:#4B49AC;border: none; color:white;font-size: 19px;"
-                                                data-toggle="modal" data-target="#discountModal<%= package.id %>">
-                                                <i class="mdi mdi-tag-text-outline"></i>
-                                              </button>
-                                              <!-- discountModal -->
-    
-                                              <!-- Modal -->
-                                              <div class="modal fade" id="discountModal<%= package.id %>" tabindex="-1"
-                                                role="dialog" aria-labelledby="discountModalLabel<%= package.id %>"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h5 class="modal-title" id="discountModalLabel<%= package.id %>">
-                                                        Give Any Discount</h5>
-                                                      <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                      </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                      <form action="/discount/<%= package.id %>" method="POST">
-                                                        <!-- Hidden input for the id -->
-                                                        <input type="hidden" name="id" value="<%= package.id %>">
-    
-                                                        <!-- Input for the new price -->
-                                                        <input type="text" class="form-control mb-2"
-                                                          value="<%= package.Price %>" placeholder="Discount Price"
-                                                          name="Price" required>
-    
-                                                        <!-- Input for the discount percentage -->
-                                                        <input type="text" class="form-control mb-2"
-                                                          placeholder="Discount Percentage" name="discountPercentage"
-                                                          step="0.01" min="0" max="100">
-    
-                                                        <button type="submit" class="btn btn-primary">Give
-                                                          Discount</button>
-    
-                                                      </form>
-                                                    </div>
-                                                  </div>
+                                        
+                                        <div class="package-actions">
+                                            <% if (isAdmin) { %>
+                                                <div class="admin-actions">
+                                                    <!-- Delete Button -->
+                                                    <form action="/package/<%= package.id %>?_method=DELETE" method="POST"
+                                                        style="display:inline;"
+                                                        onsubmit="return confirm('Are you sure you want to delete this package?');">
+                                                        <button type="submit" class="admin-btn delete-btn" title="Delete Package">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                    
+                                                    <!-- Edit Button -->
+                                                    <button class="admin-btn edit-btn" title="Edit Package"
+                                                        data-bs-toggle="modal" data-bs-target="#updateModal<%= package.id %>">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    
+                                                    <!-- Discount Button -->
+                                                    <button class="admin-btn discount-btn" title="Set Discount"
+                                                        data-toggle="modal" data-target="#discountModal<%= package.id %>">
+                                                        <i class="bi bi-tag"></i>
+                                                    </button>
                                                 </div>
-                                              </div>
-    
-                                              <!-- sss --> <!-- ssss --> <!-- ssss -->
-                                              <!-- ssss --> <!-- ssss --> <!-- ssss -->
-                                              <!-- ssss -->
-                                              <% } %>
-                                                <!-- Update Package --><!-- Update Package -->
-                                                <% packages.forEach(package=> { %>
-                                                  <div class="modal fade come-from-modal pr-0"
-                                                    id="updateModal<%= package.id %>" tabindex="-1" role="dialog"
-                                                    aria-labelledby="updateModal<%= package.id %>">
-                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                      <div class="modal-content form-card">
-                                                        <div class="form-header">
-                                                          <h5 class="modal-title" id="updatePackageModalLabel">
-                                                            <i class="fas fa-box-open me-2"></i> Update Package
-                                                          </h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                          <form action="/package/<%= package.id %>" method="POST">
-                                                            <div class="d-flex gap-4 mb-3">
-                                                              <div class="form-group w-100">
-                                                                <input type="text" name="Package"
-                                                                  id="updatePackage<%= package.id %>" class="form-control"
-                                                                  value="<%= package.Package %>" required
-                                                                  placeholder="Update Package Name">
-                                                                <label for="updatePackage<%= package.id %>"
-                                                                  class="form-label">Package Name</label>
-                                                              </div>
-                                                              <div class="form-group w-100">
-                                                                <input type="number" name="Price"
-                                                                  id="updatePrice<%= package.id %>" class="form-control"
-                                                                  value="<%= package.Price %>" required
-                                                                  placeholder="Update Price">
-                                                                <label for="updatePrice<%= package.id %>"
-                                                                  class="form-label">Price</label>
-                                                              </div>
-                                                            </div>
-                                                            <div class="d-flex gap-4 mb-3">
-                                                              <div class="form-group w-100">
-                                                                <input type="text" name="Speed"
-                                                                  id="updateSpeed<%= package.id %>" class="form-control"
-                                                                  value="<%= package.Speed %>" required
-                                                                  placeholder="Update Speed">
-                                                                <label for="updateSpeed<%= package.id %>"
-                                                                  class="form-label">Speed</label>
-                                                              </div>
-                                                              <div class="form-group w-100">
-                                                                <input type="text" name="Data_Used"
-                                                                  id="updateDataUsed<%= package.id %>" class="form-control"
-                                                                  value="<%= package.Data_Used %>" required
-                                                                  placeholder="Update Data Used">
-                                                                <label for="updateDataUsed<%= package.id %>"
-                                                                  class="form-label">Data Used</label>
-                                                              </div>
-                                                            </div>
-                                                            <div class="d-flex gap-4 mb-3">
-                                                              <div class="form-group w-100">
-                                                                <input type="date" name="Offer_Valid"
-                                                                  id="updateOfferValid<%= package.id %>"
-                                                                  class="form-control" value="<%= package.Offer_Valid  %>"
-                                                                  required placeholder="Update Offer Valid">
-                                                                <label for="updateOfferValid<%= package.id %>"
-                                                                  class="form-label">Offer Valid Until</label>
-                                                              </div>
-                                                              <div class="form-group w-100">
-                                                                <input type="text" name="limits"
-                                                                  id="updateLimits<%= package.id %>" class="form-control"
-                                                                  value="<%= package.limits %>" required
-                                                                  placeholder="Update Limits">
-                                                                <label for="updateLimits<%= package.id %>"
-                                                                  class="form-label">Limits</label>
-                                                              </div>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-success">
-                                                              <i class="fas fa-save me-2"></i> Update Package
-                                                            </button>
-                                                          </form>
-                                                        </div>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                          aria-label="Close"
-                                                          style="position: absolute; top: 23px; right: 24px; font-size: 18px;"></button>
-                                                      </div>
+                                            <% } else { %>
+                                                <button class="package-btn" 
+                                                    data-package="<%= package.Package %>"
+                                                    data-price="<%= package.Price %>">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                    Subscribe Now
+                                                </button>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Discount Modal -->
+                                <div class="modal fade" id="discountModal<%= package.id %>" tabindex="-1"
+                                    role="dialog" aria-labelledby="discountModalLabel<%= package.id %>"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="discountModalLabel<%= package.id %>">
+                                                    Set Discount for <%= package.Package %>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/discount/<%= package.id %>" method="POST">
+                                                    <input type="hidden" name="id" value="<%= package.id %>">
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="discountPrice<%= package.id %>">New Price</label>
+                                                        <input type="text" class="form-control" id="discountPrice<%= package.id %>"
+                                                            value="<%= package.Price %>" name="Price" required>
                                                     </div>
-                                                  </div>
-                                                  <% }) %>
-                                                    <!-- Update Package --><!-- Update Package -->
-                                                    <% } else { %>
-                                                      <button style="padding: 5px 8px;"
-                                                        class="subscribe-btn btn btn-primary"
-                                                        data-package="<%= package.Package %>"
-                                                        data-price="<%= package.Price %>">
-                                                        <i class="mdi mdi-shopping"></i>
-                                                        subscribe Now
-                                                      </button>
-                                                      <% } %>
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="discountPercentage<%= package.id %>">Discount Percentage</label>
+                                                        <input type="number" class="form-control" id="discountPercentage<%= package.id %>"
+                                                            name="discountPercentage" step="0.01" min="0" max="100"
+                                                            placeholder="Enter discount percentage">
+                                                    </div>
+                                                    
+                                                    <button type="submit" class="btn btn-primary">Apply Discount</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -837,7 +1697,7 @@
     <%- include ('../partials/_footer.ejs') %>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+            const subscribeButtons = document.querySelectorAll('.package-btn');
 
             subscribeButtons.forEach(button => {
                 button.addEventListener('click', async function () {
@@ -920,6 +1780,143 @@
                 });
             });
         });
+
+        // Beautiful Boost WiFi Functionality
+        const actionBtn = document.querySelector('[data-action="notif"]');
+        if (actionBtn) {
+            actionBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showBoostModal();
+            });
+        }
+
+        function showBoostModal() {
+            // Create boost modal
+            const boostModal = document.createElement('div');
+            boostModal.className = 'boost-modal';
+            
+            // Generate random boost stats
+            const speedBoost = Math.floor(Math.random() * 25) + 15; // 15-40%
+            const latencyReduction = Math.floor(Math.random() * 20) + 10; // 10-30ms
+            const stabilityImprovement = Math.floor(Math.random() * 15) + 85; // 85-100%
+            
+            boostModal.innerHTML = `
+                <div class="boost-content">
+                    <div class="boost-icon">
+                        <i class="bi bi-rocket-takeoff"></i>
+                    </div>
+                    
+                    <h3 class="boost-title">WiFi Boost Activated!</h3>
+                    <p class="boost-subtitle">Optimizing your connection for maximum performance</p>
+                    
+                    <div class="boost-progress-container">
+                        <div class="boost-progress-bar"></div>
+                    </div>
+                    
+                    <div class="boost-stats">
+                        <div class="boost-stat">
+                            <div class="boost-stat-value">+${speedBoost}%</div>
+                            <div class="boost-stat-label">Speed Boost</div>
+                        </div>
+                        <div class="boost-stat">
+                            <div class="boost-stat-value">-${latencyReduction}ms</div>
+                            <div class="boost-stat-label">Latency Reduced</div>
+                        </div>
+                    </div>
+                    
+                    <div class="boost-stats">
+                        <div class="boost-stat">
+                            <div class="boost-stat-value">${stabilityImprovement}%</div>
+                            <div class="boost-stat-label">Connection Stability</div>
+                        </div>
+                        <div class="boost-stat">
+                            <div class="boost-stat-value">2.5x</div>
+                            <div class="boost-stat-label">Signal Strength</div>
+                        </div>
+                    </div>
+                    
+                    <button class="boost-close-btn" onclick="closeBoostModal()">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Awesome!
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(boostModal);
+            
+            // Show initial toast
+            showBoostToast();
+            
+            // Auto close after 6 seconds
+            setTimeout(() => {
+                if (document.body.contains(boostModal)) {
+                    closeBoostModal();
+                }
+            }, 6000);
+        }
+
+        function showBoostToast() {
+            const toast = document.createElement('div');
+            toast.className = 'boost-toast';
+            toast.innerHTML = `
+                <i class="bi bi-rocket-takeoff me-2"></i>
+                WiFi boost activated! Performance optimizing...
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    toast.style.animation = 'fadeOut 0.3s ease-out forwards';
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+
+        function closeBoostModal() {
+            const modal = document.querySelector('.boost-modal');
+            if (modal) {
+                modal.style.animation = 'fadeOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (document.body.contains(modal)) {
+                        document.body.removeChild(modal);
+                    }
+                }, 300);
+                
+                // Show success toast
+                showSuccessToast();
+            }
+        }
+        
+        function showSuccessToast() {
+            const toast = document.createElement('div');
+            toast.className = 'boost-toast';
+            toast.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
+            toast.innerHTML = `
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Boost complete! Your WiFi is now optimized.
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    toast.style.animation = 'fadeOut 0.3s ease-out forwards';
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    }, 300);
+                }
+            }, 4000);
+        }
+
+        // Make closeBoostModal globally accessible
+        window.closeBoostModal = closeBoostModal;
     </script>
     <script src="/vendors/js/vendor.bundle.base.js"></script>
     <script src="/vendors/chart.js/Chart.min.js"></script>
