@@ -317,16 +317,17 @@
         }
 
         .counter-display {
-            font-size: 6rem;
+            font-size: 5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%);
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 4px 8px rgba(17, 153, 142, 0.3);
             margin: 0;
             line-height: 1;
             position: relative;
+            z-index: 2;
         }
 
         .counter-ring {
@@ -334,24 +335,25 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 240px;
-            height: 240px;
-            border: 3px solid rgba(45, 27, 105, 0.1);
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(17, 153, 142, 0.2);
             border-radius: 50%;
             pointer-events: none;
+            z-index: 1;
         }
 
         .counter-ring::before {
             content: '';
             position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);
-            mask: radial-gradient(circle, transparent 50%, black 50%);
-            -webkit-mask: radial-gradient(circle, transparent 50%, black 50%);
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            mask: radial-gradient(circle, transparent 48%, black 52%);
+            -webkit-mask: radial-gradient(circle, transparent 48%, black 52%);
         }
 
         /* Action Buttons */
@@ -437,25 +439,42 @@
         }
 
         .progress-item {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 12px;
-            padding: 1rem;
+            background: linear-gradient(145deg, rgba(51, 65, 85, 0.8) 0%, rgba(71, 85, 105, 0.6) 100%);
+            border-radius: 16px;
+            padding: 1.25rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            box-shadow: 
+                0 8px 16px -4px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .progress-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px -6px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(124, 58, 237, 0.3);
         }
 
         .progress-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #2d1b69;
-            margin-bottom: 0.25rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
         }
 
         .progress-label {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #94a3b8;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
         /* Responsive Design */
@@ -530,55 +549,59 @@
         }
     </style>
 
-    <div class="tasbeeh-container">
-        <div class="tasbeeh-card">
-            <div class="islamic-header">
-                <div class="bismillah">بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيْمِ</div>
-                <h1 class="tasbeeh-title">Digital Tasbeeh</h1>
-                <p class="tasbeeh-subtitle">Keep track of your dhikr and remembrance of Allah</p>
-            </div>
+    <div class="content-wrapper">
+        <div class="tasbeeh-container">
+            <div class="container">
+                <div class="tasbeeh-card">
+                    <div class="islamic-header">
+                        <div class="bismillah">بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيْمِ</div>
+                        <h1 class="tasbeeh-title">Digital Tasbeeh</h1>
+                        <p class="tasbeeh-subtitle">Keep track of your dhikr and remembrance of Allah</p>
+                    </div>
 
-            <div class="controls-section">
-                <button id="increment-by" class="control-btn increment-btn">
-                    <i class="bi bi-plus-circle me-1"></i>
-                    Increment: <span id="increment-value">1</span>
-                </button>
-                <button id="edit" class="control-btn edit-btn">
-                    <i class="bi bi-gear me-1"></i>
-                    Settings
-                </button>
-                <button id="reset" class="control-btn reset-btn">
-                    <i class="bi bi-arrow-clockwise me-1"></i>
-                    Reset
-                </button>
-            </div>
+                    <div class="controls-section">
+                        <button id="increment-by" class="control-btn increment-btn">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Increment: <span id="increment-value">1</span>
+                        </button>
+                        <button id="edit" class="control-btn edit-btn">
+                            <i class="bi bi-gear me-1"></i>
+                            Settings
+                        </button>
+                        <button id="reset" class="control-btn reset-btn">
+                            <i class="bi bi-arrow-clockwise me-1"></i>
+                            Reset
+                        </button>
+                    </div>
 
-            <div class="counter-section">
-                <div class="counter-ring"></div>
-                <h1 id="counter" class="counter-display">0</h1>
-            </div>
+                    <div class="counter-section">
+                        <div class="counter-ring"></div>
+                        <h1 id="counter" class="counter-display">0</h1>
+                    </div>
 
-            <div class="action-buttons">
-                <button id="increment" class="main-action-btn ripple">
-                    <i class="bi bi-hand-index-thumb"></i>
-                </button>
-                <button id="decrement" class="secondary-action-btn">
-                    <i class="bi bi-dash"></i>
-                </button>
-            </div>
+                    <div class="action-buttons">
+                        <button id="increment" class="main-action-btn ripple">
+                            <i class="bi bi-hand-index-thumb"></i>
+                        </button>
+                        <button id="decrement" class="secondary-action-btn">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                    </div>
 
-            <div class="progress-section">
-                <div class="progress-item">
-                    <div class="progress-value" id="total-today">0</div>
-                    <div class="progress-label">Today</div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-value" id="session-count">0</div>
-                    <div class="progress-label">Session</div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-value" id="streak-days">1</div>
-                    <div class="progress-label">Streak</div>
+                    <div class="progress-section">
+                        <div class="progress-item">
+                            <div class="progress-value" id="total-today">0</div>
+                            <div class="progress-label">Today</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-value" id="session-count">0</div>
+                            <div class="progress-label">Session</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-value" id="streak-days">1</div>
+                            <div class="progress-label">Streak</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
