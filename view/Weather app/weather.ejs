@@ -131,10 +131,11 @@
               >
                 <!-- ✅ Unified Modern Sidebar for Tasbeeh -->
 <nav class="modern-sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h1 class="sidebar-title">القرآن الكريم</h1>
-    <p class="sidebar-subtitle">Tasbeeh Counter</p>
-  </div>
+ <div class="sidebar-header">
+  <h1 class="sidebar-title">Weather App</h1>
+  <p class="sidebar-subtitle">Live Forecast & Dashboard</p>
+</div>
+
   <nav class="sidebar-nav">
     <ul style="list-style: none; padding: 0; margin: 0;">
       <li class="nav-item">
@@ -206,24 +207,26 @@
 .sidebar-header {
   padding: 2.5rem 2rem;
   text-align: center;
-  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(79, 70, 229, 0.05));
+  border-bottom: 1px solid rgba(79, 70, 229, 0.3);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.7));
+  backdrop-filter: blur(20px);
 }
 
 .sidebar-title {
   font-size: 1.75rem;
   font-family: 'Amiri', serif;
   font-weight: 900;
-  background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed, #10b981);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
   margin-bottom: 0.75rem;
-  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  letter-spacing: -0.02em;
 }
 
 .sidebar-subtitle {
-  color: #94a3b8;
+  color: #a5b4fc;
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.025em;
@@ -255,7 +258,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.15), transparent);
   transition: left 0.4s ease;
 }
 
@@ -264,17 +267,21 @@
 }
 
 .sidebar-nav .nav-link:hover {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(79, 70, 229, 0.1));
-  color: #10b981;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(124, 58, 237, 0.1));
+  color: #7c3aed;
   transform: translateX(6px);
-  box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.3);
 }
 
 .sidebar-nav .nav-link:hover i {
   transform: scale(1.1);
-  color: #34d399;
+  color: #7c3aed;
 }
-
+.sidebar-nav .nav-link.active {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.25), rgba(124, 58, 237, 0.15));
+  color: #7c3aed;
+  font-weight: 700;
+}
         /* Professional Dark Weather UI Design */
         .weather-container {
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%);
