@@ -237,27 +237,97 @@
         </div>
 
         <!-- Test Controls -->
-        <div class="test-controls">
-          <button id="startTestBtn" class="start-test-btn" onclick="startSpeedTest()">
-            <div class="btn-background">
-              <div class="btn-ripple"></div>
-            </div>
-            <div class="btn-content">
-              <i class="fas fa-play btn-icon"></i>
-              <span class="btn-text">Start Speed Test</span>
-            </div>
-          </button>
-          
-          <button id="retestBtn" class="retest-btn" onclick="retestSpeed()" style="display: none;">
-            <div class="btn-background">
-              <div class="btn-ripple"></div>
-            </div>
-            <div class="btn-content">
-              <i class="fas fa-redo btn-icon"></i>
-              <span class="btn-text">Test Again</span>
-            </div>
-          </button>
-        </div>
+   <style>
+  .test-controls {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .start-test-btn,
+  .retest-btn {
+    position: relative;
+    border: none;
+    outline: none;
+    padding: 18px 36px; /* More padding for bigger size */
+    min-width: 220px;   /* Set min width */
+    min-height: 60px;   /* Set consistent height */
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    box-shadow: 0 10px 24px rgba(0, 114, 255, 0.2);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .retest-btn {
+    background: linear-gradient(135deg, #ff5f6d, #ffc371);
+    box-shadow: 0 10px 24px rgba(255, 95, 109, 0.2);
+  }
+
+  .start-test-btn:hover,
+  .retest-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-background,
+  .btn-ripple {
+    display: none; /* Keep structure if needed */
+  }
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btestn-icon {
+    font-size: 22px;
+  }
+  
+  
+
+
+  .btn-text {
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+  }
+</style>
+
+
+<div class="test-controls">
+  <button id="startTestBtn" class="start-test-btn" onclick="startSpeedTest()">
+    <div class="btn-background">
+      <div class="btn-ripple"></div>
+    </div>
+    <div class="btn-content">
+      <i class="fas fa-play btn-icon"></i>
+      <span class="btn-text">Start Speed Test</span>
+    </div>
+  </button>
+
+  <button id="retestBtn" class="retest-btn" onclick="retestSpeed()" style="display: none;">
+    <div class="btn-background">
+      <div class="btn-ripple"></div>
+    </div>
+    <div class="btn-content">
+      <i class="fas fa-redo btn-icon"></i>
+      <span class="btn-text">Test Again</span>
+    </div>
+  </button>
+</div>
+
 
         <!-- Share Results -->
         <div class="share-section" id="shareSection" style="display: none;">

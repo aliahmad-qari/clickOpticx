@@ -7,27 +7,42 @@ exports.getPayments = (req, res) => {
     return res.redirect("/");
   }
 
-  const sqlProfile = `
-        SELECT p.*, u.username 
-        FROM payments p
-        JOIN users u ON p.user_id = u.id
-        WHERE p.user_id = ?
-    `;
-
-  db.query(sqlProfile, [userId], (err, results) => {
-    if (err) {
-      console.error("Database query error:", err);
+  // First, get the user role
+  const roleQuery = "SELECT role FROM users WHERE id = ?";
+  db.query(roleQuery, [userId], (roleErr, roleResult) => {
+    if (roleErr) {
+      console.error("Role fetch error:", roleErr);
       return res.status(500).send("Internal Server Error");
     }
 
-    console.log("Query Results:", results);
+    const isAdmin = roleResult[0].role === "admin";
 
-    res.render("Request/request", {
-      message: null,
-      payments: results || [],
+    const sql = `
+      SELECT p.*, u.username 
+      FROM payments p
+      JOIN users u ON p.user_id = u.id
+      ${isAdmin ? "" : "WHERE p.user_id = ?"}
+      ORDER BY p.id DESC
+    `;
+
+    const queryParams = isAdmin ? [] : [userId];
+
+    db.query(sql, queryParams, (err, results) => {
+      if (err) {
+        console.error("Database query error:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+
+      console.log("Query Results:", results);
+
+      res.render("Request/request", {
+        message: null,
+        payments: results || [],
+      });
     });
   });
 };
+
 
 exports.profile = (req, res) => {
   const userId = req.session.userId;
@@ -126,30 +141,78 @@ exports.profile = (req, res) => {
 };
 
 exports.UpdateUser = (req, res) => {
-  const { userId, package, invoice, expiry } = req.body;
+  const { userId, invoice_status, package_status, expiry } = req.body;
 
-  if (!userId || !package || !invoice || !expiry) {
-    return res
-      .status(400)
-      .json({ message: "User ID, Package, Invoice, and Expiry are required." });
+  if (!userId || !invoice_status || !package_status || !expiry) {
+    return res.status(400).json({
+      message: "User ID, Package, Invoice, and Expiry are required.",
+    });
   }
 
-  const updateQuery =
-    "UPDATE users SET plan = ?, invoice = ?, expiry = ? WHERE id = ?";
-  
-  db.query(updateQuery, [package, invoice, expiry, userId], (err, result) => {
+  const updateQuery = `
+    UPDATE payments 
+    SET invoice_status = ?, package_status = ?, expiry = ?
+    WHERE user_id = ?
+    ORDER BY id DESC
+    LIMIT 1
+  `;
+
+  db.query(updateQuery, [invoice_status, package_status, expiry, userId], (err, result) => {
     if (err) {
-      console.error("Database update error:", err);
+      console.error("❌ Database update error:", err);
       return res.status(500).json({ message: "Database update failed." });
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).json({ message: "Payment record not found." });
     }
 
-    res.status(200).json({ message: "User updated successfully." });
+    req.flash("success", "Payment record updated successfully!");
+    res.redirect("/request");
   });
 };
+
+exports.updatePlan = (req, res) => {
+  const { user_id, invoice_status, package_status, expiry } = req.body;
+
+  // Validate required fields
+  if (!user_id || !invoice_status || !package_status || !expiry) {
+    return res.status(400).json({
+      message: "User ID, Package, Invoice, and Expiry are required."
+    });
+  }
+
+  const updateQuery = `
+    UPDATE payments 
+    SET invoice_status = ?, package_status = ?, expiry = ?
+    WHERE id = (
+      SELECT id FROM (
+        SELECT id FROM payments WHERE user_id = ? ORDER BY id DESC LIMIT 1
+      ) AS latest
+    )
+  `;
+
+  db.query(updateQuery, [invoice_status, package_status, expiry, user_id], (err, result) => {
+    if (err) {
+      console.error("❌ Error in updatePlan:", err);
+      return res.status(500).json({ message: "Failed to update plan" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "No matching payment record found" });
+    }
+
+    req.flash("success", "Plan updated successfully.");
+    res.redirect("/index");
+  });
+};
+
+
+
+
+
+
+
 
 exports.DeleteUser = (req, res) => {
   const userId = req.params.id;

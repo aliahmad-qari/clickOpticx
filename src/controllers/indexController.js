@@ -1,5 +1,7 @@
 const db = require("../config/db");
 const NotificationService = require("../services/notificationService");
+
+// Get the user's
 exports.plan = (req, res) => {
   const userId = req.session.userId;
   const justLoggedIn = req.session.userJustLoggedIn;
@@ -18,8 +20,12 @@ exports.plan = (req, res) => {
     FROM users WHERE id = ?`;
 
   db.query(sqlProfile, [userId], (err, results) => {
-    if (err) return res.status(500).send("Internal Server Error");
-    if (results.length === 0) return res.status(404).send("User not found");
+    if (err || results.length === 0) {
+      console.error("User not found or DB error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    const user = results[0];
 
     const SliderSql = "SELECT * FROM slider";
     db.query(SliderSql, (err, sliderResults) => {
@@ -35,7 +41,7 @@ exports.plan = (req, res) => {
 
           const NotifactionSql = "SELECT COUNT(*) AS totalNotifactions FROM notifications";
           db.query(NotifactionSql, (err, NotifactionResult) => {
-            if (err) return res.status(500).send("Database error");
+            if (err) return res.status(500).send("Internal Server Error");
             const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
             const notifications_users_count_sql = `
@@ -44,9 +50,8 @@ exports.plan = (req, res) => {
               WHERE user_id = ? AND is_read = 0 
               AND created_at >= NOW() - INTERVAL 2 DAY
             `;
-
             db.query(notifications_users_count_sql, [userId], (err, Notifaction) => {
-              if (err) return res.status(500).send("Database error");
+              if (err) return res.status(500).send("Internal Server Error");
               const Notifactions = Notifaction[0].Notifactions;
 
               const notifications_details_sql = `
@@ -56,83 +61,82 @@ exports.plan = (req, res) => {
                 AND created_at >= NOW() - INTERVAL 2 DAY 
                 ORDER BY id DESC
               `;
-
               db.query(notifications_details_sql, [userId], (err, notifications_users) => {
-                if (err) return res.status(500).send("Server Error");
+                if (err) return res.status(500).send("Internal Server Error");
 
-                const sql = "SELECT * FROM packages";
-                db.query(sql, (err, packageResults) => {
+                const packageSql = "SELECT * FROM packages";
+                db.query(packageSql, (err, packageResults) => {
                   if (err) return res.status(500).send("Internal Server Error");
 
                   const subscriptionSql = `
-                    SELECT p.* FROM payments p
-                    JOIN users u ON p.user_id = u.id
-                    WHERE p.user_id = ? AND p.active = 'Activated' AND u.invoice = 'Paid'
-                    ORDER BY p.created_at DESC
+                    SELECT * FROM payments 
+                    WHERE user_id = ? 
+                    ORDER BY created_at DESC 
                     LIMIT 1
                   `;
-
                   db.query(subscriptionSql, [userId], (err, subscriptionResults) => {
                     if (err) return res.status(500).send("Internal Server Error");
-                    const subscription = subscriptionResults[0];
+
+                    const subscription = subscriptionResults.length > 0 ? subscriptionResults[0] : null;
+
+                    // Match the package
+                    let matchedPackage = null;
+                    if (subscription?.package_name) {
+                      matchedPackage = packageResults.find(pkg => pkg.Package === subscription.package_name) || null;
+                    }
+
+                    // Format expiry
+                    const formattedDate = subscription?.expiry
+                      ? new Date(subscription.expiry).toLocaleDateString("en-GB")
+                      : "--";
+
+                    // Add dynamic fields to user for EJS use
+                    if (subscription) {
+                      user.invoice_status = subscription.invoice_status || "Unpaid";
+                      user.package_status = subscription.package_status || "pending";
+                      user.expiry = subscription.expiry || null;
+                    } else {
+                      user.invoice_status = "Unpaid";
+                      user.package_status = null;
+                      user.expiry = null;
+                    }
 
                     const sqlIcon = "SELECT * FROM icon_slider";
                     db.query(sqlIcon, (err, Iconresult) => {
                       if (err) return res.status(500).send("Internal Server Error");
 
-                      const matchedQuery = `
-                        SELECT * FROM packages 
-                        WHERE Package = ? 
-                        LIMIT 1
-                      `;
-
-                      db.query(matchedQuery, [subscription?.package_name], (err, matchedResults) => {
+                      const promot = "SELECT * FROM promotions ORDER BY id DESC";
+                      db.query(promot, (err, promotionresult) => {
                         if (err) return res.status(500).send("Internal Server Error");
-                        const matchedPackage = matchedResults[0] || null;
 
-                        let formattedDate = "--";
-                        let isExpired = true;
-
-                        if (subscription?.expiry_date) {
-                          const expiry = new Date(subscription.expiry_date);
-                          formattedDate = expiry.toLocaleDateString("en-GB");
-                          isExpired = expiry < new Date();
-                        }
-
-                        const promot = "SELECT * FROM promotions ORDER BY id DESC";
-                        db.query(promot, (err, promotionresult) => {
+                        const Cards = "SELECT * FROM cards";
+                        db.query(Cards, (err, cardResults) => {
                           if (err) return res.status(500).send("Internal Server Error");
 
-                          const Cards = "SELECT * FROM cards";
-                          db.query(Cards, (err, cardResults) => {
-                            if (err) return res.status(500).send("Internal Server Error");
+                          const isAdmin = user.role === "admin";
+                          const isUser = user.role === "user";
+                          const isteam = user.role === "Team";
 
-                            const isAdmin = results[0].role === "admin";
-                            const isUser = results[0].role === "user";
-                            const isteam = results[0].role === "Team";
-
-                            res.render("index", {
-                              user: results[0],
-                              slider: sliderResults,
-                              isAdmin,
-                              cards: cardResults,
-                              isUser,
-                              isteam,
-                              password_data,
-                              totalNotifactions,
-                              bg_result,
-                              Iconresult,
-                              packages: packageResults,
-                              subscription,
-                              matchedPackage,
-                              formattedDate,
-                              isExpired,
-                              notifications_users,
-                              Notifactions,
-                              promotionresult,
-                              userJustLoggedIn: justLoggedIn,
-                              userservices: Justservices
-                            });
+                          res.render("index", {
+                            user,
+                            slider: sliderResults,
+                            isAdmin,
+                            isUser,
+                            isteam,
+                            cards: cardResults,
+                            password_data,
+                            totalNotifactions,
+                            bg_result,
+                            Iconresult,
+                            packages: packageResults,
+                            subscription,
+                            matchedPackage,
+                            formattedDate,
+                            notifications_users,
+                            Notifactions,
+                            promotionresult,
+                            userJustLoggedIn: justLoggedIn,
+                            userservices: Justservices
                           });
                         });
                       });
@@ -149,8 +153,6 @@ exports.plan = (req, res) => {
 };
 
 
-                  
-       
  
 
 // update the Nav_br img // update the Nav_bar img // update the Nav_bar img
@@ -251,6 +253,9 @@ exports.updateSubscription = async (req, res) => {
     }
   );
 };
+
+
+
 
 exports.uploadBackgroundImage = (req, res) => {
   const userId = req.session.userId;

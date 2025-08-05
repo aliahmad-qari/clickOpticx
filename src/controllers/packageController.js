@@ -26,8 +26,6 @@ exports.updateSubscription = (req, res) => {
     custom_amount,
   } = req.body;
 
-  const message = "Request for Package.";
-
   if (!user_id || !username || !transaction_id || !amount || !package_name) {
     return res
       .status(400)
@@ -37,41 +35,29 @@ exports.updateSubscription = (req, res) => {
   const packagePrice = parseFloat(amount) || 0;
   const customAmountFloat = parseFloat(custom_amount) || 0;
 
-  console.log("🔍 Checking user_id in daily_tasks:", user_id);
-
   const getCoinBalanceQuery = `SELECT coin_balance FROM daily_tasks WHERE user_id = ?`;
 
   db.query(getCoinBalanceQuery, [user_id], (err, result) => {
     if (err) {
       console.error("❌ Error fetching coin_balance:", err);
-      return res.status(500).json({ success: false, message: "Database error" });
+      return res
+        .status(500)
+        .json({ success: false, message: "Database error" });
     }
 
-    // If user exists in daily_tasks
     if (result.length > 0) {
       const coinBalance = parseFloat(result[0].coin_balance) || 0;
       proceedWithPayment(coinBalance);
     } else {
-      // Insert a new daily_tasks entry with 0 balance
-      const insertDailyTask = `
-        INSERT INTO daily_tasks (user_id, coin_balance)
-        VALUES (?, 0)
-      `;
-
+      const insertDailyTask = `INSERT INTO daily_tasks (user_id, coin_balance) VALUES (?, 0)`;
       db.query(insertDailyTask, [user_id], (err) => {
-        if (err) {
-          console.error("❌ Error initializing daily task record:", err);
-          // IGNORE error if it's due to duplicate entry (just in case)
-          if (err.code === 'ER_DUP_ENTRY') {
-            console.log("⚠️ Duplicate entry in daily_tasks, continuing...");
-            proceedWithPayment(0);
-          } else {
-            return res.status(500).json({ success: false, message: "Error initializing daily task record" });
-          }
-        } else {
-          console.log("✅ User inserted into daily_tasks with 0 balance.");
-          proceedWithPayment(0);
+        if (err && err.code !== "ER_DUP_ENTRY") {
+          return res.status(500).json({
+            success: false,
+            message: "Error initializing daily task record",
+          });
         }
+        proceedWithPayment(0);
       });
     }
   });
@@ -89,8 +75,10 @@ exports.updateSubscription = (req, res) => {
         discount,
         custom_amount,
         remaining_amount,
-        created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        created_at,
+        package_status,
+        invoice_status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid')
     `;
 
     db.query(
@@ -108,48 +96,65 @@ exports.updateSubscription = (req, res) => {
       (err) => {
         if (err) {
           console.error("❌ Error inserting into payments:", err);
-          return res.status(500).json({ success: false, message: "Insert error" });
+          return res
+            .status(500)
+            .json({ success: false, message: "Insert error" });
         }
 
-        const updateCoinsQuery = `UPDATE daily_tasks SET coin_balance = 0 WHERE user_id = ?`;
-        db.query(updateCoinsQuery, [user_id], (err) => {
-          if (err) {
-            console.error("❌ Error resetting coin_balance:", err);
-            return res.status(500).json({ success: false, message: "Coin reset error" });
-          }
-
-          // Get user email for notification
-          const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
-          db.query(getUserEmailQuery, [user_id], async (err, userResult) => {
+        db.query(
+          `UPDATE daily_tasks SET coin_balance = 0 WHERE user_id = ?`,
+          [user_id],
+          (err) => {
             if (err) {
-              console.error("❌ Error fetching user email:", err);
-              return res.status(500).json({ success: false, message: "User fetch error" });
+              console.error("❌ Error resetting coin_balance:", err);
+              return res
+                .status(500)
+                .json({ success: false, message: "Coin reset error" });
             }
 
-            try {
-              // Use the new notification service
-              await NotificationService.handlePackageRequest({
-                username: username,
-                email: userResult.length > 0 ? userResult[0].Email : null,
-                package_name: package_name,
-                amount: packagePrice
-              });
+            db.query(
+              `SELECT Email FROM users WHERE id = ?`,
+              [user_id],
+              async (err, userResult) => {
+                if (err) {
+                  console.error("❌ Error fetching user email:", err);
+                  return res
+                    .status(500)
+                    .json({ success: false, message: "User fetch error" });
+                }
 
-              console.log("✅ Done: Payment recorded, coins cleared, notification sent.");
-              req.flash("success", "Your package request submitted successfully.");
-              res.redirect("/package");
-            } catch (notificationError) {
-              console.error("❌ Error sending notifications:", notificationError);
-              req.flash("success", "Your package request submitted successfully.");
-              res.redirect("/package");
-            }
-          });
-        });
+                try {
+                  await NotificationService.handlePackageRequest({
+                    username,
+                    email: userResult.length > 0 ? userResult[0].Email : null,
+                    package_name,
+                    amount: packagePrice,
+                  });
+
+                  req.flash(
+                    "success",
+                    "Your package request submitted successfully."
+                  );
+                  res.redirect("/package");
+                } catch (notificationError) {
+                  console.error(
+                    "❌ Error sending notifications:",
+                    notificationError
+                  );
+                  req.flash(
+                    "success",
+                    "Your package request submitted successfully."
+                  );
+                  res.redirect("/package");
+                }
+              }
+            );
+          }
+        );
       }
     );
   }
 };
-
 
 exports.getPayFastToken = async (req, res) => {
   const { packagePrice } = req.body;
@@ -288,29 +293,39 @@ exports.updateSubscriptionSuccess = async (req, res) => {
 
           // Get user email for notification
           const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
-          db.query(getUserEmailQuery, [payment.user_id], async (err, userResult) => {
-            if (err) {
-              console.error("❌ Error fetching user email for success notification:", err);
-            }
+          db.query(
+            getUserEmailQuery,
+            [payment.user_id],
+            async (err, userResult) => {
+              if (err) {
+                console.error(
+                  "❌ Error fetching user email for success notification:",
+                  err
+                );
+              }
 
-            try {
-              // Use the new notification service for payment success
-              await NotificationService.handleNewPayment({
-                username: payment.username,
-                email: userResult.length > 0 ? userResult[0].Email : null,
-                package_name: payment.package_name,
-                amount: payment.amount
-              });
-            } catch (notificationError) {
-              console.error("❌ Error sending payment success notifications:", notificationError);
-            }
+              try {
+                // Use the new notification service for payment success
+                await NotificationService.handleNewPayment({
+                  username: payment.username,
+                  email: userResult.length > 0 ? userResult[0].Email : null,
+                  package_name: payment.package_name,
+                  amount: payment.amount,
+                });
+              } catch (notificationError) {
+                console.error(
+                  "❌ Error sending payment success notifications:",
+                  notificationError
+                );
+              }
 
-            req.flash(
-              "success",
-              "Payment successful! Your package is now active."
-            );
-            res.redirect("/success"); // ✅ redirect to success page
-          });
+              req.flash(
+                "success",
+                "Payment successful! Your package is now active."
+              );
+              res.redirect("/success"); // ✅ redirect to success page
+            }
+          );
         });
       });
     });
@@ -320,7 +335,6 @@ exports.updateSubscriptionSuccess = async (req, res) => {
     res.redirect("/failure");
   }
 };
-
 
 exports.handlePaymentFailure = (req, res) => {
   req.flash("error", "Payment failed or was cancelled. Please try again.");
@@ -386,11 +400,13 @@ exports.handlePayFastITN = async (req, res) => {
       }
 
       // Step 4: Update payment to active
+
       const updatePaymentQuery = `
-        UPDATE payments 
-        SET active = 'Activated' 
-        WHERE transaction_id = ?
-      `;
+  UPDATE payments 
+  SET package_status = 'active' 
+  WHERE transaction_id = ?
+`;
+
       db.query(updatePaymentQuery, [m_payment_id], (err) => {
         if (err) {
           console.error("❌ Error activating package in ITN:", err);
@@ -400,8 +416,9 @@ exports.handlePayFastITN = async (req, res) => {
         // Step 5: Update user invoice status
         const updateUserQuery = `
           UPDATE users 
-          SET invoice = 'Paid' 
-          WHERE id = ?
+SET invoice_status = 'Paid' 
+WHERE id = ?
+
         `;
         db.query(updateUserQuery, [payment.user_id], (err) => {
           if (err) {
@@ -411,25 +428,36 @@ exports.handlePayFastITN = async (req, res) => {
 
           // Step 6: Get user email and send notification
           const getUserEmailQuery = "SELECT Email FROM users WHERE id = ?";
-          db.query(getUserEmailQuery, [payment.user_id], async (err, userResult) => {
-            if (err) {
-              console.error("❌ Error fetching user email for ITN notification:", err);
-            }
+          db.query(
+            getUserEmailQuery,
+            [payment.user_id],
+            async (err, userResult) => {
+              if (err) {
+                console.error(
+                  "❌ Error fetching user email for ITN notification:",
+                  err
+                );
+              }
 
-            try {
-              // Use the new notification service for PayFast payment
-              await NotificationService.handleNewPayment({
-                username: payment.username,
-                email: userResult.length > 0 ? userResult[0].Email : null,
-                package_name: payment.package_name,
-                amount: payment.amount
-              });
-            } catch (notificationError) {
-              console.error("❌ Error sending PayFast notifications:", notificationError);
-            }
+              try {
+                // Use the new notification service for PayFast payment
+                await NotificationService.handleNewPayment({
+                  username: payment.username,
+                  email: userResult.length > 0 ? userResult[0].Email : null,
+                  package_name: payment.package_name,
+                  amount: payment.amount,
+                });
+              } catch (notificationError) {
+                console.error(
+                  "❌ Error sending PayFast notifications:",
+                  notificationError
+                );
+              }
 
-            res.redirect("/package");
-          });
+              res.status(200).send("OK");
+
+            }
+          );
         });
       });
     });
@@ -460,7 +488,8 @@ exports.getPackage = async (req, res) => {
       const subscriptionSql = `
         SELECT p.* FROM payments p
         JOIN users u ON p.user_id = u.id
-        WHERE p.user_id = ? AND p.active = 'Activated' AND u.invoice = 'Paid'
+        WHERE p.user_id = ? AND p.package_status = 'active' AND p.invoice_status = 'Paid'
+
         ORDER BY p.created_at DESC
         LIMIT 1
       `;
@@ -649,7 +678,6 @@ exports.deletePackage = (req, res) => {
     res.redirect("/package");
   });
 };
-
 
 exports.adminDiscount = (req, res) => {
   const { Price, discountPercentage, id } = req.body;
