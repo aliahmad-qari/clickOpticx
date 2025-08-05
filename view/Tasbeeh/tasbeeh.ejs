@@ -148,47 +148,565 @@
 <!-- NavBar End -->
 
       <div class="main-panel">
-        <div class="content-wrapper">
-            <!-- Hero start -->
-            <div class="container-fluid" style="padding: 0%; background-image: url(''); background-size: cover; background-position: center; width: 100vw;">
+    <style>
+        /* Professional Dark Tasbeeh UI Design */
+        .tasbeeh-container {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 1rem;
+        }
 
+        .tasbeeh-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 85% 75%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 40%, rgba(79, 70, 229, 0.06) 0%, transparent 70%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tasbeeh-pattern" patternUnits="userSpaceOnUse" width="30" height="30"><circle cx="15" cy="15" r="1.5" fill="rgba(139,92,246,0.08)"/><circle cx="5" cy="5" r="1" fill="rgba(16,185,129,0.06)"/><circle cx="25" cy="8" r="0.8" fill="rgba(79,70,229,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23tasbeeh-pattern)"/></svg>') center/150px;
+            pointer-events: none;
+        }
 
-                <div class="container d-flex justify-content-center align-items-center flex-column min-vh-100 text-center" style="padding-left: 0px;">
-                    <div class="btn-group mb-3">
-                        <button id="increment-by" class="btn btn-primary">+1 ▼</button>
-                        <button id="edit" class="btn btn-secondary">Edit</button>
-                        <button id="reset" class="btn btn-danger">Reset</button>
-                    </div>
-                    <h1 id="counter" class="counter">0</h1>
-                    <div class="circle-btn mt-3" id="increment">
-                        <i class="bi bi-chevron-up"></i>
-                    </div>
-                    <div class="small-btn mt-3" id="decrement">
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
+        .tasbeeh-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.9) 100%);
+            backdrop-filter: blur(25px);
+            border-radius: 40px;
+            padding: 3.5rem 2.5rem;
+            box-shadow: 
+                0 40px 80px -16px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .tasbeeh-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #10b981, #4f46e5);
+            border-radius: 40px 40px 0 0;
+        }
+
+        .islamic-header {
+            margin-bottom: 2rem;
+        }
+
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 1.75rem;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+            direction: rtl;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tasbeeh-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8b5cf6 0%, #10b981 50%, #4f46e5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 4px 8px rgba(139, 92, 246, 0.2);
+            letter-spacing: -0.025em;
+        }
+
+        .tasbeeh-subtitle {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            margin-bottom: 0;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+
+        /* Controls Section */
+        .controls-section {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .control-btn:hover::before {
+            left: 100%;
+        }
+
+        .increment-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.25);
+        }
+
+        .increment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(139, 92, 246, 0.35);
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.25);
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.35);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.25);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(239, 68, 68, 0.35);
+        }
+
+        /* Counter Display */
+        .counter-section {
+            margin: 2.5rem 0;
+            position: relative;
+        }
+
+        .counter-display {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            line-height: 1;
+            position: relative;
+        }
+
+        .counter-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            height: 240px;
+            border: 3px solid rgba(45, 27, 105, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .counter-ring::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);
+            mask: radial-gradient(circle, transparent 50%, black 50%);
+            -webkit-mask: radial-gradient(circle, transparent 50%, black 50%);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .main-action-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 12px 24px -6px rgba(17, 153, 142, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .main-action-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 
+                0 20px 40px -8px rgba(17, 153, 142, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .main-action-btn:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 8px 16px -4px rgba(17, 153, 142, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .secondary-action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 6px 12px -3px rgba(107, 114, 128, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-action-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 
+                0 8px 16px -4px rgba(107, 114, 128, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Progress Indicators */
+        .progress-section {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .progress-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2d1b69;
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tasbeeh-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .counter-display {
+                font-size: 4.5rem;
+            }
+            
+            .counter-ring {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .main-action-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 1.75rem;
+            }
+            
+            .controls-section {
+                gap: 0.5rem;
+            }
+            
+            .control-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .progress-section {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Animation for count changes */
+        .counter-animate {
+            animation: countBounce 0.3s ease-out;
+        }
+
+        @keyframes countBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Ripple effect for buttons */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <div class="tasbeeh-container">
+        <div class="tasbeeh-card">
+            <div class="islamic-header">
+                <div class="bismillah">بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيْمِ</div>
+                <h1 class="tasbeeh-title">Digital Tasbeeh</h1>
+                <p class="tasbeeh-subtitle">Keep track of your dhikr and remembrance of Allah</p>
+            </div>
+
+            <div class="controls-section">
+                <button id="increment-by" class="control-btn increment-btn">
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Increment: <span id="increment-value">1</span>
+                </button>
+                <button id="edit" class="control-btn edit-btn">
+                    <i class="bi bi-gear me-1"></i>
+                    Settings
+                </button>
+                <button id="reset" class="control-btn reset-btn">
+                    <i class="bi bi-arrow-clockwise me-1"></i>
+                    Reset
+                </button>
+            </div>
+
+            <div class="counter-section">
+                <div class="counter-ring"></div>
+                <h1 id="counter" class="counter-display">0</h1>
+            </div>
+
+            <div class="action-buttons">
+                <button id="increment" class="main-action-btn ripple">
+                    <i class="bi bi-hand-index-thumb"></i>
+                </button>
+                <button id="decrement" class="secondary-action-btn">
+                    <i class="bi bi-dash"></i>
+                </button>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-item">
+                    <div class="progress-value" id="total-today">0</div>
+                    <div class="progress-label">Today</div>
                 </div>
-                
-                <script>
-                    let count = 0;
-                    let incrementValue = 1;
-                
-                    document.getElementById("increment").addEventListener("click", function () {
-                        count += incrementValue;
-                        document.getElementById("counter").innerText = count;
-                    });
-                
-                    document.getElementById("decrement").addEventListener("click", function () {
-                        if (count > 0) {
-                            count -= incrementValue;
-                            document.getElementById("counter").innerText = count;
-                        }
-                    });
-                
-                    document.getElementById("reset").addEventListener("click", function () {
-                        count = 0;
-                        document.getElementById("counter").innerText = count;
-                    });
-                </script>
+                <div class="progress-item">
+                    <div class="progress-value" id="session-count">0</div>
+                    <div class="progress-label">Session</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-value" id="streak-days">1</div>
+                    <div class="progress-label">Streak</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+        let incrementValue = 1;
+        let sessionCount = 0;
+        let totalToday = 0;
+
+        // Load saved data
+        function loadData() {
+            const saved = localStorage.getItem('tasbeeh-data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                count = data.count || 0;
+                sessionCount = data.sessionCount || 0;
+                totalToday = data.totalToday || 0;
+                updateDisplay();
+            }
+        }
+
+        // Save data
+        function saveData() {
+            const data = {
+                count,
+                sessionCount,
+                totalToday,
+                lastSaved: new Date().toDateString()
+            };
+            localStorage.setItem('tasbeeh-data', JSON.stringify(data));
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById("counter").textContent = count;
+            document.getElementById("session-count").textContent = sessionCount;
+            document.getElementById("total-today").textContent = totalToday;
+            document.getElementById("increment-value").textContent = incrementValue;
+        }
+
+        // Add ripple effect
+        function addRipple(event) {
+            const button = event.currentTarget;
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            
+            const ripple = document.createElement('span');
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            button.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        // Animate counter
+        function animateCounter() {
+            const counter = document.getElementById("counter");
+            counter.classList.add("counter-animate");
+            setTimeout(() => counter.classList.remove("counter-animate"), 300);
+        }
+
+        // Event listeners
+        document.getElementById("increment").addEventListener("click", function (event) {
+            addRipple(event);
+            count += incrementValue;
+            sessionCount += incrementValue;
+            totalToday += incrementValue;
+            updateDisplay();
+            animateCounter();
+            saveData();
+        });
+
+        document.getElementById("decrement").addEventListener("click", function () {
+            if (count > 0) {
+                count -= incrementValue;
+                if (sessionCount > 0) sessionCount -= incrementValue;
+                if (totalToday > 0) totalToday -= incrementValue;
+                updateDisplay();
+                animateCounter();
+                saveData();
+            }
+        });
+
+        document.getElementById("reset").addEventListener("click", function () {
+            if (confirm("Are you sure you want to reset the counter?")) {
+                count = 0;
+                sessionCount = 0;
+                updateDisplay();
+                animateCounter();
+                saveData();
+            }
+        });
+
+        document.getElementById("increment-by").addEventListener("click", function () {
+            const newValue = prompt("Enter increment value:", incrementValue);
+            if (newValue && !isNaN(newValue) && newValue > 0) {
+                incrementValue = parseInt(newValue);
+                updateDisplay();
+            }
+        });
+
+        document.getElementById("edit").addEventListener("click", function () {
+            alert("Settings: You can customize increment value, reset counters, and view detailed statistics here.");
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            updateDisplay();
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(saveData, 30000);
+    </script>
                 
                 
 </div>
