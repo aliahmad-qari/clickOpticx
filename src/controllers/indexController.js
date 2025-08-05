@@ -1,7 +1,5 @@
 const db = require("../config/db");
 const NotificationService = require("../services/notificationService");
-
-// Get the user's
 exports.plan = (req, res) => {
   const userId = req.session.userId;
   const justLoggedIn = req.session.userJustLoggedIn;
@@ -20,44 +18,24 @@ exports.plan = (req, res) => {
     FROM users WHERE id = ?`;
 
   db.query(sqlProfile, [userId], (err, results) => {
-    if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-
-    if (results.length === 0) {
-      console.log("User not found.");
-      return res.status(404).send("User not found");
-    }
+    if (err) return res.status(500).send("Internal Server Error");
+    if (results.length === 0) return res.status(404).send("User not found");
 
     const SliderSql = "SELECT * FROM slider";
     db.query(SliderSql, (err, sliderResults) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+      if (err) return res.status(500).send("Internal Server Error");
 
       const backgroundSql = "SELECT * FROM nav_table";
       db.query(backgroundSql, (err, bg_result) => {
-        if (err) {
-          console.error("Database query error:", err);
-          return res.status(500).send("Internal Server Error");
-        }
+        if (err) return res.status(500).send("Internal Server Error");
 
         const backgroundSql2 = "SELECT * FROM data_entries";
         db.query(backgroundSql2, (err, password_data) => {
-          if (err) {
-            console.error("Database query error:", err);
-            return res.status(500).send("Internal Server Error");
-          }
+          if (err) return res.status(500).send("Internal Server Error");
 
-          const NotifactionSql =
-            "SELECT COUNT(*) AS totalNotifactions FROM notifications";
+          const NotifactionSql = "SELECT COUNT(*) AS totalNotifactions FROM notifications";
           db.query(NotifactionSql, (err, NotifactionResult) => {
-            if (err) {
-              console.error("Error fetching total complaints:", err);
-              return res.status(500).send("Database error");
-            }
+            if (err) return res.status(500).send("Database error");
             const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
             const notifications_users_count_sql = `
@@ -68,11 +46,7 @@ exports.plan = (req, res) => {
             `;
 
             db.query(notifications_users_count_sql, [userId], (err, Notifaction) => {
-              if (err) {
-                console.error("Error fetching user notifications count:", err);
-                return res.status(500).send("Database error");
-              }
-
+              if (err) return res.status(500).send("Database error");
               const Notifactions = Notifaction[0].Notifactions;
 
               const notifications_details_sql = `
@@ -84,17 +58,11 @@ exports.plan = (req, res) => {
               `;
 
               db.query(notifications_details_sql, [userId], (err, notifications_users) => {
-                if (err) {
-                  console.error("Error fetching notification details:", err);
-                  return res.status(500).send("Server Error");
-                }
+                if (err) return res.status(500).send("Server Error");
 
                 const sql = "SELECT * FROM packages";
                 db.query(sql, (err, packageResults) => {
-                  if (err) {
-                    console.error("Database query error:", err);
-                    return res.status(500).send("Internal Server Error");
-                  }
+                  if (err) return res.status(500).send("Internal Server Error");
 
                   const subscriptionSql = `
                     SELECT p.* FROM payments p
@@ -105,56 +73,66 @@ exports.plan = (req, res) => {
                   `;
 
                   db.query(subscriptionSql, [userId], (err, subscriptionResults) => {
-                    if (err) {
-                      console.error("Subscription query error:", err);
-                      return res.status(500).send("Internal Server Error");
-                    }
-
+                    if (err) return res.status(500).send("Internal Server Error");
                     const subscription = subscriptionResults[0];
 
                     const sqlIcon = "SELECT * FROM icon_slider";
                     db.query(sqlIcon, (err, Iconresult) => {
-                      if (err) {
-                        console.error("Database query error:", err);
-                        return res.status(500).send("Internal Server Error");
-                      }
+                      if (err) return res.status(500).send("Internal Server Error");
 
-                      const promot = "SELECT * FROM promotions ORDER BY id DESC";
-                      db.query(promot, (err, promotionresult) => {
-                        if (err) {
-                          console.error("Database query error:", err);
-                          return res.status(500).send("Internal Server Error");
+                      const matchedQuery = `
+                        SELECT * FROM packages 
+                        WHERE Package = ? 
+                        LIMIT 1
+                      `;
+
+                      db.query(matchedQuery, [subscription?.package_name], (err, matchedResults) => {
+                        if (err) return res.status(500).send("Internal Server Error");
+                        const matchedPackage = matchedResults[0] || null;
+
+                        let formattedDate = "--";
+                        let isExpired = true;
+
+                        if (subscription?.expiry_date) {
+                          const expiry = new Date(subscription.expiry_date);
+                          formattedDate = expiry.toLocaleDateString("en-GB");
+                          isExpired = expiry < new Date();
                         }
 
-                        const Cards = "SELECT * FROM cards";
-                        db.query(Cards, (err, cardResults) => {
-                          if (err) {
-                            console.error("Database query error:", err);
-                            return res.status(500).send("Internal Server Error");
-                          }
+                        const promot = "SELECT * FROM promotions ORDER BY id DESC";
+                        db.query(promot, (err, promotionresult) => {
+                          if (err) return res.status(500).send("Internal Server Error");
 
-                          const isAdmin = results[0].role === "admin";
-                          const isUser = results[0].role === "user";
-                          const isteam = results[0].role === "Team";
+                          const Cards = "SELECT * FROM cards";
+                          db.query(Cards, (err, cardResults) => {
+                            if (err) return res.status(500).send("Internal Server Error");
 
-                          res.render("index", {
-                            user: results[0],
-                            slider: sliderResults,
-                            isAdmin,
-                            cards: cardResults,
-                            isUser,
-                            isteam,
-                            password_data,
-                            totalNotifactions,
-                            bg_result,
-                            Iconresult,
-                            packages: packageResults,
-                            subscription,
-                            notifications_users,
-                            Notifactions,
-                             promotionresult,
-                            userJustLoggedIn: justLoggedIn,
-                            userservices: Justservices
+                            const isAdmin = results[0].role === "admin";
+                            const isUser = results[0].role === "user";
+                            const isteam = results[0].role === "Team";
+
+                            res.render("index", {
+                              user: results[0],
+                              slider: sliderResults,
+                              isAdmin,
+                              cards: cardResults,
+                              isUser,
+                              isteam,
+                              password_data,
+                              totalNotifactions,
+                              bg_result,
+                              Iconresult,
+                              packages: packageResults,
+                              subscription,
+                              matchedPackage,
+                              formattedDate,
+                              isExpired,
+                              notifications_users,
+                              Notifactions,
+                              promotionresult,
+                              userJustLoggedIn: justLoggedIn,
+                              userservices: Justservices
+                            });
                           });
                         });
                       });
@@ -169,6 +147,10 @@ exports.plan = (req, res) => {
     });
   });
 };
+
+
+                  
+       
  
 
 // update the Nav_br img // update the Nav_bar img // update the Nav_bar img

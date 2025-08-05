@@ -96,6 +96,9 @@
 
 <!-- NavBar End -->
 
+<!-- Sidebar Overlay for Mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="main-panel">
     <style>
         /* ✅ Sidebar Styling Copied From Quran App */
@@ -104,9 +107,51 @@
   background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.9) 100%);
   backdrop-filter: blur(25px);
   border-right: 1px solid rgba(16, 185, 129, 0.2);
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   z-index: 10;
   box-shadow: 8px 0 32px -8px rgba(0, 0, 0, 0.3), inset -1px 0 0 rgba(16, 185, 129, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Mobile responsive sidebar */
+@media (max-width: 991px) {
+  .modern-sidebar {
+    transform: translateX(-100%);
+    z-index: 9999;
+  }
+  
+  .modern-sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-panel {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-panel {
+    margin-left: 320px;
+  }
 }
 
 .sidebar-header {
@@ -504,26 +549,297 @@
             to { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
+        /* Professional Mobile Design */
+        @media (max-width: 991px) {
+            .main-panel {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            .content-wrapper {
+                padding: 15px;
+                min-height: calc(100vh - 60px);
+            }
+            
+            .prayer-container {
+                padding: 10px 0;
+            }
+            
             .prayer-card {
-                margin: 1rem;
+                margin: 0;
+                padding: 20px;
+                border-radius: 20px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            }
+            
+            .islamic-header {
+                margin-bottom: 1.5rem;
+                padding: 0 10px;
+            }
+            
+            .bismillah {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+            }
+            
+            .prayer-title {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .prayer-subtitle {
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+            
+            .search-section {
                 padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .search-section .row {
+                margin: 0;
+            }
+            
+            .search-section .col-md-8,
+            .search-section .col-md-4 {
+                padding: 0;
+                margin-bottom: 12px;
+            }
+            
+            .search-section .col-md-4 {
+                margin-bottom: 0;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+                color: #94a3b8;
+                margin-bottom: 8px;
+                font-weight: 600;
+            }
+            
+            .search-input {
+                padding: 16px 18px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 12px;
+                border: 2px solid rgba(16, 185, 129, 0.3);
+                background: rgba(30, 41, 59, 0.8);
+                color: #e2e8f0;
+                width: 100%;
+                transition: all 0.3s ease;
+            }
+            
+            .search-input:focus {
+                border-color: #10b981;
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+                outline: none;
+                background: rgba(30, 41, 59, 0.9);
+            }
+            
+            .search-input::placeholder {
+                color: #94a3b8;
+            }
+            
+            .search-btn {
+                width: 100%;
+                padding: 16px;
+                font-size: 1rem;
+                font-weight: 700;
+                border-radius: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            }
+            
+            .search-btn:hover, .search-btn:active {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            }
+            
+            .city-display {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+                padding: 0 10px;
             }
             
             .date-qibla-section {
                 grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 2rem;
+            }
+            
+            .info-card {
+                padding: 16px;
+                border-radius: 16px;
+                text-align: center;
+                background: rgba(79, 70, 229, 0.15);
+                border: 1px solid rgba(79, 70, 229, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .info-card:hover {
+                transform: translateY(-2px);
+                background: rgba(79, 70, 229, 0.2);
+                border-color: rgba(79, 70, 229, 0.4);
+                box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
+            }
+            
+            .info-card-title {
+                font-size: 0.8rem;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+            
+            .info-card-value {
+                font-size: 1.1rem;
+                font-weight: 700;
+                background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            .prayer-times-grid {
+                gap: 12px;
+                margin-bottom: 1.5rem;
             }
             
             .prayer-time-card {
+                padding: 16px;
+                border-radius: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                background: rgba(30, 41, 59, 0.9);
+                border: 1px solid rgba(79, 70, 229, 0.2);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            }
+            
+            .prayer-time-card:hover {
+                transform: translateY(-3px) scale(1.01);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+                border-color: rgba(124, 58, 237, 0.4);
+            }
+            
+            .prayer-name {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #e2e8f0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            
+            .prayer-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .prayer-time-card:hover .prayer-icon {
+                transform: scale(1.1) rotate(5deg);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            }
+            
+            .prayer-time {
+                font-size: 1.3rem;
+                font-weight: 800;
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            .error-message {
+                background: rgba(239, 68, 68, 0.15);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+                color: #fca5a5;
+                padding: 16px;
+                border-radius: 12px;
+                text-align: center;
+                margin: 1.5rem 0;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+            
+            .loading-spinner {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 2px solid #f3f4f6;
+                border-radius: 50%;
+                border-top-color: #10b981;
+                animation: spin 1s ease-in-out infinite;
+            }
+            
+            /* Bottom spacing for mobile navigation */
+            .content-wrapper::after {
+                content: '';
+                display: block;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-wrapper {
+                padding: 10px;
+            }
+            
+            .prayer-card {
+                padding: 16px;
+            }
+            
+            .bismillah {
+                font-size: 1.4rem;
+            }
+            
+            .prayer-title {
+                font-size: 1.75rem;
+            }
+            
+            .search-section {
                 padding: 1rem;
+            }
+            
+            .city-display {
+                font-size: 1.1rem;
+            }
+            
+            .prayer-time-card {
+                padding: 12px;
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
             }
             
             .prayer-name {
                 font-size: 1rem;
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .prayer-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
             }
             
             .prayer-time {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -767,6 +1083,54 @@
                         errorDiv.textContent = message;
                         errorDiv.style.display = 'block';
                     }
+
+                    // Sidebar Toggle for Mobile
+                    function toggleSidebar() {
+                        const sidebar = document.getElementById('sidebar');
+                        const overlay = document.getElementById('sidebarOverlay');
+
+                        if (sidebar && overlay) {
+                            sidebar.classList.toggle('active');
+                            overlay.classList.toggle('active');
+                        }
+                    }
+
+                    // Auto-hide sidebar when clicking on links (mobile)
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (window.innerWidth <= 991) {
+                            const sidebarLinks = document.querySelectorAll('.modern-sidebar .nav-link');
+                            sidebarLinks.forEach(link => {
+                                link.addEventListener('click', function () {
+                                    if (!this.getAttribute('data-toggle')) {
+                                        toggleSidebar();
+                                    }
+                                });
+                            });
+                        }
+
+                        // Close sidebar when clicking overlay
+                        const overlay = document.getElementById('sidebarOverlay');
+                        if (overlay) {
+                            overlay.addEventListener('click', toggleSidebar);
+                        }
+
+                        // Connect to navbar toggle buttons
+                        const toggleButtons = document.querySelectorAll('[data-toggle="offcanvas"]');
+                        toggleButtons.forEach(button => {
+                            button.addEventListener('click', toggleSidebar);
+                        });
+                    });
+
+                    // Handle window resize
+                    window.addEventListener('resize', function () {
+                        const sidebar = document.getElementById('sidebar');
+                        const overlay = document.getElementById('sidebarOverlay');
+
+                        if (window.innerWidth > 991) {
+                            if (sidebar) sidebar.classList.remove('active');
+                            if (overlay) overlay.classList.remove('active');
+                        }
+                    });
                 </script>
                 
                 

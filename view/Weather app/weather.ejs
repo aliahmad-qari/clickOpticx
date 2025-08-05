@@ -191,6 +191,9 @@
 </nav>
 
                 <!-- NavBar End -->
+                
+                <!-- Sidebar Overlay for Mobile -->
+                <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
                 <div class="main-panel">
     <style>
@@ -202,6 +205,49 @@
   border-right: 1px solid rgba(16, 185, 129, 0.2);
   box-shadow: 8px 0 32px -8px rgba(0, 0, 0, 0.3), inset -1px 0 0 rgba(16, 185, 129, 0.1);
   z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transition: transform 0.3s ease;
+}
+
+/* Mobile responsive sidebar */
+@media (max-width: 991px) {
+  .modern-sidebar {
+    transform: translateX(-100%);
+    z-index: 9999;
+  }
+  
+  .modern-sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-panel {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-panel {
+    margin-left: 320px;
+  }
 }
 
 .sidebar-header {
@@ -839,54 +885,270 @@
             line-height: 1.2;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        /* Professional Mobile Design */
+        @media (max-width: 991px) {
+            .main-panel {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            .content-wrapper {
+                padding: 15px;
+                min-height: calc(100vh - 60px);
+            }
+            
             .weather-app {
-                margin: 1rem;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
             }
             
             .app-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                text-align: center;
+                margin-bottom: 1rem;
+                padding: 0 10px;
             }
             
             .search-wrapper {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 1rem;
+                gap: 12px;
+                margin-bottom: 2rem;
+                padding: 0 5px;
+            }
+            
+            .search-input {
+                padding: 16px 20px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 12px;
+                border: 2px solid rgba(16, 185, 129, 0.3);
+                background: rgba(30, 41, 59, 0.8);
+                color: #e2e8f0;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .search-input:focus {
+                border-color: #10b981;
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+                outline: none;
+                background: rgba(30, 41, 59, 0.9);
+            }
+            
+            .search-input::placeholder {
+                color: #94a3b8;
+            }
+            
+            .search-btn {
+                padding: 16px 24px;
+                font-size: 1rem;
+                font-weight: 700;
+                border-radius: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                background: linear-gradient(135deg, #10b981, #34d399);
+                border: none;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            }
+            
+            .search-btn:hover, .search-btn:active {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            }
+            
+            .weather-card {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 20px;
+                padding: 24px;
+                margin-bottom: 20px;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             }
             
             .weather-main {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 1.5rem;
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .weather-info h2 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+                color: #e2e8f0;
+            }
+            
+            .weather-description {
+                font-size: 1.1rem;
+                color: #10b981;
+                font-weight: 600;
+                text-transform: capitalize;
+                margin-bottom: 1rem;
             }
             
             .weather-temp {
-                font-size: 3rem;
+                font-size: 4rem;
+                font-weight: 800;
+                background: linear-gradient(135deg, #10b981, #34d399);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 1rem;
+                text-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
             }
             
             .weather-icon-large {
-                width: 150px;
-                height: 150px;
-                font-size: 6rem;
+                width: 120px;
+                height: 120px;
+                font-size: 5rem;
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.1));
+                border: 2px solid rgba(16, 185, 129, 0.3);
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1rem;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
             }
             
             .weather-details {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                gap: 12px;
+                margin-bottom: 2rem;
             }
             
             .detail-card {
-                padding: 1rem;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 16px;
+                text-align: center;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .detail-card:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(16, 185, 129, 0.3);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            }
+            
+            .detail-icon {
+                font-size: 1.8rem;
+                color: #10b981;
+                margin-bottom: 8px;
+                display: block;
+            }
+            
+            .detail-label {
+                font-size: 0.85rem;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+            
+            .detail-value {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #e2e8f0;
+            }
+            
+            .forecast-section {
+                margin-top: 2rem;
+            }
+            
+            .forecast-title {
+                font-size: 1.5rem;
+                color: #e2e8f0;
+                margin-bottom: 1rem;
+                text-align: center;
+                font-weight: 600;
             }
             
             .forecast-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.75rem;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
             
             .forecast-card {
-                padding: 1rem 0.75rem;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 16px;
+                text-align: center;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .forecast-card:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(16, 185, 129, 0.3);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            }
+            
+            .forecast-day {
+                font-size: 0.9rem;
+                color: #10b981;
+                font-weight: 600;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .forecast-icon {
+                font-size: 2rem;
+                margin: 8px 0;
+                color: #34d399;
+            }
+            
+            .forecast-temp {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #e2e8f0;
+                margin-bottom: 4px;
+            }
+            
+            .forecast-desc {
+                font-size: 0.8rem;
+                color: #94a3b8;
+                text-transform: capitalize;
+            }
+            
+            .loading-message, .error-message {
+                text-align: center;
+                padding: 3rem 2rem;
+                border-radius: 16px;
+                margin: 2rem 0;
+                font-size: 1.1rem;
+            }
+            
+            .loading-message {
+                background: rgba(16, 185, 129, 0.1);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+                color: #10b981;
+            }
+            
+            .error-message {
+                background: rgba(239, 68, 68, 0.15);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+                color: #fca5a5;
+            }
+            
+            /* Bottom spacing for mobile navigation */
+            .content-wrapper::after {
+                content: '';
+                display: block;
+                height: 80px;
             }
         }
 
@@ -1225,6 +1487,56 @@
 
         // Update time every minute
         setInterval(updateDateTime, 60000);
+
+        // Sidebar Toggle for Mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
+
+        // Auto-hide sidebar when clicking on links (mobile)
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.innerWidth <= 991) {
+                const sidebarLinks = document.querySelectorAll('.modern-sidebar .nav-link');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        if (!this.getAttribute('data-toggle')) {
+                            toggleSidebar();
+                        }
+                    });
+                });
+            }
+
+            // Close sidebar when clicking overlay
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', toggleSidebar);
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (window.innerWidth > 991) {
+                if (sidebar) sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+            }
+        });
+
+        // Connect to navbar toggle buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('[data-toggle="offcanvas"]');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', toggleSidebar);
+            });
+        });
     </script>
                         </div>
 

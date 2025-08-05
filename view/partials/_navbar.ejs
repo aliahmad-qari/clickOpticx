@@ -44,6 +44,9 @@
   transition: all 0.3s ease;
 }
 
+
+
+
 .navbar .navbar-toggler:hover,
 .mobile-toggle-btn:hover {
   color: var(--primary-color, #4F46E5) !important;
@@ -128,9 +131,17 @@
 }
 
 .logo-img {
-  max-height: 50px;
-  width: auto;
+  width: 140px;
+  height: 50px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
+[data-theme="dark"] .logo-img {
+  transform: scale(1.15);  /* ✅ Slight zoom to match size visually */
+  transform-origin: center;
+}
+
 
 @media (max-width: 768px) {
   .logo-img {
@@ -143,9 +154,9 @@
   }
 }
 
-/* Speed Test Button in Navbar */
-.nav-speed-test-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   border: none;
   color: white;
   padding: 8px 16px;
@@ -153,13 +164,79 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
   margin-left: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.sidebar-toggle-btn:hover::before {
+  left: 100%;
+}
+
+.sidebar-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  color: white;
+}
+
+.sidebar-toggle-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+}
+
+/* Speed Test Button in Navbar - Enhanced Professional Style */
+.nav-speed-test-btn {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  margin-left: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-speed-test-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.nav-speed-test-btn:hover::before {
+  left: 100%;
 }
 
 .nav-speed-test-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
   color: white;
 }
 
@@ -252,10 +329,15 @@
 </style>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-  <img src="/images/blacklogo.png" 
-       alt="logo" 
-       id="navImgPreview" 
-       class="img-fluid logo-img" />
+ <img 
+  src="/images/blacklogo.png" 
+  alt="logo" 
+  id="navImgPreview" 
+  class="img-fluid logo-img theme-light-logo"
+  data-theme-logo-light="/images/blacklogo.png"
+  data-theme-logo-dark="/images/ClickTake.png"
+/>
+
     <% if (isAdmin) { %>
       <form action="/index" method="POST" enctype="multipart/form-data" id="navImgForm">
         <label for="navImgInput" style="cursor: pointer;">
@@ -288,10 +370,25 @@
           </form>
         </div>
       </li>
+      <li class="nav-item d-lg-none">
+        <button id="sidebarToggleBtn" class="btn sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+          <i class="fas fa-bars me-1"></i>
+          <span>Menu</span>
+        </button>
+      </li>
       <li class="nav-item">
-        <button id="navSpeedTestBtn" class="btn nav-speed-test-btn" onclick="showSpeedTestModal()" onmouseover="console.log('Speed test button hovered')" onmousedown="console.log('Speed test button clicked')">
-          <i class="fas fa-tachometer-alt me-1"></i>
-          <span class="d-none d-md-inline">Speed Test</span>
+        <button id="navSpeedTestBtn" class="btn nav-speed-test-btn" onclick="startInlineSpeedTest()" title="Start Speed Test">
+          <div class="btn-inner">
+            <i class="fas fa-tachometer-alt btn-icon"></i>
+            <span class="btn-text d-none d-md-inline">Speed Test</span>
+            <div class="btn-loading" style="display: none;">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </div>
+          <div class="btn-results" id="speedResults" style="display: none;">
+            <span class="speed-value" id="navSpeedValue">--</span>
+            <span class="speed-unit">Mbps</span>
+          </div>
         </button>
       </li>
       <li class="nav-item">
@@ -581,4 +678,51 @@ function toggleTheme() {
 
 // Make theme manager globally available
 window.themeManager = themeManager;
+
+// Connect all sidebar toggle buttons
+document.addEventListener('DOMContentLoaded', function() {
+  // Connect navbar sidebar toggle button
+  const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+  if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (typeof window.toggleSidebar === 'function') {
+        window.toggleSidebar();
+      }
+    });
+  }
+
+  // Connect existing mobile toggle buttons
+  const mobileToggleButtons = document.querySelectorAll('[data-toggle="offcanvas"]');
+  mobileToggleButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (typeof window.toggleSidebar === 'function') {
+        window.toggleSidebar();
+      }
+    });
+  });
+});
+// Make theme manager globally available
+
+  function updateLogoForTheme(theme) {
+    const logo = document.getElementById('navImgPreview');
+    if (!logo) return;
+
+    const lightLogo = logo.getAttribute('data-theme-logo-light');
+    const darkLogo = logo.getAttribute('data-theme-logo-dark');
+
+    logo.src = theme === 'dark' ? darkLogo : lightLogo;
+  }
+
+  // On first load
+  updateLogoForTheme(themeManager.getCurrentTheme());
+
+  // When theme changes
+  window.addEventListener('themeChanged', (e) => {
+    updateLogoForTheme(e.detail.theme);
+  });
+
+
+
 </script>

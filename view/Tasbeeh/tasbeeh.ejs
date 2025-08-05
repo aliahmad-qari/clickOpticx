@@ -84,6 +84,9 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
 
+       <!-- Sidebar Overlay for Mobile -->
+       <div class="sidebar-overlay" id="sidebarOverlay"></div>
+       
        <!-- ✅ Modern Sidebar Replacement -->
 <nav class="modern-sidebar" id="sidebar">
   <div class="sidebar-header">
@@ -154,9 +157,51 @@
   background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.9) 100%);
   backdrop-filter: blur(25px);
   border-right: 1px solid rgba(16, 185, 129, 0.2);
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   z-index: 10;
   box-shadow: 8px 0 32px -8px rgba(0, 0, 0, 0.3), inset -1px 0 0 rgba(16, 185, 129, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Mobile responsive sidebar */
+@media (max-width: 991px) {
+  .modern-sidebar {
+    transform: translateX(-100%);
+    z-index: 9999;
+  }
+  
+  .modern-sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-panel {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-panel {
+    margin-left: 320px;
+  }
 }
 
 .sidebar-header {
@@ -393,10 +438,24 @@
         }
 
         /* Counter Display */
-        .counter-section {
-            margin: 2.5rem 0;
-            position: relative;
-        }
+       .counter-section {
+  margin: 2.5rem 0;
+  position: relative;
+  min-height: 200px; /* Add this to ensure enough space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.counter-ring {
+  z-index: 1;
+}
+
+.counter-display {
+  z-index: 2;
+  position: relative;
+}
+
 
         .counter-display {
             font-size: 5rem;
@@ -412,18 +471,21 @@
             z-index: 2;
         }
 
-        .counter-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            border: 2px solid rgba(17, 153, 142, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-        }
+       .counter-ring {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 160px;
+  height: 160px;
+  border: 8px solid rgba(16, 185, 129, 0.2);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+  pointer-events: none;
+  z-index: 1;
+}
 
         .counter-ring::before {
             content: '';
@@ -560,39 +622,360 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        /* Professional Mobile Design */
+        @media (max-width: 991px) {
+            .main-panel {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            .content-wrapper {
+                padding: 15px;
+                min-height: calc(100vh - 60px);
+            }
+            
+            .tasbeeh-container {
+                padding: 10px 0;
+            }
+            
             .tasbeeh-card {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
+                margin: 0;
+                padding: 24px;
+                border-radius: 20px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            }
+            
+            .islamic-header {
+                margin-bottom: 1.5rem;
+                padding: 0 10px;
+            }
+            
+            .bismillah {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+            }
+            
+            .tasbeeh-title {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .tasbeeh-subtitle {
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+            
+            .counter-section {
+                margin-bottom: 2rem;
+                padding: 0 10px;
             }
             
             .counter-display {
-                font-size: 4.5rem;
+                font-size: 5rem;
+                font-weight: 800;
+                background: linear-gradient(135deg, #10b981, #34d399);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+                margin-bottom: 1.5rem;
             }
             
             .counter-ring {
-                width: 180px;
-                height: 180px;
+                width: 200px;
+                height: 200px;
+                border: 8px solid rgba(16, 185, 129, 0.2);
+                border-radius: 50%;
+                position: relative;
+                margin: 0 auto 2rem;
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .counter-progress {
+                position: absolute;
+                top: -8px;
+                left: -8px;
+                width: 216px;
+                height: 216px;
+                border-radius: 50%;
+                background: conic-gradient(from 0deg, #10b981, #34d399, transparent);
+                opacity: 0.8;
+                transition: all 0.3s ease;
+            }
+            
+            .main-action-btn {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #10b981, #34d399);
+                border: none;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+                position: relative;
+            }
+            
+            .main-action-btn:hover, .main-action-btn:active {
+                transform: scale(1.05);
+                box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+            }
+            
+            .current-dhikr {
+                font-size: 1.2rem;
+                color: #10b981;
+                font-weight: 600;
+                text-align: center;
+                margin-bottom: 1.5rem;
+                padding: 12px 20px;
+                background: rgba(16, 185, 129, 0.1);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+                border-radius: 12px;
+                font-family: 'Amiri', serif;
+                direction: rtl;
+            }
+            
+            .controls-section {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 2rem;
+                justify-content: center;
+                padding: 0 5px;
+            }
+            
+            .control-btn {
+                flex: 1;
+                min-width: calc(50% - 5px);
+                max-width: 150px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                color: #cbd5e1;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .control-btn:hover, .control-btn.active {
+                background: rgba(16, 185, 129, 0.15);
+                border-color: rgba(16, 185, 129, 0.4);
+                color: #10b981;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            }
+            
+            .dhikr-selector {
+                margin-bottom: 2rem;
+                padding: 0 5px;
+            }
+            
+            .dhikr-options {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .dhikr-option {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 16px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .dhikr-option:hover, .dhikr-option.active {
+                background: rgba(16, 185, 129, 0.15);
+                border-color: rgba(16, 185, 129, 0.4);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            }
+            
+            .dhikr-arabic {
+                font-family: 'Amiri', serif;
+                font-size: 1.2rem;
+                color: #10b981;
+                margin-bottom: 8px;
+                direction: rtl;
+                font-weight: 600;
+            }
+            
+            .dhikr-translation {
+                font-size: 0.9rem;
+                color: #94a3b8;
+                line-height: 1.4;
+            }
+            
+            .progress-section {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 2rem;
+            }
+            
+            .progress-card {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 16px;
+                text-align: center;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .progress-card:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(16, 185, 129, 0.3);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            }
+            
+            .progress-label {
+                font-size: 0.8rem;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+            
+            .progress-value {
+                font-size: 1.5rem;
+                font-weight: 800;
+                color: #10b981;
+                margin-bottom: 4px;
+            }
+            
+            .progress-bar {
+                width: 100%;
+                height: 4px;
+                background: rgba(16, 185, 129, 0.2);
+                border-radius: 2px;
+                overflow: hidden;
+                margin-top: 8px;
+            }
+            
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #10b981, #34d399);
+                border-radius: 2px;
+                transition: width 0.3s ease;
+            }
+            
+            .stats-section {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 20px;
+                margin-bottom: 2rem;
+                backdrop-filter: blur(10px);
+            }
+            
+            .stats-title {
+                font-size: 1.2rem;
+                color: #e2e8f0;
+                font-weight: 600;
+                margin-bottom: 16px;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .stat-item {
+                text-align: center;
+                padding: 12px;
+                background: rgba(16, 185, 129, 0.1);
+                border-radius: 12px;
+                border: 1px solid rgba(16, 185, 129, 0.2);
+            }
+            
+            .stat-value {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #10b981;
+                margin-bottom: 4px;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            /* Bottom spacing for mobile navigation */
+            .content-wrapper::after {
+                content: '';
+                display: block;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-wrapper {
+                padding: 10px;
+            }
+            
+            .tasbeeh-card {
+                padding: 16px;
+            }
+            
+            .bismillah {
+                font-size: 1.4rem;
+            }
+            
+            .tasbeeh-title {
+                font-size: 1.75rem;
+            }
+            
+            .counter-display {
+                font-size: 4rem;
+            }
+            
+            .counter-ring {
+                width: 160px;
+                height: 160px;
             }
             
             .main-action-btn {
                 width: 100px;
                 height: 100px;
-                font-size: 1.75rem;
-            }
-            
-            .controls-section {
-                gap: 0.5rem;
+                font-size: 1.8rem;
             }
             
             .control-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
+                min-width: calc(100% - 10px);
+                margin-bottom: 8px;
             }
             
             .progress-section {
                 grid-template-columns: 1fr;
-                gap: 0.75rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
         }
 
@@ -846,6 +1229,56 @@
   <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Sidebar Toggle for Mobile
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (sidebar && overlay) {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    }
+
+    // Auto-hide sidebar when clicking on links (mobile)
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.innerWidth <= 991) {
+            const sidebarLinks = document.querySelectorAll('.modern-sidebar .nav-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (!this.getAttribute('data-toggle')) {
+                        toggleSidebar();
+                    }
+                });
+            });
+        }
+
+        // Close sidebar when clicking overlay
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) {
+            overlay.addEventListener('click', toggleSidebar);
+        }
+
+        // Connect to navbar toggle buttons
+        const toggleButtons = document.querySelectorAll('[data-toggle="offcanvas"]');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', toggleSidebar);
+        });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function () {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (window.innerWidth > 991) {
+            if (sidebar) sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+        }
+    });
+  </script>
 </body>
 
 </html>
