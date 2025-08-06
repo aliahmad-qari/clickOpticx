@@ -104,6 +104,13 @@
         color: var(--text-primary) !important;
         transition: all 0.3s ease;
       }
+      #manualPayBtn:hover {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
 
       /* Main content card background */
       .main-content-card {
@@ -1599,101 +1606,575 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Subscribe your Package</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="paymentChoice" class="text-center">
-                        <p><strong style="font-size: 20px;">Please select a payment method:</strong></p>
-                        <button id="manualPayBtn" class="btn btn-primary mx-2" style="width: fit-content;">Online Pay</button>
-                        <button id="customPayBtn" class="btn btn-success mx-2" style="width: fit-content; padding: 7px 13px;">Offline Pay</button>
-                    </div>
-                    <div id="customPaySection" style="display:none;">
-                        <p><strong>Selected Package:</strong> <span id="selectedPackage"></span></p>
-                        <div class="d-flex flex-wrap justify-content-center gap-3">
-                            <a href="#" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo">
-                                <img src="/images/Jazz cash logo.svg" alt="JazzCash" class="img-fluid payment-logo" />
-                            </a>
-                            <a href="#" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo">
-                                <img src="/images/EASYPAISA logo.svg" alt="Easypaisa" class="img-fluid payment-logo" />
-                            </a>
-                            <a href="#" data-bs-toggle="collapse" data-bs-target="#raastInfo">
-                                <img src="/images/Raast-Logo.png" alt="Raast" class="img-fluid payment-logo" />
-                            </a>
-                        </div>
-                        <div id="jazzCashInfo" class="collapse text-center mt-2">
-                            <img src="/images/JAZZCASH QR.png" alt="JazzCash QR" class="payment-qr" />
-                            <p><strong>JazzCash:</strong> +92 306 9753003</p>
-                        </div>
-                        <div id="easypaisaInfo" class="collapse text-center mt-2">
-                            <img src="/images/EASYPAISA QR.png" alt="Easypaisa QR" class="payment-qr" />
-                            <p><strong>Easypaisa:</strong> +92 306 9753003</p>
-                        </div>
-                        <div id="raastInfo" class="collapse text-center mt-2">
-                            <p><strong>Raast:</strong> +92 306 9753003</p>
-                        </div>
-                        <% if (user) { %>
-                            <form id="paymentForm" action="/subscription" method="POST">
-                                <input type="hidden" id="package_active" name="active" value="Pending">
-                                <input type="hidden" id="package_name" name="package_name">
-                                <input type="hidden" id="user_id" name="user_id" value="<%= user.id %>">
-                                <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" class="form-control" value="<%= user.Username %>" readonly>
-                                <label for="transaction_id">Transaction ID:</label>
-                                <input type="text" id="transaction_id" name="transaction_id" class="form-control" required>
-                                <label for="amount">Amount:</label>
-                                <input type="number" id="amount" name="amount" class="form-control" required readonly>
-                                <label for="custom_amount">Custom Amount (Optional):</label>
-                                <input type="number" id="custom_amount" name="custom_amount" class="form-control">
-                                <button type="submit" class="btn btn-success mt-3" style="padding: 10px 18px;">Submit</button>
-                            </form>
-                        <% } %>
-                    </div>
-                    <div id="manualPaySection" style="display:none;">
-                        <form id="PayFast_payment_form" method="post" action="https://ipg1.apps.net.pk/Ecommerce/api/Transaction/PostTransaction">
-                            <input type="hidden" name="CURRENCY_CODE" id="currency_code" />
-                            <input type="hidden" name="MERCHANT_ID" id="merchant_id" />
-                            <input type="hidden" name="TOKEN" id="token" />
-                            <div>
-                             
-                                <input type="hidden" name="BASKET_ID" class="form-control" id="basket_id" readonly />
-                            </div>
-                            <div>
-                                <label>Package Amount:</label>
-                                <input type="text" name="TXNAMT" class="form-control" id="txnAmtInput" readonly />
-                            </div>
-                            <div>
-                                <label>Active Date:</label>
-                                <input type="text" name="ORDER_DATE" class="form-control" id="order_date" readonly />
-                            </div>
-                            <div>
-                    
-                                <input type="hidden" name="SUCCESS_URL" class="form-control" value="https://app.clickopticx.com/success" readonly />
-                            </div>
-
-                            <div>
-                           
-                                <input type="hidden" name="FAILURE_URL" class="form-control" value="https://app.clickopticx.com/failure" readonly />
-                            </div>
-                            <div>
-                                <input type="hidden" name="NOTIFICATION_URL" class="form-control" value="https://app.clickopticx.com/payfast-itn" readonly />
-                            </div>
-                            <div>
-                                <input type="hidden" name="SIGNATURE" class="form-control" id="signature" readonly />
-                            </div>
-                            <div class="text-center mt-3">
-                                <input type="submit"  id="submitBtn" value="Submit Now" style="padding: 10px 18px;" class="btn btn-success">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+   <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      padding: 0;
+      border: none;
+      overflow: hidden;
+      position: relative;
+    ">
+      
+      <!-- Professional Header Gradient -->
+      <div style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      ">
+        <!-- Floating Close Button -->
+        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          width: 40px;
+          height: 40px;
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+          z-index: 10;
+        " onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='scale(1)'">
+          &times;
+        </button>
+        
+        <!-- Header Icon -->
+        <div style="
+          width: 80px;
+          height: 80px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1rem;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        ">
+          <i class="fas fa-credit-card" style="font-size: 2rem; color: white;"></i>
         </div>
+        
+        <h2 class="mb-2" style="
+          color: white;
+          font-size: 2rem;
+          font-weight: 700;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          margin: 0;
+        ">Premium Subscription</h2>
+        <p style="
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1.1rem;
+          margin: 0.5rem 0 0;
+          font-weight: 400;
+        ">Choose your preferred payment method</p>
+      </div>
+      
+      <!-- Modal Body -->
+      <div style="padding: 2rem;">
+        <!-- Payment Method Selection -->
+        <div id="paymentChoice" class="text-center mb-4">
+          <div class="row g-3">
+            <!-- Online Payment Card -->
+            <div class="col-md-6">
+              <div id="manualPayBtn" class="payment-method-card" style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: 2px solid transparent;
+                border-radius: 16px;
+                padding: 2rem 1.5rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+                color: white;
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+              " onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(102, 126, 234, 0.3)'">
+                <div style="
+                  width: 60px;
+                  height: 60px;
+                  background: rgba(255, 255, 255, 0.2);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0 auto 1rem;
+                ">
+                  <i class="fas fa-globe" style="font-size: 1.5rem;"></i>
+                </div>
+                <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Online Payment</h4>
+                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Secure payment gateway</p>
+                <div style="
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: rgba(255, 255, 255, 0.3);
+                "></div>
+              </div>
+            </div>
+            
+            <!-- Offline Payment Card -->
+            <div class="col-md-6">
+              <div id="customPayBtn" class="payment-method-card" style="
+                background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                border: 2px solid transparent;
+                border-radius: 16px;
+                padding: 2rem 1.5rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+                color: white;
+                box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+              " onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(17, 153, 142, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.3)'">
+                <div style="
+                  width: 60px;
+                  height: 60px;
+                  background: rgba(255, 255, 255, 0.2);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0 auto 1rem;
+                ">
+                  <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
+                </div>
+                <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Mobile Banking</h4>
+                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">JazzCash, Easypaisa & Bank</p>
+                <div style="
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: rgba(255, 255, 255, 0.3);
+                "></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+     <!-- OFFLINE PAYMENT SECTION -->
+<div id="customPaySection" style="display: none;">
+  <div style="
+    background: linear-gradient(135deg, rgba(17, 153, 142, 0.1) 0%, rgba(56, 239, 125, 0.1) 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(17, 153, 142, 0.2);
+  ">
+    <div class="text-center mb-4">
+      <div style="
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+      ">
+        <i class="fas fa-mobile-alt" style="font-size: 2rem; color: white;"></i>
+      </div>
+      <h4 style="color: #4a5568; margin-bottom: 0.5rem; font-weight: 600;">Mobile Banking Payment</h4>
+      <p style="color: #718096; margin: 0; font-size: 0.95rem;">Pay instantly using JazzCash, Easypaisa or Bank Transfer</p>
     </div>
+    
+    <!-- Selected Package Info -->
+    <div style="
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 1px solid rgba(17, 153, 142, 0.2);
+    ">
+      <h5 style="color: #2d3748; margin-bottom: 0.5rem;">Selected Package</h5>
+      <h3 id="selectedPackage" style="color: #11998e; font-weight: 700; margin: 0;"></h3>
+    </div>
+
+    <!-- Payment Method Cards -->
+    <div class="row g-3 mb-4">
+      <!-- JazzCash Card -->
+      <div class="col-md-4">
+        <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo" style="
+          background: white;
+          border: 2px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 1.5rem;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        " onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='#11998e'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.08)'">
+          <img src="/images/Jazz cash logo.svg" height="45" style="margin-bottom: 1rem;">
+          <h6 style="color: #4a5568; margin: 0; font-weight: 600;">JazzCash</h6>
+          <p style="color: #718096; font-size: 0.85rem; margin: 0.25rem 0 0;">Tap to view details</p>
+        </div>
+        <div class="collapse mt-3" id="jazzCashInfo">
+          <div style="
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+          ">
+            <img src="/images/JAZZCASH QR.png" class="img-fluid rounded mb-3" style="max-height: 150px; background: white; padding: 10px;">
+            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Send money to:</p>
+            <h5 style="margin: 0.5rem 0 0; font-weight: 700;">+92 306 9753003</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- Easypaisa Card -->
+      <div class="col-md-4">
+        <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo" style="
+          background: white;
+          border: 2px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 1.5rem;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        " onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='#11998e'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.08)'">
+          <img src="/images/EASYPAISA logo.svg" height="45" style="margin-bottom: 1rem;">
+          <h6 style="color: #4a5568; margin: 0; font-weight: 600;">Easypaisa</h6>
+          <p style="color: #718096; font-size: 0.85rem; margin: 0.25rem 0 0;">Tap to view details</p>
+        </div>
+        <div class="collapse mt-3" id="easypaisaInfo">
+          <div style="
+            background: linear-gradient(135deg, #00b04f 0%, #7ed321 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+          ">
+            <img src="/images/EASYPAISA QR.png" class="img-fluid rounded mb-3" style="max-height: 150px; background: white; padding: 10px;">
+            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Send money to:</p>
+            <h5 style="margin: 0.5rem 0 0; font-weight: 700;">+92 306 9753003</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- Raast Card -->
+      <div class="col-md-4">
+        <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#raastInfo" style="
+          background: white;
+          border: 2px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 1.5rem;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        " onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='#11998e'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.08)'">
+          <img src="/images/Raast-Logo.png" height="45" style="margin-bottom: 1rem;">
+          <h6 style="color: #4a5568; margin: 0; font-weight: 600;">Raast ID</h6>
+          <p style="color: #718096; font-size: 0.85rem; margin: 0.25rem 0 0;">Tap to view details</p>
+        </div>
+        <div class="collapse mt-3" id="raastInfo">
+          <div style="
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+          ">
+            <div style="
+              background: rgba(255, 255, 255, 0.2);
+              border-radius: 50px;
+              padding: 1rem;
+              margin: 0 auto 1rem;
+              width: fit-content;
+            ">
+              <i class="fas fa-university" style="font-size: 2rem;"></i>
+            </div>
+            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Raast ID:</p>
+            <h5 style="margin: 0.5rem 0 0; font-weight: 700;">+92 306 9753003</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Form -->
+    <% if (user) { %>
+    <form id="paymentForm" action="/subscription" method="POST" class="mt-4">
+      <input type="hidden" name="active" value="Pending">
+      <input type="hidden" name="package_name" id="package_name">
+      <input type="hidden" name="user_id" value="<%= user.id %>">
+
+      <div class="row g-3">
+        <!-- Username -->
+        <div class="col-md-6">
+          <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Username</label>
+          <div style="position: relative;">
+            <input type="text" class="form-control" id="username" name="username" value="<%= user.Username %>" readonly placeholder="Auto-filled" style="
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              padding: 12px 16px 12px 45px;
+              font-size: 1rem;
+              background-color: #f7fafc;
+              transition: all 0.3s ease;
+            ">
+            <i class="fas fa-user" style="
+              position: absolute;
+              left: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: #11998e;
+              font-size: 1rem;
+            "></i>
+          </div>
+        </div>
+
+        <!-- Transaction ID -->
+        <div class="col-md-6">
+          <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Transaction ID *</label>
+          <div style="position: relative;">
+            <input type="text" class="form-control" id="transaction_id" name="transaction_id" required placeholder="e.g. TXN12345678" style="
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              padding: 12px 16px 12px 45px;
+              font-size: 1rem;
+              transition: all 0.3s ease;
+            " onfocus="this.style.borderColor='#11998e'; this.style.boxShadow='0 0 0 3px rgba(17, 153, 142, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+            <i class="fas fa-receipt" style="
+              position: absolute;
+              left: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: #11998e;
+              font-size: 1rem;
+            "></i>
+          </div>
+        </div>
+
+        <!-- Amount -->
+        <div class="col-md-6">
+          <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Package Amount</label>
+          <div style="position: relative;">
+            <input type="number" class="form-control" id="amount" name="amount" required readonly placeholder="Auto-filled" style="
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              padding: 12px 16px 12px 45px;
+              font-size: 1rem;
+              background-color: #f7fafc;
+              transition: all 0.3s ease;
+            ">
+            <i class="fas fa-money-bill-wave" style="
+              position: absolute;
+              left: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: #11998e;
+              font-size: 1rem;
+            "></i>
+          </div>
+        </div>
+
+        <!-- Custom Amount -->
+        <div class="col-md-6">
+          <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Custom Amount (Optional)</label>
+          <div style="position: relative;">
+            <input type="number" class="form-control" id="custom_amount" name="custom_amount" placeholder="Only if negotiated separately" style="
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              padding: 12px 16px 12px 45px;
+              font-size: 1rem;
+              transition: all 0.3s ease;
+            " onfocus="this.style.borderColor='#11998e'; this.style.boxShadow='0 0 0 3px rgba(17, 153, 142, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+            <i class="fas fa-edit" style="
+              position: absolute;
+              left: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: #11998e;
+              font-size: 1rem;
+            "></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Important Notice -->
+      <div style="
+        background: linear-gradient(135deg, rgba(245, 166, 35, 0.1) 0%, rgba(251, 211, 141, 0.1) 100%);
+        border: 1px solid rgba(245, 166, 35, 0.3);
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1.5rem 0;
+      ">
+        <div class="d-flex align-items-start gap-3">
+          <i class="fas fa-info-circle" style="color: #f59e0b; font-size: 1.2rem; margin-top: 2px;"></i>
+          <div>
+            <h6 style="color: #92400e; margin-bottom: 0.5rem; font-weight: 600;">Payment Instructions</h6>
+            <ol style="color: #92400e; font-size: 0.9rem; margin: 0; padding-left: 1rem;">
+              <li>Complete payment using any method above</li>
+              <li>Copy the transaction ID from your payment confirmation</li>
+              <li>Enter the transaction ID in the form above</li>
+              <li>Submit for verification and activation</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" style="
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        border: none;
+        color: white;
+        width: 100%;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+        position: relative;
+        overflow: hidden;
+      " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 35px rgba(17, 153, 142, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.3)'">
+        <i class="fas fa-paper-plane me-2"></i>Submit Payment Details
+      </button>
+    </form>
+    <% } %>
+  </div>
+</div>
+
+      </div>
+
+      <!-- ONLINE PAYMENT SECTION -->
+      <div id="manualPaySection" style="display: none;">
+        <div style="
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+          border-radius: 16px;
+          padding: 2rem;
+          margin-top: 1rem;
+          border: 1px solid rgba(102, 126, 234, 0.2);
+        ">
+          <div class="text-center mb-4">
+            <div style="
+              width: 80px;
+              height: 80px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              border-radius: 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto 1rem;
+              box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            ">
+              <i class="fas fa-shield-alt" style="font-size: 2rem; color: white;"></i>
+            </div>
+            <h4 style="color: #4a5568; margin-bottom: 0.5rem; font-weight: 600;">Secure Online Payment</h4>
+            <p style="color: #718096; margin: 0; font-size: 0.95rem;">Complete your payment safely through our encrypted gateway</p>
+          </div>
+          
+          <form id="PayFast_payment_form" method="post" action="https://ipg1.apps.net.pk/Ecommerce/api/Transaction/PostTransaction">
+            <input type="hidden" name="CURRENCY_CODE" id="currency_code" />
+            <input type="hidden" name="MERCHANT_ID" id="merchant_id" />
+            <input type="hidden" name="TOKEN" id="token" />
+            <input type="hidden" name="BASKET_ID" id="basket_id" />
+            <input type="hidden" name="SUCCESS_URL" value="https://app.clickopticx.com/success" />
+            <input type="hidden" name="FAILURE_URL" value="https://app.clickopticx.com/failure" />
+            <input type="hidden" name="NOTIFICATION_URL" value="https://app.clickopticx.com/payfast-itn" />
+            <input type="hidden" name="SIGNATURE" id="signature" />
+  
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Package Amount</label>
+                <div style="position: relative;">
+                  <input type="text" name="TXNAMT" class="form-control" id="txnAmtInput" readonly placeholder="Auto-filled from package" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 45px;
+                    font-size: 1rem;
+                    background-color: #f7fafc;
+                    transition: all 0.3s ease;
+                  ">
+                  <i class="fas fa-dollar-sign" style="
+                    position: absolute;
+                    left: 16px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #667eea;
+                    font-size: 1rem;
+                  "></i>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Active Date</label>
+                <div style="position: relative;">
+                  <input type="text" name="ORDER_DATE" class="form-control" id="order_date" readonly placeholder="Auto-filled today" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 45px;
+                    font-size: 1rem;
+                    background-color: #f7fafc;
+                    transition: all 0.3s ease;
+                  ">
+                  <i class="fas fa-calendar-alt" style="
+                    position: absolute;
+                    left: 16px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #667eea;
+                    font-size: 1rem;
+                  "></i>
+                </div>
+              </div>
+            </div>
+  
+            <button type="submit" id="submitBtn" style="
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              border: none;
+              color: white;
+              width: 100%;
+              padding: 15px;
+              border-radius: 12px;
+              font-size: 1.1rem;
+              font-weight: 600;
+              margin-top: 2rem;
+              transition: all 0.3s ease;
+              box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+              position: relative;
+              overflow: hidden;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 35px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(102, 126, 234, 0.3)'">
+              <i class="fas fa-lock me-2"></i>Proceed to Secure Payment
+            </button>
+            
+            <!-- Security Badges -->
+            <div class="text-center mt-3">
+              <small class="text-muted d-flex align-items-center justify-content-center gap-2">
+                <i class="fas fa-shield-alt text-success"></i>
+                <span>256-bit SSL Encrypted</span>
+                <span class="mx-1">•</span>
+                <i class="fas fa-check-circle text-success"></i>
+                <span>PCI DSS Compliant</span>
+              </small>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
     <%- include ('../partials/_footer.ejs') %>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
