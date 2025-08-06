@@ -782,6 +782,43 @@
       }
 
       /* Mobile Responsive */
+      /* Mobile Responsiveness for Home Collection */
+      @media (max-width: 768px) {
+        /* Payment option cards stack on mobile */
+        .payment-option-card {
+          margin-bottom: 1rem !important;
+        }
+        
+        /* Home collection fields full width on mobile */
+        #homeCollectionFields .col-md-6 {
+          width: 100% !important;
+          margin-bottom: 1rem;
+        }
+        
+        /* Toast position adjustment for mobile */
+        .mobile-toast {
+          top: 10px !important;
+          right: 10px !important;
+          left: 10px !important;
+          width: auto !important;
+          font-size: 0.9rem;
+        }
+        
+        /* Home collection card better mobile styling */
+        .payment-option-card {
+          padding: 1rem !important;
+          text-align: center;
+        }
+        
+        .payment-option-card h6 {
+          font-size: 1rem !important;
+        }
+        
+        .payment-option-card p {
+          font-size: 0.8rem !important;
+        }
+      }
+
       @media (max-width: 768px) {
         .package-cards {
           grid-template-columns: 1fr;
@@ -1329,6 +1366,151 @@
       }
   
       .form-control:focus~.form-icon,
+
+      /* Override external CSS for form icons and padding */
+      .form-control[style*="padding-left: 50px"] {
+        padding-left: 50px !important;
+      }
+      
+      .form-control + i[class*="fa"] {
+        pointer-events: none !important;
+        z-index: 10 !important;
+      }
+      
+      /* Ensure placeholder text doesn't overlap with icons */
+      .form-control::placeholder {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+      }
+      
+      /* Fix Bootstrap form-control overrides */
+      .payment-method-card input.form-control,
+      .payment-method-card select.form-control,
+      .payment-method-card textarea.form-control {
+        padding-left: 50px !important;
+      }
+      
+      .payment-method-card .fas {
+        position: absolute !important;
+        left: 18px !important;
+        z-index: 10 !important;
+        pointer-events: none !important;
+      }
+
+      /* Disable floating label behavior for offline payment forms */
+      #customPaySection .form-control:focus~.form-label,
+      #customPaySection .form-control:not(:placeholder-shown)~.form-label,
+      #customPaySection .form-select:focus~.form-label,
+      #customPaySection .form-select:not([value=""])~.form-label,
+      #PayFast_payment_form .form-control:focus~.form-label,
+      #PayFast_payment_form .form-control:not(:placeholder-shown)~.form-label,
+      #homeCollectionFields .form-control:focus~.form-label,
+      #homeCollectionFields .form-control:not(:placeholder-shown)~.form-label,
+      #homeCollectionFields .form-select:focus~.form-label,
+      #homeCollectionFields .form-select:not([value=""])~.form-label {
+        top: auto !important;
+        left: auto !important;
+        font-size: inherit !important;
+        color: inherit !important;
+        position: static !important;
+        transform: none !important;
+        background: none !important;
+        z-index: auto !important;
+      }
+
+      /* Remove asterisk pseudo-elements from offline payment forms */
+      #customPaySection .form-control:focus~.form-label::after,
+      #customPaySection .form-control:not(:placeholder-shown)~.form-label::after,
+      #customPaySection .form-select:focus~.form-label::after,
+      #customPaySection .form-select:not([value=""])~.form-label::after,
+      #PayFast_payment_form .form-control:focus~.form-label::after,
+      #PayFast_payment_form .form-control:not(:placeholder-shown)~.form-label::after,
+      #homeCollectionFields .form-control:focus~.form-label::after,
+      #homeCollectionFields .form-control:not(:placeholder-shown)~.form-label::after,
+      #homeCollectionFields .form-select:focus~.form-label::after,
+      #homeCollectionFields .form-select:not([value=""])~.form-label::after {
+        content: none !important;
+        display: none !important;
+      }
+
+      /* Ensure labels stay in normal position */
+      #customPaySection .form-label,
+      #PayFast_payment_form .form-label,
+      #homeCollectionFields .form-label {
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        background: none !important;
+        z-index: auto !important;
+      }
+
+      /* Remove any pseudo-elements that might create background text */
+      #customPaySection *::before,
+      #customPaySection *::after,
+      #PayFast_payment_form *::before,
+      #PayFast_payment_form *::after,
+      #homeCollectionFields *::before,
+      #homeCollectionFields *::after {
+        content: none !important;
+        display: none !important;
+      }
+
+      /* Ensure no background content appears behind form fields */
+      #customPaySection .form-control,
+      #customPaySection .form-select,
+      #PayFast_payment_form .form-control,
+      #PayFast_payment_form .form-select,
+      #homeCollectionFields .form-control,
+      #homeCollectionFields .form-select {
+        background: white !important;
+        position: relative !important;
+        z-index: 5 !important;
+      }
+
+      /* Override any vendor CSS that might add background elements */
+      #customPaySection,
+      #PayFast_payment_form,
+      #homeCollectionFields {
+        position: relative !important;
+      }
+
+      #customPaySection > *,
+      #PayFast_payment_form > *,
+      #homeCollectionFields > * {
+        position: relative !important;
+        z-index: 1 !important;
+      }
+
+      /* Toast notification animations */
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* Auto-filled field styling */
+      .auto-filled-field {
+        border-color: #10B981 !important;
+        background-color: #F0FDF4 !important;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+      }
       .form-select:focus~.form-icon {
         color: var(--primary);
       }
@@ -1752,8 +1934,8 @@
                 ">
                   <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
                 </div>
-                <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Mobile Banking</h4>
-                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">JazzCash, Easypaisa & Bank</p>
+                <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Offline Pay</h4>
+                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">JazzCash, Easypaisa & Home Collection</p>
                 <div style="
                   position: absolute;
                   bottom: 0;
@@ -1790,8 +1972,8 @@
       ">
         <i class="fas fa-mobile-alt" style="font-size: 2rem; color: white;"></i>
       </div>
-      <h4 style="color: #4a5568; margin-bottom: 0.5rem; font-weight: 600;">Mobile Banking Payment</h4>
-      <p style="color: #718096; margin: 0; font-size: 0.95rem;">Pay instantly using JazzCash, Easypaisa or Bank Transfer</p>
+      <h4 style="color: #4a5568; margin-bottom: 0.5rem; font-weight: 600;">Offline Payment</h4>
+      <p style="color: #718096; margin: 0; font-size: 0.95rem;">Pay using JazzCash, Easypaisa or request Home Collection</p>
     </div>
     
     <!-- Selected Package Info -->
@@ -1810,7 +1992,7 @@
     <!-- Payment Method Cards -->
     <div class="row g-3 mb-4">
       <!-- JazzCash Card -->
-      <div class="col-md-4">
+      <div class="col-md-4 col-12 mb-3">
         <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#jazzCashInfo" style="
           background: white;
           border: 2px solid #e2e8f0;
@@ -1841,7 +2023,7 @@
       </div>
 
       <!-- Easypaisa Card -->
-      <div class="col-md-4">
+      <div class="col-md-4 col-12 mb-3">
         <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#easypaisaInfo" style="
           background: white;
           border: 2px solid #e2e8f0;
@@ -1864,16 +2046,16 @@
             text-align: center;
             color: white;
           ">
-            <img src="/images/EASYPAISA QR.png" class="img-fluid rounded mb-3" style="max-height: 150px; background: white; padding: 10px;">
+            <img src="/images/easypaisa.jpeg" class="img-fluid rounded mb-3" style="max-height: 150px; background: white; padding: 10px;">
             <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Send money to:</p>
             <h5 style="margin: 0.5rem 0 0; font-weight: 700;">+92 306 9753003</h5>
           </div>
         </div>
       </div>
 
-      <!-- Raast Card -->
-      <div class="col-md-4">
-        <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#raastInfo" style="
+      <!-- Home Collection Card -->
+      <div class="col-md-4 col-12 mb-3">
+        <div class="payment-option-card" data-bs-toggle="collapse" data-bs-target="#homeCollectionInfo" style="
           background: white;
           border: 2px solid #e2e8f0;
           border-radius: 16px;
@@ -1883,13 +2065,25 @@
           transition: all 0.3s ease;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         " onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='#11998e'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.08)'">
-          <img src="/images/Raast-Logo.png" height="45" style="margin-bottom: 1rem;">
-          <h6 style="color: #4a5568; margin: 0; font-weight: 600;">Raast ID</h6>
-          <p style="color: #718096; font-size: 0.85rem; margin: 0.25rem 0 0;">Tap to view details</p>
-        </div>
-        <div class="collapse mt-3" id="raastInfo">
           <div style="
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+          ">
+            <i class="fas fa-home" style="color: white; font-size: 1.2rem;"></i>
+          </div>
+          <h6 style="color: #4a5568; margin: 0; font-weight: 600;">Home Collection</h6>
+          <p style="color: #718096; font-size: 0.85rem; margin: 0.25rem 0 0;">Payment at your doorstep</p>
+          <small style="color: #8B5CF6; font-weight: 500; margin-top: 0.5rem; display: block;">👆 Click to select</small>
+        </div>
+        <div class="collapse mt-3" id="homeCollectionInfo">
+          <div style="
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
@@ -1902,10 +2096,11 @@
               margin: 0 auto 1rem;
               width: fit-content;
             ">
-              <i class="fas fa-university" style="font-size: 2rem;"></i>
+              <i class="fas fa-home" style="font-size: 2rem;"></i>
             </div>
-            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Raast ID:</p>
-            <h5 style="margin: 0.5rem 0 0; font-weight: 700;">+92 306 9753003</h5>
+            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">We collect payment from your home</p>
+            <h6 style="margin: 0.5rem 0 0; font-weight: 700;">📝 Fill your details below</h6>
+            <p style="margin: 0.5rem 0 0; opacity: 0.8; font-size: 0.8rem;">Address & contact fields will appear automatically</p>
           </div>
         </div>
       </div>
@@ -1926,18 +2121,21 @@
             <input type="text" class="form-control" id="username" name="username" value="<%= user.Username %>" readonly placeholder="Auto-filled" style="
               border: 2px solid #e2e8f0;
               border-radius: 12px;
-              padding: 12px 16px 12px 45px;
+              padding: 12px 16px 12px 50px !important;
               font-size: 1rem;
               background-color: #f7fafc;
               transition: all 0.3s ease;
+              padding-left: 50px !important;
             ">
             <i class="fas fa-user" style="
               position: absolute;
-              left: 16px;
+              left: 18px;
               top: 50%;
               transform: translateY(-50%);
               color: #11998e;
               font-size: 1rem;
+              z-index: 10;
+              pointer-events: none;
             "></i>
           </div>
         </div>
@@ -1946,20 +2144,23 @@
         <div class="col-md-6">
           <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Transaction ID *</label>
           <div style="position: relative;">
-            <input type="text" class="form-control" id="transaction_id" name="transaction_id" required placeholder="e.g. TXN12345678" style="
+            <input type="text" class="form-control" id="transaction_id" name="transaction_id" required placeholder="Enter transaction ID (e.g. TXN12345678)" style="
               border: 2px solid #e2e8f0;
               border-radius: 12px;
-              padding: 12px 16px 12px 45px;
+              padding: 12px 16px 12px 50px !important;
               font-size: 1rem;
               transition: all 0.3s ease;
+              padding-left: 50px !important;
             " onfocus="this.style.borderColor='#11998e'; this.style.boxShadow='0 0 0 3px rgba(17, 153, 142, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
             <i class="fas fa-receipt" style="
               position: absolute;
-              left: 16px;
+              left: 18px;
               top: 50%;
               transform: translateY(-50%);
               color: #11998e;
               font-size: 1rem;
+              z-index: 10;
+              pointer-events: none;
             "></i>
           </div>
         </div>
@@ -1968,21 +2169,24 @@
         <div class="col-md-6">
           <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Package Amount</label>
           <div style="position: relative;">
-            <input type="number" class="form-control" id="amount" name="amount" required readonly placeholder="Auto-filled" style="
+            <input type="number" class="form-control" id="amount" name="amount" required readonly placeholder="Package amount will be auto-filled" style="
               border: 2px solid #e2e8f0;
               border-radius: 12px;
-              padding: 12px 16px 12px 45px;
+              padding: 12px 16px 12px 50px !important;
               font-size: 1rem;
               background-color: #f7fafc;
               transition: all 0.3s ease;
+              padding-left: 50px !important;
             ">
             <i class="fas fa-money-bill-wave" style="
               position: absolute;
-              left: 16px;
+              left: 18px;
               top: 50%;
               transform: translateY(-50%);
               color: #11998e;
               font-size: 1rem;
+              z-index: 10;
+              pointer-events: none;
             "></i>
           </div>
         </div>
@@ -1991,21 +2195,206 @@
         <div class="col-md-6">
           <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Custom Amount (Optional)</label>
           <div style="position: relative;">
-            <input type="number" class="form-control" id="custom_amount" name="custom_amount" placeholder="Only if negotiated separately" style="
+            <input type="number" class="form-control" id="custom_amount" name="custom_amount" placeholder="Enter custom amount if applicable" style="
               border: 2px solid #e2e8f0;
               border-radius: 12px;
-              padding: 12px 16px 12px 45px;
+              padding: 12px 16px 12px 50px !important;
               font-size: 1rem;
               transition: all 0.3s ease;
+              padding-left: 50px !important;
             " onfocus="this.style.borderColor='#11998e'; this.style.boxShadow='0 0 0 3px rgba(17, 153, 142, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
             <i class="fas fa-edit" style="
               position: absolute;
-              left: 16px;
+              left: 18px;
               top: 50%;
               transform: translateY(-50%);
               color: #11998e;
               font-size: 1rem;
+              z-index: 10;
+              pointer-events: none;
             "></i>
+          </div>
+        </div>
+
+        <!-- Home Collection Fields (Optional) -->
+        <div class="col-12" id="homeCollectionFields" style="display: none;">
+          <div style="
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+          ">
+            <h6 style="color: #7C3AED; margin-bottom: 1rem; font-weight: 600;">
+              <i class="fas fa-home" style="margin-right: 8px;"></i>
+              Home Collection Details (Optional)
+            </h6>
+
+            <!-- Profile Data Info -->
+            <% if (user && (user.Address || user.Number)) { %>
+            <div style="
+              background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+              border: 1px solid rgba(16, 185, 129, 0.2);
+              border-radius: 8px;
+              padding: 12px 16px;
+              margin-bottom: 1rem;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            ">
+              <i class="fas fa-info-circle" style="color: #10B981; font-size: 1rem;"></i>
+              <div style="color: #065F46; font-size: 0.9rem;">
+                <strong>Auto-fill available:</strong> 
+                <% if (user.Address) { %>Address<% } %>
+                <% if (user.Address && user.Number) { %> and <% } %>
+                <% if (user.Number) { %>Phone Number<% } %>
+                will be filled from your profile.
+              </div>
+            </div>
+            <% } else { %>
+            <div style="
+              background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+              border: 1px solid rgba(251, 191, 36, 0.2);
+              border-radius: 8px;
+              padding: 12px 16px;
+              margin-bottom: 1rem;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            ">
+              <i class="fas fa-exclamation-triangle" style="color: #D97706; font-size: 1rem;"></i>
+              <div style="color: #92400E; font-size: 0.9rem;">
+                <strong>Profile incomplete:</strong> Please fill in your address and phone number below. Consider updating your profile for faster future orders.
+              </div>
+            </div>
+            <% } %>
+            
+            <div class="row g-3">
+              <!-- Request Home Collection Checkbox -->
+              <div class="col-12">
+                <div class="form-check" style="margin-bottom: 1rem;">
+                  <input class="form-check-input" type="checkbox" id="requestHomeCollection" name="home_collection" value="yes" style="
+                    width: 20px;
+                    height: 20px;
+                    accent-color: #8B5CF6;
+                  " onchange="toggleAddressFields()">
+                  <label class="form-check-label" for="requestHomeCollection" style="
+                    font-weight: 600;
+                    color: #4a5568;
+                    margin-left: 8px;
+                    font-size: 1rem;
+                  ">
+                    Request Home Collection Service
+                  </label>
+                </div>
+              </div>
+
+              <!-- Address Fields (Hidden initially) -->
+              <div class="col-md-6 col-12 mb-3" id="addressField" style="display: none;">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Collection Address *</label>
+                <div style="position: relative;">
+                  <textarea class="form-control" id="collection_address" name="collection_address" rows="3" placeholder="Enter your complete address for collection" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 50px !important;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    resize: vertical;
+                    padding-left: 50px !important;
+                  " onfocus="this.style.borderColor='#8B5CF6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'"></textarea>
+                  <i class="fas fa-map-marker-alt" style="
+                    position: absolute;
+                    left: 18px;
+                    top: 20px;
+                    color: #8B5CF6;
+                    font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
+                  "></i>
+                </div>
+              </div>
+
+              <!-- Phone Number -->
+              <div class="col-md-6 col-12 mb-3" id="phoneField" style="display: none;">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Contact Number *</label>
+                <div style="position: relative;">
+                  <input type="tel" class="form-control" id="contact_number" name="contact_number" placeholder="e.g. +92 300 1234567" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 50px !important;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    padding-left: 50px !important;
+                  " onfocus="this.style.borderColor='#8B5CF6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                  <i class="fas fa-phone" style="
+                    position: absolute;
+                    left: 18px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #8B5CF6;
+                    font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
+                  "></i>
+                </div>
+              </div>
+
+              <!-- Preferred Time -->
+              <div class="col-md-6 col-12 mb-3" id="timeField" style="display: none;">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Preferred Collection Time</label>
+                <div style="position: relative;">
+                  <select class="form-control" id="preferred_time" name="preferred_time" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 50px !important;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    background-color: white;
+                    padding-left: 50px !important;
+                  " onfocus="this.style.borderColor='#8B5CF6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                    <option value="">Select preferred time</option>
+                    <option value="morning">Morning (9 AM - 12 PM)</option>
+                    <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+                    <option value="evening">Evening (5 PM - 8 PM)</option>
+                  </select>
+                  <i class="fas fa-clock" style="
+                    position: absolute;
+                    left: 18px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #8B5CF6;
+                    font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
+                  "></i>
+                </div>
+              </div>
+
+              <!-- Special Instructions -->
+              <div class="col-md-6 col-12 mb-3" id="instructionsField" style="display: none;">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Special Instructions</label>
+                <div style="position: relative;">
+                  <textarea class="form-control" id="special_instructions" name="special_instructions" rows="3" placeholder="Any special instructions for collection (e.g. gate no, landmark)" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 50px !important;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    resize: vertical;
+                    padding-left: 50px !important;
+                  " onfocus="this.style.borderColor='#8B5CF6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'"></textarea>
+                  <i class="fas fa-sticky-note" style="
+                    position: absolute;
+                    left: 18px;
+                    top: 20px;
+                    color: #8B5CF6;
+                    font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
+                  "></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2100,18 +2489,21 @@
                   <input type="text" name="TXNAMT" class="form-control" id="txnAmtInput" readonly placeholder="Auto-filled from package" style="
                     border: 2px solid #e2e8f0;
                     border-radius: 12px;
-                    padding: 12px 16px 12px 45px;
+                    padding: 12px 16px 12px 50px !important;
                     font-size: 1rem;
                     background-color: #f7fafc;
                     transition: all 0.3s ease;
+                    padding-left: 50px !important;
                   ">
                   <i class="fas fa-dollar-sign" style="
                     position: absolute;
-                    left: 16px;
+                    left: 18px;
                     top: 50%;
                     transform: translateY(-50%);
                     color: #667eea;
                     font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
                   "></i>
                 </div>
               </div>
@@ -2122,18 +2514,21 @@
                   <input type="text" name="ORDER_DATE" class="form-control" id="order_date" readonly placeholder="Auto-filled today" style="
                     border: 2px solid #e2e8f0;
                     border-radius: 12px;
-                    padding: 12px 16px 12px 45px;
+                    padding: 12px 16px 12px 50px !important;
                     font-size: 1rem;
                     background-color: #f7fafc;
                     transition: all 0.3s ease;
+                    padding-left: 50px !important;
                   ">
                   <i class="fas fa-calendar-alt" style="
                     position: absolute;
-                    left: 16px;
+                    left: 18px;
                     top: 50%;
                     transform: translateY(-50%);
                     color: #667eea;
                     font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
                   "></i>
                 </div>
               </div>
@@ -2398,6 +2793,379 @@
 
         // Make closeBoostModal globally accessible
         window.closeBoostModal = closeBoostModal;
+
+        // Home Collection Toggle Function
+        function toggleAddressFields() {
+            const checkbox = document.getElementById('requestHomeCollection');
+            const homeCollectionFields = document.getElementById('homeCollectionFields');
+            const addressField = document.getElementById('addressField');
+            const phoneField = document.getElementById('phoneField');
+            const timeField = document.getElementById('timeField');
+            const instructionsField = document.getElementById('instructionsField');
+            const transactionField = document.querySelector('[name="transaction_id"]').closest('.col-md-6');
+
+            console.log('toggleAddressFields called:', {
+                checkboxChecked: checkbox?.checked,
+                addressFieldExists: !!addressField,
+                phoneFieldExists: !!phoneField,
+                timeFieldExists: !!timeField,
+                instructionsFieldExists: !!instructionsField,
+                homeCollectionFieldsExists: !!homeCollectionFields
+            });
+
+            if (checkbox.checked) {
+                console.log('Showing home collection fields...');
+                
+                // Show main container first
+                if (homeCollectionFields) {
+                    homeCollectionFields.style.display = 'block';
+                    homeCollectionFields.style.setProperty('display', 'block', 'important');
+                }
+                
+                // Show individual fields with multiple fallback approaches
+                const fieldsToShow = [
+                    { element: addressField, name: 'addressField' },
+                    { element: phoneField, name: 'phoneField' },
+                    { element: timeField, name: 'timeField' },
+                    { element: instructionsField, name: 'instructionsField' }
+                ];
+                
+                fieldsToShow.forEach(({ element, name }) => {
+                    if (element) {
+                        // Multiple approaches to ensure visibility
+                        element.style.display = 'block';
+                        element.style.setProperty('display', 'block', 'important');
+                        element.style.visibility = 'visible';
+                        element.style.setProperty('visibility', 'visible', 'important');
+                        element.removeAttribute('hidden');
+                        element.classList.remove('d-none');
+                        console.log(`${name} visibility set to block`);
+                    } else {
+                        console.warn(`${name} element not found!`);
+                    }
+                });
+                
+                // Smooth scroll to the fields
+                setTimeout(() => {
+                    homeCollectionFields.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+                
+                // Show success toast
+                const toast = document.createElement('div');
+                const isMobile = window.innerWidth <= 768;
+                toast.className = isMobile ? 'mobile-toast' : '';
+                toast.style.cssText = `
+                    position: fixed;
+                    top: ${isMobile ? '10px' : '20px'};
+                    right: ${isMobile ? '10px' : '20px'};
+                    ${isMobile ? 'left: 10px;' : ''}
+                    background: linear-gradient(135deg, #10B981, #059669);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    font-weight: 500;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    animation: slideIn 0.3s ease-out;
+                    font-size: ${isMobile ? '0.9rem' : '1rem'};
+                `;
+                toast.innerHTML = '<i class="fas fa-home" style="margin-right: 8px;"></i>Home collection fields activated!';
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+                
+                // Hide transaction ID field for home collection
+                transactionField.style.display = 'none';
+                document.getElementById('transaction_id').required = false;
+                
+                // Auto-fill user address if available from profile with better debugging
+                <% const userAddress = user && user.address; %>
+                <% const userPhone = user && user.Number; %>
+                
+                console.log('Auto-fill data check:', {
+                    userExists: '<%= !!user %>',
+                    userAddress: '<%= userAddress || "not available" %>',
+                    userPhone: '<%= userPhone || "not available" %>'
+                });
+                
+                const addressInputField = document.getElementById('collection_address');
+                const contactInputField = document.getElementById('contact_number');
+                
+                console.log('Input fields found:', {
+                    addressField: !!addressInputField,
+                    contactField: !!contactInputField
+                });
+                
+                <% if (userAddress) { %>
+                if (addressInputField) {
+                    try {
+                        addressInputField.value = "<%= String(userAddress).replace(/\n/g, '\\n').replace(/"/g, '\\"') %>";
+                        addressInputField.style.borderColor = '#10B981';
+                        addressInputField.style.backgroundColor = '#F0FDF4';
+                        console.log('Address auto-filled successfully:', addressInputField.value);
+                    } catch (error) {
+                        console.error('Error auto-filling address:', error);
+                    }
+                } else {
+                    console.warn('collection_address input field not found');
+                }
+                <% } else { %>
+                console.log('No user address available for auto-fill');
+                <% } %>
+                
+                <% if (userPhone) { %>
+                if (contactInputField) {
+                    try {
+                        contactInputField.value = "<%= userPhone %>";
+                        contactInputField.style.borderColor = '#10B981';
+                        contactInputField.style.backgroundColor = '#F0FDF4';
+                        console.log('Phone auto-filled successfully:', contactInputField.value);
+                    } catch (error) {
+                        console.error('Error auto-filling phone:', error);
+                    }
+                } else {
+                    console.warn('contact_number input field not found');
+                }
+                <% } else { %>
+                console.log('No user phone available for auto-fill');
+                <% } %>
+                
+                // Ensure all fields are always editable and visible
+                setTimeout(() => {
+                    const allFields = [addressInputField, contactInputField];
+                    allFields.forEach(field => {
+                        if (field) {
+                            field.removeAttribute('readonly');
+                            field.removeAttribute('disabled');
+                            field.style.pointerEvents = 'auto';
+                            field.style.userSelect = 'text';
+                            if (!field.value) {
+                                if (field.id === 'collection_address') {
+                                    field.placeholder = "Please enter your complete address for collection";
+                                } else if (field.id === 'contact_number') {
+                                    field.placeholder = "Enter your contact number";
+                                }
+                            }
+                        }
+                    });
+                    console.log('All fields made editable and accessible');
+                }, 100);
+                
+                // Show message if data was auto-filled
+                <% if (userAddress || (user && user.Number)) { %>
+                setTimeout(() => {
+                    const toast = document.createElement('div');
+                    toast.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                        z-index: 10000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    toast.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 8px;"></i>Profile data auto-filled for home collection';
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.style.animation = 'slideOut 0.3s ease-in forwards';
+                        setTimeout(() => document.body.removeChild(toast), 300);
+                    }, 3000);
+                }, 500);
+                <% } %>
+                
+                // Change button text
+                const submitBtn = document.querySelector('[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-calendar-check" style="margin-right: 8px;"></i>Schedule Home Collection';
+                
+                // Update instructions
+                const instructionsList = document.querySelector('ol');
+                if (instructionsList) {
+                    instructionsList.innerHTML = `
+                        <li>Fill in your address and contact details</li>
+                        <li>Choose your preferred collection time</li>
+                        <li>Submit the request for home collection</li>
+                        <li>Our agent will visit your location to collect payment</li>
+                    `;
+                }
+            } else {
+                // Hide home collection fields
+                homeCollectionFields.style.display = 'none';
+                addressField.style.display = 'none';
+                phoneField.style.display = 'none';
+                timeField.style.display = 'none';
+                instructionsField.style.display = 'none';
+                
+                // Clear home collection field values when unchecked
+                document.getElementById('collection_address').value = '';
+                document.getElementById('contact_number').value = '';
+                document.getElementById('preferred_time').value = '';
+                document.getElementById('special_instructions').value = '';
+                
+                // Remove or clear hidden home collection input
+                const hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
+                if (hiddenHomeCollection) {
+                    hiddenHomeCollection.remove();
+                }
+                
+                // Show transaction ID field
+                transactionField.style.display = 'block';
+                document.getElementById('transaction_id').required = true;
+                
+                // Reset button text
+                const submitBtn = document.querySelector('[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Submit for Verification';
+                
+                // Reset instructions
+                const instructionsList = document.querySelector('ol');
+                if (instructionsList) {
+                    instructionsList.innerHTML = `
+                        <li>Complete payment using any method above</li>
+                        <li>Copy the transaction ID from your payment confirmation</li>
+                        <li>Enter the transaction ID in the form above</li>
+                        <li>Submit for verification and activation</li>
+                    `;
+                }
+            }
+        }
+
+        // Debug function to check all home collection elements
+        function debugHomeCollectionElements() {
+            const elements = {
+                checkbox: document.getElementById('requestHomeCollection'),
+                mainContainer: document.getElementById('homeCollectionFields'),
+                addressField: document.getElementById('addressField'),
+                phoneField: document.getElementById('phoneField'),
+                timeField: document.getElementById('timeField'),
+                instructionsField: document.getElementById('instructionsField'),
+                addressInput: document.getElementById('collection_address'),
+                contactInput: document.getElementById('contact_number')
+            };
+            
+            console.log('=== HOME COLLECTION DEBUG ===');
+            Object.entries(elements).forEach(([name, element]) => {
+                if (element) {
+                    console.log(`${name}:`, {
+                        exists: true,
+                        display: getComputedStyle(element).display,
+                        visibility: getComputedStyle(element).visibility,
+                        opacity: getComputedStyle(element).opacity
+                    });
+                } else {
+                    console.error(`${name}: NOT FOUND`);
+                }
+            });
+            console.log('=== END DEBUG ===');
+        }
+
+        // Show home collection fields when home collection card is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            // Run debug check on page load
+            setTimeout(debugHomeCollectionElements, 1000);
+            
+            const homeCollectionCard = document.querySelector('[data-bs-target="#homeCollectionInfo"]');
+            if (homeCollectionCard) {
+                homeCollectionCard.addEventListener('click', function() {
+                    // Small delay to let bootstrap collapse animation complete
+                    setTimeout(function() {
+                        const homeCollectionCheckbox = document.getElementById('requestHomeCollection');
+                        if (homeCollectionCheckbox && !homeCollectionCheckbox.checked) {
+                            homeCollectionCheckbox.checked = true;
+                            toggleAddressFields(); // This will show all the fields
+                            
+                            // Run debug check after toggle
+                            setTimeout(debugHomeCollectionElements, 500);
+                        }
+                    }, 300);
+                });
+            }
+        });
+        
+        window.toggleAddressFields = toggleAddressFields;
+
+        // Add form submission handler to ensure home collection data is sent
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentForm = document.getElementById('paymentForm');
+            if (paymentForm) {
+                paymentForm.addEventListener('submit', function(event) {
+                    const homeCollectionCheckbox = document.getElementById('requestHomeCollection');
+                    const isHomeCollection = homeCollectionCheckbox && homeCollectionCheckbox.checked;
+                    
+                    if (isHomeCollection) {
+                        // Validate home collection fields
+                        const addressField = document.getElementById('collection_address');
+                        const contactField = document.getElementById('contact_number');
+                        
+                        if (!addressField.value.trim()) {
+                            event.preventDefault();
+                            // Debug info
+                            console.log('Address validation failed:', {
+                                fieldValue: addressField.value,
+                                fieldExists: !!addressField,
+                                userAddress: '<%= userAddress || "not found" %>'
+                            });
+                            alert('Please enter your collection address for home collection service.');
+                            addressField.focus();
+                            return false;
+                        }
+                        
+                        if (!contactField.value.trim()) {
+                            event.preventDefault();
+                            alert('Please enter your contact number for home collection service.');
+                            contactField.focus();
+                            return false;
+                        }
+                        
+                        // Ensure home collection checkbox value is properly set
+                        homeCollectionCheckbox.value = 'yes';
+                        
+                        // Add hidden input to ensure home_collection value is sent
+                        let hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
+                        if (!hiddenHomeCollection) {
+                            hiddenHomeCollection = document.createElement('input');
+                            hiddenHomeCollection.type = 'hidden';
+                            hiddenHomeCollection.name = 'home_collection';
+                            paymentForm.appendChild(hiddenHomeCollection);
+                        }
+                        hiddenHomeCollection.value = 'yes';
+                        
+                        // Debug: Log form data being sent
+                        console.log('Home Collection Data:', {
+                            home_collection: homeCollectionCheckbox.value,
+                            collection_address: addressField.value,
+                            contact_number: contactField.value,
+                            preferred_time: document.getElementById('preferred_time').value,
+                            special_instructions: document.getElementById('special_instructions').value
+                        });
+                        
+                        // Show loading state
+                        const submitBtn = this.querySelector('[type="submit"]');
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Scheduling Collection...';
+                        submitBtn.disabled = true;
+                    } else {
+                        // Regular payment submission - ensure home collection data is cleared
+                        const hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
+                        if (hiddenHomeCollection) {
+                            hiddenHomeCollection.value = 'no';
+                        }
+                        
+                        const transactionField = document.getElementById('transaction_id');
+                        if (!transactionField.value.trim()) {
+                            event.preventDefault();
+                            alert('Please enter transaction ID for payment verification.');
+                            transactionField.focus();
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
     </script>
     <script src="/vendors/js/vendor.bundle.base.js"></script>
     <script src="/vendors/chart.js/Chart.min.js"></script>

@@ -1,7 +1,12 @@
 const db = require("../config/db");
 const NotificationService = require("../services/notificationService");
+const moment = require("moment");
 
 // Get the user's
+
+
+
+
 exports.plan = (req, res) => {
   const userId = req.session.userId;
   const justLoggedIn = req.session.userJustLoggedIn;
@@ -15,9 +20,7 @@ exports.plan = (req, res) => {
     return res.redirect("/");
   }
 
-  const sqlProfile = `
-    SELECT id, Username, Email, plan, invoice, user_img, role , lastName
-    FROM users WHERE id = ?`;
+  const sqlProfile = `SELECT id, Username, Email, plan, invoice, user_img, role, lastName FROM users WHERE id = ?`;
 
   db.query(sqlProfile, [userId], (err, results) => {
     if (err || results.length === 0) {
@@ -39,29 +42,26 @@ exports.plan = (req, res) => {
         db.query(backgroundSql2, (err, password_data) => {
           if (err) return res.status(500).send("Internal Server Error");
 
-          const NotifactionSql = "SELECT COUNT(*) AS totalNotifactions FROM notifications";
-          db.query(NotifactionSql, (err, NotifactionResult) => {
+          const notifCountSql = "SELECT COUNT(*) AS totalNotifactions FROM notifications";
+          db.query(notifCountSql, (err, NotifactionResult) => {
             if (err) return res.status(500).send("Internal Server Error");
             const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
-            const notifications_users_count_sql = `
+            const unreadNotifSql = `
               SELECT COUNT(*) AS Notifactions 
               FROM notifications_user 
-              WHERE user_id = ? AND is_read = 0 
-              AND created_at >= NOW() - INTERVAL 2 DAY
+              WHERE user_id = ? AND is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY
             `;
-            db.query(notifications_users_count_sql, [userId], (err, Notifaction) => {
+            db.query(unreadNotifSql, [userId], (err, Notifaction) => {
               if (err) return res.status(500).send("Internal Server Error");
               const Notifactions = Notifaction[0].Notifactions;
 
-              const notifications_details_sql = `
+              const notifDetailsSql = `
                 SELECT * FROM notifications_user 
-                WHERE user_id = ? 
-                AND is_read = 0 
-                AND created_at >= NOW() - INTERVAL 2 DAY 
+                WHERE user_id = ? AND is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY 
                 ORDER BY id DESC
               `;
-              db.query(notifications_details_sql, [userId], (err, notifications_users) => {
+              db.query(notifDetailsSql, [userId], (err, notifications_users) => {
                 if (err) return res.status(500).send("Internal Server Error");
 
                 const packageSql = "SELECT * FROM packages";
@@ -71,7 +71,7 @@ exports.plan = (req, res) => {
                   const subscriptionSql = `
                     SELECT * FROM payments 
                     WHERE user_id = ? 
-                    ORDER BY created_at DESC 
+                    ORDER BY id DESC 
                     LIMIT 1
                   `;
                   db.query(subscriptionSql, [userId], (err, subscriptionResults) => {
@@ -79,10 +79,11 @@ exports.plan = (req, res) => {
 
                     const subscription = subscriptionResults.length > 0 ? subscriptionResults[0] : null;
 
-                    // Match the package
                     let matchedPackage = null;
                     if (subscription?.package_name) {
-                      matchedPackage = packageResults.find(pkg => pkg.Package === subscription.package_name) || null;
+                      matchedPackage = packageResults.find(
+                        (pkg) => pkg.Package === subscription.package_name
+                      ) || null;
                     }
 
                     // Format expiry
@@ -90,15 +91,25 @@ exports.plan = (req, res) => {
                       ? new Date(subscription.expiry).toLocaleDateString("en-GB")
                       : "--";
 
-                    // Add dynamic fields to user for EJS use
                     if (subscription) {
                       user.invoice_status = subscription.invoice_status || "Unpaid";
-                      user.package_status = subscription.package_status || "pending";
+                      user.package_status = subscription.package_status || "Pending";
                       user.expiry = subscription.expiry || null;
+
+                      // Check expiry status
+                      const today = moment();
+                      const expiryDate = moment(subscription.expiry);
+                      const isExpired =
+                        user.package_status.toLowerCase() === "active" &&
+                        user.invoice_status.toLowerCase() === "paid" &&
+                        expiryDate.isBefore(today, "day");
+
+                      user.isExpired = isExpired;
                     } else {
                       user.invoice_status = "Unpaid";
                       user.package_status = null;
                       user.expiry = null;
+                      user.isExpired = false;
                     }
 
                     const sqlIcon = "SELECT * FROM icon_slider";
@@ -124,7 +135,7 @@ exports.plan = (req, res) => {
                             isUser,
                             isteam,
                             cards: cardResults,
-                            password_data,
+                            password_data, // ✅ fixed here
                             totalNotifactions,
                             bg_result,
                             Iconresult,
@@ -153,7 +164,7 @@ exports.plan = (req, res) => {
 };
 
 
- 
+
 
 // update the Nav_br img // update the Nav_bar img // update the Nav_bar img
 exports.updateNav_img = (req, res) => {
@@ -238,10 +249,13 @@ exports.updateSubscription = async (req, res) => {
               username: username,
               email: userResult.length > 0 ? userResult[0].Email : null,
               package_name: package_name,
-              amount: amount
+              amount: amount,
             });
           } catch (notificationError) {
-            console.error("❌ Error sending subscription notifications:", notificationError);
+            console.error(
+              "❌ Error sending subscription notifications:",
+              notificationError
+            );
           }
 
           res.redirect("/index");
@@ -253,9 +267,6 @@ exports.updateSubscription = async (req, res) => {
     }
   );
 };
-
-
-
 
 exports.uploadBackgroundImage = (req, res) => {
   const userId = req.session.userId;
@@ -388,5 +399,5 @@ exports.NewNoti = (req, res) => {
   } catch (error) {
     console.error("❌ Error marking notification:", error.message);
     res.status(500).send("Server error");
-}
+  }
 };

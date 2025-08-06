@@ -16,6 +16,10 @@ function generateRandomString(length = 4) {
 }
 
 exports.updateSubscription = (req, res) => {
+  // Debug: Log all received data
+  console.log('📦 Package Request Data Received:');
+  console.log('Full req.body:', req.body);
+  
   const {
     user_id,
     username,
@@ -24,12 +28,41 @@ exports.updateSubscription = (req, res) => {
     package_name,
     discount,
     custom_amount,
+    home_collection,
+    collection_address,
+    contact_number,
+    preferred_time,
+    special_instructions,
   } = req.body;
 
-  if (!user_id || !username || !transaction_id || !amount || !package_name) {
+  // For home collection, transaction_id is not required
+  const isHomeCollection = home_collection === 'yes';
+  
+  // Debug: Log home collection specific data
+  console.log('🏠 Home Collection Data:');
+  console.log('home_collection:', home_collection);
+  console.log('isHomeCollection:', isHomeCollection);
+  console.log('collection_address:', collection_address);
+  console.log('contact_number:', contact_number);
+  console.log('preferred_time:', preferred_time);
+  console.log('special_instructions:', special_instructions);
+  
+  if (!user_id || !username || !amount || !package_name) {
     return res
       .status(400)
       .json({ success: false, message: "Missing required fields" });
+  }
+
+  if (!isHomeCollection && !transaction_id) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Transaction ID is required for non-home collection payments" });
+  }
+
+  if (isHomeCollection && (!collection_address || !contact_number)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Address and contact number are required for home collection" });
   }
 
   const packagePrice = parseFloat(amount) || 0;
@@ -77,8 +110,13 @@ exports.updateSubscription = (req, res) => {
         remaining_amount,
         created_at,
         package_status,
-        invoice_status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid')
+        invoice_status,
+        home_collection,
+        collection_address,
+        contact_number,
+        preferred_time,
+        special_instructions
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid', ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -86,12 +124,17 @@ exports.updateSubscription = (req, res) => {
       [
         user_id,
         username,
-        transaction_id,
+        isHomeCollection ? `HOME_COLLECTION_${Date.now()}` : transaction_id,
         packagePrice,
         package_name,
         discount,
         customAmountFloat,
         remainingAmount,
+        isHomeCollection ? 'yes' : 'no',
+        collection_address || null,
+        contact_number || null,
+        preferred_time || null,
+        special_instructions || null,
       ],
       (err) => {
         if (err) {
@@ -129,22 +172,41 @@ exports.updateSubscription = (req, res) => {
                     email: userResult.length > 0 ? userResult[0].Email : null,
                     package_name,
                     amount: packagePrice,
+                    home_collection: isHomeCollection,
+                    collection_address,
+                    contact_number,
+                    preferred_time,
+                    special_instructions,
                   });
 
-                  req.flash(
-                    "success",
-                    "Your package request submitted successfully."
-                  );
+                  if (isHomeCollection) {
+                    req.flash(
+                      "success",
+                      "Home collection request submitted successfully. Our agent will contact you soon."
+                    );
+                  } else {
+                    req.flash(
+                      "success",
+                      "Your package request submitted successfully."
+                    );
+                  }
                   res.redirect("/package");
                 } catch (notificationError) {
                   console.error(
                     "❌ Error sending notifications:",
                     notificationError
                   );
-                  req.flash(
-                    "success",
-                    "Your package request submitted successfully."
-                  );
+                  if (isHomeCollection) {
+                    req.flash(
+                      "success",
+                      "Home collection request submitted successfully. Our agent will contact you soon."
+                    );
+                  } else {
+                    req.flash(
+                      "success",
+                      "Your package request submitted successfully."
+                    );
+                  }
                   res.redirect("/package");
                 }
               }

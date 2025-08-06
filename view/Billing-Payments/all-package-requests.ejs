@@ -67,6 +67,29 @@
       }
     }
 
+    /* ===== HOME COLLECTION STYLES ===== */
+    .payment-type-indicator {
+      display: inline-block;
+    }
+    
+    .payment-type-indicator .payment-type-text {
+      font-weight: 600;
+    }
+    
+    .home-details {
+      max-width: 250px;
+    }
+    
+    .home-collection-row {
+      background-color: rgba(13, 110, 253, 0.05) !important;
+      border-left: 4px solid #0d6efd;
+    }
+    
+    .home-collection-card {
+      border-left: 4px solid #0d6efd;
+      background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
+    }
+
     /* ===== MOBILE CARD LAYOUT ===== */
     @media (max-width: 768px) {
       .desktop-table {
@@ -363,6 +386,12 @@
                     <option value="pending">Pending</option>
                   </select>
                   
+                  <select id="payment-type-filter" class="filter-select">
+                    <option value="">All Types</option>
+                    <option value="home">Home Collection</option>
+                    <option value="online">Online Payment</option>
+                  </select>
+                  
                   <button id="refresh-btn" class="btn-refresh">
                     <i class="fas fa-sync-alt me-2"></i>Refresh
                   </button>
@@ -378,6 +407,7 @@
                         <th>Request ID</th>
                         <th>Package Name</th>
                         <th>Username</th>
+                        <th>Payment Type</th>
                         <th>Status</th>
                         <th>Priority</th>
                       </tr>
@@ -420,13 +450,54 @@
       }
     }
 
+    function getPaymentTypeIndicator(req) {
+      if (req.home_collection === 'yes') {
+        return `
+          <div class="payment-type-indicator home-collection">
+            <i class="fas fa-home text-primary me-1"></i>
+            <span class="payment-type-text">Home Collection</span>
+            <div class="home-details mt-1">
+              <small class="text-muted d-block">📍 ${req.collection_address || 'Address not provided'}</small>
+              <small class="text-muted d-block">📞 ${req.contact_number || 'Contact not provided'}</small>
+              ${req.preferred_time ? `<small class="text-muted d-block">🕒 ${req.preferred_time}</small>` : ''}
+              ${req.special_instructions ? `<small class="text-muted d-block">📝 ${req.special_instructions}</small>` : ''}
+            </div>
+          </div>
+        `;
+      } else if (req.transaction_id && req.transaction_id.startsWith('HOME_COLLECTION_')) {
+        return `
+          <div class="payment-type-indicator home-collection">
+            <i class="fas fa-home text-primary me-1"></i>
+            <span class="payment-type-text">Home Collection</span>
+          </div>
+        `;
+      } else if (req.transaction_id) {
+        return `
+          <div class="payment-type-indicator online">
+            <i class="fas fa-credit-card text-success me-1"></i>
+            <span class="payment-type-text">Online Payment</span>
+            <div class="transaction-id mt-1">
+              <small class="text-muted">ID: ${req.transaction_id}</small>
+            </div>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="payment-type-indicator pending">
+            <i class="fas fa-clock text-warning me-1"></i>
+            <span class="payment-type-text">Pending</span>
+          </div>
+        `;
+      }
+    }
+
     function displayRequestsTable(requests) {
       const tbody = document.getElementById('requests-table');
       
       if (requests.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="5" class="text-center" style="padding: 40px;">
+            <td colspan="6" class="text-center" style="padding: 40px;">
               <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
               <h6>No Package Requests Found</h6>
               <p class="text-muted">No package requests match your current filters</p>
@@ -437,14 +508,15 @@
       }
 
       tbody.innerHTML = requests.map(req => `
-        <tr>
+        <tr ${req.home_collection === 'yes' ? 'class="home-collection-row"' : ''}>
           <td>#${req.id}</td>
           <td>${req.package_name}</td>
           <td>${req.Username}</td>
-          <td><span class="badge badge-${req.status || 'pending'}">
-            ${getStatusIcon(req.status || 'pending')} ${(req.status || 'pending').toUpperCase()}
+          <td>${getPaymentTypeIndicator(req)}</td>
+          <td><span class="badge badge-${req.package_status || 'pending'}">
+            ${getStatusIcon(req.package_status || 'pending')} ${(req.package_status || 'pending').toUpperCase()}
           </span></td>
-          <td>${getPriorityBadge(req.status)}</td>
+          <td>${getPriorityBadge(req.package_status)}</td>
         </tr>
       `).join('');
     }
@@ -466,7 +538,7 @@
       }
 
       cardsContainer.innerHTML = requests.map(req => `
-        <div class="request-card ${req.status || 'pending'}">
+        <div class="request-card ${req.status || 'pending'} ${req.home_collection === 'yes' ? 'home-collection-card' : ''}">
           <div class="request-card-header">
             <div class="request-card-icon">
               <i class="fas fa-clipboard-list"></i>
@@ -484,17 +556,22 @@
             </div>
             
             <div class="request-card-field">
+              <div class="request-card-label">Payment Type</div>
+              <div class="request-card-value">${getPaymentTypeIndicator(req)}</div>
+            </div>
+            
+            <div class="request-card-field">
               <div class="request-card-label">Status</div>
               <div class="request-card-value">
-                <span class="badge badge-${req.status || 'pending'}">
-                  ${getStatusIcon(req.status || 'pending')} ${(req.status || 'pending').toUpperCase()}
+                <span class="badge badge-${req.package_status || 'pending'}">
+                  ${getStatusIcon(req.package_status || 'pending')} ${(req.package_status || 'pending').toUpperCase()}
                 </span>
               </div>
             </div>
             
             <div class="request-card-field">
               <div class="request-card-label">Priority</div>
-              <div class="request-card-value">${getPriorityText(req.status)}</div>
+              <div class="request-card-value">${getPriorityText(req.package_status)}</div>
             </div>
           </div>
         </div>
@@ -557,15 +634,32 @@
     }
 
     // Filter functionality
-    document.getElementById('status-filter').addEventListener('change', function(e) {
-      const status = e.target.value;
-      const filteredRequests = status ? 
-        originalRequests.filter(req => (req.status || 'pending') === status) : 
-        originalRequests;
+    function applyFilters() {
+      const statusFilter = document.getElementById('status-filter').value;
+      const paymentTypeFilter = document.getElementById('payment-type-filter').value;
+      
+      let filteredRequests = originalRequests;
+      
+      // Apply status filter
+      if (statusFilter) {
+        filteredRequests = filteredRequests.filter(req => (req.package_status || 'pending') === statusFilter);
+      }
+      
+      // Apply payment type filter
+      if (paymentTypeFilter) {
+        if (paymentTypeFilter === 'home') {
+          filteredRequests = filteredRequests.filter(req => req.home_collection === 'yes' || (req.transaction_id && req.transaction_id.startsWith('HOME_COLLECTION_')));
+        } else if (paymentTypeFilter === 'online') {
+          filteredRequests = filteredRequests.filter(req => req.home_collection !== 'yes' && req.transaction_id && !req.transaction_id.startsWith('HOME_COLLECTION_'));
+        }
+      }
       
       displayRequestsTable(filteredRequests);
       displayRequestsCards(filteredRequests);
-    });
+    }
+
+    document.getElementById('status-filter').addEventListener('change', applyFilters);
+    document.getElementById('payment-type-filter').addEventListener('change', applyFilters);
 
     // Search functionality
     document.getElementById('search-input').addEventListener('input', function(e) {

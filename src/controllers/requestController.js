@@ -18,7 +18,9 @@ exports.getPayments = (req, res) => {
     const isAdmin = roleResult[0].role === "admin";
 
     const sql = `
-      SELECT p.*, u.username 
+      SELECT p.*, u.username, 
+             p.home_collection, p.collection_address, p.contact_number, 
+             p.preferred_time, p.special_instructions
       FROM payments p
       JOIN users u ON p.user_id = u.id
       ${isAdmin ? "" : "WHERE p.user_id = ?"}
@@ -56,7 +58,8 @@ exports.profile = (req, res) => {
 
   const sqlUser = "SELECT * FROM users WHERE id = ?";
   const sqlPayments = `
-    SELECT p.id, p.user_id, u.username, p.transaction_id, p.amount, p.package_name, d.coin_balance, p.created_at, p.discount, p.custom_amount , p.remaining_amount
+    SELECT p.id, p.user_id, u.username, p.transaction_id, p.amount, p.package_name, d.coin_balance, p.created_at, p.discount, p.custom_amount, p.remaining_amount,
+           p.home_collection, p.collection_address, p.contact_number, p.preferred_time, p.special_instructions
     FROM payments p
     JOIN users u ON p.user_id = u.id
     LEFT JOIN daily_tasks d ON p.user_id = d.user_id
@@ -130,7 +133,7 @@ exports.profile = (req, res) => {
                 success: successMsg.length > 0 ? successMsg[0] : null,
               },
               totalNotifactions,
-              password_datass,
+              password_data: password_datass, 
               isUser,
             });
           });
@@ -172,15 +175,37 @@ exports.UpdateUser = (req, res) => {
   });
 };
 
-exports.updatePlan = (req, res) => {
-  const { user_id, invoice_status, package_status, expiry } = req.body;
 
-  // Validate required fields
+const moment = require("moment");
+
+exports.updatePlan = (req, res) => {
+  const user_id = req.body.user_id;
+  const invoice_status = req.body.invoice_status?.toLowerCase();
+  const package_status = req.body.package_status?.toLowerCase();
+  const expiry = req.body.expiry;
+
+  // ✅ Only lowercase values are allowed
+  const validInvoiceStatuses = ["paid", "unpaid"];
+  const validPackageStatuses = ["active", "pending", "expired"];
+
   if (!user_id || !invoice_status || !package_status || !expiry) {
     return res.status(400).json({
-      message: "User ID, Package, Invoice, and Expiry are required."
+      message: "User ID, Invoice Status, Package Status, and Expiry are required.",
     });
   }
+
+  if (!validInvoiceStatuses.includes(invoice_status) || !validPackageStatuses.includes(package_status)) {
+    return res.status(400).json({
+      message: "Invalid invoice or package status.",
+    });
+  }
+
+  console.log("🟡 Admin UpdatePlan Request:", {
+    user_id,
+    invoice_status,
+    package_status,
+    expiry,
+  });
 
   const updateQuery = `
     UPDATE payments 
@@ -194,18 +219,21 @@ exports.updatePlan = (req, res) => {
 
   db.query(updateQuery, [invoice_status, package_status, expiry, user_id], (err, result) => {
     if (err) {
-      console.error("❌ Error in updatePlan:", err);
-      return res.status(500).json({ message: "Failed to update plan" });
+      console.error("❌ Database error in updatePlan:", err);
+      return res.status(500).json({ message: "Failed to update plan." });
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "No matching payment record found" });
+      console.warn("⚠️ No matching record found for user_id:", user_id);
+      return res.status(404).json({ message: "No matching payment record found." });
     }
 
     req.flash("success", "Plan updated successfully.");
-    res.redirect("/index");
+    return res.redirect("/index");
   });
 };
+
+
 
 
 

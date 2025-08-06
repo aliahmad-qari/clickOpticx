@@ -38,24 +38,36 @@ exports.getAllPackageRequests = (req, res) => {
       p.id,
       p.package_name,
       u.Username,
+      pay.home_collection,
+      pay.collection_address,
+      pay.contact_number,
+      pay.preferred_time,
+      pay.special_instructions,
+      pay.transaction_id,
+      pay.amount,
+      pay.created_at as request_date,
       CASE 
-        WHEN EXISTS (
-          SELECT 1 FROM payments pay 
-          WHERE pay.package_name = p.package_name AND pay.status = 'paid'
-        ) THEN 'Paid'
-        WHEN EXISTS (
-          SELECT 1 FROM payments pay 
-          WHERE pay.package_name = p.package_name AND pay.status = 'pending'
-        ) THEN 'Unpaid'
-        ELSE 'No Payment'
+        WHEN pay.package_status = 'active' AND pay.invoice_status = 'Paid' THEN 'Paid'
+        WHEN pay.package_status = 'active' AND pay.invoice_status = 'Unpaid' THEN 'Unpaid'
+        WHEN pay.package_status IS NULL THEN 'No Payment'
+        ELSE pay.package_status
       END AS package_status
     FROM packages p
     JOIN users u ON p.user_id = u.id
-    ORDER BY package_status
+    LEFT JOIN payments pay ON pay.package_name = p.Package AND pay.user_id = u.id
+    ORDER BY pay.created_at DESC, package_status
   `;
 
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error fetching package requests' });
+    if (err) {
+      console.error('Error fetching package requests:', err);
+      return res.status(500).json({ message: 'Error fetching package requests' });
+    }
+    
+    // Debug: Log home collection requests
+    const homeCollectionRequests = results.filter(req => req.home_collection === 'yes');
+    console.log(`🏠 Found ${homeCollectionRequests.length} home collection requests out of ${results.length} total requests`);
+    
     res.json(results);
   });
 };

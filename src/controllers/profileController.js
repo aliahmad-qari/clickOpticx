@@ -182,7 +182,7 @@ exports.updateUser = (req, res) => {
     Email,
     address,
     cnic,
-    Number,
+    phoneNumber,
     userId,
     existing_img,
   } = req.body;
@@ -200,7 +200,7 @@ exports.updateUser = (req, res) => {
     Email,
     address,
     cnic,
-    Number,
+    phoneNumber,
     userimg,
     userId,
   });
@@ -220,13 +220,14 @@ exports.updateUser = (req, res) => {
 
   db.query(
     sql,
-    [Username, lastName, Email, address, cnic, Number, userimg, userId],
+    [Username, lastName, Email, address, cnic, phoneNumber, userimg, userId],
     (err, result) => {
       if (err) {
         console.error("Error updating user:", err);
         return res.status(500).send("Database update failed.");
       }
       console.log("Update successful:", result);
+      req.flash("success", "Profile updated successfully!");
       res.redirect("/profile");
     }
   );

@@ -105,7 +105,7 @@ db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidResult) => {
                                       isUser: req.session.user && req.session.user.role === "user",
                                       paymentCount: paymentResult[0].count,
                                       totalUsers: userResult[0].totalUsers,
-                                      password_datass,
+                                      password_data: password_datass,
                                       bg_result,
                                       totalTeam: teamResult[0].totalTeam,
                                       totalRequests: requestResult[0].totalRequests,
