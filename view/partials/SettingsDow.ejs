@@ -16,3 +16,407 @@
       </div>
     </div>
   </div>
+
+  <!-- Auto-sync Sidebar Skin with Theme Script -->
+  <script>
+  // Enhanced Sidebar Theme Manager
+  class SidebarThemeManager {
+    constructor() {
+      this.init();
+    }
+
+    init() {
+      // Listen for theme changes from navbar
+      window.addEventListener('themeChanged', (e) => {
+        console.log('Theme changed event received:', e.detail.theme);
+        this.syncSidebarSkin(e.detail.theme);
+      });
+
+      // Listen for sidebar theme clicks
+      this.setupSidebarThemeListeners();
+
+      // Sync on page load with a small delay to ensure DOM is ready
+      setTimeout(() => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        console.log('Initial theme sync:', currentTheme);
+        this.syncSidebarSkin(currentTheme);
+      }, 100);
+    }
+
+    syncSidebarSkin(theme) {
+      console.log('Syncing sidebar skin to:', theme);
+      const lightOption = document.getElementById('sidebar-light-theme');
+      const darkOption = document.getElementById('sidebar-dark-theme');
+
+      if (!lightOption || !darkOption) {
+        console.error('Sidebar theme options not found!');
+        return;
+      }
+
+      // Remove selected class from both options
+      lightOption.classList.remove('selected');
+      darkOption.classList.remove('selected');
+
+      // Add selected class based on theme
+      if (theme === 'dark') {
+        darkOption.classList.add('selected');
+        this.applySidebarTheme('dark');
+        console.log('Dark sidebar theme applied');
+      } else {
+        lightOption.classList.add('selected');
+        this.applySidebarTheme('light');
+        console.log('Light sidebar theme applied');
+      }
+
+      // Save to localStorage for persistence
+      localStorage.setItem('sidebar-theme', theme);
+    }
+
+    applySidebarTheme(theme) {
+      // Apply theme to body (this is what controls the actual sidebar styling)
+      document.body.classList.remove('sidebar-dark', 'sidebar-light');
+      
+      if (theme === 'dark') {
+        document.body.classList.add('sidebar-dark');
+      } else {
+        document.body.classList.add('sidebar-light');
+      }
+
+      // Also apply to document element for consistency
+      document.documentElement.classList.remove('sidebar-dark', 'sidebar-light');
+      document.documentElement.classList.add(`sidebar-${theme}`);
+    }
+
+    setupSidebarThemeListeners() {
+      const lightOption = document.getElementById('sidebar-light-theme');
+      const darkOption = document.getElementById('sidebar-dark-theme');
+
+      if (lightOption) {
+        lightOption.addEventListener('click', () => {
+          this.handleSidebarThemeClick('light');
+        });
+      }
+
+      if (darkOption) {
+        darkOption.addEventListener('click', () => {
+          this.handleSidebarThemeClick('dark');
+        });
+      }
+    }
+
+    handleSidebarThemeClick(selectedTheme) {
+      // Update sidebar theme
+      this.syncSidebarSkin(selectedTheme);
+
+      // Also update the main theme to match (bi-directional sync)
+      if (window.themeManager) {
+        window.themeManager.setTheme(selectedTheme);
+      }
+
+      // Add click feedback
+      this.addClickFeedback(selectedTheme);
+    }
+
+    addClickFeedback(theme) {
+      const option = document.getElementById(`sidebar-${theme}-theme`);
+      if (option) {
+        option.style.transform = 'scale(0.95)';
+        option.style.transition = 'transform 0.15s ease';
+        setTimeout(() => {
+          option.style.transform = 'scale(1)';
+        }, 150);
+      }
+    }
+
+    // Method to get current sidebar theme
+    getCurrentSidebarTheme() {
+      return localStorage.getItem('sidebar-theme') || 
+             document.documentElement.getAttribute('data-theme') || 'light';
+    }
+  }
+
+  // Initialize sidebar theme manager
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebarThemeManager = new SidebarThemeManager();
+    window.sidebarThemeManager = sidebarThemeManager;
+  });
+
+  // Enhanced Settings Panel Controls
+  document.addEventListener('DOMContentLoaded', function() {
+    const settingsTrigger = document.getElementById('settings-trigger');
+    const themeSettings = document.getElementById('theme-settings');
+    const settingsClose = document.querySelector('.settings-close');
+
+    // Toggle settings panel
+    if (settingsTrigger) {
+      settingsTrigger.addEventListener('click', function() {
+        themeSettings.classList.toggle('open');
+        
+        // Add opening animation
+        if (themeSettings.classList.contains('open')) {
+          themeSettings.style.transform = 'translateY(0)';
+          themeSettings.style.opacity = '1';
+        }
+      });
+    }
+
+    // Close settings panel
+    if (settingsClose) {
+      settingsClose.addEventListener('click', function() {
+        themeSettings.classList.remove('open');
+        themeSettings.style.transform = 'translateX(100%)';
+        themeSettings.style.opacity = '0';
+      });
+    }
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.theme-setting-wrapper') && themeSettings.classList.contains('open')) {
+        themeSettings.classList.remove('open');
+        themeSettings.style.transform = 'translateX(100%)';
+        themeSettings.style.opacity = '0';
+      }
+    });
+
+    // Header color tiles functionality
+    const colorTiles = document.querySelectorAll('.tiles');
+    colorTiles.forEach(tile => {
+      tile.addEventListener('click', function() {
+        // Remove selected class from all tiles
+        colorTiles.forEach(t => t.classList.remove('selected'));
+        
+        // Add selected class to clicked tile
+        this.classList.add('selected');
+        
+        // Apply header theme based on tile class
+        const headerClass = this.classList[1]; // get second class (success, warning, etc.)
+        applyHeaderTheme(headerClass);
+        
+        // Add click feedback
+        this.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+        }, 150);
+      });
+    });
+  });
+
+  // Apply header theme function
+  function applyHeaderTheme(themeClass) {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    // Remove existing header theme classes
+    const themeClasses = ['header-success', 'header-warning', 'header-danger', 'header-info', 'header-dark', 'header-default'];
+    navbar.classList.remove(...themeClasses);
+
+    // Add new header theme class
+    navbar.classList.add(`header-${themeClass}`);
+
+    // Save to localStorage
+    localStorage.setItem('header-theme', themeClass);
+  }
+
+  // Load saved header theme on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedHeaderTheme = localStorage.getItem('header-theme');
+    if (savedHeaderTheme) {
+      applyHeaderTheme(savedHeaderTheme);
+      
+      // Update selected tile
+      const selectedTile = document.querySelector(`.tiles.${savedHeaderTheme}`);
+      if (selectedTile) {
+        document.querySelectorAll('.tiles').forEach(t => t.classList.remove('selected'));
+        selectedTile.classList.add('selected');
+      }
+    }
+  });
+  </script>
+
+  <style>
+  /* Enhanced Settings Panel Styles */
+  .theme-setting-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+  }
+
+  #settings-trigger {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    font-size: 18px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #settings-trigger:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .settings-panel {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: white;
+    width: 320px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #e2e8f0;
+  }
+
+  .settings-panel.open {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+
+  .settings-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #64748b;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .settings-close:hover {
+    background: #f1f5f9;
+    color: #ef4444;
+    transform: scale(1.1);
+  }
+
+  .settings-heading {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 20px 0 15px 0;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 8px;
+  }
+
+  .sidebar-bg-options {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+    color: #475569;
+    border: 2px solid transparent;
+  }
+
+  .sidebar-bg-options:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateX(5px);
+  }
+
+  .sidebar-bg-options.selected {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .img-ss {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    border: 2px solid #e2e8f0 !important;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-bg-options.selected .img-ss {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .color-tiles {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tiles {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    position: relative;
+  }
+
+  .tiles:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .tiles.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px currentColor, 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .tiles.success { background: #10b981; }
+  .tiles.warning { background: #f59e0b; }
+  .tiles.danger { background: #ef4444; }
+  .tiles.info { background: #06b6d4; }
+  .tiles.dark { background: #1f2937; }
+  .tiles.default { background: #6b7280; }
+
+  /* Dark theme for settings panel */
+  [data-theme="dark"] .settings-panel {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  [data-theme="dark"] .settings-heading {
+    color: #cbd5e1;
+    border-bottom-color: #334155;
+  }
+
+  [data-theme="dark"] .sidebar-bg-options {
+    color: #cbd5e1;
+  }
+
+  [data-theme="dark"] .sidebar-bg-options:hover {
+    background: #334155;
+    border-color: #475569;
+  }
+
+  [data-theme="dark"] .settings-close {
+    color: #94a3b8;
+  }
+
+  [data-theme="dark"] .settings-close:hover {
+    background: #334155;
+    color: #ef4444;
+  }
+  </style>

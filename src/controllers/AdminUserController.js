@@ -15,60 +15,64 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
   const invoiceFilter = req.query.invoice || "";
 
  let sql = `
-  SELECT Username, Email, user_img, Number, plan, password, role, expiry, id, invoice
-  FROM users 
-  WHERE role = 'user'
+  SELECT u.Username, u.Email, u.user_img, u.Number, u.plan, u.password, u.role, u.id,
+         COALESCE(p.expiry_date, u.expiry) as expiry,
+         COALESCE(p.status, u.invoice, 'unpaid') as invoice,
+         p.package_name, p.amount, p.created_at as payment_date
+  FROM users u 
+  LEFT JOIN payments p ON u.id = p.user_id
+  WHERE u.role = 'user'
 `;
 
-
   let countSql = `
-    SELECT COUNT(*) as total 
-    FROM users 
-    WHERE role = 'user'
+    SELECT COUNT(DISTINCT u.id) as total 
+    FROM users u
+    LEFT JOIN payments p ON u.id = p.user_id
+    WHERE u.role = 'user'
   `;
 
   const queryParams = [];
 
   // 🗓 Expiry Filters
   if (expiryStatus === "expired") {
-    sql += ` AND expiry < CURDATE()`;
-    countSql += ` AND expiry < CURDATE()`;
+    sql += ` AND COALESCE(p.expiry_date, u.expiry) < CURDATE()`;
+    countSql += ` AND COALESCE(p.expiry_date, u.expiry) < CURDATE()`;
   } else if (expiryStatus === "near_expiry") {
-    sql += ` AND expiry BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
-    countSql += ` AND expiry BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    sql += ` AND COALESCE(p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    countSql += ` AND COALESCE(p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
   } 
 else if (expiryStatus === "active") {
-  sql += ` AND expiry > CURDATE() AND (invoice IS NULL OR LOWER(invoice) != 'paid')`;
-  countSql += ` AND expiry > CURDATE() AND (invoice IS NULL OR LOWER(invoice) != 'paid')`;
+  sql += ` AND COALESCE(p.expiry_date, u.expiry) > CURDATE() AND (COALESCE(p.status, u.invoice, 'unpaid') != 'paid')`;
+  countSql += ` AND COALESCE(p.expiry_date, u.expiry) > CURDATE() AND (COALESCE(p.status, u.invoice, 'unpaid') != 'paid')`;
 }
 
 
 
   // 🔍 Search
   if (search) {
-    sql += ` AND Username LIKE ?`;
-    countSql += ` AND Username LIKE ?`;
+    sql += ` AND u.Username LIKE ?`;
+    countSql += ` AND u.Username LIKE ?`;
     queryParams.push(`%${search}%`);
   }
 
   // 📦 Package Filter
   if (packageFilter) {
-    sql += ` AND plan = ?`;
-    countSql += ` AND plan = ?`;
+    sql += ` AND u.plan = ?`;
+    countSql += ` AND u.plan = ?`;
     queryParams.push(packageFilter);
   }
 
-  // 💰 Invoice Filter
+  // 💰 Invoice Filter - Updated to use payments table
   if (invoiceFilter === "paid") {
-    sql += ` AND invoice = 'paid'`;
-    countSql += ` AND invoice = 'paid'`;
+    sql += ` AND COALESCE(p.status, u.invoice, 'unpaid') = 'paid'`;
+    countSql += ` AND COALESCE(p.status, u.invoice, 'unpaid') = 'paid'`;
   } else if (invoiceFilter === "unpaid") {
-    sql += ` AND (invoice IS NULL OR invoice = 'unpaid' OR invoice = 'Unpaid')`;
-    countSql += ` AND (invoice IS NULL OR invoice = 'unpaid' OR invoice = 'Unpaid')`;
+    sql += ` AND COALESCE(p.status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
+    countSql += ` AND COALESCE(p.status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
   }
 
-  // 📄 Pagination
-  sql += ` LIMIT ? OFFSET ?`;
+  // 📄 Group by user ID to avoid duplicates and add pagination
+  sql += ` GROUP BY u.id ORDER BY u.Username LIMIT ? OFFSET ?`;
   queryParams.push(perPage, (page - 1) * perPage);
 
   const now = new Date();
@@ -200,24 +204,65 @@ exports.UpdateUser = async (req, res) => {
       hashedPassword = await bcrypt.hash(password, saltRounds);
     }
 
-    const sql = `
+    // Update users table
+    const userSql = `
       UPDATE users 
       SET Username = ?, Email = ?, Number = ?, invoice = ?, role = ?, plan = ?, expiry = ?, department = ?
       ${hashedPassword ? `, password = ?` : ``} 
       WHERE id = ?
     `;
 
-    const values = hashedPassword
+    const userValues = hashedPassword
       ? [Username, Email, Number, invoice, role, plan, expiry, department, hashedPassword, userId]
       : [Username, Email, Number, invoice, role, plan, expiry, department, userId];
 
-    db.query(sql, values, (err) => {
+    db.query(userSql, userValues, (err) => {
       if (err) {
         console.error("Database query error:", err);
         return res.status(500).send("Internal Server Error");
       }
-      req.flash("success", "User updated successfully!");
-      res.redirect("/AdminUser");
+
+      // Check if payments record exists for this user
+      const checkPaymentSql = `SELECT id FROM payments WHERE user_id = ? ORDER BY created_at DESC LIMIT 1`;
+      
+      db.query(checkPaymentSql, [userId], (err, paymentResults) => {
+        if (err) {
+          console.error("Error checking payments:", err);
+          req.flash("success", "User updated successfully! (Payment sync may have failed)");
+          return res.redirect("/AdminUser");
+        }
+
+        if (paymentResults.length > 0) {
+          // Update existing payment record
+          const updatePaymentSql = `
+            UPDATE payments 
+            SET status = ?, expiry_date = ? 
+            WHERE user_id = ? AND id = ?
+          `;
+          
+          db.query(updatePaymentSql, [invoice, expiry, userId, paymentResults[0].id], (err) => {
+            if (err) {
+              console.error("Error updating payment:", err);
+            }
+            req.flash("success", "User and payment status updated successfully!");
+            res.redirect("/AdminUser");
+          });
+        } else {
+          // Create new payment record if user doesn't have one
+          const insertPaymentSql = `
+            INSERT INTO payments (user_id, status, expiry_date, package_name, created_at) 
+            VALUES (?, ?, ?, ?, NOW())
+          `;
+          
+          db.query(insertPaymentSql, [userId, invoice, expiry, plan], (err) => {
+            if (err) {
+              console.error("Error creating payment record:", err);
+            }
+            req.flash("success", "User updated and payment record created successfully!");
+            res.redirect("/AdminUser");
+          });
+        }
+      });
     });
   } catch (err) {
     console.error("Error hashing password:", err);

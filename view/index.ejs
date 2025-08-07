@@ -2348,15 +2348,19 @@
       <div class="rs">
         <h4 style="font-weight: 900;">
           <%= formattedDate %>
-          <span class="badge bg-warning ms-2">Pending Payment</span>
+         <span class="badge bg-danger ms-2">Pending Payment</span>
+
         </h4>
         <p class="billing-label">Expiry Date</p>
       </div>
     </div>
 
-    <button class="btn btn-warning w-100 mt-3" disabled>
-      ⚠️ Your package is active, but payment is pending.
-    </button>
+  <div
+  class="bg-danger text-white text-center py-2 px-3 rounded w-100 mt-3"
+  style="font-weight: 500;">
+  ⚠️ Your package is active, but payment is pending.
+</div>
+
 
   <% } else if (subscription && user.package_status === 'active' && user.invoice_status.toLowerCase() === 'paid' && user.isExpired) { %>
     <!-- ⚠️ Active + Paid BUT Expired -->

@@ -626,8 +626,16 @@ class ThemeManager {
     // Update button
     this.updateThemeButton();
     
-    // Dispatch theme change event for other components
-    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+    // Dispatch theme change event for other components (including sidebar)
+    window.dispatchEvent(new CustomEvent('themeChanged', { 
+      detail: { theme },
+      bubbles: true 
+    }));
+    
+    // Additional sync for sidebar immediately
+    if (window.sidebarThemeManager) {
+      window.sidebarThemeManager.syncSidebarSkin(theme);
+    }
   }
 
   getCurrentTheme() {
