@@ -1413,9 +1413,10 @@
                               <i class="bi bi-bookmark-star-fill"></i>
                               <h3>Update Complaint</h3>
                             </div>
-                            <!-- Close Icon -->
-                            <button type="button" class="modal-close-btn" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
+                            <!-- Professional Red Close Button -->
+                            <button type="button" class="btn-close-professional" data-dismiss="modal" aria-label="Close"
+                              style="position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #dc3545; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3); z-index: 1060;">
+                              <i class="fas fa-times"></i>
                             </button>
                           </div>
                           <form action="/UserComplaint/update/<%= complaint.id %>" method="POST">
@@ -1486,6 +1487,58 @@
   </div>
 
  <style>
+  /* ===== PROFESSIONAL MODAL STYLING ===== */
+  .modal-content.form-card {
+    border-radius: 15px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+  }
+
+  .form-header {
+    position: relative;
+    border-radius: 15px 15px 0 0 !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  }
+
+  /* Professional Red Close Button */
+  .btn-close-professional:hover {
+    background: #c82333 !important;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+  }
+
+  .btn-close-professional:active {
+    transform: scale(0.95);
+  }
+
+  /* Modal backdrop improvements */
+  .modal-backdrop.show {
+    opacity: 0.6 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Professional form styling enhancements */
+  .form-card {
+    transition: transform 0.3s ease;
+  }
+
+  .modal.show .form-card {
+    transform: scale(1);
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
   /* --- Table Container --- */
 .complaint-table-container {
   overflow-x: auto;

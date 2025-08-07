@@ -26,6 +26,57 @@
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
 
   <style>
+    /* ===== PROFESSIONAL MODAL STYLING ===== */
+    .modal-content {
+      border-radius: 15px !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      position: relative;
+      border-radius: 15px 15px 0 0 !important;
+    }
+
+    /* Professional Red Close Button */
+    .btn-close-professional:hover {
+      background: #c82333 !important;
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+    }
+
+    .btn-close-professional:active {
+      transform: scale(0.95);
+    }
+
+    /* Modal backdrop improvements */
+    .modal-backdrop.show {
+      opacity: 0.6 !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* Professional form styling enhancements */
+    .modal-content {
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
         #cont1 {
 
 background-repeat: no-repeat;
@@ -586,11 +637,14 @@ border-bottom-left-radius: 18px;
           <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content shadow-lg rounded">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-primary text-white" style="position: relative;">
                   <h5 class="modal-title" id="uploadModalLabel">Upload Background</h5>
                   <h4>height:495px and width:700px</h4>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                  <!-- Professional Red Close Button -->
+                  <button type="button" class="btn-close-professional" data-bs-dismiss="modal" aria-label="Close"
+                    style="position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #dc3545; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3); z-index: 1060;">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
                 <form action="/upload" method="POST" enctype="multipart/form-data">
                   <div class="modal-body">
@@ -610,10 +664,13 @@ border-bottom-left-radius: 18px;
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content shadow-lg rounded">
-                <div class="modal-header bg-danger text-white">
+                <div class="modal-header bg-danger text-white" style="position: relative;">
                   <h5 class="modal-title" id="deleteBackgroundModalLabel">Delete Background Image</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                  <!-- Professional Red Close Button -->
+                  <button type="button" class="btn-close-professional" data-bs-dismiss="modal" aria-label="Close"
+                    style="position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #dc3545; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3); z-index: 1060;">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
                 <div class="modal-body">
                   <p>Are you sure you want to delete the background image? This action cannot be undone.</p>

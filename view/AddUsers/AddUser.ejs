@@ -27,215 +27,297 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <style>
   :root {
-      --primary: #6c5ce7;
-      --primary-light: #a29bfe;
-      --secondary: #00cec9;
-      --success: #00b894;
-      --warning: #fdcb6e;
-      --danger: #d63031;
-      --dark: #2d3436;
-      --light: #f5f6fa;
-      --gray: #dfe6e9;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --glass-effect: rgba(255, 255, 255, 0.15);
+    --primary-color: #4F46E5;
+    --primary-dark: #3730A3;
+    --secondary-color: #06B6D4;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --dark-color: #1F2937;
+    --light-color: #F8FAFC;
+    --gray-color: #9CA3AF;
+    --border-color: #E5E7EB;
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--dark-color);
+    line-height: 1.6;
   }
 
   .container-fluid.page-body-wrapper {
-      display: flex;
-      flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
   }
 
   .main-panel {
-      flex-grow: 1;
-      padding: 20px;
-      margin-left: 110px;
-      transition: margin-left 0.3s ease;
+    flex-grow: 1;
+    padding: 2rem;
+    margin-left: 110px;
+    transition: margin-left 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   @media (max-width: 991px) {
-      .main-panel {
-          margin-left: 0;
-      }
+    .main-panel {
+      margin-left: 0;
+      padding: 1rem;
+    }
   }
 
+  /* Professional Form Card */
   .form-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      animation: slideUp 0.8s ease forwards;
-      max-width: 700px;
-      margin: 0 auto;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 900px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
   }
 
-  @keyframes slideUp {
-      from {
-          opacity: 0;
-          transform: translateY(50px);
-      }
-
-      to {
-          opacity: 1;
-          transform: translateY(0);
-      }
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 24px 24px 0 0;
   }
 
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Header Styling */
   .form-header {
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 12px;
-      border-radius: 15px;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 23px;
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0;
+    background: none;
   }
 
-  .form-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shine 2s infinite;
+  .form-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
   }
 
-  @keyframes shine {
-      0% {
-          left: -100%;
-      }
+  .form-header p {
+    color: var(--gray-color);
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
 
-      100% {
-          left: 100%;
-      }
+  /* Form Groups */
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .form-group {
-      position: relative;
-      margin-bottom: 30px;
+    position: relative;
+    margin-bottom: 0;
   }
 
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  /* Input Styling */
   .form-control,
   .form-select {
-      width: 100%;
-      border: none;
-      border-bottom: 2px solid var(--gray);
-      background: transparent;
-      padding: 12px 0;
-      font-size: 1rem;
-      color: var(--dark);
-      transition: all 0.3s ease;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    background: var(--white);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
   }
 
   .form-control:focus,
   .form-select:focus {
-      border-bottom-color: var(--primary);
-      outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    transform: translateY(-2px);
   }
 
+  .form-control:hover,
+  .form-select:hover {
+    border-color: var(--gray-color);
+  }
+
+  /* Modern Labels */
   .form-label {
-      position: absolute;
-      top: 12px;
-      left: 0;
-      font-weight: 500;
-      color: black;
-      pointer-events: none;
-      transition: all 0.3s ease;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--dark-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .form-control:focus~.form-label,
-  .form-control:not(:placeholder-shown)~.form-label,
-  .form-select:focus~.form-label,
-  .form-select:not([value=""])~.form-label {
-      top: -20px;
-      left: 0;
-      font-size: 0.85rem;
-      color: var(--primary);
+  .form-label .required {
+    color: var(--danger-color);
+    margin-left: 0.25rem;
   }
 
-  .form-control:focus~.form-label::after,
-  .form-control:not(:placeholder-shown)~.form-label::after,
-  .form-select:focus~.form-label::after,
-  .form-select:not([value=""])~.form-label::after {
-      content: '*';
-      color: var(--danger);
-      margin-left: 5px;
+  /* Select Styling */
+  .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 3rem;
+    cursor: pointer;
   }
 
   .form-select option {
-      background: var(--light);
-      color: var(--dark);
+    padding: 0.75rem;
+    font-weight: 500;
   }
 
+  /* Submit Button */
   .btn-primary {
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      border: none;
-      padding: 15px;
-      border-radius: 50px;
-      font-weight: 600;
-      color: white;
-      width: 100%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
   }
 
   .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+  }
+
+  .btn-primary:active {
+    transform: translateY(-1px);
   }
 
   .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shine 2s infinite;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
   }
 
-  .error-message {
-      color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 5px;
-      display: none;
+  .btn-primary:hover::before {
+    left: 100%;
   }
 
-  .input-error .error-message {
-      display: block;
-  }
-
-  .input-error .form-control,
-  .input-error .form-select {
-      border-bottom-color: var(--danger);
-  }
-
+  /* Icon Styling */
   .form-icon {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      transition: color 0.3s ease;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-color);
+    font-size: 1.125rem;
   }
 
-  .form-control:focus~.form-icon,
-  .form-select:focus~.form-icon {
-      color: var(--primary);
-}
+  /* Success Message */
+  #pusher-message-box {
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--success-color), #059669);
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-card {
+      padding: 2rem;
+      margin: 1rem;
+      border-radius: 20px;
+    }
+
+    .form-header h1 {
+      font-size: 2rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .main-panel {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .form-card {
+      padding: 1.5rem;
+    }
+
+    .form-header h1 {
+      font-size: 1.75rem;
+    }
+  }
 </style>
       
 <body>
@@ -252,7 +334,7 @@
         <!-- NavBar End -->
 
 
- <div class="card col-md-10 col-lg-10 mx-auto" style=" background-color: #F3F3F9; ">
+ <div class="container-fluid" style="background: transparent;">
     <!-- sss -->  <!-- sss -->  <!-- sss -->  <!-- sss -->
       <% if (messages.success) { %>
         <div style="display: flex; justify-content: end;"> 
@@ -288,80 +370,84 @@
         <div class="content-wrapper">
           <div class="form-card">
             <div class="form-header">
-              <i class="fas fa-user-plus me-2"></i> Add New User
+              <h1><i class="fas fa-user-plus"></i> Add New User</h1>
+              <p>Create a new user account with complete profile information</p>
             </div>
       
             <form action="/AdminUser" method="POST" id="addUserForm">
-              <!-- First Row -->
-              <div class="d-flex gap-4 mb-3">
-                <div class="form-group w-100">
-                  <input type="text" name="Username" id="Username" class="form-control" required placeholder=" ">
-                  <label for="Username" class="form-label">First Name</label>
+              <!-- Personal Information -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="Username" class="form-label">First Name <span class="required">*</span></label>
+                  <input type="text" name="Username" id="Username" class="form-control" required>
                 </div>
       
-                <div class="form-group w-100">
-                  <input type="email" name="Email" id="Email" class="form-control" required placeholder=" ">
-                  <label for="Email" class="form-label">Email</label>
-                </div>
-              </div>
-      
-              <!-- Second Row -->
-              <div class="d-flex gap-4 mb-3">
-                <div class="form-group w-100">
-                  <input type="password" name="password" id="password" class="form-control" required placeholder=" ">
-                  <label for="password" class="form-label">Password</label>
-                </div>
-      
-                <div class="form-group w-100">
-                  <input type="number" name="Number" id="Number" class="form-control" required placeholder=" ">
-                  <label for="Number" class="form-label">Number</label>
+                <div class="form-group">
+                  <label for="Email" class="form-label">Email Address <span class="required">*</span></label>
+                  <input type="email" name="Email" id="Email" class="form-control" required>
                 </div>
               </div>
       
-              <!-- Third Row -->
-              <!-- Third Row (Updated with Department field) -->
-<div class="d-flex gap-4 mb-3">
-  <div class="form-group w-100">
-    <select name="role" id="Role" class="form-select" required>
-      <option value="" disabled selected>Select Role</option>
-      <option value="user">User</option>
-    </select>
-    <label for="Role" class="form-label">Role</label>
-  </div>
-
-  <div class="form-group w-100">
-    <select name="plan" id="plan" class="form-select" required>
-      <% Package_results.forEach((package) => { %>
-        <option value="<%= package.Package %>"><%= package.Package %>GB</option>
-      <% }) %>
-    </select>
-    <label for="plan" class="form-label">Packages</label>
-  </div>
-
-  <div class="form-group w-100">
-    <select name="department" id="department" class="form-select" required>
-      <option value="" disabled selected>Select Department</option>
-      <option value="Sales">Sales</option>
-      <option value="Billing">Billing</option>
-      <option value="Support">Support</option>
-    </select>
-    <label for="department" class="form-label">Department</label>
-  </div>
-</div>
-
+              <!-- Security & Contact -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="password" class="form-label">Password <span class="required">*</span></label>
+                  <input type="password" name="password" id="password" class="form-control" required minlength="6">
+                </div>
       
-              <!-- Fourth Row -->
-              <div class="form-group mb-4">
-                <input type="date" name="expiry" id="expiry" class="form-control" placeholder=" ">
-                <label for="expiry" class="form-label">Expiry Date</label>
+                <div class="form-group">
+                  <label for="Number" class="form-label">Phone Number <span class="required">*</span></label>
+                  <input type="tel" name="Number" id="Number" class="form-control" required>
+                </div>
+              </div>
+      
+              <!-- Account Configuration -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="Role" class="form-label">User Role <span class="required">*</span></label>
+                  <select name="role" id="Role" class="form-select" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Administrator</option>
+                    <option value="Team">Team Member</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="plan" class="form-label">Package Plan <span class="required">*</span></label>
+                  <select name="plan" id="plan" class="form-select" required>
+                    <option value="" disabled selected>Select Package</option>
+                    <% Package_results.forEach((package) => { %>
+                      <option value="<%= package.Package %>"><%= package.Package %>GB - $<%= package.Price || 'N/A' %></option>
+                    <% }) %>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="department" class="form-label">Department <span class="required">*</span></label>
+                  <select name="department" id="department" class="form-select" required>
+                    <option value="" disabled selected>Select Department</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Billing">Billing</option>
+                    <option value="Support">Support</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Management">Management</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Account Expiry -->
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="expiry" class="form-label">Account Expiry Date</label>
+                  <input type="date" name="expiry" id="expiry" class="form-control">
+                </div>
               </div>
       
               <!-- Submit Button -->
-              <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-user-plus me-2"></i> Create User
-                </button>
-              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Create User Account
+              </button>
             </form>
           </div>
         </div>
