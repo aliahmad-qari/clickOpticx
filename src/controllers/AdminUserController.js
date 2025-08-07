@@ -16,18 +16,34 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
 
  let sql = `
   SELECT u.Username, u.Email, u.user_img, u.Number, u.plan, u.password, u.role, u.id,
-         COALESCE(p.expiry_date, u.expiry) as expiry,
-         COALESCE(p.status, u.invoice, 'unpaid') as invoice,
-         p.package_name, p.amount, p.created_at as payment_date
+         COALESCE(latest_p.expiry_date, u.expiry) as expiry,
+         COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') as invoice,
+         latest_p.package_status, latest_p.package_name, latest_p.amount, latest_p.created_at as payment_date
   FROM users u 
-  LEFT JOIN payments p ON u.id = p.user_id
+  LEFT JOIN (
+    SELECT p1.user_id, p1.expiry_date, p1.package_status, p1.invoice_status, p1.package_name, p1.amount, p1.created_at
+    FROM payments p1
+    WHERE p1.created_at = (
+      SELECT MAX(p2.created_at) 
+      FROM payments p2 
+      WHERE p2.user_id = p1.user_id
+    )
+  ) latest_p ON u.id = latest_p.user_id
   WHERE u.role = 'user'
 `;
 
   let countSql = `
     SELECT COUNT(DISTINCT u.id) as total 
     FROM users u
-    LEFT JOIN payments p ON u.id = p.user_id
+    LEFT JOIN (
+      SELECT p1.user_id, p1.expiry_date, p1.package_status, p1.invoice_status, p1.package_name, p1.amount, p1.created_at
+      FROM payments p1
+      WHERE p1.created_at = (
+        SELECT MAX(p2.created_at) 
+        FROM payments p2 
+        WHERE p2.user_id = p1.user_id
+      )
+    ) latest_p ON u.id = latest_p.user_id
     WHERE u.role = 'user'
   `;
 
@@ -35,15 +51,17 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
 
   // 🗓 Expiry Filters
   if (expiryStatus === "expired") {
-    sql += ` AND COALESCE(p.expiry_date, u.expiry) < CURDATE()`;
-    countSql += ` AND COALESCE(p.expiry_date, u.expiry) < CURDATE()`;
+    sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) < CURDATE()`;
+    countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) < CURDATE()`;
   } else if (expiryStatus === "near_expiry") {
-    sql += ` AND COALESCE(p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
-    countSql += ` AND COALESCE(p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
-  } 
-else if (expiryStatus === "active") {
-  sql += ` AND COALESCE(p.expiry_date, u.expiry) > CURDATE() AND (COALESCE(p.status, u.invoice, 'unpaid') != 'paid')`;
-  countSql += ` AND COALESCE(p.expiry_date, u.expiry) > CURDATE() AND (COALESCE(p.status, u.invoice, 'unpaid') != 'paid')`;
+    sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+  } else if (expiryStatus === "active") {
+  sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'unpaid'`;
+  countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'unpaid'`;
+} else if (expiryStatus === "paid") {
+  sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
+  countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
 }
 
 
@@ -64,15 +82,15 @@ else if (expiryStatus === "active") {
 
   // 💰 Invoice Filter - Updated to use payments table
   if (invoiceFilter === "paid") {
-    sql += ` AND COALESCE(p.status, u.invoice, 'unpaid') = 'paid'`;
-    countSql += ` AND COALESCE(p.status, u.invoice, 'unpaid') = 'paid'`;
+    sql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
+    countSql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
   } else if (invoiceFilter === "unpaid") {
-    sql += ` AND COALESCE(p.status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
-    countSql += ` AND COALESCE(p.status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
+    sql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
+    countSql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
   }
 
-  // 📄 Group by user ID to avoid duplicates and add pagination
-  sql += ` GROUP BY u.id ORDER BY u.Username LIMIT ? OFFSET ?`;
+  // 📄 Order and pagination
+  sql += ` ORDER BY u.Username LIMIT ? OFFSET ?`;
   queryParams.push(perPage, (page - 1) * perPage);
 
   const now = new Date();
@@ -236,7 +254,7 @@ exports.UpdateUser = async (req, res) => {
           // Update existing payment record
           const updatePaymentSql = `
             UPDATE payments 
-            SET status = ?, expiry_date = ? 
+            SET package_status = ?, expiry_date = ? 
             WHERE user_id = ? AND id = ?
           `;
           
@@ -250,7 +268,7 @@ exports.UpdateUser = async (req, res) => {
         } else {
           // Create new payment record if user doesn't have one
           const insertPaymentSql = `
-            INSERT INTO payments (user_id, status, expiry_date, package_name, created_at) 
+            INSERT INTO payments (user_id, package_status, expiry_date, package_name, created_at) 
             VALUES (?, ?, ?, ?, NOW())
           `;
           

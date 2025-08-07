@@ -225,7 +225,7 @@ exports.UpdateUser = (req, res) => {
 
   const updateQuery = `
     UPDATE payments 
-    SET invoice_status = ?, package_status = ?, expiry = ?
+    SET invoice_status = ?, package_status = ?, expiry_date = ?
     WHERE user_id = ?
     ORDER BY id DESC
     LIMIT 1
@@ -280,7 +280,7 @@ exports.updatePlan = (req, res) => {
 
   const updateQuery = `
     UPDATE payments 
-    SET invoice_status = ?, package_status = ?, expiry = ?
+    SET invoice_status = ?, package_status = ?, expiry_date = ?
     WHERE id = (
       SELECT id FROM (
         SELECT id FROM payments WHERE user_id = ? ORDER BY id DESC LIMIT 1

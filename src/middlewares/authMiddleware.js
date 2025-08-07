@@ -1,27 +1,20 @@
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
-// Check if the user is authenticated (JWT token is valid)
+// Check if the user is authenticated (Session-based)
 function isAuthenticated(req, res, next) {
-  const token = req.cookies.auth_token;
+  const userId = req.session.userId;
 
-  if (!token) {
+  if (!userId) {
     return res.redirect("/");
   }
 
-  // Verify JWT token
-  jwt.verify(token, "your_jwt_secret", (err, decoded) => {
-    if (err) {
-      return res.redirect("/");
-    }
-    req.userId = decoded.id;
-    next();
-  });
+  next();
 }
 
 // Check if the user is an admin
 function isAdmin(req, res, next) {
-  const userId = req.userId;
+  const userId = req.session.userId;
 
   const sql = "SELECT role FROM users WHERE id = ?";
   db.query(sql, [userId], (err, result) => {
@@ -34,7 +27,7 @@ function isAdmin(req, res, next) {
 
 // Check if the user is an Team
 function isteam(req, res, next) {
-  const userId = req.userId;
+  const userId = req.session.userId;
 
   const sql = "SELECT role FROM users WHERE id = ?";
   db.query(sql, [userId], (err, result) => {
