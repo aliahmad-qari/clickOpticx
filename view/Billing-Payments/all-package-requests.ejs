@@ -441,6 +441,14 @@
         const response = await fetch('/all-package-requests');
         const requests = await response.json();
         
+        // Debug: Log home collection requests
+        const homeCollectionRequests = requests.filter(req => req.home_collection === 'yes');
+        console.log('🏠 Admin Panel Debug - Total requests:', requests.length);
+        console.log('🏠 Admin Panel Debug - Home collection requests:', homeCollectionRequests.length);
+        if (homeCollectionRequests.length > 0) {
+          console.log('🏠 First home collection request:', homeCollectionRequests[0]);
+        }
+        
         originalRequests = requests;
         displayRequestsTable(requests);
         displayRequestsCards(requests);
@@ -451,27 +459,41 @@
     }
 
     function getPaymentTypeIndicator(req) {
+      // Check if it's home collection (offline with home collection)
       if (req.home_collection === 'yes') {
         return `
           <div class="payment-type-indicator home-collection">
             <i class="fas fa-home text-primary me-1"></i>
-            <span class="payment-type-text">Home Collection</span>
+            <span class="payment-type-text">Offline - Home Collection</span>
             <div class="home-details mt-1">
-              <small class="text-muted d-block">📍 ${req.collection_address || 'Address not provided'}</small>
-              <small class="text-muted d-block">📞 ${req.contact_number || 'Contact not provided'}</small>
-              ${req.preferred_time ? `<small class="text-muted d-block">🕒 ${req.preferred_time}</small>` : ''}
-              ${req.special_instructions ? `<small class="text-muted d-block">📝 ${req.special_instructions}</small>` : ''}
+              <small class="text-muted d-block"><i class="fas fa-map-marker-alt me-1"></i> ${req.collection_address || 'Address not provided'}</small>
+              <small class="text-muted d-block"><i class="fas fa-phone me-1"></i> ${req.contact_number || 'Contact not provided'}</small>
+              ${req.preferred_time ? `<small class="text-muted d-block"><i class="fas fa-clock me-1"></i> ${req.preferred_time}</small>` : ''}
+              ${req.special_instructions ? `<small class="text-muted d-block"><i class="fas fa-sticky-note me-1"></i> ${req.special_instructions}</small>` : ''}
             </div>
           </div>
         `;
-      } else if (req.transaction_id && req.transaction_id.startsWith('HOME_COLLECTION_')) {
+      } 
+      // Check for home collection by transaction ID pattern
+      else if (req.transaction_id && req.transaction_id.startsWith('HOME_COLLECTION_')) {
         return `
           <div class="payment-type-indicator home-collection">
             <i class="fas fa-home text-primary me-1"></i>
-            <span class="payment-type-text">Home Collection</span>
+            <span class="payment-type-text">Offline - Home Collection</span>
           </div>
         `;
-      } else if (req.transaction_id) {
+      } 
+      // Check for offline payment
+      else if (req.transaction_id === 'offline_payment' || (req.transaction_id && req.transaction_id.toLowerCase().includes('offline'))) {
+        return `
+          <div class="payment-type-indicator offline-payment">
+            <i class="fas fa-money-bill-wave text-warning me-1"></i>
+            <span class="payment-type-text">Offline Payment</span>
+          </div>
+        `;
+      }
+      // Online payment with transaction ID
+      else if (req.transaction_id) {
         return `
           <div class="payment-type-indicator online">
             <i class="fas fa-credit-card text-success me-1"></i>

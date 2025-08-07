@@ -61,6 +61,16 @@ exports.profile = async (req, res) => {
       [userId, limit, offset]
     );
 
+    // 5.1 Also fetch direct payments for history
+    const [directPayments] = await db.promise().query(
+      `SELECT p.*, u.Username, u.Email, u.plan, p.package_name as Package, p.amount, p.custom_amount, p.created_at as Accepted
+       FROM payments p
+       JOIN users u ON p.user_id = u.id
+       WHERE u.id = ?
+       ORDER BY p.id DESC`,
+      [userId]
+    );
+
     // 5a. Fetch packages from payments joined with packages table
     const [paymentPackages] = await db.promise().query(
       `SELECT p.*, pay.*
@@ -70,8 +80,8 @@ exports.profile = async (req, res) => {
       [userId]
     );
 
-    // 5b. Merge respitsResults and paymentPackages into one array
-    let mergedPackages = [...respitsResults];
+    // 5b. Merge respitsResults, directPayments, and paymentPackages into one array
+    let mergedPackages = [...respitsResults, ...directPayments];
 
     // Format Accepted date to ISO string for filtering
     mergedPackages.forEach(pkg => {
@@ -97,12 +107,17 @@ exports.profile = async (req, res) => {
     });
     mergedPackages = Array.from(uniquePackagesMap.values());
 
-    // Filter out packages with 0 or null custom_amount or 0 paid percentage, but include subscribed packages with full payment
+    // Filter packages - show packages with any payment amount (including 0 custom_amount)
     mergedPackages = mergedPackages.filter(pkg => {
-      if (!pkg.custom_amount || !pkg.amount) return false;
-      const paidPercent = (pkg.custom_amount * 100) / pkg.amount;
-      // Include if paidPercent > 0 or if package is fully paid (100%)
-      return paidPercent > 0 || paidPercent === 100;
+      // Always show if package has an amount (even if custom_amount is 0)
+      if (pkg.amount && pkg.amount > 0) {
+        return true;
+      }
+      // Also include if there's any custom_amount
+      if (pkg.custom_amount && pkg.custom_amount > 0) {
+        return true;
+      }
+      return false;
     });
 
     user.created_at = moment(user.created_at).format("YYYY-MM-DD");
@@ -141,6 +156,11 @@ exports.profile = async (req, res) => {
       payment.created_at = moment(payment.created_at).format("YYYY-MM-DD");
     });
 
+    // Debug logging before rendering
+    console.log('History Debug - mergedPackages length:', mergedPackages.length);
+    console.log('History Debug - paymentResults length:', paymentResults.length);
+    console.log('History Debug - respitsResults length:', respitsResults.length);
+    
     // 9. Render the profile/history page with pagination data for respits and subscribed packages
     res.render("History/History", {
       user,

@@ -16,9 +16,6 @@ function generateRandomString(length = 4) {
 }
 
 exports.updateSubscription = (req, res) => {
-  // Debug: Log all received data
-  console.log('📦 Package Request Data Received:');
-  console.log('Full req.body:', req.body);
   
   const {
     user_id,
@@ -29,23 +26,19 @@ exports.updateSubscription = (req, res) => {
     discount,
     custom_amount,
     home_collection,
+    home_collection_final,
     collection_address,
     contact_number,
     preferred_time,
     special_instructions,
   } = req.body;
 
-  // For home collection, transaction_id is not required
-  const isHomeCollection = home_collection === 'yes';
+  // For home collection, transaction_id is not required  
+  // Check both the checkbox and the final hidden input
+  const isHomeCollection = home_collection === 'yes' || home_collection === true || home_collection === '1' || home_collection === 1 ||
+                           home_collection_final === 'yes' || home_collection_final === true || home_collection_final === '1' || home_collection_final === 1;
   
-  // Debug: Log home collection specific data
-  console.log('🏠 Home Collection Data:');
-  console.log('home_collection:', home_collection);
-  console.log('isHomeCollection:', isHomeCollection);
-  console.log('collection_address:', collection_address);
-  console.log('contact_number:', contact_number);
-  console.log('preferred_time:', preferred_time);
-  console.log('special_instructions:', special_instructions);
+  
   
   if (!user_id || !username || !amount || !package_name) {
     return res
@@ -130,7 +123,7 @@ exports.updateSubscription = (req, res) => {
         discount,
         customAmountFloat,
         remainingAmount,
-        isHomeCollection ? 'yes' : 'no',
+        isHomeCollection ? 1 : 0,
         collection_address || null,
         contact_number || null,
         preferred_time || null,

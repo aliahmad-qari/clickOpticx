@@ -30,14 +30,21 @@ exports.getPackagesByStatus = (req, res) => {
 
 exports.getAllPackageRequests = (req, res) => {
   const sql = `
-    SELECT p.id, p.package_name, u.Username, p.status
-    FROM packages p
+    SELECT p.id, p.package_name, p.package_status, p.invoice_status, p.status, p.amount, p.custom_amount,
+           p.home_collection, p.collection_address, p.contact_number, p.preferred_time, p.special_instructions,
+           p.transaction_id, p.created_at, p.user_id,
+           u.Username, u.Number as user_phone, u.address as user_address
+    FROM payments p
     JOIN users u ON p.user_id = u.id
-    ORDER BY p.status
+    ORDER BY p.created_at DESC
   `;
 
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error fetching packages' });
+    if (err) {
+      console.error('Error fetching package requests:', err);
+      return res.status(500).json({ message: 'Error fetching package requests' });
+    }
+    console.log('Package requests fetched:', results.length, 'records');
     res.json(results);
   });
 };
@@ -85,7 +92,7 @@ exports.getPendingPaymentsByUser = (req, res) => {
           AND created_at >= NOW() - INTERVAL 2 DAY 
           ORDER BY id DESC`;
 
-        db.query(passwordSql, (err, password_datass) => {
+        db.query(passwordSql, (err, password_data) => {
           if (err) return res.status(500).send("Notifications error");
 
           const NotifactionSql = `
@@ -111,7 +118,7 @@ exports.getPendingPaymentsByUser = (req, res) => {
               isUser,
               isteam,
               totalNotifactions,
-              password_datass,
+              password_data,
               message: null,
               messages: {
                 success: req.flash("success")[0] || null,
@@ -154,7 +161,7 @@ exports.renderPaymentHistoryPage = (req, res) => {
         db.query(notifCountSql, (err, notifCountResult) => {
           if (err) return res.status(500).send("Notification count error");
 
-          db.query(notifDetailsSql, (err, password_datass) => {
+          db.query(notifDetailsSql, (err, password_data) => {
             if (err) return res.status(500).send("Notification list error");
 
             const user = userResults[0] || {};
@@ -168,7 +175,7 @@ exports.renderPaymentHistoryPage = (req, res) => {
               payments,
               bg_result,
               totalNotifactions,
-              password_datass,
+              password_data,
               isAdmin,
               isUser,
               isteam,
@@ -263,7 +270,7 @@ exports.Slider_imgs = (req, res) => {
               AND created_at >= NOW() - INTERVAL 2 DAY 
               ORDER BY id DESC
             `;
-            db.query(passwordSql, (err, password_datass) => {
+            db.query(passwordSql, (err, password_data) => {
               if (err) {
                 console.error("Error fetching notification details:", err);
                 return res.status(500).send("Server Error");
@@ -306,7 +313,7 @@ exports.Slider_imgs = (req, res) => {
                     submissions,
                     wirelessForms,
                     totalNotifactions,
-                    password_datass,
+                    password_data,
                     payments, // ✅ now defined
                     messages: {
                       success: successMsg.length > 0 ? successMsg[0] : null,
@@ -348,7 +355,7 @@ exports.renderPaymentAnalysisPage = (req, res) => {
           AND created_at >= NOW() - INTERVAL 2 DAY 
           ORDER BY id DESC`;
 
-        db.query(passwordSql, (err, password_datass) => {
+        db.query(passwordSql, (err, password_data) => {
           if (err) return res.status(500).send("Notifications error");
 
           const NotifactionSql = `
@@ -374,7 +381,7 @@ exports.renderPaymentAnalysisPage = (req, res) => {
               isUser,
               isteam,
               totalNotifactions,
-              password_datass,
+              password_data,
               message: null,
               messages: {
                 success: successMsg.length > 0 ? successMsg[0] : null,
@@ -413,7 +420,7 @@ exports.renderPaymentReportsPage = (req, res) => {
           AND created_at >= NOW() - INTERVAL 2 DAY 
           ORDER BY id DESC`;
 
-        db.query(passwordSql, (err, password_datass) => {
+        db.query(passwordSql, (err, password_data) => {
           if (err) return res.status(500).send("Notifications error");
 
           const NotifactionSql = `
@@ -439,7 +446,7 @@ exports.renderPaymentReportsPage = (req, res) => {
               isUser,
               isteam,
               totalNotifactions,
-              password_datass,
+              password_data,
               message: null,
               messages: {
                 success: successMsg.length > 0 ? successMsg[0] : null,

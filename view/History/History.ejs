@@ -97,27 +97,7 @@
       color: var(--text-primary) !important;
       transition: all 0.3s ease;
     }
-    @media (max-width: 767px) {
-  .equipment-table {
-    min-width: unset !important;
-    width: 100% !important;
-    table-layout: auto !important;
-  }
-
-  .equipment-table th,
-  .equipment-table td {
-    padding: 8px 10px;
-    font-size: 0.85rem;
-    white-space: normal;
-  }
-
-  .name-col p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100px;
-  }
-}
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
 
     .container-fluid.page-body-wrapper {
@@ -171,20 +151,7 @@
       flex-wrap: wrap;
       gap: 15px;
     }
-    @media (max-width: 576px) {
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-box {
-    width: 100%;
-  }
-
-  .form-select {
-    width: 100%;
-  }
-}
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
 
     .search-box {
@@ -365,12 +332,7 @@
       display: flex;
       gap: 8px;
     }
-    @media (max-width: 400px) {
-  .action-buttons {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
 
     .btn-action {
@@ -435,12 +397,7 @@
       max-width: 700px;
       margin: 0 auto;
     }
-    @media (max-width: 768px) {
-  .form-card {
-    padding: 15px;
-    margin: 15px;
-  }
-}
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
 
     @keyframes slideUp {
@@ -657,35 +614,7 @@
       pointer-events: none;
     }
 
-    @media (max-width: 330px) {
-      .btn-add {
-        padding: 10px 15px;
-        font-size: 13px;
-      }
-
-      .btn-add i {
-        font-size: 12px;
-      }
-    }
-
-    @media (max-width: 307px) {
-      .btn-add {
-        padding: 12px 10px;
-        font-size: 13px;
-      }
-
-      .btn-add i {
-        font-size: 12px;
-      }
-    }
-
-    @media (max-width: 300px) {
-      .btn-add {
-        padding: 11px 14px;
-        font-size: 11px;
-        gap: 2px;
-      }
-    }
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
     .equipment-info {
       border: 0px solid #cccccc00;
@@ -699,12 +628,7 @@
       border: 0px solid #cccccc00;
       outline: none;
     }
-    @media (max-width: 576px) {
-  .modal-dialog {
-    margin: 10px;
-    width: auto;
-  }
-}
+    /* Removed - consolidated into comprehensive mobile CSS below */
 
 
     /* Print-specific styles */
@@ -717,72 +641,1140 @@
   font-size: 100%;
 }
 
-@media (max-width: 576px) {
-  html {
-    font-size: 90%;
+/* Removed - consolidated into comprehensive mobile CSS below */
+
+/* Toast Messages */
+.toast-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease;
+}
+
+.toast-message.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.toast-message.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
+
+/* Enhanced Action Buttons */
+.action-buttons .btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.action-buttons .btn-outline-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  color: white;
+}
+
+.action-buttons .btn-outline-success:hover {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.action-buttons .btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Professional Table Design */
+.equipment-table {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.equipment-table thead th {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  color: #1e293b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.equipment-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.equipment-table tbody tr:hover {
+  background: linear-gradient(135deg, #f1f5f9, #f8fafc);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Enhanced Badges */
+.category-badge {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.badge[style*="background-color: #dcf1e2"] {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.3);
+}
+
+.badge[style*="background-color: #fff3cd"] {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+}
+
+.badge[style*="background-color: #f8d7da"] {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+/* Enhanced Card Header */
+.card-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  position: relative;
+}
+
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Filter and Search Enhancement */
+.header-actions {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 15px;
+  backdrop-filter: blur(10px);
+}
+
+.header-actions input {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text-primary);
+}
+
+.header-actions button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.header-actions button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Professional Loading States */
+.btn .fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Enhanced Empty State */
+.text-center .fa-inbox {
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.text-center h5 {
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.text-center p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+/* Package Info Cell Styling */
+.package-info-cell {
+  padding: 8px 0;
+  transition: all 0.2s ease;
+}
+
+.package-info-cell:hover {
+  transform: scale(1.02);
+}
+
+.package-name {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.package-name i {
+  font-size: 0.9rem;
+}
+
+/* Progress Container */
+.progress-container {
+  min-width: 120px;
+}
+
+.progress {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  border-radius: 10px;
+  transition: width 0.6s ease;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Status Badge Enhancements */
+.status-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.status-badge.paid {
+  animation: pulseSuccess 2s infinite;
+}
+
+.status-badge.due {
+  animation: pulseWarning 2s infinite;
+}
+
+@keyframes pulseSuccess {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+@keyframes pulseWarning {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Action Buttons Enhancement */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-buttons .btn {
+  border: 2px solid;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-buttons .btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.action-buttons .btn:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== COMPREHENSIVE MOBILE RESPONSIVENESS ===== */
+
+/* Tablet - Large Mobile (768px and down) */
 @media (max-width: 768px) {
-  .equipment-table {
-    min-width: 100%;
+  .container-fluid.page-body-wrapper {
+    padding: 0 10px;
+  }
+  
+  .main-panel {
+    padding: 10px;
+  }
+  
+  .card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+  }
+  
+  .card-header {
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .header-actions input,
+  .header-actions button {
+    width: 100%;
     font-size: 0.9rem;
   }
-
+  
+  /* Table Improvements */
+  .table-responsive {
+    border-radius: 8px;
+    margin: 0 -10px;
+    padding: 0 10px;
+  }
+  
+  .equipment-table {
+    font-size: 0.85rem;
+    min-width: 600px; /* Allow horizontal scroll for complex data */
+  }
+  
   .equipment-table th,
   .equipment-table td {
-    padding: 10px 12px;
+    padding: 8px 6px;
+    vertical-align: top;
+  }
+  
+  .equipment-table th {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+  
+  /* Package Info Adjustments */
+  .package-name {
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+  }
+  
+  .package-info-cell small {
+    font-size: 0.7rem;
+  }
+  
+  /* Progress Container */
+  .progress-container {
+    min-width: 80px;
+  }
+  
+  .category-badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    font-size: 0.65rem;
+    min-width: 60px;
+    padding: 3px 6px;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    flex-direction: row;
+    gap: 4px;
+    justify-content: center;
+  }
+  
+  .action-buttons .btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
   }
 }
 
-@media (max-width: 530px) {
-  html, body {
-    overflow-x: hidden !important;
+/* Mobile - Standard (576px and down) */
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
   }
-
+  
+  .container-fluid.page-body-wrapper {
+    padding: 0 5px;
+  }
+  
+  .main-panel {
+    padding: 5px;
+  }
+  
+  .card {
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .card-header {
+    padding: 12px 15px;
+    font-size: 1.1rem;
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  /* Toolbar Stacking */
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .search-box {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .search-input {
+    font-size: 0.9rem;
+    padding: 10px 15px 10px 40px;
+  }
+  
+  /* Table Mobile Layout */
+  .table-responsive {
+    margin: 0 -15px;
+    padding: 0 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
   .equipment-table {
-    width: 100% !important;
-    min-width: unset !important;
-    table-layout: auto !important;
-    font-size: 0.78rem !important;
+    min-width: 550px;
+    font-size: 0.8rem;
   }
-
+  
   .equipment-table th,
   .equipment-table td {
-    padding: 6px 6px !important;
-    word-break: break-word;
-    white-space: normal;
+    padding: 6px 4px;
+    font-size: 0.75rem;
   }
-
-  .name-col p {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  
+  .equipment-table th {
+    font-size: 0.7rem;
+    font-weight: 600;
   }
-
+  
+  /* Compact Package Display */
+  .package-name {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+  
+  .package-info-cell small {
+    font-size: 0.65rem;
+  }
+  
+  .progress-container {
+    min-width: 70px;
+  }
+  
+  .progress {
+    height: 6px;
+  }
+  
+  .category-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+  
+  .status-badge {
+    font-size: 0.6rem;
+    min-width: 50px;
+    padding: 2px 4px;
+  }
+  
+  /* Stacked Action Buttons on Very Small Screens */
   .action-buttons {
     flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
+    gap: 3px;
+    align-items: center;
   }
-
+  
   .action-buttons .btn {
-    width: 34px !important;
-    height: 34px !important;
-    padding: 5px !important;
-    font-size: 0.9rem !important;
-    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+    padding: 4px;
   }
+  
+  /* Modal Improvements */
+  .modal-dialog {
+    margin: 5px;
+    width: auto;
+  }
+  
+  .modal-content {
+    border-radius: 8px;
+  }
+  
+  .modal-header {
+    padding: 12px 15px;
+    font-size: 1rem;
+  }
+  
+  .modal-body {
+    padding: 15px;
+  }
+}
 
+/* Mobile - Small (480px and down) */
+@media (max-width: 480px) {
+  .equipment-table {
+    min-width: 500px;
+  }
+  
+  .equipment-table th,
+  .equipment-table td {
+    padding: 5px 3px;
+    font-size: 0.7rem;
+  }
+  
+  .equipment-table th i {
+    display: none; /* Hide icons in headers on very small screens */
+  }
+  
+  .package-name {
+    font-size: 0.75rem;
+  }
+  
+  .package-name i {
+    font-size: 0.7rem;
+  }
+  
+  .category-badge,
+  .status-badge {
+    font-size: 0.6rem;
+  }
+  
+  .action-buttons .btn {
+    width: 26px;
+    height: 26px;
+  }
+  
   .action-buttons .btn i {
-    font-size: 1rem !important;
-    display: inline-block !important;
+    font-size: 0.7rem;
   }
+}
 
-  .receipt-btn {
-    width: 34px !important;
-    height: 34px !important;
-    padding: 5px !important;
+/* Mobile - Extra Small (400px and down) */
+@media (max-width: 400px) {
+  .card-header {
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+  
+  .card-body {
+    padding: 12px;
+  }
+  
+  .equipment-table {
+    min-width: 450px;
+    font-size: 0.65rem;
+  }
+  
+  .equipment-table th,
+  .equipment-table td {
+    padding: 4px 2px;
+  }
+  
+  .action-buttons .btn {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6rem;
+  }
+  
+  .progress-container {
+    min-width: 60px;
+  }
+  
+  .status-badge {
+    min-width: 45px;
+    font-size: 0.55rem;
+  }
+  
+  /* Toast Messages */
+  .toast-message {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+  }
+}
+
+/* ===== MOBILE CARD LAYOUT ===== */
+
+/* Hide table on mobile and show card layout */
+@media (max-width: 768px) {
+  .table-responsive {
+    display: none;
+  }
+  
+  .mobile-cards-container {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-cards-container {
+    display: none;
+  }
+}
+
+/* Mobile Card Styling */
+.mobile-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-color);
+}
+
+.mobile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.mobile-card-number {
+  background: var(--primary-color);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mobile-card-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.mobile-card-body {
+  margin-bottom: 16px;
+}
+
+.mobile-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-card-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-card-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-card-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.mobile-card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-card-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.mobile-card-btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+}
+
+.mobile-card-btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.mobile-card-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-card-btn:active {
+  transform: translateY(0);
+}
+
+/* Mobile card details section */
+.mobile-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0 8px 0;
+}
+
+.mobile-detail-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 6px;
+  border-left: 3px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.mobile-detail-item i {
+  font-size: 0.9rem;
+  margin-right: 10px;
+  min-width: 16px;
+  text-align: center;
+}
+
+.mobile-detail-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-detail-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.mobile-detail-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* Package info in mobile cards */
+.mobile-package-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-package-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-package-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Progress indicator for mobile cards */
+.mobile-progress-section {
+  margin: 8px 0;
+  padding: 8px 12px;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.mobile-progress-bar {
+  height: 6px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.mobile-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+  position: relative;
+}
+
+.mobile-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  animation: progressShimmer 2s infinite;
+}
+
+.mobile-progress-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+/* Empty state for mobile cards */
+.mobile-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.mobile-empty-state i {
+  font-size: 3rem;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.mobile-empty-state h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.mobile-empty-state p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ===== INVOICE MODAL MOBILE IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+  #invoiceModal {
+    top: 0;
+    position: fixed;
+  }
+  
+  #invoiceModal .modal-dialog {
+    margin: 0;
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+  }
+  
+  #invoiceModal .modal-content {
+    height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  
+  #invoiceModal .modal-header {
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  #invoiceModal .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+  
+  #printArea {
+    padding: 15px;
+  }
+  
+  #printArea .container {
+    padding: 0;
+  }
+  
+  #printArea .logo {
+    height: 40px !important;
+  }
+  
+  #printArea .btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    margin: 2px;
+    width: calc(50% - 4px);
+  }
+  
+  #printArea .table {
+    font-size: 0.8rem;
+  }
+  
+  #printArea .table th,
+  #printArea .table td {
+    padding: 6px 8px;
+  }
+  
+  #printArea h5 {
+    font-size: 1rem;
+  }
+  
+  #printArea .alert {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #printArea {
+    padding: 10px;
+  }
+  
+  #printArea .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  #printArea .row {
+    margin: 0;
+  }
+  
+  #printArea .col-md-6 {
+    padding: 0 5px;
+  }
+  
+  #printArea .table {
+    font-size: 0.75rem;
+  }
+  
+  #printArea .table th,
+  #printArea .table td {
+    padding: 4px 6px;
+  }
+}
+
+/* ===== MOBILE-FIRST IMPROVEMENTS ===== */
+
+/* Touch-friendly interactions */
+@media (max-width: 768px) {
+  .action-buttons .btn,
+  .receipt-btn,
+  .btn-outline-danger,
+  .btn-outline-success,
+  .btn-outline-primary {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  
+  .equipment-table tr {
+    cursor: default;
+  }
+  
+  .package-info-cell {
+    cursor: default;
+  }
+  
+  .package-info-cell:active {
+    background-color: rgba(79, 70, 229, 0.1);
+    transform: scale(0.98);
+  }
+}
+
+/* Improved focus states for mobile */
+@media (max-width: 768px) {
+  .action-buttons .btn:focus,
+  .receipt-btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+  }
+}
+
+/* Loading states mobile optimization */
+@media (max-width: 768px) {
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .fa-spinner {
+    font-size: 0.9rem;
+  }
+}
+
+/* Enhanced mobile typography */
+@media (max-width: 576px) {
+  .card-header {
+    line-height: 1.3;
+  }
+  
+  .equipment-table th {
+    line-height: 1.2;
+  }
+  
+  .package-name {
+    line-height: 1.3;
+  }
+  
+  .category-badge,
+  .status-badge {
+    line-height: 1.2;
+  }
+}
+
+/* Mobile-specific animations */
+@media (max-width: 768px) {
+  .equipment-table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .equipment-table tbody tr:active {
+    background-color: rgba(79, 70, 229, 0.05);
+  }
+  
+  .action-buttons .btn {
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+  
+  .action-buttons .btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 }
 
@@ -810,48 +1802,89 @@
             </div>
             <div class="card-body">
               <div class="toolbar"></div>
-              <div class="table-responsive">
+              <div class="table-responsive d-none d-lg-block">
                 <table class="equipment-table" id="historyTable">
                   <thead>
                     <tr>
-                      <th class="name-col">#</th>
-                      <th class="name-col">Package Name</th>
-                      <th class="type-col">Paid %</th>
-                      <th class="category-col">Invoice</th>
-                      <th class="quantity-col">Action</th>
+                      <th class="name-col">
+                        <i class="fas fa-hashtag me-2"></i>#
+                      </th>
+                      <th class="name-col">
+                        <i class="fas fa-box me-2"></i>Package Details
+                      </th>
+                      <th class="type-col">
+                        <i class="fas fa-percentage me-2"></i>Payment Progress
+                      </th>
+                      <th class="category-col">
+                        <i class="fas fa-file-invoice me-2"></i>Status
+                      </th>
+                      <th class="quantity-col">
+                        <i class="fas fa-tools me-2"></i>Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% packages.forEach((package, index) => { 
-                      let result = 0;
-                      if (package.amount && package.custom_amount) {
-                        if (package.custom_amount >= package.amount) {
-                          result = 100;
-                        } else {
-                          result = (package.custom_amount * 100) / package.amount;
+                    <% if (packages && packages.length > 0) { %>
+                      <% console.log('History Debug - Packages length:', packages.length); %>
+                      <% packages.forEach((package, index) => { 
+                        let result = 0;
+                        if (package.amount && package.amount > 0 && package.custom_amount) {
+                          if (package.custom_amount >= package.amount) {
+                            result = 100;
+                          } else {
+                            result = (package.custom_amount * 100) / package.amount;
+                          }
+                        } else if (package.amount === 0 || !package.amount) {
+                          // If amount is 0 or null, result should be 0 (Due status)
+                          result = 0;
                         }
-                      }
-                      if (result > 0 && index !== 1) { %>
+                        // Show all packages (including 0% payment) to display complete history
+                        if (true) { %>
                     <tr data-accepted="<%= package.Accepted %>">
                       <td class="name-col"><%= index + 1 %></td>
                       <td class="name-col">
-                        <p class="text-black"
+                        <div class="package-info-cell" 
                           onclick="document.getElementById('receipt-<%= package.transaction_id %>').click(); return false;"
-                          style="font-size: 1.1rem; margin: 0 !important;">
-                          package_name - <%= package.package_name %>
-                        </p>
+                          style="cursor: pointer;">
+                          <div class="package-name">
+                            <i class="fas fa-wifi me-2 text-primary"></i>
+                            <strong><%= package.package_name %> MB</strong>
+                          </div>
+                          <small class="text-muted">
+                            <i class="far fa-calendar me-1"></i>
+                            <%= new Date(package.created_at || package.Accepted).toLocaleDateString() %>
+                          </small>
+                        </div>
                       </td>
                       <td class="type-col">
-                        <span class="category-badge">
-                          <strong><%= result.toFixed(2) %>%</strong>
-                        </span>
+                        <div class="progress-container">
+                          <div class="progress mb-1" style="height: 8px;">
+                            <div class="progress-bar bg-primary" style="width: <%= Math.min(result, 100) %>%"></div>
+                          </div>
+                          <span class="category-badge">
+                            <i class="fas fa-chart-pie me-1"></i>
+                            <strong><%= result.toFixed(2) %>%</strong>
+                          </span>
+                        </div>
                       </td>
                       <td class="category-col">
-                        <span class="badge" style="background-color: #dcf1e2; color: #20754d;"> paid</span>
+                        <% if (result >= 100) { %>
+                          <span class="badge status-badge paid" style="background-color: #dcf1e2; color: #20754d; padding: 4px 8px; border-radius: 4px;">
+                            <i class="fas fa-check-circle me-1"></i>Paid
+                          </span>
+                        <% } else if (result > 0) { %>
+                          <span class="badge status-badge partial" style="background-color: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 4px;">
+                            <i class="fas fa-clock me-1"></i>Partial
+                          </span>
+                        <% } else { %>
+                          <span class="badge status-badge due" style="background-color: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px;">
+                            <i class="fas fa-exclamation-circle me-1"></i>Due
+                          </span>
+                        <% } %>
                       </td>
                       <td class="quantity-col">
-                        <div class="d-flex align-items-center gap-2">
-                          <button class="btn btn-sm receipt-btn btn-outline-success p-2 d-flex align-items-center justify-content-center"
+                        <div class="action-buttons">
+                          <button class="btn btn-sm receipt-btn btn-outline-primary d-flex align-items-center justify-content-center me-2"
                             data-transaction-id="<%= package.transaction_id %>"
                             data-package-name="<%= package.package_name %>"
                             data-accepted="<%= package.Accepted %>"
@@ -860,12 +1893,14 @@
                             data-discount="<%= package.discount %>"
                             data-remaining="<%= package.remaining_amount %>"
                             data-custom-amount="<%= package.custom_amount %>"
-                            style="width: 40px; height: 40px;">
-                           <i class="fas fa-file-invoice fs-5 text-primary" title="View Invoice"></i>
+                            style="width: 40px; height: 40px; border-radius: 50%;"
+                            title="View Invoice">
+                           <i class="fas fa-file-invoice"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-outline-danger p-2 d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;"
-                            onclick="deletePackage('<%= package.id %>', this)">
+                          <button type="button" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; border-radius: 50%;"
+                            onclick="deletePackage('<%= package.id %>', this)"
+                            title="Delete Package">
                             <i class="fas fa-trash-alt"></i>
                           </button>
                         </div>
@@ -873,64 +1908,263 @@
                     </tr>
                     <% } }) %>
 
-<script>
-  function deletePackage(id, btn) {
-    if (!confirm('Are you sure you want to delete this package?')) {
-      return;
-    }
-    fetch('/delete-package', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({ id: id })
-    })
-    .then(response => {
-      if (response.ok) {
-        // Remove the row from the table
-        const row = btn.closest('tr');
-        if (row) {
-          row.remove();
-        }
-      } else {
-        alert('Failed to delete package.');
-      }
-    })
-    .catch(error => {
-      console.error('Error deleting package:', error);
-      alert('Error deleting package.');
-    });
-  }
-</script>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="5" class="text-center py-4">
+                          <div class="text-muted">
+                            <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            <h5>No Payment History Found</h5>
+                            <p>You haven't made any payments yet. Start by purchasing a package!</p>
+                          </div>
+                        </td>
+                      </tr>
+                    <% } %>
                   </tbody>
                 </table>
               </div>
+
+              <!-- Mobile Cards Container (Hidden on desktop) -->
+              <div class="mobile-cards-container d-block d-lg-none">
+                <% if (packages && packages.length > 0) { %>
+                  <% packages.forEach((package) => { 
+                    const result = (() => {
+                      if (package.amount && package.amount > 0 && package.custom_amount) {
+                        if (package.custom_amount >= package.amount) {
+                          return 100;
+                        } else {
+                          return (package.custom_amount * 100) / package.amount;
+                        }
+                      } else if (package.amount === 0 || !package.amount) {
+                        return 0;
+                      } else if (package.custom_amount) {
+                        return (package.custom_amount * 100) / (package.amount || 1);
+                      }
+                      return 0;
+                    })();
+                  %>
+                    <div class="mobile-card" data-accepted="<%= package.Accepted %>">
+                      <div class="mobile-card-header">
+                        <div class="mobile-package-info">
+                          <div class="mobile-package-name">
+                            <i class="fas fa-wifi text-primary"></i>
+                            <strong><%= package.package_name %> MB</strong>
+                            <% if (result >= 100) { %>
+                              <span class="badge bg-success ms-auto">Paid</span>
+                            <% } else if (result > 0) { %>
+                              <span class="badge bg-warning ms-auto">Partial</span>
+                            <% } else { %>
+                              <span class="badge bg-danger ms-auto">Due</span>
+                            <% } %>
+                          </div>
+                          <div class="mobile-package-date">
+                            <i class="far fa-calendar"></i>
+                            <%= new Date(package.created_at || package.Accepted).toLocaleDateString() %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mobile-card-body">
+                        <div class="mobile-progress-section">
+                          <div class="mobile-progress-bar">
+                            <div class="mobile-progress-fill" style="width: <%= Math.min(result, 100) %>%"></div>
+                          </div>
+                          <div class="mobile-progress-text">
+                            <i class="fas fa-chart-pie me-1"></i>
+                            <strong><%= result.toFixed(2) %>% Paid</strong>
+                          </div>
+                        </div>
+
+                        <div class="mobile-card-details">
+                          <div class="mobile-detail-item">
+                            <i class="fas fa-dollar-sign text-success"></i>
+                            <div class="mobile-detail-content">
+                              <span class="mobile-detail-label">Amount</span>
+                              <span class="mobile-detail-value">$<%= package.amount || 0 %></span>
+                            </div>
+                          </div>
+                          <% if (package.custom_amount > 0) { %>
+                          <div class="mobile-detail-item">
+                            <i class="fas fa-credit-card text-info"></i>
+                            <div class="mobile-detail-content">
+                              <span class="mobile-detail-label">Paid</span>
+                              <span class="mobile-detail-value">$<%= package.custom_amount %></span>
+                            </div>
+                          </div>
+                          <% } %>
+                          <% if (package.remaining_amount > 0) { %>
+                          <div class="mobile-detail-item">
+                            <i class="fas fa-clock text-warning"></i>
+                            <div class="mobile-detail-content">
+                              <span class="mobile-detail-label">Remaining</span>
+                              <span class="mobile-detail-value">$<%= package.remaining_amount %></span>
+                            </div>
+                          </div>
+                          <% } %>
+                        </div>
+                      </div>
+
+                      <div class="mobile-card-actions">
+                        <button class="mobile-card-btn receipt-btn"
+                          data-transaction-id="<%= package.transaction_id %>"
+                          data-package-name="<%= package.package_name %>"
+                          data-accepted="<%= package.Accepted %>"
+                          data-amount="<%= package.amount %>"
+                          data-coins="<%= package.coins %>"
+                          data-discount="<%= package.discount %>"
+                          data-remaining="<%= package.remaining_amount %>"
+                          data-custom-amount="<%= package.custom_amount %>">
+                          <i class="fas fa-file-invoice"></i>
+                          View Invoice
+                        </button>
+                        <button class="mobile-card-btn mobile-card-btn-danger"
+                          onclick="deletePackageCard('<%= package.id %>', this)"
+                          title="Delete Package">
+                          <i class="fas fa-trash-alt"></i>
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  <% }) %>
+                <% } else { %>
+                  <div class="mobile-empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No Payment History Found</h3>
+                    <p>You haven't made any payments yet.<br>Start by purchasing a package!</p>
+                  </div>
+                <% } %>
+              </div>
+
               <script>
                 function deletePackage(id, btn) {
-                  if (!confirm('Are you sure you want to delete this package?')) {
-                    return;
-                  }
+                  // Enhanced confirmation dialog with better styling
+                  const confirmed = showDeleteConfirmation();
+                  if (!confirmed) return;
+                  
+                  // Show loading state
+                  const originalContent = btn.innerHTML;
+                  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                  btn.disabled = true;
+                  
                   fetch('/delete-package', {
                     method: 'POST',
                     headers: {
-                      'Content-Type': 'application/json'
+                      'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: JSON.stringify({ id })
+                    body: new URLSearchParams({ 
+                      id: id,
+                      type: 'payments' // Specify the type as payments for history
+                    })
                   })
                   .then(response => {
                     if (response.ok) {
-                      // Remove the row from the table
+                      // Animate row removal
                       const row = btn.closest('tr');
                       if (row) {
-                        row.remove();
+                        row.style.transition = 'all 0.3s ease';
+                        row.style.transform = 'translateX(-100%)';
+                        row.style.opacity = '0';
+                        setTimeout(() => {
+                          row.remove();
+                          showSuccessMessage('Package deleted successfully!');
+                          updateEntryCount();
+                        }, 300);
                       }
                     } else {
-                      alert('Failed to delete package.');
+                      throw new Error('Delete request failed');
                     }
                   })
                   .catch(error => {
                     console.error('Error deleting package:', error);
-                    alert('Error deleting package.');
+                    showErrorMessage('Failed to delete package. Please try again.');
+                    // Restore button state
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                  });
+                }
+                
+                function showDeleteConfirmation() {
+                  return confirm('⚠️ Are you sure you want to delete this package?\n\nThis action cannot be undone and will permanently remove the package from your history.');
+                }
+                
+                function showSuccessMessage(message) {
+                  const toast = document.createElement('div');
+                  toast.className = 'toast-message success';
+                  toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                  document.body.appendChild(toast);
+                  setTimeout(() => toast.remove(), 3000);
+                }
+                
+                function showErrorMessage(message) {
+                  const toast = document.createElement('div');
+                  toast.className = 'toast-message error';
+                  toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+                  document.body.appendChild(toast);
+                  setTimeout(() => toast.remove(), 4000);
+                }
+                
+                function updateEntryCount() {
+                  const visibleRows = document.querySelectorAll('#historyTable tbody tr:not([style*="display: none"]):not(.no-data)');
+                  const countElement = document.querySelector('.showing-entries span');
+                  if (countElement) {
+                    countElement.textContent = visibleRows.length;
+                  }
+                }
+
+                // Mobile card delete functionality
+                function deletePackageCard(id, btn) {
+                  // Enhanced confirmation dialog with better styling
+                  const confirmed = showDeleteConfirmation();
+                  if (!confirmed) return;
+                  
+                  // Show loading state
+                  const originalContent = btn.innerHTML;
+                  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                  btn.disabled = true;
+                  
+                  fetch('/delete-package', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ 
+                      id: id,
+                      type: 'payments'
+                    })
+                  })
+                  .then(response => {
+                    if (response.ok) {
+                      // Animate card removal
+                      const card = btn.closest('.mobile-card');
+                      card.style.transition = 'all 0.3s ease';
+                      card.style.opacity = '0';
+                      card.style.transform = 'translateX(-100%)';
+                      setTimeout(() => {
+                        card.remove();
+                        showSuccessToast('Package deleted successfully!');
+                        
+                        // Check if no cards remain
+                        const remainingCards = document.querySelectorAll('.mobile-card');
+                        if (remainingCards.length === 0) {
+                          document.querySelector('.mobile-cards-container').innerHTML = `
+                            <div class="mobile-empty-state">
+                              <i class="fas fa-inbox"></i>
+                              <h3>No Payment History Found</h3>
+                              <p>You haven't made any payments yet.<br>Start by purchasing a package!</p>
+                            </div>
+                          `;
+                        }
+                      }, 300);
+                    } else {
+                      throw new Error('Failed to delete');
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error deleting package:', error);
+                    showErrorToast('Failed to delete package. Please try again.');
+                    
+                    // Restore button
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
                   });
                 }
               </script>
@@ -957,7 +2191,9 @@
     const toDate = toDateStr ? new Date(toDateStr) : null;
 
     const rows = document.querySelectorAll('#historyTable tbody tr');
+    const cards = document.querySelectorAll('.mobile-card');
 
+    // Filter table rows
     rows.forEach(row => {
       const acceptedDateStr = row.getAttribute('data-accepted');
       const acceptedDate = new Date(acceptedDateStr);
@@ -969,13 +2205,28 @@
 
       row.style.display = show ? '' : 'none';
     });
+
+    // Filter mobile cards
+    cards.forEach(card => {
+      const acceptedDateStr = card.getAttribute('data-accepted');
+      const acceptedDate = new Date(acceptedDateStr);
+
+      let show = true;
+
+      if (fromDate && acceptedDate < fromDate) show = false;
+      if (toDate && acceptedDate > toDate) show = false;
+
+      card.style.display = show ? '' : 'none';
+    });
   });
 
   document.getElementById('clearFilterBtn').addEventListener('click', function () {
     document.getElementById('filterFromDate').value = '';
     document.getElementById('filterToDate').value = '';
     const rows = document.querySelectorAll('#historyTable tbody tr');
+    const cards = document.querySelectorAll('.mobile-card');
     rows.forEach(row => row.style.display = '');
+    cards.forEach(card => card.style.display = '');
   });
 
   // ================== SUBSCRIBED PACKAGES FILTER ==================

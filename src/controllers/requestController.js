@@ -7,18 +7,26 @@ exports.getPayments = (req, res) => {
     return res.redirect("/");
   }
 
-  // First, get the user role
-  const roleQuery = "SELECT role FROM users WHERE id = ?";
-  db.query(roleQuery, [userId], (roleErr, roleResult) => {
-    if (roleErr) {
-      console.error("Role fetch error:", roleErr);
+  // First, get the user data and role
+  const sqlUser = "SELECT * FROM users WHERE id = ?";
+  db.query(sqlUser, [userId], (err, userResults) => {
+    if (err) {
+      console.error("Database query error (User):", err);
       return res.status(500).send("Internal Server Error");
     }
 
-    const isAdmin = roleResult[0].role === "admin";
+    if (userResults.length === 0) {
+      console.error("User not found.");
+      return res.redirect("/");
+    }
 
+    const user = userResults[0];
+    const isAdmin = user.role === "admin";
+    const isUser = user.role === "user";
+
+    // Get payments with proper filtering
     const sql = `
-      SELECT p.*, u.username, 
+      SELECT p.*, u.username, u.Number as user_phone, u.address as user_address,
              p.home_collection, p.collection_address, p.contact_number, 
              p.preferred_time, p.special_instructions
       FROM payments p
@@ -35,11 +43,74 @@ exports.getPayments = (req, res) => {
         return res.status(500).send("Internal Server Error");
       }
 
-      console.log("Query Results:", results);
+      console.log("🔍 Query Results Count:", results.length);
+      console.log("🔍 Sample payment data:");
+      results.forEach((payment, index) => {
+        if (index < 3) { // Show first 3 records
+          console.log(`🔍 Payment ${index + 1}:`, {
+            id: payment.id,
+            username: payment.username,
+            home_collection: payment.home_collection,
+            collection_address: payment.collection_address,
+            contact_number: payment.contact_number,
+            package_name: payment.package_name,
+            created_at: payment.created_at
+          });
+        }
+      });
 
-      res.render("Request/request", {
-        message: null,
-        payments: results || [],
+      // Get additional required data
+      const backgroundSql = "SELECT * FROM nav_table";
+      db.query(backgroundSql, (err, bg_result) => {
+        if (err) {
+          console.error("Database query error (Background):", err);
+          return res.status(500).send("Internal Server Error");
+        }
+
+        const NotifactionSql = `
+          SELECT COUNT(*) AS totalNotifactions 
+          FROM notifications 
+          WHERE is_read = 0 
+            AND created_at >= NOW() - INTERVAL 2 DAY
+        `;
+        db.query(NotifactionSql, (err, NotifactionResult) => {
+          if (err) {
+            console.error("Error fetching total notifications:", err);
+            return res.status(500).send("Database error");
+          }
+
+          const totalNotifactions = NotifactionResult[0].totalNotifactions;
+
+          const passwordSql = `
+            SELECT * FROM notifications 
+            WHERE is_read = 0 
+              AND created_at >= NOW() - INTERVAL 2 DAY 
+            ORDER BY id DESC
+          `;
+          db.query(passwordSql, (err, password_data) => {
+            if (err) {
+              console.error("Database query error (Notifications):", err);
+              return res.status(500).send("Internal Server Error");
+            }
+
+            // Flash messages
+            const successMsg = req.flash("success");
+
+            res.render("Request/request", {
+              user,
+              message: null,
+              isAdmin,
+              payments: results || [],
+              bg_result,
+              messages: {
+                success: successMsg.length > 0 ? successMsg[0] : null,
+              },
+              totalNotifactions,
+              password_data: password_data,
+              isUser,
+            });
+          });
+        });
       });
     });
   });
@@ -58,7 +129,7 @@ exports.profile = (req, res) => {
 
   const sqlUser = "SELECT * FROM users WHERE id = ?";
   const sqlPayments = `
-    SELECT p.id, p.user_id, u.username, p.transaction_id, p.amount, p.package_name, d.coin_balance, p.created_at, p.discount, p.custom_amount, p.remaining_amount,
+    SELECT p.id, p.user_id, u.username, u.Number as user_phone, u.address as user_address, p.transaction_id, p.amount, p.package_name, d.coin_balance, p.created_at, p.discount, p.custom_amount, p.remaining_amount,
            p.home_collection, p.collection_address, p.contact_number, p.preferred_time, p.special_instructions
     FROM payments p
     JOIN users u ON p.user_id = u.id
@@ -114,7 +185,7 @@ exports.profile = (req, res) => {
 
           const totalNotifactions = NotifactionResult[0].totalNotifactions;
 
-          db.query(passwordSql, (err, password_datass) => {
+          db.query(passwordSql, (err, password_data) => {
             if (err) {
               console.error("Database query error (Notifications):", err);
               return res.status(500).send("Internal Server Error");
@@ -133,7 +204,7 @@ exports.profile = (req, res) => {
                 success: successMsg.length > 0 ? successMsg[0] : null,
               },
               totalNotifactions,
-              password_data: password_datass, 
+              password_data: password_data, 
               isUser,
             });
           });

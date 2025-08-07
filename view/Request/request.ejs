@@ -516,20 +516,97 @@
     }
 
     .payment-type-badge.home-collection {
-      background-color: rgba(13, 110, 253, 0.1);
+      background: linear-gradient(45deg, rgba(13, 110, 253, 0.15), rgba(13, 110, 253, 0.05));
       color: #0d6efd;
-      border: 1px solid rgba(13, 110, 253, 0.2);
+      border: 1px solid rgba(13, 110, 253, 0.3);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(13, 110, 253, 0.1);
     }
 
     .payment-type-badge.online {
-      background-color: rgba(25, 135, 84, 0.1);
+      background: linear-gradient(45deg, rgba(25, 135, 84, 0.15), rgba(25, 135, 84, 0.05));
       color: #198754;
-      border: 1px solid rgba(25, 135, 84, 0.2);
+      border: 1px solid rgba(25, 135, 84, 0.3);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(25, 135, 84, 0.1);
     }
 
     .payment-type-info .text-muted {
       font-size: 0.75rem;
-      line-height: 1.3;
+      line-height: 1.4;
+      padding: 2px 6px;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-radius: 4px;
+      margin-top: 3px;
+    }
+
+    .home-collection-details {
+      background-color: rgba(13, 110, 253, 0.02);
+      border: 1px solid rgba(13, 110, 253, 0.1);
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3px;
+      font-size: 0.75rem;
+    }
+
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-icon {
+      margin-right: 6px;
+      width: 16px;
+      text-align: center;
+    }
+
+    /* Filter Buttons */
+    .filter-buttons {
+      flex-shrink: 0;
+    }
+
+    .filter-btn {
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-btn.active {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive toolbar */
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .filter-buttons {
+        justify-content: center;
+        width: 100%;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -563,8 +640,22 @@
                           <div class="search-box">
                             <i class="fas fa-search"></i>
                             <form class="d-flex ms-auto w-100" id="search-form" onsubmit="return false;">
-                              <input class="search-input" type="search" id="search-input">
+                              <input class="search-input" type="search" id="search-input" placeholder="Search by username, ID, or transaction ID...">
                             </form>
+                          </div>
+                          <div class="filter-buttons" style="display: flex; gap: 10px; margin-left: 15px;">
+                            <button class="btn btn-outline-primary btn-sm filter-btn active" data-filter="all">
+                              <i class="fas fa-list"></i> All
+                            </button>
+                            <button class="btn btn-outline-info btn-sm filter-btn" data-filter="home">
+                              <i class="fas fa-home"></i> Home Collection
+                            </button>
+                            <button class="btn btn-outline-success btn-sm filter-btn" data-filter="online">
+                              <i class="fas fa-credit-card"></i> Online
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="debugFilters()" title="Debug Filters">
+                              <i class="fas fa-bug"></i> Debug
+                            </button>
                           </div>
                         </div>
                         <div class="table-responsive">
@@ -576,7 +667,7 @@
                                 <th>Transaction ID</th>
                                 <th>Amount</th>
                                 <th>Package</th>
-                                <th>Payment Type</th>
+                                <th><i class="fas fa-truck"></i> Delivery Method</th>
                                 <th>Coins</th>
                                 <th>Remaining</th>
                                 <th>Date</th>
@@ -586,7 +677,23 @@
                             <tbody id="payment-table">
                               <% if (payments.length> 0) { %>
                                 <% payments.sort((a, b)=> b.id - a.id); %>
-                                  <% payments.forEach(payment=> { %>
+                                <% console.log('🔍 Debug - Total payments:', payments.length); %>
+                                <% let homeCollectionCount = 0; %>
+                                <% let onlinePaymentCount = 0; %>
+                                <% payments.forEach((payment, paymentIndex) => { 
+                                  if (payment.home_collection === 1) homeCollectionCount++;
+                                  else onlinePaymentCount++;
+                                  
+                                  if (paymentIndex < 3) {
+                                    console.log(`🔍 Debug Payment ${paymentIndex}:`, {
+                                      id: payment.id,
+                                      username: payment.username,
+                                      home_collection: payment.home_collection,
+                                      collection_address: payment.collection_address,
+                                      contact_number: payment.contact_number
+                                    });
+                                  }
+                                %>
                                     <tr>
                                       <td>
                                         <%= payment.username %>
@@ -604,23 +711,72 @@
                                           <%= payment.package_name %> MB
                                         </span></td>
                                       <td>
-                                        <% if (payment.home_collection === 'yes') { %>
+                                        <% if (payment.home_collection === 1) { %>
                                           <div class="payment-type-info">
                                             <div class="payment-type-badge home-collection">
                                               <i class="fas fa-home"></i> Home Collection
                                             </div>
-                                            <% if (payment.collection_address) { %>
-                                              <small class="text-muted d-block mt-1">📍 <%= payment.collection_address %></small>
+                                            <!-- Debug: Show what data is available -->
+                                            <% if (process.env.NODE_ENV !== 'production') { %>
+                                              <small class="text-muted d-block" style="font-size: 0.7rem;">
+                                                Debug: collection_address=<%= payment.collection_address || 'null' %>, 
+                                                contact_number=<%= payment.contact_number || 'null' %>, 
+                                                user_address=<%= payment.user_address || 'null' %>, 
+                                                user_phone=<%= payment.user_phone || 'null' %>
+                                              </small>
                                             <% } %>
-                                            <% if (payment.contact_number) { %>
-                                              <small class="text-muted d-block">📞 <%= payment.contact_number %></small>
-                                            <% } %>
-                                            <% if (payment.preferred_time) { %>
-                                              <small class="text-muted d-block">🕒 <%= payment.preferred_time %></small>
-                                            <% } %>
-                                            <% if (payment.special_instructions) { %>
-                                              <small class="text-muted d-block">📝 <%= payment.special_instructions %></small>
-                                            <% } %>
+                                            <div class="home-collection-details">
+                                              <% if (payment.collection_address) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">📍</span>
+                                                  <strong>Collection Address:</strong>&nbsp;<%= payment.collection_address %>
+                                                </div>
+                                              <% } else if (payment.user_address) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">🏠</span>
+                                                  <strong>User Address:</strong>&nbsp;<%= payment.user_address %>
+                                                </div>
+                                              <% } %>
+                                              
+                                              <% if (payment.contact_number) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">📞</span>
+                                                  <strong>Collection Contact:</strong>&nbsp;<%= payment.contact_number %>
+                                                </div>
+                                              <% } else if (payment.user_phone) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">📱</span>
+                                                  <strong>User Phone:</strong>&nbsp;<%= payment.user_phone %>
+                                                </div>
+                                              <% } %>
+                                              
+                                              <% if (payment.preferred_time) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">🕒</span>
+                                                  <strong>Preferred Time:</strong>&nbsp;<%= payment.preferred_time %>
+                                                </div>
+                                              <% } %>
+                                              
+                                              <% if (payment.special_instructions) { %>
+                                                <div class="detail-item">
+                                                  <span class="detail-icon">📝</span>
+                                                  <strong>Special Notes:</strong>&nbsp;<%= payment.special_instructions %>
+                                                </div>
+                                              <% } %>
+                                              
+                                              <!-- Always show user info for home collection -->
+                                              <div class="detail-item">
+                                                <span class="detail-icon">👤</span>
+                                                <strong>Customer:</strong>&nbsp;<%= payment.username %>
+                                              </div>
+                                              
+                                              <% if (!payment.collection_address && !payment.contact_number && !payment.preferred_time && !payment.special_instructions && !payment.user_address && !payment.user_phone) { %>
+                                                <div class="detail-item text-warning">
+                                                  <span class="detail-icon">⚠️</span>
+                                                  <strong>No contact details available</strong>
+                                                </div>
+                                              <% } %>
+                                            </div>
                                           </div>
                                         <% } else { %>
                                           <div class="payment-type-badge online">
@@ -660,7 +816,7 @@
                                           <input type="hidden" name="remaining_amount"
                                             value="<%= payment.remaining_amount %>">
                                           <input type="hidden" name="home_collection" 
-                                            value="<%= payment.home_collection || 'no' %>">
+                                            value="<%= payment.home_collection || 0 %>">
                                           <input type="hidden" name="collection_address" 
                                             value="<%= payment.collection_address || '' %>">
                                           <input type="hidden" name="contact_number" 
@@ -698,6 +854,11 @@
                                       </td>
                                     </tr>
                                     <% }); %>
+                                    <% console.log('🔍 Debug Summary:', {
+                                      totalPayments: payments.length,
+                                      homeCollectionCount: homeCollectionCount,
+                                      onlinePaymentCount: onlinePaymentCount
+                                    }); %>
                                       <% } else { %>
                                         <tr class="no-data">
                                           <td colspan="9" class="text-center">No payment records found.</td>
@@ -863,20 +1024,73 @@
       }, 4000);
     }
 
-    // 🔍 Payment table live search
+    // 🔍 Payment table live search and filtering
     const searchInput = document.getElementById('search-input');
-    searchInput?.addEventListener('input', function (e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const rows = document.querySelectorAll('#payment-table tbody tr:not(.no-data)');
+    let currentFilter = 'all';
+    
+    function filterAndSearch() {
+      const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+      const rows = document.querySelectorAll('#payment-table tr:not(.no-data)');
       let visibleCount = 0;
+      
+      console.log('🔍 Filter Debug:', {
+        currentFilter: currentFilter,
+        searchTerm: searchTerm,
+        totalRows: rows.length
+      });
 
-      rows.forEach(row => {
-        const username = row.cells[0].textContent.toLowerCase();
-        const userId = row.cells[1].textContent.toLowerCase();
-        const transactionId = row.cells[2].textContent.toLowerCase();
-        const matches = username.includes(searchTerm) || userId.includes(searchTerm) || transactionId.includes(searchTerm);
-        row.style.display = matches ? '' : 'none';
-        if (matches) visibleCount++;
+      rows.forEach((row, index) => {
+        if (!row.cells || row.cells.length < 6) {
+          console.warn('Row', index, 'has insufficient cells:', row.cells?.length);
+          return;
+        }
+        
+        const username = row.cells[0]?.textContent?.toLowerCase() || '';
+        const userId = row.cells[1]?.textContent?.toLowerCase() || '';
+        const transactionId = row.cells[2]?.textContent?.toLowerCase() || '';
+        const deliveryMethodCell = row.cells[5]; // The delivery method column
+        
+        // Check if row matches search term
+        const searchMatches = searchTerm === '' || 
+          username.includes(searchTerm) || 
+          userId.includes(searchTerm) || 
+          transactionId.includes(searchTerm);
+        
+        // Check if row matches filter with enhanced detection
+        let filterMatches = true;
+        if (currentFilter === 'home') {
+          const hasHomeCollection = deliveryMethodCell?.querySelector('.home-collection') !== null ||
+                                   deliveryMethodCell?.querySelector('.payment-type-badge.home-collection') !== null ||
+                                   deliveryMethodCell?.textContent?.toLowerCase().includes('home collection') ||
+                                   deliveryMethodCell?.innerHTML?.toLowerCase().includes('home collection');
+          filterMatches = hasHomeCollection;
+          
+          // Debug specific row
+          if (index < 3) {
+            console.log('🏠 Home Collection Check Row', index, ':', {
+              hasHomeCollection: hasHomeCollection,
+              cellHTML: deliveryMethodCell?.innerHTML,
+              cellText: deliveryMethodCell?.textContent,
+              homeCollectionElement: deliveryMethodCell?.querySelector('.home-collection'),
+              paymentTypeBadge: deliveryMethodCell?.querySelector('.payment-type-badge.home-collection')
+            });
+          }
+        } else if (currentFilter === 'online') {
+          const hasOnlinePayment = deliveryMethodCell?.querySelector('.online') !== null ||
+                                  deliveryMethodCell?.querySelector('.payment-type-badge.online') !== null ||
+                                  deliveryMethodCell?.textContent?.toLowerCase().includes('online payment') ||
+                                  deliveryMethodCell?.innerHTML?.toLowerCase().includes('online payment');
+          filterMatches = hasOnlinePayment;
+        }
+        
+        const shouldShow = searchMatches && filterMatches;
+        row.style.display = shouldShow ? '' : 'none';
+        if (shouldShow) visibleCount++;
+      });
+
+      console.log('🔍 Filter Results:', {
+        visibleCount: visibleCount,
+        currentFilter: currentFilter
       });
 
       const noDataRow = document.querySelector('#payment-table tr.no-data');
@@ -886,7 +1100,123 @@
 
       const entryCount = document.getElementById('entry-count');
       if (entryCount) entryCount.textContent = visibleCount;
+    }
+    
+    searchInput?.addEventListener('input', filterAndSearch);
+
+    // 🎛️ Filter buttons functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        console.log('🎛️ Filter Button Clicked:', {
+          buttonText: this.textContent.trim(),
+          filterValue: this.dataset.filter,
+          previousFilter: currentFilter
+        });
+        
+        // Remove active class from all buttons
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Update current filter
+        currentFilter = this.dataset.filter;
+        
+        console.log('🎛️ Filter Updated to:', currentFilter);
+        
+        // Apply filter
+        filterAndSearch();
+      });
     });
+    
+    // Initialize filters on page load
+    console.log('🎛️ Initializing Filters...');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    console.log('🎛️ Found filter buttons:', filterButtons.length);
+    
+    filterButtons.forEach((btn, index) => {
+      console.log(`🎛️ Filter Button ${index}:`, {
+        text: btn.textContent.trim(),
+        dataFilter: btn.dataset.filter,
+        classes: btn.className
+      });
+    });
+    
+    // Debug current table state
+    const allRows = document.querySelectorAll('#payment-table tr');
+    console.log('🔍 Current Table State:', {
+      totalRows: allRows.length,
+      nonHeaderRows: allRows.length - 1 // excluding potential header
+    });
+    
+    allRows.forEach((row, index) => {
+      if (row.cells && row.cells.length > 5 && index < 5) { // Log first 5 rows
+        const deliveryCell = row.cells[5];
+        console.log(`🔍 Row ${index} Delivery Cell:`, {
+          textContent: deliveryCell?.textContent?.trim(),
+          innerHTML: deliveryCell?.innerHTML,
+          hasHomeCollection: deliveryCell?.querySelector('.home-collection') !== null,
+          hasOnline: deliveryCell?.querySelector('.online') !== null
+        });
+      }
+    });
+    
+    // Run initial filter to see what happens
+    setTimeout(() => {
+      console.log('🔍 Running initial filter check...');
+      filterAndSearch();
+    }, 1000);
+    
+    // Global debug function
+    window.debugFilters = function() {
+      console.log('🐛 === DEBUG FILTER ANALYSIS ===');
+      
+      const rows = document.querySelectorAll('#payment-table tr');
+      let homeCount = 0;
+      let onlineCount = 0;
+      
+      console.log('🐛 Total rows found:', rows.length);
+      
+      rows.forEach((row, index) => {
+        if (row.cells && row.cells.length >= 6) {
+          const deliveryCell = row.cells[5];
+          const hasHome = deliveryCell?.innerHTML?.toLowerCase().includes('home collection') || 
+                         deliveryCell?.querySelector('.home-collection') !== null;
+          const hasOnline = deliveryCell?.innerHTML?.toLowerCase().includes('online payment') || 
+                           deliveryCell?.querySelector('.online') !== null;
+          
+          if (hasHome) homeCount++;
+          if (hasOnline) onlineCount++;
+          
+          console.log(`🐛 Row ${index}:`, {
+            username: row.cells[0]?.textContent?.trim() || 'N/A',
+            hasHome: hasHome,
+            hasOnline: hasOnline,
+            cellHTML: deliveryCell?.innerHTML,
+            cellText: deliveryCell?.textContent?.trim()
+          });
+        }
+      });
+      
+      console.log('🐛 Summary:', {
+        homeCollectionRows: homeCount,
+        onlinePaymentRows: onlineCount,
+        currentFilter: currentFilter
+      });
+      
+      // Test each filter
+      ['all', 'home', 'online'].forEach(filter => {
+        console.log(`🐛 Testing filter: ${filter}`);
+        currentFilter = filter;
+        filterAndSearch();
+      });
+      
+      // Reset to all
+      currentFilter = 'all';
+      filterAndSearch();
+      
+      alert(`Debug complete! Check console for details.\nHome Collection: ${homeCount}\nOnline Payment: ${onlineCount}`);
+    };
 
     // ✏️ Populate Edit Modal on button click
     document.querySelectorAll(".edit").forEach(button => {

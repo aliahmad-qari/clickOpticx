@@ -9,8 +9,8 @@ const {
   sendRespit
 } = require("../controllers/requestController");
 
-// GET user request page
-router.get("/request", profile);
+// GET user request page  
+router.get("/request", getPayments);
 
 // ✅ Use the correct controller for admin update form
 router.post("/update-plan", updatePlan);

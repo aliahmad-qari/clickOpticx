@@ -1182,18 +1182,70 @@
         to { opacity: 1; }
       }
   
-      /* form css */
+      /* form css - Fixed modal z-index and positioning issues */
       .modal {
-        z-index: 1055;
+        z-index: 9999 !important;
       }
   
       .modal-backdrop {
-        z-index: 1050;
+        z-index: 9998 !important;
         background-color: rgba(0, 0, 0, 0.5);
       }
   
       .modal-backdrop.show {
         opacity: 0.5;
+      }
+
+      /* Fix modal positioning to avoid navbar/footer overlap */
+      .modal-dialog {
+        margin: 60px auto !important;
+        max-height: calc(100vh - 120px) !important;
+      }
+
+      .modal-content {
+        max-height: calc(100vh - 140px) !important;
+        overflow-y: auto !important;
+      }
+
+      /* Ensure modal doesn't get cut off on mobile */
+      @media (max-width: 768px) {
+        .modal-dialog {
+          margin: 20px !important;
+          max-height: calc(100vh - 40px) !important;
+        }
+        
+        .modal-content {
+          max-height: calc(100vh - 60px) !important;
+        }
+
+        /* Fix mobile placeholder text overflow */
+        #customPaySection .form-control::placeholder,
+        #homeCollectionFields .form-control::placeholder {
+          font-size: 0.8rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+
+        /* Shorten specific placeholders for mobile */
+        #collection_address::placeholder {
+          content: "Enter address" !important;
+        }
+        
+        #contact_number::placeholder {
+          content: "Contact number" !important;
+        }
+        
+        #special_instructions::placeholder {
+          content: "Special notes" !important;
+        }
+
+        /* Ensure form fields don't overflow on mobile */
+        #customPaySection .form-control,
+        #homeCollectionFields .form-control {
+          font-size: 0.9rem !important;
+          padding: 10px 12px 10px 40px !important;
+        }
       }
   
       .form-card {
@@ -2443,6 +2495,9 @@
       " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 35px rgba(17, 153, 142, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(17, 153, 142, 0.3)'">
         <i class="fas fa-paper-plane me-2"></i>Submit Payment Details
       </button>
+      
+      <!-- Hidden input for home collection - will be set by JavaScript -->
+      <input type="hidden" id="home_collection_hidden" name="home_collection_final" value="no">
     </form>
     <% } %>
   </div>
@@ -2881,9 +2936,10 @@
                     toast.remove();
                 }, 3000);
                 
-                // Hide transaction ID field for home collection
-                transactionField.style.display = 'none';
-                document.getElementById('transaction_id').required = false;
+                // Keep transaction ID field visible for home collection
+                // Note: Transaction ID may still be useful for tracking home collection requests
+                // transactionField.style.display = 'none';
+                // document.getElementById('transaction_id').required = false;
                 
                 // Auto-fill user address if available from profile with better debugging
                 <% const userAddress = user && user.address; %>
@@ -2940,6 +2996,8 @@
                 // Ensure all fields are always editable and visible
                 setTimeout(() => {
                     const allFields = [addressInputField, contactInputField];
+                    const isMobile = window.innerWidth <= 768;
+                    
                     allFields.forEach(field => {
                         if (field) {
                             field.removeAttribute('readonly');
@@ -2948,14 +3006,26 @@
                             field.style.userSelect = 'text';
                             if (!field.value) {
                                 if (field.id === 'collection_address') {
-                                    field.placeholder = "Please enter your complete address for collection";
+                                    field.placeholder = isMobile ? "Enter address" : "Please enter your complete address for collection";
                                 } else if (field.id === 'contact_number') {
-                                    field.placeholder = "Enter your contact number";
+                                    field.placeholder = isMobile ? "Contact number" : "Enter your contact number";
                                 }
                             }
                         }
                     });
-                    console.log('All fields made editable and accessible');
+                    
+                    // Also set mobile placeholders for other fields
+                    const specialInstructions = document.getElementById('special_instructions');
+                    if (specialInstructions && isMobile) {
+                        specialInstructions.placeholder = "Special notes";
+                    }
+                    
+                    const preferredTime = document.getElementById('preferred_time');
+                    if (preferredTime && isMobile) {
+                        preferredTime.placeholder = "Time";
+                    }
+                    
+                    console.log('All fields made editable and mobile-optimized');
                 }, 100);
                 
                 // Show message if data was auto-filled
@@ -2995,6 +3065,7 @@
                     instructionsList.innerHTML = `
                         <li>Fill in your address and contact details</li>
                         <li>Choose your preferred collection time</li>
+                        <li>Enter a transaction ID or reference number for tracking</li>
                         <li>Submit the request for home collection</li>
                         <li>Our agent will visit your location to collect payment</li>
                     `;
@@ -3102,6 +3173,10 @@
                     const homeCollectionCheckbox = document.getElementById('requestHomeCollection');
                     const isHomeCollection = homeCollectionCheckbox && homeCollectionCheckbox.checked;
                     
+                    console.log('🚀 FORM SUBMIT EVENT TRIGGERED');
+                    console.log('🚀 Home collection checkbox checked:', isHomeCollection);
+                    console.log('🚀 Checkbox element:', homeCollectionCheckbox);
+                    
                     if (isHomeCollection) {
                         // Validate home collection fields
                         const addressField = document.getElementById('collection_address');
@@ -3130,23 +3205,22 @@
                         // Ensure home collection checkbox value is properly set
                         homeCollectionCheckbox.value = 'yes';
                         
-                        // Add hidden input to ensure home_collection value is sent
-                        let hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
-                        if (!hiddenHomeCollection) {
-                            hiddenHomeCollection = document.createElement('input');
-                            hiddenHomeCollection.type = 'hidden';
-                            hiddenHomeCollection.name = 'home_collection';
-                            paymentForm.appendChild(hiddenHomeCollection);
+                        // Update hidden input to ensure home_collection value is sent
+                        const hiddenHomeCollection = document.getElementById('home_collection_hidden');
+                        if (hiddenHomeCollection) {
+                            hiddenHomeCollection.value = 'yes';
+                            console.log('🚀 Updated hidden input to: yes');
+                        } else {
+                            console.log('🚀 ERROR: Hidden input not found!');
                         }
-                        hiddenHomeCollection.value = 'yes';
                         
                         // Debug: Log form data being sent
-                        console.log('Home Collection Data:', {
+                        console.log('🏠 Complete Home Collection Form Data:', {
                             home_collection: homeCollectionCheckbox.value,
                             collection_address: addressField.value,
                             contact_number: contactField.value,
-                            preferred_time: document.getElementById('preferred_time').value,
-                            special_instructions: document.getElementById('special_instructions').value
+                            preferred_time: document.getElementById('preferred_time')?.value || 'not selected',
+                            special_instructions: document.getElementById('special_instructions')?.value || 'none'
                         });
                         
                         // Show loading state
@@ -3155,9 +3229,12 @@
                         submitBtn.disabled = true;
                     } else {
                         // Regular payment submission - ensure home collection data is cleared
-                        const hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
+                        const hiddenHomeCollection = document.getElementById('home_collection_hidden');
                         if (hiddenHomeCollection) {
                             hiddenHomeCollection.value = 'no';
+                            console.log('🚀 Updated hidden input to: no');
+                        } else {
+                            console.log('🚀 ERROR: Hidden input not found!');
                         }
                         
                         const transactionField = document.getElementById('transaction_id');
