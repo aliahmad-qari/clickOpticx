@@ -99,20 +99,30 @@ exports.AddPackages = (req, res) => {
                   return res.status(500).send("Internal Server Error");
                 }
 
-                res.render("package/AddPackage", {
-                  user: results,
-                  message: null,
-                  isAdmin,
-                  bg_result,
-                  totalNotifactions,
-                  password_datass,
-                  messages: {
-                    success: successMsg.length > 0 ? successMsg[0] : null,
-                  },
-                  isUser,
-                  notifications_users,
-                  Notifactions,
-                  subscribedPackages,
+                // Fetch all packages for admin management
+                const allPackagesSql = `SELECT * FROM packages ORDER BY created_at DESC`;
+                db.query(allPackagesSql, (err, allPackages) => {
+                  if (err) {
+                    console.error("Error fetching all packages:", err);
+                    return res.status(500).send("Internal Server Error");
+                  }
+
+                  res.render("package/AddPackage", {
+                    user: results,
+                    message: null,
+                    isAdmin,
+                    bg_result,
+                    totalNotifactions,
+                    password_datass,
+                    messages: {
+                      success: successMsg.length > 0 ? successMsg[0] : null,
+                    },
+                    isUser,
+                    notifications_users,
+                    Notifactions,
+                    subscribedPackages,
+                    packages: allPackages,
+                  });
                 });
               });
             });
@@ -142,4 +152,24 @@ exports.insertPackage = (req, res) => {
     }
   );
 };
-// INSERT ONALY ADMIN // INSERT ONALY ADMIN
+
+// Delete package function
+exports.deletePackage = (req, res) => {
+  const packageId = req.params.id;
+  const sql = "DELETE FROM packages WHERE id = ?";
+  
+  db.query(sql, [packageId], (err, result) => {
+    if (err) {
+      console.error("Database query error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    
+    if (result.affectedRows === 0) {
+      req.flash("error", "Package not found!");
+      return res.redirect("/AddPackages");
+    }
+    
+    req.flash("success", "Package deleted successfully!");
+    res.redirect("/AddPackages");
+  });
+};

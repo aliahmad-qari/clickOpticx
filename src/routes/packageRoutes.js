@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isAuthenticated, isAdmin } = require("../middlewares/authMiddleware");
 const {
   updateSubscription,
   getPackage,
@@ -14,19 +15,19 @@ const {
 } = require("../controllers/packageController");
 
 // GET all packages
-router.get("/package", getPackage);
+router.get("/package", isAuthenticated, getPackage);
 
 // POST create a new package (Admin)
-router.post("/package", insertPackage);
+router.post("/package", isAuthenticated, isAdmin, insertPackage);
 
 // PUT update a package (Admin)
-router.post("/package/:id", updatePackage);
+router.post("/package/:id", isAuthenticated, isAdmin, updatePackage);
 
 // DELETE a package (Admin)
-router.delete("/package/:id", deletePackage);
+router.delete("/package/:id", isAuthenticated, isAdmin, deletePackage);
 
 // POST apply discount to a package (Admin)
-router.post("/discount/:id", adminDiscount);
+router.post("/discount/:id", isAuthenticated, isAdmin, adminDiscount);
 
 // POST update subscription (User)
 router.post("/subscription", updateSubscription);
