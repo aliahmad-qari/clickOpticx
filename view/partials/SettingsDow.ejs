@@ -16,6 +16,38 @@
       </div>
     </div>
   </div>
+<script>
+  class ThemeManager {
+    constructor() {
+      this.currentTheme = localStorage.getItem('theme') || 'light';
+      this.applyTheme(this.currentTheme);
+    }
+
+    setTheme(theme) {
+      this.currentTheme = theme;
+
+      // Set data-theme attribute on <html>
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+
+      // 🔥 Notify all components that theme changed
+      window.dispatchEvent(new CustomEvent('themeChanged', {
+        detail: { theme }
+      }));
+    }
+
+    applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    getCurrentTheme() {
+      return this.currentTheme;
+    }
+  }
+
+  // Make it globally accessible
+  window.themeManager = new ThemeManager();
+</script>
 
   <!-- Auto-sync Sidebar Skin with Theme Script -->
   <script>

@@ -2095,39 +2095,6 @@
         color: var(--text-tertiary) !important;
       }
 
-      /* Package Admin Controls */
-      .package-admin-controls {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 10;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .package-card:hover .package-admin-controls {
-        opacity: 1;
-      }
-
-      .package-delete-btn {
-        background: rgba(239, 68, 68, 0.9) !important;
-        border: none !important;
-        padding: 5px 8px !important;
-        border-radius: 6px !important;
-        color: white !important;
-        font-size: 0.8rem !important;
-        transition: all 0.3s ease !important;
-      }
-
-      .package-delete-btn:hover {
-        background: rgba(220, 38, 38, 1) !important;
-        transform: scale(1.05);
-      }
-
-      .package-delete-btn i {
-        font-size: 0.9rem;
-      }
-
       /* No packages message */
       .no-packages {
         padding: var(--spacing-xl);
@@ -2451,7 +2418,10 @@
 
       <div class="rs">
         <h4 style="font-weight: 900;">
-          <%= formattedDate %> <span class="badge bg-success ms-2">Active</span>
+          <span class="ag-courses-item_date expiry_date">
+      <%= new Date(subscription.expiry_date).toLocaleDateString("en-GB") %>
+       </span>
+    <span class="badge bg-success ms-2">Active</span>
         </h4>
         <p class="billing-label">Expiry Date</p>
       </div>
@@ -2507,8 +2477,8 @@
             <div class="quick-actions">
               <h3 class="section-title">Popular Packages</h3>
               <div class="package-cards">
-                <% if (typeof packages !== 'undefined' && packages.length > 0) { %>
-                  <% packages.forEach(function(pkg, index) { %>
+                <% if (typeof cards !== 'undefined' && cards.length > 0) { %>
+                  <% cards.forEach(function(card, index) { %>
                     <div class="package-card <%= index === 1 ? 'featured' : '' %>">
                       <% if (index === 1) { %>
                         <div class="popular-badge">
@@ -2516,18 +2486,6 @@
                           Most Popular
                         </div>
                       <% } %>
-                      
-                      <!-- Admin Delete Button -->
-                      <% if (typeof user !== 'undefined' && user.role === 'admin') { %>
-                        <div class="package-admin-controls">
-                          <button class="btn btn-danger btn-sm package-delete-btn" 
-                                  onclick="deletePackage('<%= pkg.id %>', '<%= pkg.Package %>')"
-                                  title="Delete Package">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      <% } %>
-                      
                       <div class="package-content">
                         <div class="package-tier">
                           <% if (index === 0) { %>
@@ -2543,26 +2501,26 @@
                         </div>
                         
                         <div class="package-price-section">
-                          <div class="package-name"><%= pkg.Package %></div>
-                          <div class="package-price">Rs. <%= pkg.Price %><span>/month</span></div>
+                          <div class="package-name"><%= card.Package %></div>
+                          <div class="package-price">Rs. <%= card.Price %><span>/month</span></div>
                         </div>
                         
                         <ul class="package-features">
                           <li>
                             <i class="bi bi-check-circle-fill"></i>
-                            <span><%= pkg.Speed %> Mbps Speed</span>
+                            <span><%= card.Speed %> Mbps Speed</span>
                           </li>
                           <li>
                             <i class="bi bi-check-circle-fill"></i>
-                            <span><%= pkg.Data_Used %> GB Usage</span>
+                            <span><%= card.Data_Used %> GB Usage</span>
                           </li>
                           <li>
                             <i class="bi bi-check-circle-fill"></i>
-                            <span><%= pkg.limits %> GB Limit</span>
+                            <span><%= card.limits %> GB Limit</span>
                           </li>
                           <li>
                             <i class="bi bi-check-circle-fill"></i>
-                            <span><%= pkg.Offer_Valid %></span>
+                            <span><%= card.Offer_Valid %></span>
                           </li>
                           <li>
                             <i class="bi bi-check-circle-fill"></i>
@@ -3333,25 +3291,6 @@
             }
           });
         });
-        
-        // Package delete function
-        window.deletePackage = function(packageId, packageName) {
-          if (confirm(`Are you sure you want to delete "${packageName}"? This action cannot be undone.`)) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/package/${packageId}?_method=DELETE`;
-            form.style.display = 'none';
-            
-            const methodInput = document.createElement('input');
-            methodInput.type = 'hidden';
-            methodInput.name = '_method';
-            methodInput.value = 'DELETE';
-            form.appendChild(methodInput);
-            
-            document.body.appendChild(form);
-            form.submit();
-          }
-        };
       });
     </script>
 

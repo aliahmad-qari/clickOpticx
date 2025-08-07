@@ -300,7 +300,7 @@ exports.updatePlan = (req, res) => {
     }
 
     req.flash("success", "Plan updated successfully.");
-    return res.redirect("/index");
+    return res.redirect("/request");
   });
 };
 
