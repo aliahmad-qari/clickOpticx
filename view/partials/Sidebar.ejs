@@ -225,6 +225,143 @@
   color: inherit !important;
 }
 
+/* Enhanced Dropdown Theme Support */
+.sidebar .collapse {
+  transition: all 0.3s ease;
+}
+
+.sidebar .dropdown-dark {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border-radius: 12px;
+  margin: 8px 12px;
+  padding: 8px 0;
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .dropdown-light {
+  background: rgba(248, 250, 252, 0.8) !important;
+  border-radius: 12px;
+  margin: 8px 12px;
+  padding: 8px 0;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar .submenu-dark .nav-link {
+  background: transparent !important;
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar .submenu-dark .nav-link:hover {
+  background: rgba(79, 70, 229, 0.2) !important;
+  border-left-color: var(--primary-color, #4F46E5);
+  transform: translateX(6px);
+}
+
+.sidebar .submenu-light .nav-link {
+  background: transparent !important;
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar .submenu-light .nav-link:hover {
+  background: rgba(79, 70, 229, 0.1) !important;
+  border-left-color: var(--primary-color, #4F46E5);
+  transform: translateX(6px);
+}
+
+/* Animated menu arrows */
+.sidebar .menu-arrow {
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  margin-left: auto;
+}
+
+.sidebar [aria-expanded="true"] .menu-arrow {
+  transform: rotate(90deg);
+  color: var(--primary-color, #4F46E5) !important;
+}
+
+/* Sidebar classes for theme switching */
+.sidebar.sidebar-dark {
+  background: var(--sidebar-bg, #1E293B) !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.sidebar-light {
+  background: var(--sidebar-bg, #FFFFFF) !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Dynamic icon enhancements */
+.sidebar .dynamic-color-icon {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+[data-theme="dark"] .sidebar .dynamic-color-icon {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Collapse animation improvements */
+.sidebar .collapse {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sidebar .collapsing {
+  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Better focus states for accessibility */
+.sidebar .nav-link:focus {
+  outline: 2px solid var(--primary-color, #4F46E5);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Responsive dropdown improvements */
+@media (max-width: 991px) {
+  .sidebar .dropdown-dark,
+  .sidebar .dropdown-light {
+    margin: 4px 8px;
+    padding: 4px 0;
+  }
+  
+  .sidebar .submenu-dark .nav-link,
+  .sidebar .submenu-light .nav-link {
+    margin: 1px 4px;
+    padding: 8px 12px !important;
+  }
+}
+
+/* Active state improvements */
+.sidebar .nav-link.active {
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar .nav-link.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
     .sidebar-overlay {
       position: fixed;
       top: 0;
@@ -672,6 +809,96 @@
       </style>
 
         <script>
+          // Sidebar Theme Manager - Automatic Theme Synchronization
+          class SidebarThemeManager {
+            constructor() {
+              this.init();
+            }
+
+            init() {
+              // Listen for theme changes from navbar or other sources
+              window.addEventListener('themeChanged', (e) => {
+                console.log('Sidebar received theme change:', e.detail.theme);
+                this.applySidebarTheme(e.detail.theme);
+              });
+
+              // Apply initial theme on page load
+              document.addEventListener('DOMContentLoaded', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 
+                                   localStorage.getItem('clicktake-theme') || 
+                                   localStorage.getItem('theme') || 'light';
+                console.log('Sidebar initial theme:', currentTheme);
+                this.applySidebarTheme(currentTheme);
+              });
+            }
+
+            applySidebarTheme(theme) {
+              const sidebar = document.getElementById('sidebar');
+              if (!sidebar) return;
+
+              console.log('Applying sidebar theme:', theme);
+
+              // Apply theme to body and document for sidebar styling
+              document.body.setAttribute('data-theme', theme);
+              document.documentElement.setAttribute('data-theme', theme);
+
+              // Add theme-specific classes to sidebar
+              sidebar.classList.remove('sidebar-light', 'sidebar-dark');
+              sidebar.classList.add(`sidebar-${theme}`);
+
+              // Update dropdown menus theme
+              this.updateDropdownTheme(theme);
+
+              // Update dynamic icons theme
+              this.updateIconsTheme(theme);
+
+              // Sync with SettingsDow SettingsDow Theme Manager if available (avoid infinite loops)
+              if (window.themeManager && window.themeManager !== sidebarThemeManager) {
+                // Only sync if the change is coming from elsewhere, not from SettingsDow
+                setTimeout(() => {
+                  if (window.sidebarThemeManager && window.sidebarThemeManager.syncSidebarSkin && window.sidebarThemeManager !== this) {
+                    window.sidebarThemeManager.syncSidebarSkin(theme);
+                  }
+                }, 100);
+              }
+            }
+
+            updateDropdownTheme(theme) {
+              const dropdowns = document.querySelectorAll('.sidebar .collapse');
+              const subMenus = document.querySelectorAll('.sidebar .sub-menu');
+              
+              dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('dropdown-light', 'dropdown-dark');
+                dropdown.classList.add(`dropdown-${theme}`);
+              });
+
+              subMenus.forEach(menu => {
+                menu.classList.remove('submenu-light', 'submenu-dark');
+                menu.classList.add(`submenu-${theme}`);
+              });
+            }
+
+            updateIconsTheme(theme) {
+              const icons = document.querySelectorAll('.sidebar .dynamic-color-icon');
+              icons.forEach(icon => {
+                // Update icon colors based on theme if needed
+                if (theme === 'dark') {
+                  icon.style.opacity = '0.9';
+                } else {
+                  icon.style.opacity = '1';
+                }
+              });
+            }
+
+            getCurrentTheme() {
+              return document.documentElement.getAttribute('data-theme') || 'light';
+            }
+          }
+
+          // Initialize Sidebar Theme Manager
+          const sidebarThemeManager = new SidebarThemeManager();
+          window.sidebarThemeManager = sidebarThemeManager;
+
           // Sidebar Toggle for Mobile
           function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -707,6 +934,9 @@
               if (overlay) overlay.classList.remove('active');
             }
           });
+
+          // Make functions globally available
+          window.toggleSidebar = toggleSidebar;
         </script>
 
         <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User --> <!-- User -->

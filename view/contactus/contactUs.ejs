@@ -105,25 +105,651 @@
       background: var(--bg-secondary) !important;
     }
 
-    .contact-header {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      border-radius: 5px 5px 0 0;
+    /* Modern Contact Us Styling */
+    
+    /* Hero Section */
+    .contact-hero-section {
       position: relative;
-      box-shadow: 0 4px 12px var(--shadow-medium);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      border-radius: 24px;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px var(--shadow-medium);
     }
 
-    .contact-container {
-      background: var(--card-bg) !important;
-      color: var(--text-primary) !important;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px var(--shadow-medium);
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-icon i {
+      font-size: 36px;
+      color: white;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+    }
+
+    /* Contact Cards Container */
+    .contact-cards-container {
+      padding: 0 20px;
+      margin-bottom: 40px;
+    }
+
+    /* Contact Cards */
+    .contact-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
       border: 1px solid var(--border-primary);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      box-shadow: 0 4px 20px var(--shadow-light);
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .contact-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px var(--shadow-medium);
+    }
+
+    .card-header {
+      margin-bottom: 24px;
+    }
+
+    .contact-card-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .contact-card:hover .contact-card-icon::before {
+      opacity: 1;
+    }
+
+    .contact-card-icon i {
+      font-size: 32px;
+      z-index: 2;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .contact-card:hover .contact-card-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Individual card colors */
+    .whatsapp-card .contact-card-icon {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+    }
+
+    .whatsapp-card .contact-card-icon i {
+      color: white;
+    }
+
+    .phone-card .contact-card-icon {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    }
+
+    .phone-card .contact-card-icon i {
+      color: white;
+    }
+
+    .location-card .contact-card-icon {
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+    }
+
+    .location-card .contact-card-icon i {
+      color: white;
+    }
+
+    .support-card .contact-card-icon {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+    }
+
+    .support-card .contact-card-icon i {
+      color: white;
+    }
+
+    .feedback-card .contact-card-icon {
+      background: linear-gradient(135deg, #10B981, #059669);
+    }
+
+    .feedback-card .contact-card-icon i {
+      color: white;
+    }
+
+    .chat-card .contact-card-icon {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+    }
+
+    .chat-card .contact-card-icon i {
+      color: white;
+    }
+
+    .contact-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .contact-card-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .card-content {
+      padding-top: 16px;
+    }
+
+    .contact-info {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .contact-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      min-width: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .contact-card-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Button specific colors */
+    .whatsapp-btn {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+    }
+
+    .whatsapp-btn:hover {
+      background: linear-gradient(135deg, #128C7E, #075E54);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    }
+
+    .phone-btn {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+    }
+
+    .phone-btn:hover {
+      background: linear-gradient(135deg, #3730A3, #6D28D9);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    }
+
+    .location-btn {
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+      color: white;
+    }
+
+    .location-btn:hover {
+      background: linear-gradient(135deg, #DC2626, #B91C1C);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
+
+    .support-btn {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: white;
+    }
+
+    .support-btn:hover {
+      background: linear-gradient(135deg, #D97706, #B45309);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .feedback-btn {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+    }
+
+    .feedback-btn:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .chat-btn {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: white;
+    }
+
+    .chat-btn:hover {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Phone Modal Styling */
+    .modern-modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border-primary);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px var(--shadow-medium);
+    }
+
+    .modern-modal-header {
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-primary);
+      border-radius: 20px 20px 0 0;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .phone-modal-icon i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .modern-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      padding: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .modern-close-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+      transform: scale(1.1);
+    }
+
+    .phone-display {
+      padding: 20px;
+    }
+
+    .phone-icon-large {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 16px;
+    }
+
+    .phone-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .phone-description {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .business-hours {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      padding: 12px 20px;
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      margin: 0 auto;
+      max-width: fit-content;
+    }
+
+    .business-hours i {
+      color: var(--primary-color);
+    }
+
+    /* Social Media Section */
+    .social-section {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 40px 20px;
+      margin: 40px 20px;
+      border: 1px solid var(--border-primary);
+      box-shadow: 0 8px 32px var(--shadow-light);
+    }
+
+    .social-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .social-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .social-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .social-icons-modern {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .social-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-primary);
+      min-width: 120px;
+    }
+
+    .social-link:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px var(--shadow-medium);
+    }
+
+    .social-icon-wrapper {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      transition: all 0.4s ease;
+    }
+
+    .social-icon-wrapper i {
+      font-size: 28px;
+      color: white;
+    }
+
+    .social-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    /* Individual social media colors */
+    .social-link.facebook .social-icon-wrapper {
+      background: linear-gradient(135deg, #1877F2, #166FE5);
+    }
+
+    .social-link.facebook:hover .social-icon-wrapper {
+      background: linear-gradient(135deg, #166FE5, #1464D6);
+    }
+
+    .social-link.instagram .social-icon-wrapper {
+      background: linear-gradient(135deg, #E4405F, #C13584, #833AB4);
+    }
+
+    .social-link.instagram:hover .social-icon-wrapper {
+      background: linear-gradient(135deg, #C13584, #833AB4, #5851DB);
+    }
+
+    .social-link.youtube .social-icon-wrapper {
+      background: linear-gradient(135deg, #FF0000, #CC0000);
+    }
+
+    .social-link.youtube:hover .social-icon-wrapper {
+      background: linear-gradient(135deg, #CC0000, #990000);
+    }
+
+    .social-link.linkedin .social-icon-wrapper {
+      background: linear-gradient(135deg, #0A66C2, #004182);
+    }
+
+    .social-link.linkedin:hover .social-icon-wrapper {
+      background: linear-gradient(135deg, #004182, #003366);
+    }
+
+    .social-link.tiktok .social-icon-wrapper {
+      background: linear-gradient(135deg, #000000, #333333);
+    }
+
+    .social-link.tiktok:hover .social-icon-wrapper {
+      background: linear-gradient(135deg, #333333, #FF0050);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .contact-hero-section {
+        padding: 40px 15px;
+        margin: 0 10px 30px;
+      }
+      
+      .contact-cards-container {
+        padding: 0 10px;
+      }
+      
+      .contact-card {
+        padding: 24px 16px;
+        margin-bottom: 20px;
+      }
+      
+      .contact-card-title {
+        font-size: 1.3rem;
+      }
+      
+      .contact-card-btn {
+        padding: 12px 24px;
+        min-width: 140px;
+        font-size: 0.9rem;
+      }
+      
+      .social-section {
+        margin: 30px 10px;
+        padding: 30px 15px;
+      }
+      
+      .social-title {
+        font-size: 1.7rem;
+      }
+      
+      .social-icons-modern {
+        gap: 16px;
+      }
+      
+      .social-link {
+        min-width: 100px;
+        padding: 16px 12px;
+      }
+      
+      .social-icon-wrapper {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .social-icon-wrapper i {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .contact-card:hover {
+        transform: translateY(-6px);
+      }
+      
+      .social-icons-modern {
+        gap: 12px;
+      }
+      
+      .social-link {
+        min-width: 80px;
+        padding: 12px 8px;
+      }
+      
+      .social-icon-wrapper {
+        width: 45px;
+        height: 45px;
+      }
+      
+      .social-icon-wrapper i {
+        font-size: 20px;
+      }
+      
+      .social-label {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Prevent horizontal scrolling */
+    .container-fluid {
+      overflow-x: hidden;
+    }
+    
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    
+    .col-lg-4, .col-md-6, .col-sm-6 {
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     /* Card styling for dark theme */
@@ -282,6 +908,346 @@
       --gray: #dfe6e9;
       --card-bg: rgba(255, 255, 255, 0.9);
       --glass-effect: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Professional Complaint Modal Styling */
+    .professional-complaint-modal {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px var(--shadow-heavy);
+      overflow: hidden;
+    }
+
+    .professional-modal-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px;
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .complaint-modal-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .complaint-modal-icon i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .modal-title-text h4 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .modal-subtitle {
+      margin: 0;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .professional-close-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      padding: 8px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .professional-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .professional-modal-body {
+      padding: 32px;
+      background: var(--card-bg);
+    }
+
+    .complaint-form-container {
+      max-width: 100%;
+    }
+
+    .professional-complaint-form {
+      width: 100%;
+    }
+
+    /* Form Sections */
+    .form-section {
+      margin-bottom: 32px;
+      padding: 24px;
+      background: var(--bg-tertiary);
+      border-radius: 16px;
+      border: 1px solid var(--border-primary);
+      transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+      box-shadow: 0 4px 12px var(--shadow-light);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-secondary);
+    }
+
+    .section-title i {
+      color: var(--primary-color);
+      font-size: 1.1rem;
+    }
+
+    /* Form Groups */
+    .professional-form-group {
+      margin-bottom: 20px;
+    }
+
+    .professional-form-label {
+      display: block;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    /* Input Wrappers */
+    .input-wrapper, .select-wrapper, .textarea-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      z-index: 2;
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+      font-size: 0.8rem;
+    }
+
+    /* Form Controls */
+    .professional-form-control, .professional-form-select {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      border: 2px solid var(--border-primary);
+      border-radius: 12px;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .professional-form-select {
+      padding-right: 48px;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .professional-form-textarea {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid var(--border-primary);
+      border-radius: 12px;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
+    }
+
+    .professional-form-control:focus, 
+    .professional-form-select:focus, 
+    .professional-form-textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .professional-form-control::placeholder,
+    .professional-form-textarea::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    /* Character Count */
+    .character-count {
+      text-align: right;
+      margin-top: 8px;
+    }
+
+    .character-count small {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Submit Section */
+    .submit-section {
+      background: var(--bg-secondary) !important;
+      border: 2px dashed var(--border-secondary);
+      text-align: center;
+    }
+
+    .submit-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .submit-info i {
+      color: var(--primary-color);
+    }
+
+    .professional-submit-btn {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 200px;
+      justify-content: center;
+    }
+
+    .professional-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+    }
+
+    .professional-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .professional-submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .professional-submit-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Dark Theme Support for Modal */
+    [data-theme="dark"] .professional-complaint-modal {
+      background: var(--card-bg);
+    }
+
+    [data-theme="dark"] .form-section {
+      background: var(--bg-tertiary);
+      border-color: var(--border-primary);
+    }
+
+    [data-theme="dark"] .professional-form-control,
+    [data-theme="dark"] .professional-form-select,
+    [data-theme="dark"] .professional-form-textarea {
+      background: var(--bg-primary);
+      border-color: var(--border-primary);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .input-icon,
+    [data-theme="dark"] .select-arrow {
+      color: var(--text-secondary);
+    }
+
+    /* Responsive Design for Modal */
+    @media (max-width: 768px) {
+      .professional-modal-body {
+        padding: 20px;
+      }
+      
+      .form-section {
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+      
+      .professional-form-control, 
+      .professional-form-select {
+        padding: 12px 16px 12px 40px;
+      }
+      
+      .professional-submit-btn {
+        width: 100%;
+        padding: 14px 24px;
+      }
+      
+      .modal-title-container {
+        gap: 12px;
+      }
+      
+      .complaint-modal-icon {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .professional-modal-header {
+        padding: 20px;
+      }
+      
+      .modal-title-text h4 {
+        font-size: 1.3rem;
+      }
+      
+      .form-section {
+        padding: 12px;
+      }
     }
 
     .container-fluid.page-body-wrapper {
@@ -541,189 +1507,432 @@
                     });
                   </script>
 
-                  <!-- sss --> <!-- sss --> <!-- sss --> <!-- sss -->
-                  <img src="images\HemeonLearning-Page-Banner-Contact-1024x256.png" alt="cover image" class="w-100"
-                    style="border-radius: 39px;">
-
-
-                  <div class="container mt-4" style="padding-left: 0% !important; padding-right: 0% !important;">
-                    <!-- Contact Us Section -->
-                    <div class="contact-container p-3" style="border: 1px solid #E9ECEF;">
-
-                      <div class="row mt-3">
-                        <div class="col-4">
-                          <div class="contact-icon">
-                            <a href="https://api.whatsapp.com/send?phone=447751553879">
-                              <img width="54" height="54" src="https://img.icons8.com/3d-fluency/94/whatsapp.png"
-                                alt="whatsapp" />
-                            </a>
-                          </div>
-                          <p class="mt-2 text-dark">Whatsapp</p>
+                  <!-- Modern Contact Us Section -->
+                  <div class="container-fluid px-0 mt-4">
+                    <!-- Hero Section -->
+                    <div class="contact-hero-section">
+                      <div class="hero-background"></div>
+                      <div class="hero-content">
+                        <div class="hero-icon">
+                          <i class="fas fa-comments"></i>
                         </div>
-                        <div class="col-4">
-                          <div class="contact-icon">
-                            <!-- Image Trigger -->
-                            <img width="70" height="70"
-                              src="https://img.icons8.com/3d-fluency/100/phone-disconnected.png"
-                              alt="phone-disconnected" style="cursor: pointer;" data-bs-toggle="modal"
-                              data-bs-target="#phoneModal" />
-                            <!-- Modal -->
-                            <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel"
-                              aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title text-dark" id="phoneModalLabel">Contact Number</h5>
-                                    <!-- Correct Close Button -->
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                      style="filter: invert(29%) sepia(91%) saturate(7484%) hue-rotate(356deg) brightness(89%) contrast(110%);">
-                                    </button>
+                        <h1 class="hero-title">Get in Touch</h1>
+                        <p class="hero-subtitle">We're here to help and answer any question you might have</p>
+                      </div>
+                    </div>
 
-                                  </div>
-                                  <div class="modal-body text-center text-dark">
-                                    <p style="font-size: 1.5rem;">📞 0306-9753003</p>
-                                  </div>
-                                </div>
+                    <!-- Contact Cards Section -->
+                    <div class="contact-cards-container">
+                      <div class="row g-4 justify-content-center">
+                        
+                        <!-- WhatsApp Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card whatsapp-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon whatsapp-icon">
+                                <i class="fab fa-whatsapp"></i>
                               </div>
+                              <h3 class="contact-card-title">WhatsApp</h3>
+                              <p class="contact-card-subtitle">Quick messaging support</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">+44 7751 553879</p>
+                              <a href="https://api.whatsapp.com/send?phone=447751553879" class="contact-card-btn whatsapp-btn">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>Send Message</span>
+                              </a>
                             </div>
                           </div>
-                          <p class="mt-2 text-dark">Call us </p>
                         </div>
-                        <div class="col-4">
-                          <div class="contact-icon">
-                            <a
-                              href="https://www.google.com/maps/place/ClickTake+Technologies/@30.0070286,71.5400609,17z/data=!3m1!4b1!4m6!3m5!1s0x393b3fb4470ae1c5:0x95b5e7dd986d4241!8m2!3d30.0070286!4d71.5400609!16s%2Fg%2F11s99_fc9t?entry=ttu&g_ep=EgoyMDI1MDIyNi4xIKXMDSoASAFQAw%3D%3D">
-                              <img width="66" height="66" src="https://img.icons8.com/emoji/96/round-pushpin-emoji.png"
-                                alt="round-pushpin-emoji" />
-                            </a>
+
+                        <!-- Phone Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card phone-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon phone-icon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <h3 class="contact-card-title">Call Us</h3>
+                              <p class="contact-card-subtitle">Speak directly with our team</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">0306-9753003</p>
+                              <button class="contact-card-btn phone-btn" data-bs-toggle="modal" data-bs-target="#phoneModal">
+                                <i class="fas fa-phone"></i>
+                                <span>View Number</span>
+                              </button>
+                            </div>
                           </div>
-                          <p class="mt-2 text-dark"> Find Us</p>
+                        </div>
+
+                        <!-- Location Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card location-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon location-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                              </div>
+                              <h3 class="contact-card-title">Visit Us</h3>
+                              <p class="contact-card-subtitle">Find our office location</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">ClickTake Technologies</p>
+                              <a href="https://www.google.com/maps/place/ClickTake+Technologies/@30.0070286,71.5400609,17z/data=!3m1!4b1!4m6!3m5!1s0x393b3fb4470ae1c5:0x95b5e7dd986d4241!8m2!3d30.0070286!4d71.5400609!16s%2Fg%2F11s99_fc9t?entry=ttu&g_ep=EgoyMDI1MDIyNi4xIKXMDSoASAFQAw%3D%3D" 
+                                 class="contact-card-btn location-btn" target="_blank">
+                                <i class="fas fa-directions"></i>
+                                <span>Get Directions</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Support Cards Row -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card support-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon support-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                              </div>
+                              <h3 class="contact-card-title">Report Issue</h3>
+                              <p class="contact-card-subtitle">Submit your complaints</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">Technical & Billing Issues</p>
+                              <button class="contact-card-btn support-btn" data-bs-toggle="modal" data-bs-target="#myModal">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Submit Complaint</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Feedback Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card feedback-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon feedback-icon">
+                                <i class="fas fa-star"></i>
+                              </div>
+                              <h3 class="contact-card-title">Feedback</h3>
+                              <p class="contact-card-subtitle">Share your experience</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">Rate & Review Our Service</p>
+                              <button class="contact-card-btn feedback-btn" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>Give Feedback</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Live Chat Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="contact-card chat-card">
+                            <div class="card-header">
+                              <div class="contact-card-icon chat-icon">
+                                <i class="fas fa-comments"></i>
+                              </div>
+                              <h3 class="contact-card-title">Live Chat</h3>
+                              <p class="contact-card-subtitle">Instant support online</p>
+                            </div>
+                            <div class="card-content">
+                              <p class="contact-info">24/7 Chat Support</p>
+                              <a href="https://tawk.to/chat/659fdbaf0ff6374032bedfad/1hjs74a1c" target="_blank" class="contact-card-btn chat-btn">
+                                <i class="fas fa-comment"></i>
+                                <span>Start Chat</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Phone Number Modal -->
+                  <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content modern-modal">
+                        <div class="modal-header modern-modal-header">
+                          <div class="modal-icon phone-modal-icon">
+                            <i class="fas fa-phone"></i>
+                          </div>
+                          <h5 class="modal-title" id="phoneModalLabel">Contact Number</h5>
+                          <button type="button" class="btn-close modern-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <div class="phone-display">
+                            <i class="fas fa-phone phone-icon-large"></i>
+                            <h3 class="phone-number">0306-9753003</h3>
+                            <p class="phone-description">Call us during business hours for immediate assistance</p>
+                            <div class="business-hours">
+                              <i class="fas fa-clock"></i>
+                              <span>Monday - Friday: 9:00 AM - 6:00 PM</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <!--complinet section-->
-                      <div class="row mt-3">
-                        <div class="col-4">
-                          <div class="contact-icon">
-                            <!-- Changed to BS5 data attributes -->
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#myModal">
-                              <img width="60" height="60" src="images/contect us icon1.png" alt="contact" />
-                            </a>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                      <div class="modal-content professional-complaint-modal">
+                        
+                        <!-- Professional Modal Header -->
+                        <div class="modal-header professional-modal-header">
+                          <div class="modal-title-container">
+                            <div class="modal-icon complaint-modal-icon">
+                              <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="modal-title-text">
+                              <h4 class="modal-title" id="myModalLabel">Submit Complaint</h4>
+                              <p class="modal-subtitle">We're here to help resolve your concerns</p>
+                            </div>
                           </div>
-                          <p class="mt-2 text-dark">Complaint</p>
+                          <button type="button" class="btn-close professional-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
-                          aria-hidden="true" style="padding-left: 0% !important; padding-right: 0% !important;">
-                          <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content p-4"
-                              style="background-color: #e9ecef00 !important; border: none; padding: 0% !important;">
-                              <div class="main-panel position-relative" style="padding: 0% !important;">
+                        <!-- Professional Modal Body -->
+                        <div class="modal-body professional-modal-body">
+                          <div class="complaint-form-container">
 
-                                <!-- Fixed Close Button -->
-                                <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal"
-                                  aria-label="Close" style="top: -32px; right: 8px; padding: 4px; z-index: 1050;
-         filter: invert(25%) sepia(91%) saturate(5000%) hue-rotate(0deg) brightness(90%) contrast(105%);
-         border-radius: 4px;">
-                                </button>
-
-
-
-                                <div class="content-wrapper">
-                                  <div class="form-card" style="margin-top: -39px; color: white;">
-
-                                    <!-- Rest of your form remains exactly the same -->
-                                    <div class="form-header">
-                                      <i class="bi bi-bookmark-star-fill"></i>Add Complaint
+                            <form action="/complaint" method="POST" class="professional-complaint-form">
+                              
+                              <!-- Personal Information Section -->
+                              <div class="form-section">
+                                <h5 class="section-title">
+                                  <i class="fas fa-user"></i>
+                                  Personal Information
+                                </h5>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="professional-form-group">
+                                      <label for="username" class="professional-form-label">Full Name *</label>
+                                      <div class="input-wrapper">
+                                        <i class="fas fa-user input-icon"></i>
+                                        <input type="text" name="username" id="username" class="professional-form-control" 
+                                               required placeholder="Enter your full name">
+                                      </div>
                                     </div>
-
-                                    <form action="/complaint" method="POST">
-                                      <!-- First Row -->
-                                      <div class="d-flex gap-4 mb-3">
-                                        <div class="form-group w-100">
-                                          <input type="text" name="username" id="username" class="form-control" required
-                                            placeholder=" ">
-                                          <label for="username" class="form-label">Your Name</label>
-                                        </div>
-
-                                        <div class="form-group w-100">
-                                          <input type="number" name="number" id="number" class="form-control" required
-                                            placeholder=" ">
-                                          <label for="number" class="form-label"> Number</label>
-                                        </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="professional-form-group">
+                                      <label for="number" class="professional-form-label">Phone Number *</label>
+                                      <div class="input-wrapper">
+                                        <i class="fas fa-phone input-icon"></i>
+                                        <input type="number" name="number" id="number" class="professional-form-control" 
+                                               required placeholder="Enter your phone number">
                                       </div>
-                                      <!-- Second Row -->
-                                      <div class="d-flex gap-4 mb-3">
-                                        <div class="form-group w-100">
-                                         <select name="department" id="department" class="form-select" required>
-
-                                            <option value="" disabled selected>Select your type</option>
-                                            <option value="">Select your type</option>
-                                            <option value="Billing">Billing</option>
-                                            <option value="Sales">Sales</option>
-                                            <option value="Technical">Technical</option>
-                                            <option value="New Connection">New Connection</option>
-                                            <option value="Other">Other</option>
-                                          </select>
-                                         <label for="department" class="form-label">Department</label>
-
-                                        </div>
-
-                                        <div class="form-group w-100">
-                                          <input type="text" name="Address" id="Address" class="form-control" required
-                                            placeholder=" ">
-                                          <label for="Address" class="form-label">Address</label>
-                                        </div>
-                                      </div>
-
-                                      <!-- Fourth Row -->
-                                      <div class="form-group mb-4"
-                                        style=" border: 1px solid #272626;  border-radius: 4px;">
-                                        <textarea type="text" name="Complaint" id="Complaint" class="form-control"
-                                          placeholder=" "> </textarea>
-                                        <label for="Complaint" class="form-label text-white">Complaint</label>
-
-                                      </div>
-
-                                      <!-- Submit Button -->
-                                      <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary">
-                                          <i class="bi bi-check2-circle"></i> Submit
-                                        </button>
-                                      </div>
-                                    </form>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
 
-                            </div>
+                              <!-- Complaint Details Section -->
+                              <div class="form-section">
+                                <h5 class="section-title">
+                                  <i class="fas fa-info-circle"></i>
+                                  Complaint Details
+                                </h5>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="professional-form-group">
+                                      <label for="department" class="professional-form-label">Department *</label>
+                                      <div class="select-wrapper">
+                                        <i class="fas fa-building input-icon"></i>
+                                        <select name="department" id="department" class="professional-form-select" required>
+                                          <option value="" disabled selected>Select Department</option>
+                                          <option value="Billing">Billing & Payments</option>
+                                          <option value="Sales">Sales & Packages</option>
+                                          <option value="Technical">Technical Support</option>
+                                          <option value="New Connection">New Connection</option>
+                                          <option value="Other">Other Issues</option>
+                                        </select>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="professional-form-group">
+                                      <label for="Address" class="professional-form-label">Service Address *</label>
+                                      <div class="input-wrapper">
+                                        <i class="fas fa-map-marker-alt input-icon"></i>
+                                        <input type="text" name="Address" id="Address" class="professional-form-control" 
+                                               required placeholder="Enter your service address">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Complaint Message Section -->
+                              <div class="form-section">
+                                <h5 class="section-title">
+                                  <i class="fas fa-comment-alt"></i>
+                                  Describe Your Issue
+                                </h5>
+                                <div class="professional-form-group">
+                                  <label for="Complaint" class="professional-form-label">Complaint Details *</label>
+                                  <div class="textarea-wrapper">
+                                    <textarea name="Complaint" id="Complaint" class="professional-form-textarea" 
+                                              required rows="5" placeholder="Please describe your issue in detail. The more information you provide, the better we can assist you."></textarea>
+                                  </div>
+                                  <div class="character-count">
+                                    <small class="text-muted">
+                                      <span id="charCount">0</span>/500 characters
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Submit Section -->
+                              <div class="form-section submit-section">
+                                <div class="submit-info">
+                                  <i class="fas fa-clock"></i>
+                                  <span>We typically respond within 24-48 hours</span>
+                                </div>
+                                <button type="submit" class="professional-submit-btn">
+                                  <i class="fas fa-paper-plane"></i>
+                                  <span>Submit Complaint</span>
+                                  <div class="btn-loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                  </div>
+                                </button>
+                              </div>
+
+                            </form>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
                         <script>
+                          // Professional Complaint Modal JavaScript
+                          document.addEventListener('DOMContentLoaded', function() {
+                            
+                            // Character counter for complaint textarea
+                            const complaintTextarea = document.getElementById('Complaint');
+                            const charCountSpan = document.getElementById('charCount');
+                            
+                            if (complaintTextarea && charCountSpan) {
+                              complaintTextarea.addEventListener('input', function() {
+                                const currentLength = this.value.length;
+                                charCountSpan.textContent = currentLength;
+                                
+                                // Change color based on character count
+                                if (currentLength > 450) {
+                                  charCountSpan.style.color = 'var(--danger-color)';
+                                } else if (currentLength > 350) {
+                                  charCountSpan.style.color = 'var(--warning-color)';
+                                } else {
+                                  charCountSpan.style.color = 'var(--text-secondary)';
+                                }
+                              });
+                            }
+
+                            // Form submission with loading state
+                            const complaintForm = document.querySelector('.professional-complaint-form');
+                            const submitBtn = document.querySelector('.professional-submit-btn');
+                            const btnText = submitBtn ? submitBtn.querySelector('span') : null;
+                            const btnLoading = submitBtn ? submitBtn.querySelector('.btn-loading') : null;
+                            
+                            if (complaintForm && submitBtn) {
+                              complaintForm.addEventListener('submit', function(e) {
+                                // Show loading state
+                                if (btnText) btnText.style.display = 'none';
+                                if (btnLoading) btnLoading.style.display = 'flex';
+                                submitBtn.disabled = true;
+                                submitBtn.style.opacity = '0.7';
+                                
+                                // Add a slight delay to show the loading state
+                                setTimeout(() => {
+                                  // The form will submit naturally after this
+                                }, 500);
+                              });
+                            }
+
+                            // Enhanced form validation feedback
+                            const formInputs = document.querySelectorAll('.professional-form-control, .professional-form-select, .professional-form-textarea');
+                            formInputs.forEach(input => {
+                              // Add focus effects
+                              input.addEventListener('focus', function() {
+                                this.parentElement.classList.add('focused');
+                              });
+                              
+                              input.addEventListener('blur', function() {
+                                this.parentElement.classList.remove('focused');
+                                
+                                // Add validation styling
+                                if (this.hasAttribute('required') && !this.value.trim()) {
+                                  this.style.borderColor = 'var(--danger-color)';
+                                } else {
+                                  this.style.borderColor = 'var(--border-primary)';
+                                }
+                              });
+                              
+                              // Real-time validation
+                              input.addEventListener('input', function() {
+                                if (this.hasAttribute('required') && this.value.trim()) {
+                                  this.style.borderColor = 'var(--success-color)';
+                                }
+                              });
+                            });
+
+                            // Animate form sections on modal show
+                            const modal = document.getElementById('myModal');
+                            if (modal) {
+                              modal.addEventListener('shown.bs.modal', function() {
+                                const formSections = document.querySelectorAll('.form-section');
+                                formSections.forEach((section, index) => {
+                                  setTimeout(() => {
+                                    section.style.opacity = '0';
+                                    section.style.transform = 'translateY(20px)';
+                                    section.style.transition = 'all 0.5s ease';
+                                    
+                                    setTimeout(() => {
+                                      section.style.opacity = '1';
+                                      section.style.transform = 'translateY(0)';
+                                    }, 50);
+                                  }, index * 100);
+                                });
+                              });
+                            }
+                          });
+
+                          // Original functionality preservation
                           const urlParams = new URLSearchParams(window.location.search);
                           if (urlParams.get("submitted") === "true") {
-                            alert("Complaint submitted successfully!");
+                            // Enhanced success message
+                            const modal = new bootstrap.Modal(document.getElementById('myModal'));
+                            
+                            // Show a better success message
+                            const successAlert = document.createElement('div');
+                            successAlert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+                            successAlert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                            successAlert.innerHTML = `
+                              <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <div>
+                                  <strong>Success!</strong><br>
+                                  <small>Your complaint has been submitted successfully. We'll respond within 24-48 hours.</small>
+                                </div>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+                              </div>
+                            `;
+                            document.body.appendChild(successAlert);
+                            
+                            // Auto remove after 6 seconds
+                            setTimeout(() => {
+                              if (successAlert.parentNode) {
+                                successAlert.parentNode.removeChild(successAlert);
+                              }
+                            }, 6000);
                           }
                         </script>
 
-                        <div class="col-4">
-                          <div class="contact-icon cursor-pointer" id="openFeedback" style="cursor:pointer;"
-                            data-bs-toggle="modal" data-bs-target="#feedbackModal">
-                            <img width="65" height="65" src="images\feedback.png" alt="communication" />
-                          </div>
-                          <p class="mt-2 text-dark">Feedback </p>
-                        </div>
-                        <div class="col-4">
-                          <a href="https://tawk.to/chat/659fdbaf0ff6374032bedfad/1hjs74a1c" target="_blank">
-                            <div class="contact-icon">
-                              <img width="65" height="65" src="images\chat.png" alt="communication" />
-                            </div>
-                          </a>
-                          <p class="mt-2 text-dark">chat</p>
-                        </div>
-                      </div>
-
-                    </div>
 
 
                     <!-- feedback pop -->
@@ -854,17 +2063,42 @@
                     </script>
 
                     <!-- Social Media Section -->
-                    <div class="social-container mt-3">
-                      <h5 class="fw-bold text-dark">Social Channels</h5>
-                      <div class="social-icons mt-3">
-                        <a href="https://www.facebook.com/clicktaketechnologies"><i class="fab fa-facebook"></i></a>
-
-                        <a href="https://www.instagram.com/clicktaketech/"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/@clicktaketechnologies/featured"><i
-                            class="fab fa-youtube"></i></a>
-                        <a href="https://pk.linkedin.com/company/click-take-technologies"><i
-                            class="fab fa-linkedin"></i></a>
-                        <a href="https://www.tiktok.com/@clicktaketechnologiesuk"><i class="fab fa-tiktok"></i></a>
+                    <div class="social-section">
+                      <div class="social-header">
+                        <h2 class="social-title">Connect With Us</h2>
+                        <p class="social-subtitle">Follow us on social media for updates and support</p>
+                      </div>
+                      <div class="social-icons-modern">
+                        <a href="https://www.facebook.com/clicktaketechnologies" class="social-link facebook" target="_blank">
+                          <div class="social-icon-wrapper">
+                            <i class="fab fa-facebook-f"></i>
+                          </div>
+                          <span class="social-label">Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/clicktaketech/" class="social-link instagram" target="_blank">
+                          <div class="social-icon-wrapper">
+                            <i class="fab fa-instagram"></i>
+                          </div>
+                          <span class="social-label">Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/@clicktaketechnologies/featured" class="social-link youtube" target="_blank">
+                          <div class="social-icon-wrapper">
+                            <i class="fab fa-youtube"></i>
+                          </div>
+                          <span class="social-label">YouTube</span>
+                        </a>
+                        <a href="https://pk.linkedin.com/company/click-take-technologies" class="social-link linkedin" target="_blank">
+                          <div class="social-icon-wrapper">
+                            <i class="fab fa-linkedin-in"></i>
+                          </div>
+                          <span class="social-label">LinkedIn</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@clicktaketechnologiesuk" class="social-link tiktok" target="_blank">
+                          <div class="social-icon-wrapper">
+                            <i class="fab fa-tiktok"></i>
+                          </div>
+                          <span class="social-label">TikTok</span>
+                        </a>
                       </div>
                     </div>
                   </div>

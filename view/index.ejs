@@ -3293,7 +3293,20 @@
         });
       });
     </script>
+    <!-- At the end of body -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (window.sidebarThemeManager) {
+      window.sidebarThemeManager.syncSidebarSkin(theme);
+    }
+  });
+</script>
 
+
+    <!-- Include Settings Dow for theme synchronization -->
+    <%- include('./partials/SettingsDow.ejs') %>
+    
     <!-- Include Footer -->
     <%- include('./partials/_footer.ejs') %>
   </body>
