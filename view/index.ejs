@@ -2163,12 +2163,15 @@
     </style>
   </head>
 
-  <body style="background-color: #F8FAFC;">
+  <body>
     <div class="container-scroller">
       <!-- Navbar Partial -->
       <%- include ('./partials/_navbar.ejs') %>
 
-      <div class="container-fluid page-body-wrapper" style="padding-left: 0px !important; padding-right: 0px !important;">
+      <div class="container-fluid page-body-wrapper" style="padding-left: 0%; padding-right: 0%;">
+        <!-- Include Settings Dow for theme synchronization -->
+        <%- include('./partials/SettingsDow.ejs') %>
+        
         <!-- Sidebar Start -->
         <%- include('./partials/Sidebar.ejs') %>
 
@@ -3293,19 +3296,18 @@
         });
       });
     </script>
-    <!-- At the end of body -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const theme = localStorage.getItem('theme') || 'light';
-    if (window.sidebarThemeManager) {
-      window.sidebarThemeManager.syncSidebarSkin(theme);
-    }
-  });
-</script>
+    <!-- Ensure theme is applied on page load -->
+    <script>
+      // Apply theme immediately on page load to prevent flash
+      (function() {
+        const theme = localStorage.getItem('clicktake-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.body.setAttribute('data-theme', theme);
+      })();
+    </script>
 
 
-    <!-- Include Settings Dow for theme synchronization -->
-    <%- include('./partials/SettingsDow.ejs') %>
+    <!-- SettingsDow now included in proper position above -->
     
     <!-- Include Footer -->
     <%- include('./partials/_footer.ejs') %>

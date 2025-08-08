@@ -19,7 +19,8 @@
 <script>
   class ThemeManager {
     constructor() {
-      this.currentTheme = localStorage.getItem('theme') || 'light';
+      // Use same key as navbar for consistency
+      this.currentTheme = localStorage.getItem('clicktake-theme') || 'light';
       this.applyTheme(this.currentTheme);
     }
 
@@ -28,7 +29,8 @@
 
   // Set data-theme attribute on <html>
   document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
+  // Use same key as navbar for consistency
+  localStorage.setItem('clicktake-theme', theme);
 
   // 🔥 Notify all components that theme changed
   window.dispatchEvent(new CustomEvent('themeChanged', {
@@ -78,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Sync on page load with a small delay to ensure DOM is ready
       setTimeout(() => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 
+                           localStorage.getItem('clicktake-theme') || 'light';
         console.log('Initial theme sync:', currentTheme);
         this.syncSidebarSkin(currentTheme);
       }, 100);
@@ -109,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Light sidebar theme applied');
       }
 
-      // Save to localStorage for persistence
-      localStorage.setItem('sidebar-theme', theme);
+      // Save to localStorage for persistence (use same key as main theme for consistency)
+      localStorage.setItem('clicktake-theme', theme);
     }
 
     applySidebarTheme(theme) {
@@ -150,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.syncSidebarSkin(selectedTheme);
 
       // Also update the main theme to match (bi-directional sync)
-      if (window.themeManager) {
+      if (window.themeManager && window.themeManager.setTheme) {
         window.themeManager.setTheme(selectedTheme);
       }
 
@@ -171,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Method to get current sidebar theme
     getCurrentSidebarTheme() {
-      return localStorage.getItem('sidebar-theme') || 
+      return localStorage.getItem('clicktake-theme') || 
              document.documentElement.getAttribute('data-theme') || 'light';
     }
   }

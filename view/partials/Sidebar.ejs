@@ -825,8 +825,7 @@
               // Apply initial theme on page load
               document.addEventListener('DOMContentLoaded', () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme') || 
-                                   localStorage.getItem('clicktake-theme') || 
-                                   localStorage.getItem('theme') || 'light';
+                                   localStorage.getItem('clicktake-theme') || 'light';
                 console.log('Sidebar initial theme:', currentTheme);
                 this.applySidebarTheme(currentTheme);
               });
