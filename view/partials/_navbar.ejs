@@ -421,7 +421,13 @@
                 <% } %>
 
                   <% notificationData.forEach((notif)=> { %>
-                    <a href="#" class="dropdown-item preview-item mark-read" data-id="<%= notif.id %>">
+                    <a href="#" class="dropdown-item preview-item smart-notification" 
+                       data-id="<%= notif.id %>"
+                       data-username="<%= notif.username || '' %>"
+                       data-message="<%= notif.message || '' %>"
+                       data-field2="<%= notif.field2 || '' %>"
+                       data-package="<%= notif.package_name || '' %>"
+                       data-complaint="<%= notif.Complaint || '' %>">
                       <div class="preview-thumbnail">
                         <div class="preview-icon bg-primary">
                           <i class="icon-bell mx-0"></i>
@@ -431,10 +437,13 @@
                         <p class="font-weight-light small-text mb-0 text-muted">
                           <%= notif.username %>
                         </p>
-                        <%= notif.message %><br>
+                        <div class="notification-text">
+                          <%= notif.message %><br>
                           <%= notif.field2 %>
-                            <%= notif.package_name %>
-                              <%= notif.Complaint %>
+                          <%= notif.package_name %>
+                          <%= notif.Complaint %>
+                        </div>
+                        <small class="text-primary"><i class="fas fa-external-link-alt"></i> Click to view details</small>
                       </div>
                     </a>
                     <% }); %>
@@ -443,30 +452,159 @@
         </li>
         <% } %>
           <script>
-            document.querySelectorAll(".mark-read").forEach(item => {
-              item.addEventListener("click", async (e) => {
+            // Professional Smart Notification System
+            class SmartNotificationHandler {
+              constructor() {
+                this.init();
+              }
+
+              init() {
+                document.querySelectorAll(".smart-notification").forEach(item => {
+                  item.addEventListener("click", (e) => this.handleNotificationClick(e, item));
+                });
+              }
+
+              // Intelligent route detection based on notification content
+              determineRoute(notificationData) {
+                const { message, complaint, package: packageName, field2, username } = notificationData;
+                const messageText = (message + ' ' + field2 + ' ' + complaint + ' ' + packageName).toLowerCase();
+
+                // Route mapping based on notification content
+                const routeMap = [
+                  // User Management Routes
+                  { keywords: ['user', 'account', 'registration', 'signup', 'login', 'profile'], route: '/AdminUser' },
+                  { keywords: ['password', 'reset', 'forgot', 'security'], route: '/PasswordRequest' },
+                  
+                  // Package Management Routes
+                  { keywords: ['package', 'plan', 'subscription', 'upgrade', 'downgrade'], route: '/package' },
+                  { keywords: ['request', 'package request', 'new package'], route: '/request' },
+                  
+                  // Complaint Management Routes
+                  { keywords: ['complaint', 'issue', 'problem', 'support', 'help'], route: '/UserComplaint' },
+                  
+                  // Payment & Billing Routes
+                  { keywords: ['payment', 'billing', 'invoice', 'paid', 'unpaid', 'transaction'], route: '/paymentshistory' },
+                  { keywords: ['pending payment', 'due payment'], route: '/pandingpayments' },
+                  
+                  // Team Management Routes
+                  { keywords: ['team', 'staff', 'employee', 'admin'], route: '/AdminTeam' },
+                  
+                  // Equipment Routes
+                  { keywords: ['equipment', 'device', 'router', 'modem'], route: '/userEquipment' },
+                  
+                  // Default fallback routes
+                  { keywords: ['user'], route: '/AdminUser', priority: 1 }
+                ];
+
+                // Find matching route
+                for (const routeConfig of routeMap) {
+                  for (const keyword of routeConfig.keywords) {
+                    if (messageText.includes(keyword)) {
+                      return routeConfig.route;
+                    }
+                  }
+                }
+
+                // Smart fallback based on data presence
+                if (complaint) return '/UserComplaint';
+                if (packageName) return '/package';
+                if (username && messageText.includes('user')) return '/AdminUser';
+                
+                // Ultimate fallback
+                return '/adminIndex';
+              }
+
+              async handleNotificationClick(e, item) {
                 e.preventDefault();
-                const notifId = item.getAttribute("data-id");
+                
+                // Extract notification data
+                const notificationData = {
+                  id: item.getAttribute("data-id"),
+                  username: item.getAttribute("data-username"),
+                  message: item.getAttribute("data-message"),
+                  field2: item.getAttribute("data-field2"),
+                  package: item.getAttribute("data-package"),
+                  complaint: item.getAttribute("data-complaint")
+                };
+
+                // Add loading state
+                this.addLoadingState(item);
 
                 try {
+                  // Mark notification as read
                   const response = await fetch("/mark-one-read", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: notifId })
+                    body: JSON.stringify({ id: notificationData.id })
                   });
 
                   if (response.ok) {
-                    console.log(`Notification ${notifId} marked as read`);
-                    item.style.transition = "opacity 0.5s ease";
-                    item.style.opacity = "0";
-                    setTimeout(() => item.remove(), 500);
+                    // Determine smart route
+                    const targetRoute = this.determineRoute(notificationData);
+                    
+                    // Add success state
+                    this.addSuccessState(item);
+                    
+                    // Navigate after short delay for visual feedback
+                    setTimeout(() => {
+                      console.log(`🚀 Smart routing to: ${targetRoute} for notification: ${notificationData.message}`);
+                      window.location.href = targetRoute;
+                    }, 500);
+                    
                   } else {
-                    console.error("Failed to mark as read");
+                    this.addErrorState(item);
+                    console.error("Failed to mark notification as read");
                   }
                 } catch (error) {
-                  console.error("Fetch error:", error);
+                  this.addErrorState(item);
+                  console.error("Notification handling error:", error);
                 }
-              });
+              }
+
+              addLoadingState(item) {
+                item.style.opacity = '0.7';
+                item.style.transform = 'scale(0.98)';
+                item.style.transition = 'all 0.3s ease';
+                
+                const content = item.querySelector('.notification-text');
+                if (content) {
+                  content.innerHTML = '<i class="fas fa-spinner fa-spin text-primary"></i> Opening...';
+                }
+              }
+
+              addSuccessState(item) {
+                item.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+                item.style.color = 'white';
+                item.style.transform = 'scale(1.02)';
+                
+                const content = item.querySelector('.notification-text');
+                if (content) {
+                  content.innerHTML = '<i class="fas fa-check-circle"></i> Redirecting...';
+                }
+              }
+
+              addErrorState(item) {
+                item.style.background = '#fee2e2';
+                item.style.borderLeft = '4px solid #ef4444';
+                item.style.transform = 'scale(1)';
+                
+                const content = item.querySelector('.notification-text');
+                if (content) {
+                  content.innerHTML = '<i class="fas fa-exclamation-triangle text-danger"></i> Error occurred';
+                }
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                  item.style.background = '';
+                  item.style.borderLeft = '';
+                  item.style.opacity = '1';
+                }, 3000);
+              }
+            }
+
+            // Initialize smart notification handler when DOM is ready
+            document.addEventListener('DOMContentLoaded', () => {
+              new SmartNotificationHandler();
             });
           </script>
 
@@ -492,15 +630,19 @@
                     <% } %>
 
                       <% notifications_users.forEach((notif)=> { %>
-                        <a href="#" class="dropdown-item preview-item mark-read" data-id="<%= notif.id %>">
+                        <a href="#" class="dropdown-item preview-item smart-user-notification" 
+                           data-id="<%= notif.id %>"
+                           data-message="<%= notif.message || '' %>">
                           <div class="preview-thumbnail">
                             <div class="preview-icon bg-primary">
                               <i class="icon-bell mx-0"></i>
                             </div>
                           </div>
                           <div class="preview-item-content">
-                            <p class="font-weight-light small-text mb-0 text-muted"></p>
-                            <%= notif.message %>
+                            <div class="notification-text">
+                              <%= notif.message %>
+                            </div>
+                            <small class="text-primary"><i class="fas fa-external-link-alt"></i> Click to view</small>
                           </div>
                         </a>
                         <% }); %>
@@ -510,34 +652,120 @@
             <% } %>
 
               <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  document.querySelectorAll(".mark-read").forEach((element) => {
-                    element.addEventListener("click", function (e) {
-                      e.preventDefault();
-                      const id = this.getAttribute("data-id");
+                // Smart User Notification Handler
+                class SmartUserNotificationHandler {
+                  constructor() {
+                    this.init();
+                  }
 
-                      fetch("/mark-one", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ id }),
-                      })
-                        .then(response => {
-                          if (response.ok) {
-                            // Optionally redirect or update UI
-                            this.classList.add("text-muted");
-                            this.querySelector(".preview-item-content").innerHTML +=
-                              ' <span class="badge badge-secondary">Read</span>';
-                          } else {
-                            console.error("Failed to mark notification as read");
-                          }
-                        })
-                        .catch((error) => {
-                          console.error("Error:", error);
-                        });
+                  init() {
+                    document.querySelectorAll(".smart-user-notification").forEach(item => {
+                      item.addEventListener("click", (e) => this.handleUserNotificationClick(e, item));
                     });
-                  });
+                  }
+
+                  // User-specific route determination
+                  determineUserRoute(messageText) {
+                    const message = messageText.toLowerCase();
+
+                    // User route mapping
+                    const userRoutes = [
+                      { keywords: ['package', 'plan', 'subscription'], route: '/package' },
+                      { keywords: ['payment', 'billing', 'invoice', 'paid'], route: '/complaint' }, // User wallet page
+                      { keywords: ['profile', 'account', 'settings'], route: '/profile' },
+                      { keywords: ['password', 'security'], route: '/changepassword' },
+                      { keywords: ['support', 'help', 'contact'], route: '/contactus' },
+                      { keywords: ['history', 'usage'], route: '/History' }
+                    ];
+
+                    // Find matching route
+                    for (const routeConfig of userRoutes) {
+                      for (const keyword of routeConfig.keywords) {
+                        if (message.includes(keyword)) {
+                          return routeConfig.route;
+                        }
+                      }
+                    }
+
+                    return '/index'; // User dashboard fallback
+                  }
+
+                  async handleUserNotificationClick(e, item) {
+                    e.preventDefault();
+                    
+                    const notificationData = {
+                      id: item.getAttribute("data-id"),
+                      message: item.getAttribute("data-message")
+                    };
+
+                    this.addLoadingState(item);
+
+                    try {
+                      const response = await fetch("/mark-one", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: notificationData.id })
+                      });
+
+                      if (response.ok) {
+                        const targetRoute = this.determineUserRoute(notificationData.message);
+                        this.addSuccessState(item);
+                        
+                        setTimeout(() => {
+                          console.log(`🚀 User routing to: ${targetRoute} for: ${notificationData.message}`);
+                          window.location.href = targetRoute;
+                        }, 500);
+                      } else {
+                        this.addErrorState(item);
+                      }
+                    } catch (error) {
+                      this.addErrorState(item);
+                      console.error("User notification error:", error);
+                    }
+                  }
+
+                  addLoadingState(item) {
+                    item.style.opacity = '0.7';
+                    item.style.transform = 'scale(0.98)';
+                    item.style.transition = 'all 0.3s ease';
+                    
+                    const content = item.querySelector('.notification-text');
+                    if (content) {
+                      content.innerHTML = '<i class="fas fa-spinner fa-spin text-primary"></i> Loading...';
+                    }
+                  }
+
+                  addSuccessState(item) {
+                    item.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+                    item.style.color = 'white';
+                    item.style.transform = 'scale(1.02)';
+                    
+                    const content = item.querySelector('.notification-text');
+                    if (content) {
+                      content.innerHTML = '<i class="fas fa-check-circle"></i> Opening...';
+                    }
+                  }
+
+                  addErrorState(item) {
+                    item.style.background = '#fee2e2';
+                    item.style.borderLeft = '4px solid #ef4444';
+                    
+                    const content = item.querySelector('.notification-text');
+                    if (content) {
+                      content.innerHTML = '<i class="fas fa-exclamation-triangle text-danger"></i> Error';
+                    }
+                    
+                    setTimeout(() => {
+                      item.style.background = '';
+                      item.style.borderLeft = '';
+                      item.style.opacity = '1';
+                    }, 3000);
+                  }
+                }
+
+                // Initialize user notification handler
+                document.addEventListener("DOMContentLoaded", () => {
+                  new SmartUserNotificationHandler();
                 });
               </script>
               <ul class="navbar-nav navbar-nav-right">
@@ -581,6 +809,92 @@
   .notif-scrollable {
     max-height: 300px;
     overflow-y: auto;
+  }
+
+  /* Professional Notification Styling */
+  .smart-notification,
+  .smart-user-notification {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    margin: 4px 8px;
+    border-left: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .smart-notification:hover,
+  .smart-user-notification:hover {
+    background: linear-gradient(90deg, rgba(79, 70, 229, 0.05), rgba(124, 58, 237, 0.05));
+    border-left-color: #4F46E5;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  }
+
+  .smart-notification .notification-text,
+  .smart-user-notification .notification-text {
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  .smart-notification small,
+  .smart-user-notification small {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  /* Loading and success states */
+  .smart-notification.loading,
+  .smart-user-notification.loading {
+    pointer-events: none;
+  }
+
+  /* Notification count badge enhancement */
+  .navbar .count {
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* Better dropdown styling */
+  .navbar-dropdown.preview-list {
+    border: none;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .dropdown-header {
+    background: linear-gradient(90deg, #4F46E5, #7C3AED);
+    color: white !important;
+    padding: 12px 20px;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .preview-icon {
+    border-radius: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Dark theme notification support */
+  [data-theme="dark"] .navbar-dropdown.preview-list {
+    background: #1E293B;
+    border: 1px solid #334155;
+  }
+
+  [data-theme="dark"] .smart-notification:hover,
+  [data-theme="dark"] .smart-user-notification:hover {
+    background: linear-gradient(90deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
   }
 </style>
 

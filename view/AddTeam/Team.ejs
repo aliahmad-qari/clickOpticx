@@ -819,6 +819,7 @@
                               <th class="type-col">Email</th>
                               <th class="category-col">Number</th>
                               <th class="quantity-col">Role</th>
+                              <th class="department-col">Department</th>
                               <th class="actions-col">Action</th>
                             </tr>
                           </thead>
@@ -846,6 +847,11 @@
                                     </div>
                                     <div class="quantity-bar" style="width: 60%"></div>
                                   </div>
+                                </td>
+                                <td class="department-col">
+                                  <span class="category-badge">
+                                    <%= user.department || 'Not Assigned' %>
+                                  </span>
                                 </td>
                                 <td class="actions-col">
                                   <div class="action-buttons">
@@ -895,6 +901,13 @@
                               <div class="team-card-label">Role</div>
                               <div class="team-card-value">
                                 <span class="mobile-badge role"><%= user.role %></span>
+                              </div>
+                            </div>
+                            
+                            <div class="team-card-field">
+                              <div class="team-card-label">Department</div>
+                              <div class="team-card-value">
+                                <span class="mobile-badge role"><%= user.department || 'Not Assigned' %></span>
                               </div>
                             </div>
                           </div>
@@ -958,13 +971,24 @@
                                     <label for="editNumber<%= user.id %>" class="form-label">Number</label>
                                   </div>
                                 </div>
-                                <div class="form-group mb-4">
-                                  <select name="role" id="editRole<%= user.id %>" class="form-select" required>
-                                    <option value="admin" <%=user.role==="admin" ? "selected" : "" %>>admin</option>
-                                    <option value="Team" <%=user.role==="Team" ? "selected" : "" %>>Team</option>
-                                    <option value="user" <%=user.role==="user" ? "selected" : "" %>>user</option>
-                                  </select>
-                                  <label for="editRole<%= user.id %>" class="form-label">Role</label>
+                                <div class="d-flex gap-4 mb-4">
+                                  <div class="form-group w-100">
+                                    <select name="role" id="editRole<%= user.id %>" class="form-select" required>
+                                      <option value="admin" <%=user.role==="admin" ? "selected" : "" %>>admin</option>
+                                      <option value="Team" <%=user.role==="Team" ? "selected" : "" %>>Team</option>
+                                      <option value="user" <%=user.role==="user" ? "selected" : "" %>>user</option>
+                                    </select>
+                                    <label for="editRole<%= user.id %>" class="form-label">Role</label>
+                                  </div>
+                                  <div class="form-group w-100">
+                                    <select name="department" id="editDepartment<%= user.id %>" class="form-select" required>
+                                      <option value="" disabled>Select Department</option>
+                                      <option value="Billing" <%=user.department==="Billing" ? "selected" : "" %>>Billing</option>
+                                      <option value="Sales" <%=user.department==="Sales" ? "selected" : "" %>>Sales</option>
+                                      <option value="Support" <%=user.department==="Support" ? "selected" : "" %>>Support</option>
+                                    </select>
+                                    <label for="editDepartment<%= user.id %>" class="form-label">Department</label>
+                                  </div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="submit" class="btn btn-success">
