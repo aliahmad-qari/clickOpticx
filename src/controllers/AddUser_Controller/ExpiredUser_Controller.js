@@ -5,8 +5,24 @@ const sql = require("../../models/users");
 exports.ExpiredUser = (req, res) => {
   const userId = req.session.userId;
   const sql = `
-   SELECT * FROM users Where invoice = 'Unpaid' And role = 'user' 
-    `;
+    SELECT 
+      u.id AS user_id,
+      u.Username,
+      u.invoice,
+      u.plan,
+      u.user_img,
+      p.expiry_date AS expiry
+    FROM users u
+    JOIN (
+      SELECT *
+      FROM payments
+      WHERE package_status = 'Expired'
+      ORDER BY id DESC
+    ) p ON u.id = p.user_id
+    WHERE u.role = 'user'
+    GROUP BY u.id
+    ORDER BY p.expiry_date DESC
+  `;
 
   const backgroundSql = "SELECT * FROM nav_table";
 
@@ -66,14 +82,14 @@ exports.ExpiredUser = (req, res) => {
 
             const Notifactions = Notifaction[0].Notifactions;
 
-            const passwordSql = `
-                    SELECT * FROM notifications_user 
-                    WHERE user_id = ? 
-                    AND is_read = 0 
-                    AND created_at >= NOW() - INTERVAL 2 DAY 
-                    ORDER BY id DESC;
-                  `;
-            db.query(passwordSql, [userId], (err, notifications_users) => {
+           const unreadSql = `
+              SELECT * FROM notifications_user 
+              WHERE user_id = ? 
+              AND is_read = 0 
+              AND created_at >= NOW() - INTERVAL 2 DAY 
+              ORDER BY id DESC;
+            `
+            db.query(unreadSql, [userId], (err, notifications_users) => {
               if (err) {
                 console.error("Error fetching notification details:", err);
                 return res.status(500).send("Server Error");

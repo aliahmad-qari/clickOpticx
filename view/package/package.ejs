@@ -2936,11 +2936,14 @@
                     toast.remove();
                 }, 3000);
                 
-                // Keep transaction ID field visible for home collection
-                // Note: Transaction ID may still be useful for tracking home collection requests
-                // transactionField.style.display = 'none';
-                // document.getElementById('transaction_id').required = false;
-                
+                // Hide transaction ID field ONLY for home collection
+if (transactionField) {
+    transactionField.style.display = 'none';
+    const transactionInput = document.getElementById('transaction_id');
+    if (transactionInput) {
+        transactionInput.required = false;
+    }
+}
                 // Auto-fill user address if available from profile with better debugging
                 <% const userAddress = user && user.address; %>
                 <% const userPhone = user && user.Number; %>

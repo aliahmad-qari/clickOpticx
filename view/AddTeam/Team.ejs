@@ -907,7 +907,9 @@
                             <div class="team-card-field">
                               <div class="team-card-label">Department</div>
                               <div class="team-card-value">
-                                <span class="mobile-badge role"><%= user.department || 'Not Assigned' %></span>
+                                <span class="mobile-badge role">
+                                  <%= user.department || 'Not Assigned' %>
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -981,14 +983,13 @@
                                     <label for="editRole<%= user.id %>" class="form-label">Role</label>
                                   </div>
                                   <div class="form-group w-100">
-                                    <select name="department" id="editDepartment<%= user.id %>" class="form-select" required>
-                                      <option value="" disabled>Select Department</option>
-                                      <option value="Billing" <%=user.department==="Billing" ? "selected" : "" %>>Billing</option>
-                                      <option value="Sales" <%=user.department==="Sales" ? "selected" : "" %>>Sales</option>
-                                      <option value="Support" <%=user.department==="Support" ? "selected" : "" %>>Support</option>
-                                    </select>
-                                    <label for="editDepartment<%= user.id %>" class="form-label">Department</label>
-                                  </div>
+  <select name="department" id="editDepartment<%= user.id %>" class="form-select" required>
+    <option value="Billing" <%= user.department?.toLowerCase() === "billing" ? "selected" : "" %>>Billing</option>
+    <option value="Sales" <%= user.department?.toLowerCase() === "sales" ? "selected" : "" %>>Sales</option>
+    <option value="Support" <%= user.department?.toLowerCase() === "support" ? "selected" : "" %>>Support</option>
+  </select>
+  <label for="editDepartment<%= user.id %>" class="form-label">Department</label>
+</div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="submit" class="btn btn-success">

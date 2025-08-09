@@ -10,7 +10,7 @@ exports.AllTeams = (req, res) => {
   const search = req.query.search || "";
 
   let sql = `
-    SELECT Username, Email, Number, plan, id, password, role
+    SELECT Username, Email, Number, plan, id, password, role,department
     FROM users 
     WHERE role = 'Team'
   `;
@@ -43,6 +43,14 @@ exports.AllTeams = (req, res) => {
         console.error("Database query error:", err);
         return res.status(500).send("Internal Server Error");
       }
+      results = results.map(user => {
+        if (user.department) {
+          user.department =
+            user.department.charAt(0).toUpperCase() +
+            user.department.slice(1).toLowerCase();
+        }
+        return user;
+      });
 
       const backgroundSql = "SELECT * FROM nav_table";
       db.query(backgroundSql, (err, bg_result) => {
@@ -145,7 +153,12 @@ exports.AllTeams = (req, res) => {
 // All AdminUsers Update
 exports.UpdateTeam = async (req, res) => {
   const userId = req.params.id;
-  const { Username, Email, role, Number, password } = req.body;
+  let { Username, Email, role, Number, password, department } = req.body;
+
+  // Normalize department capitalization
+  if (department) {
+    department = department.charAt(0).toUpperCase() + department.slice(1).toLowerCase();
+  }
 
   try {
     let hashedPassword = null;
@@ -156,13 +169,13 @@ exports.UpdateTeam = async (req, res) => {
     }
 
     const sql =
-      "UPDATE users SET Username = ?, Email = ?, role = ?, Number = ?" +
+      "UPDATE users SET Username = ?, Email = ?, role = ?, Number = ?, department = ?" +
       (hashedPassword ? ", password = ?" : "") +
       " WHERE id = ?";
 
     const values = hashedPassword
-      ? [Username, Email, role, Number, hashedPassword, userId]
-      : [Username, Email, role, Number, userId];
+      ? [Username, Email, role, Number, department, hashedPassword, userId]
+      : [Username, Email, role, Number, department, userId];
 
     db.query(sql, values, (err, result) => {
       if (err) {

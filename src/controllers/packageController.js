@@ -572,6 +572,7 @@ exports.getPackage = async (req, res) => {
             FROM packages p
             LEFT JOIN users u ON p.Package = u.plan
             GROUP BY p.id
+            ORDER BY p.id DESC
           `;
           db.query(packageSql, async (err, packageResults) => {
             if (err) {

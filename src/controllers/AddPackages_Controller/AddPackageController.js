@@ -100,7 +100,13 @@ exports.AddPackages = (req, res) => {
                 }
 
                 // Fetch all packages for admin management
-                const allPackagesSql = `SELECT * FROM packages ORDER BY created_at DESC`;
+                const allPackagesSql = `
+                  SELECT p.*, COUNT(u.id) AS userCount
+                  FROM packages p
+                  LEFT JOIN users u ON p.Package = u.plan
+                  GROUP BY p.id
+                  ORDER BY p.id DESC
+                `;
                 db.query(allPackagesSql, (err, allPackages) => {
                   if (err) {
                     console.error("Error fetching all packages:", err);
@@ -147,7 +153,8 @@ exports.insertPackage = (req, res) => {
         console.error("Database query error:", err);
         return res.status(500).send("Internal Server Error");
       }
-      req.flash("success", "Your package add successfully!");
+      console.log("✅ New package inserted successfully. ID:", result.insertId);
+      req.flash("success", "Your package added successfully!");
       res.redirect("/AddPackages");
     }
   );

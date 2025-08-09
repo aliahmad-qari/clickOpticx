@@ -268,6 +268,35 @@
     .equipment-table tr:hover {
       background-color: var(--bg-tertiary);
     }
+    
+    /* Fix dark mode hover visibility */
+    [data-theme="dark"] .equipment-table tr:hover {
+      background-color: var(--bg-tertiary) !important;
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="dark"] .equipment-table tr:hover td {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="dark"] .equipment-table tr:hover .badge,
+    [data-theme="dark"] .equipment-table tr:hover .status-badge {
+      color: var(--text-primary) !important;
+      background-color: var(--bg-primary) !important;
+      border: 1px solid var(--text-primary) !important;
+      opacity: 1;
+    }
+    
+    [data-theme="dark"] .equipment-table tr:hover .package-name,
+    [data-theme="dark"] .equipment-table tr:hover .package-name strong,
+    [data-theme="dark"] .equipment-table tr:hover small {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="dark"] .equipment-table tr:hover .category-badge,
+    [data-theme="dark"] .equipment-table tr:hover .progress-text {
+      color: var(--text-primary) !important;
+    }
 
     .equipment-image {
       width: 40px;
@@ -1841,7 +1870,10 @@
                         // Show all packages (including 0% payment) to display complete history
                         if (true) { %>
                     <tr data-accepted="<%= package.Accepted %>">
-                      <td class="name-col"><%= index + 1 %></td>
+                      <td class="name-col">
+                        <%= index + 1 %>
+                        <input type="hidden" name="id" value="<%= package.id || package.transaction_id %>">
+                      </td>
                       <td class="name-col">
                         <div class="package-info-cell" 
                           onclick="document.getElementById('receipt-<%= package.transaction_id %>').click(); return false;"
@@ -1896,6 +1928,14 @@
                             style="width: 40px; height: 40px; border-radius: 50%;"
                             title="View Invoice">
                            <i class="fas fa-file-invoice"></i>
+                          </button>
+                          <button class="btn btn-sm email-invoice-btn btn-outline-info d-flex align-items-center justify-content-center me-2 no-print"
+                            data-invoice-id="<%= package.transaction_id %>"
+                            style="width: 40px; height: 40px; border-radius: 50%;"
+                            title="Email Invoice"
+                            onclick="emailInvoiceFromHistorySimple(this)"
+                            ondblclick="emailInvoiceFromHistoryFallback(this)">
+                           <i class="fas fa-envelope"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center"
                             style="width: 40px; height: 40px; border-radius: 50%;"
@@ -2015,6 +2055,15 @@
                           data-custom-amount="<%= package.custom_amount %>">
                           <i class="fas fa-file-invoice"></i>
                           View Invoice
+                        </button>
+                        <button class="mobile-card-btn email-invoice-btn btn-outline-info no-print"
+                          data-invoice-id="<%= package.transaction_id %>"
+                          onclick="emailInvoiceFromHistorySimple(this)"
+                          ondblclick="emailInvoiceFromHistoryFallback(this)"
+                          title="Email Invoice (Double-click for advanced retry)"
+                          style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); margin-top: 8px;">
+                          <i class="fas fa-envelope"></i>
+                          Email Invoice
                         </button>
                         <button class="mobile-card-btn mobile-card-btn-danger"
                           onclick="deletePackageCard('<%= package.id %>', this)"
@@ -2301,9 +2350,6 @@
                     <button style="overflow: hidden;" class="btn btn-success me-2 shadow-sm no-print" onclick="downloadInvoice()">
                       <i class="fas fa-download me-1"></i> Download Invoice
                     </button>
-     <button class="btn btn-primary mt-1 shadow-sm no-print" onclick="emailInvoice()">
-    <i class="fas fa-envelope me-1"></i> Email Invoice
-  </button>
 </div>
                 </div>
                 <hr class="border-2 border-top" style="border-color: #4e73df!important; opacity: 0.7;">
@@ -2546,6 +2592,198 @@ function emailInvoice() {
     .catch(err => {
       console.error("Failed to send invoice email:", err);
       alert("Failed to send invoice email.");
+    });
+}
+
+// Enhanced function for emailing invoice from history buttons
+function emailInvoiceFromHistory(button) {
+  let invoiceId = button.getAttribute('data-invoice-id');
+  const originalContent = button.innerHTML;
+  
+  // Try to get the ID from the closest row's hidden input if data-invoice-id is not available
+  if (!invoiceId) {
+    const row = button.closest('tr');
+    const hiddenInput = row ? row.querySelector('input[name="id"]') : null;
+    invoiceId = hiddenInput ? hiddenInput.value : null;
+  }
+  
+  // Validate invoice ID
+  if (!invoiceId || invoiceId === 'null' || invoiceId === 'undefined') {
+    showErrorMessage('Invalid invoice ID. Please try again.');
+    console.error('Invoice ID missing:', invoiceId);
+    return;
+  }
+  
+  console.log('Attempting to email invoice with ID:', invoiceId);
+  
+  // Show loading state
+  if (button.classList.contains('mobile-card-btn')) {
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  } else {
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  }
+  button.disabled = true;
+  
+  // Enhanced fetch with better error handling
+  fetch(`/email-invoice/${invoiceId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*'
+    }
+  })
+  .then(response => {
+    console.log('Email response status:', response.status);
+    console.log('Email response statusText:', response.statusText);
+    console.log('Email response URL:', response.url);
+    
+    // First, try to get the response text to see what the server is returning
+    return response.text().then(text => {
+      console.log('Email response text:', text);
+      
+      if (response.status === 200 || response.status === 201) {
+        return text;
+      } else if (response.status === 404) {
+        throw new Error('Invoice not found. Server response: ' + text);
+      } else if (response.status === 500) {
+        throw new Error('Server error. Server response: ' + text);
+      } else {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}. Response: ${text}`);
+      }
+    });
+  })
+  .then(msg => {
+    console.log('Success response:', msg);
+    showSuccessMessage('Invoice email sent successfully!');
+    
+    if (button.classList.contains('mobile-card-btn')) {
+      button.innerHTML = '<i class="fas fa-check"></i> Email Sent!';
+    } else {
+      button.innerHTML = '<i class="fas fa-check"></i>';
+    }
+    
+    setTimeout(() => {
+      button.innerHTML = originalContent;
+      button.disabled = false;
+    }, 3000);
+  })
+  .catch(err => {
+    console.error("Email invoice error details:", err);
+    
+    let errorMessage = 'Failed to send invoice email.';
+    if (err.message.includes('Invoice not found')) {
+      errorMessage = 'Invoice not found. Please refresh and try again.';
+    } else if (err.message.includes('Server error')) {
+      errorMessage = 'Server error. Please try again in a moment.';
+    } else if (err.message.includes('Failed to fetch')) {
+      errorMessage = 'Network error. Please check your connection.';
+    }
+    
+    showErrorMessage(errorMessage);
+    button.innerHTML = originalContent;
+    button.disabled = false;
+  });
+}
+
+// Alternative email function using different approaches
+function emailInvoiceFromHistoryFallback(button) {
+  const invoiceId = button.getAttribute('data-invoice-id');
+  const originalContent = button.innerHTML;
+  
+  // Try multiple potential endpoints
+  const endpoints = [
+    `/email-invoice/${invoiceId}`,
+    `/send-invoice-email/${invoiceId}`, 
+    `/invoice/email/${invoiceId}`,
+    `/api/email-invoice/${invoiceId}`
+  ];
+  
+  let currentEndpoint = 0;
+  
+  function tryNextEndpoint() {
+    if (currentEndpoint >= endpoints.length) {
+      showErrorMessage('All email endpoints failed. Please contact support.');
+      button.innerHTML = originalContent;
+      button.disabled = false;
+      return;
+    }
+    
+    const endpoint = endpoints[currentEndpoint];
+    console.log(`Trying endpoint ${currentEndpoint + 1}/${endpoints.length}:`, endpoint);
+    
+    fetch(endpoint)
+      .then(response => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error(`HTTP ${response.status} for ${endpoint}`);
+        }
+      })
+      .then(msg => {
+        console.log(`Success with endpoint:`, endpoint);
+        showSuccessMessage('Invoice email sent successfully!');
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+          button.innerHTML = originalContent;
+          button.disabled = false;
+        }, 3000);
+      })
+      .catch(err => {
+        console.log(`Failed endpoint ${endpoint}:`, err.message);
+        currentEndpoint++;
+        tryNextEndpoint();
+      });
+  }
+  
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  button.disabled = true;
+  tryNextEndpoint();
+}
+
+// Simple email function that uses the same logic as the modal
+function emailInvoiceFromHistorySimple(button) {
+  // Get the invoice ID from the modal approach 
+  const row = button.closest('tr');
+  const hiddenInput = row ? row.querySelector('input[name="id"]') : null;
+  let invoiceId = hiddenInput ? hiddenInput.value : null;
+  
+  // Fallback to data attribute
+  if (!invoiceId) {
+    invoiceId = button.getAttribute('data-invoice-id');
+  }
+  
+  if (!invoiceId) {
+    showErrorMessage('Cannot find invoice ID');
+    return;
+  }
+  
+  const originalContent = button.innerHTML;
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  button.disabled = true;
+  
+  // Use the exact same approach as the working modal function
+  fetch(`/email-invoice/${invoiceId}`)
+    .then(res => res.text())
+    .then(msg => {
+      console.log('Email response:', msg);
+      // Check if the response indicates success
+      if (msg.toLowerCase().includes('success') || msg.toLowerCase().includes('sent')) {
+        showSuccessMessage('Invoice email sent successfully!');
+        button.innerHTML = '<i class="fas fa-check"></i>';
+      } else {
+        showSuccessMessage(msg); // Show whatever the server returned
+        button.innerHTML = '<i class="fas fa-check"></i>';
+      }
+      setTimeout(() => {
+        button.innerHTML = originalContent;
+        button.disabled = false;
+      }, 3000);
+    })
+    .catch(err => {
+      console.error("Failed to send invoice email:", err);
+      showErrorMessage('Failed to send invoice email: ' + err.message);
+      button.innerHTML = originalContent;
+      button.disabled = false;
     });
 }
 

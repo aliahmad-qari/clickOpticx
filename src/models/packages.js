@@ -9,7 +9,9 @@ const sql = `CREATE TABLE IF NOT EXISTS packages (
   Offer_Valid VARCHAR(255) NOT NULL,
   limits VARCHAR(255) NOT NULL,
   user_id INT NOT NULL,
-  discountPercentage decimal(10,0) NOT NULL
+  discountPercentage decimal(5,2) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )`;
 
 connection.query(sql, function (err, result) {

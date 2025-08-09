@@ -228,7 +228,7 @@ exports.deletePackageById = (req, res) => {
 
 const PDFDocument = require('pdfkit');
 
-exports.downloadInvoiceById = (req, res) => {
+exports.downloadInvoiceById = async (req, res) => {
   const invoiceId = req.params.id;
   const userId = req.session.userId;
 
@@ -236,24 +236,44 @@ exports.downloadInvoiceById = (req, res) => {
     return res.status(400).send('Missing data');
   }
 
-  // First verify if invoice belongs to this user
-  const query = `
-    SELECT r.*, u.Username, u.Email 
-    FROM respits r
-    JOIN users u ON r.user_id = u.id
-    WHERE r.id = ? AND u.id = ?
-  `;
-  db.query(query, [invoiceId, userId], (err, results) => {
-    if (err) {
-      console.error('DB error during invoice lookup:', err);
-      return res.status(500).send('Internal Server Error');
+  try {
+    // First try to find the invoice in respits table
+    const respitsQuery = `
+      SELECT r.*, u.Username, u.Email, 'respits' as source_table
+      FROM respits r
+      JOIN users u ON r.user_id = u.id
+      WHERE r.id = ? AND u.id = ?
+    `;
+
+    // Then try to find the invoice in payments table
+    const paymentsQuery = `
+      SELECT p.*, u.Username, u.Email, 'payments' as source_table,
+             p.package_name as plan, p.amount, p.created_at
+      FROM payments p
+      JOIN users u ON p.user_id = u.id
+      WHERE p.id = ? AND u.id = ?
+    `;
+
+    // Try respits table first
+    const [respitsResults] = await db.promise().query(respitsQuery, [invoiceId, userId]);
+    
+    let invoice = null;
+    
+    if (respitsResults.length > 0) {
+      invoice = respitsResults[0];
+    } else {
+      // If not found in respits, try payments table
+      const [paymentsResults] = await db.promise().query(paymentsQuery, [invoiceId, userId]);
+      
+      if (paymentsResults.length > 0) {
+        invoice = paymentsResults[0];
+      }
     }
 
-    if (results.length === 0) {
+    if (!invoice) {
+      console.error("Invoice not found in either respits or payments table for ID:", invoiceId);
       return res.status(403).send('Invoice not found or access denied');
     }
-
-    const invoice = results[0];
 
     // Create PDF
     const doc = new PDFDocument();
@@ -269,16 +289,21 @@ exports.downloadInvoiceById = (req, res) => {
     doc.fontSize(12).text(`Invoice ID: ${invoice.id}`);
     doc.text(`Username: ${invoice.Username}`);
     doc.text(`Email: ${invoice.Email}`);
-    doc.text(`Plan: ${invoice.plan || 'N/A'}`);
+    doc.text(`Plan: ${invoice.plan || invoice.package_name || 'N/A'}`);
     doc.text(`Date: ${moment(invoice.created_at).format("YYYY-MM-DD")}`);
-    doc.text(`Amount: ${invoice.amount || 'N/A'}`);
+    doc.text(`Amount: ${invoice.amount || invoice.custom_amount || 'N/A'}`);
+    doc.text(`Source: ${invoice.source_table}`);
 
     doc.end();
-  });
+
+  } catch (error) {
+    console.error('Error in downloadInvoiceById:', error);
+    return res.status(500).send('Internal server error while processing invoice download.');
+  }
 };
 
 
-exports.emailInvoiceById = (req, res) => {
+exports.emailInvoiceById = async (req, res) => {
   const invoiceId = req.params.id;
   const userId = req.session.userId;
 
@@ -286,20 +311,45 @@ exports.emailInvoiceById = (req, res) => {
     return res.status(400).send("Missing data");
   }
 
-  const query = `
-    SELECT r.*, u.Username, u.Email 
-    FROM respits r
-    JOIN users u ON r.user_id = u.id
-    WHERE r.id = ? AND u.id = ?
-  `;
+  try {
+    // First try to find the invoice in respits table
+    const respitsQuery = `
+      SELECT r.*, u.Username, u.Email, 'respits' as source_table
+      FROM respits r
+      JOIN users u ON r.user_id = u.id
+      WHERE r.id = ? AND u.id = ?
+    `;
 
-  db.query(query, [invoiceId, userId], (err, results) => {
-    if (err || results.length === 0) {
-      console.error("Invoice fetch error:", err);
+    // Then try to find the invoice in payments table
+    const paymentsQuery = `
+      SELECT p.*, u.Username, u.Email, 'payments' as source_table,
+             p.package_name as plan, p.amount, p.created_at
+      FROM payments p
+      JOIN users u ON p.user_id = u.id
+      WHERE p.id = ? AND u.id = ?
+    `;
+
+    // Try respits table first
+    const [respitsResults] = await db.promise().query(respitsQuery, [invoiceId, userId]);
+    
+    let invoice = null;
+    
+    if (respitsResults.length > 0) {
+      invoice = respitsResults[0];
+    } else {
+      // If not found in respits, try payments table
+      const [paymentsResults] = await db.promise().query(paymentsQuery, [invoiceId, userId]);
+      
+      if (paymentsResults.length > 0) {
+        invoice = paymentsResults[0];
+      }
+    }
+
+    if (!invoice) {
+      console.error("Invoice not found in either respits or payments table for ID:", invoiceId);
       return res.status(403).send("Invoice not found or access denied");
     }
 
-    const invoice = results[0];
     const filename = `invoice-${invoice.id}.pdf`;
     const filePath = path.join(__dirname, "../../invoices", filename);
 
@@ -317,9 +367,10 @@ exports.emailInvoiceById = (req, res) => {
     doc.fontSize(12).text(`Invoice ID: ${invoice.id}`);
     doc.text(`Username: ${invoice.Username}`);
     doc.text(`Email: ${invoice.Email}`);
-    doc.text(`Plan: ${invoice.plan || "N/A"}`);
+    doc.text(`Plan: ${invoice.plan || invoice.package_name || "N/A"}`);
     doc.text(`Date: ${moment(invoice.created_at).format("YYYY-MM-DD")}`);
-    doc.text(`Amount: ${invoice.amount || "N/A"}`);
+    doc.text(`Amount: ${invoice.amount || invoice.custom_amount || "N/A"}`);
+    doc.text(`Source: ${invoice.source_table}`);
     doc.end();
 
     writeStream.on("finish", () => {
@@ -347,8 +398,13 @@ exports.emailInvoiceById = (req, res) => {
           return res.status(500).send("Failed to send invoice email.");
         }
 
+        console.log(`✅ Invoice emailed successfully to ${invoice.Email} from ${invoice.source_table} table`);
         res.send("✅ Invoice emailed successfully.");
       });
     });
-  });
+
+  } catch (error) {
+    console.error("Error in emailInvoiceById:", error);
+    return res.status(500).send("Internal server error while processing invoice email.");
+  }
 };

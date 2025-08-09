@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Customize Dashboard</title>
+  <title>Enterprise System Configuration</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
@@ -28,339 +28,384 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    /* Global Theme Variables */
+    /* ===== PROFESSIONAL ENTERPRISE SYSTEM SETTINGS DESIGN ===== */
+    
     :root {
-      /* Brand Colors - Same for both themes */
-      --primary-color: #4F46E5;
-      --primary-dark: #3730A3;
-      --secondary-color: #10B981;
-      --accent-color: #F59E0B;
-      --danger-color: #EF4444;
-      --success-color: #22C55E;
-      --warning-color: #F59E0B;
-      --info-color: #3B82F6;
-
-      /* Light Theme Colors */
-      --bg-primary: #FFFFFF;
-      --bg-secondary: #F8FAFC;
-      --bg-tertiary: #F1F5F9;
-      --text-primary: #1E293B;
-      --text-secondary: #475569;
-      --text-tertiary: #64748B;
-      --border-primary: #E2E8F0;
-      --border-secondary: #CBD5E1;
-      --shadow-light: rgba(0, 0, 0, 0.1);
-      --shadow-medium: rgba(0, 0, 0, 0.15);
-      --shadow-heavy: rgba(0, 0, 0, 0.25);
-      --card-bg: #FFFFFF;
-      --navbar-bg: #FFFFFF;
-      --sidebar-bg: #FFFFFF;
-
-      /* Legacy support */
-      --primary: #4F46E5;
-      --secondary: #10B981;
-      --accent: #F59E0B;
-      --light: #F8FAFC;
-      --dark: #1E293B;
+      /* Professional Enterprise Color Scheme */
+      --enterprise-primary: #2563EB;
+      --enterprise-primary-hover: #1D4ED8;
+      --enterprise-secondary: #64748B;
+      --enterprise-success: #059669;
+      --enterprise-warning: #D97706;
+      --enterprise-danger: #DC2626;
+      --enterprise-info: #0891B2;
+      
+      /* Background Colors */
+      --enterprise-bg-main: #F8FAFC;
+      --enterprise-bg-card: #FFFFFF;
+      --enterprise-bg-input: #F9FAFB;
+      --enterprise-bg-hover: #F1F5F9;
+      
+      /* Text Colors */
+      --enterprise-text-primary: #1E293B;
+      --enterprise-text-secondary: #64748B;
+      --enterprise-text-muted: #94A3B8;
+      --enterprise-text-light: #CBD5E1;
+      
+      /* Border Colors */
+      --enterprise-border: #E2E8F0;
+      --enterprise-border-focus: #3B82F6;
+      --enterprise-border-hover: #CBD5E1;
+      
+      /* Shadow Effects */
+      --enterprise-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --enterprise-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --enterprise-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --enterprise-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
-    /* Dark Theme Colors */
-    [data-theme="dark"] {
-      --bg-primary: #0F172A;
-      --bg-secondary: #1E293B;
-      --bg-tertiary: #334155;
-      --text-primary: #F8FAFC;
-      --text-secondary: #CBD5E1;
-      --text-tertiary: #94A3B8;
-      --border-primary: #334155;
-      --border-secondary: #475569;
-      --shadow-light: rgba(0, 0, 0, 0.3);
-      --shadow-medium: rgba(0, 0, 0, 0.4);
-      --shadow-heavy: rgba(0, 0, 0, 0.6);
-      --card-bg: #1E293B;
-      --navbar-bg: #0F172A;
-      --sidebar-bg: #1E293B;
-
-      /* Legacy support */
-      --light: #1E293B;
-      --dark: #F8FAFC;
-    }
-
+    /* Global Base Styling */
     * {
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body {
-      background: var(--bg-secondary) !important;
-      color: var(--text-primary) !important;
+      background: var(--enterprise-bg-main) !important;
+      color: var(--enterprise-text-primary) !important;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+      line-height: 1.6;
     }
 
-    .container-scroller {
-      background: var(--bg-secondary) !important;
-    }
-
-    .page-body-wrapper {
-      background: var(--bg-secondary) !important;
-    }
-
-    .main-panel {
-      background: var(--bg-secondary) !important;
-    }
-
+    .container-scroller,
+    .page-body-wrapper,
+    .main-panel,
     .content-wrapper {
-      background: var(--bg-secondary) !important;
+      background: var(--enterprise-bg-main) !important;
     }
 
-
-    .editor-parent {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      gap: 8px;
-      width: 100%;
-      background-color: #F3F3F9;
-      padding: 20px;
+    /* ===== MAIN LAYOUT SYSTEM ===== */
+    .enterprise-settings-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: var(--enterprise-bg-main);
     }
 
-    .editor-div1 {
-      grid-column: span 2 / span 2;
-      grid-row: span 5 / span 5;
-      background: white;
-      height: 100vh;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    .editor-div2 {
-      grid-column: span 3 / span 3;
-      grid-row: span 5 / span 5;
-      grid-column-start: 3;
-      background: white;
-      padding: 30px;
-      height: 100vh;
-      border-radius: 10px;
-    }
-
-    .editor-heading {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+    .enterprise-header {
+      margin-bottom: 2.5rem;
       text-align: center;
     }
 
-    .editor-form-group {
-      margin-bottom: 20px;
+    .enterprise-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--enterprise-text-primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.025em;
     }
 
-    .editor-label {
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      margin-bottom: 10px;
-      color: var(--dark);
+    .enterprise-header p {
+      font-size: 1.125rem;
+      color: var(--enterprise-text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .editor-label i {
-      margin-right: 10px;
-      color: var(--secondary);
+    /* ===== SETTINGS GRID LAYOUT ===== */
+    .enterprise-settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
 
-    .editor-input-container {
+    /* Single Column Layout */
+    .enterprise-settings-grid.single-column {
+      grid-template-columns: 1fr;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ===== SETTINGS CARDS ===== */
+    .enterprise-settings-card {
+      background: var(--enterprise-bg-card);
+      border: 1px solid var(--enterprise-border);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--enterprise-shadow-md);
       position: relative;
+      overflow: hidden;
+    }
+
+    .enterprise-settings-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--enterprise-primary), var(--enterprise-info));
+    }
+
+    .enterprise-settings-card:hover {
+      box-shadow: var(--enterprise-shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    /* Card Header */
+    .enterprise-card-header {
       display: flex;
       align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--enterprise-bg-hover);
     }
 
-    .editor-select,
-    .editor-button {
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--secondary);
-      background-color: var(--light);
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .editor-select {
-      padding-right: 50px;
-      cursor: pointer;
-    }
-
-    .editor-select-icon {
-      position: absolute;
-      right: 16px;
-      pointer-events: none;
-      color: var(--secondary);
-    }
-
-    .editor-button {
-      background: linear-gradient(to right, red, rgb(253, 61, 61));
-      color: white;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: none;
-      margin-top: 10px;
-    }
-
-    .editor-form {
+    .enterprise-card-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--enterprise-primary), var(--enterprise-info));
+      border-radius: 12px;
       display: flex;
-      flex-direction: column;
-      margin-bottom: 30px;
-    }
-
-    .editor-file-input {
-      margin-top: 10px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-      border: 1px solid var(--secondary);
-      background-color: var(--light);
-    }
-
-    /* input Color  */
-    .color-1,
-    .color-2 {
-      border: none;
-      background: transparent;
-      height: 109px;
-      width: 100%;
-      border-radius: 30px;
-    }
-
-    .submit-btn {
-      border: none;
-      width: 140px;
-      padding: 6px 1px;
-      border-radius: 5px;
-      background-color: #4b49ac;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
       color: white;
-      margin-left: 10px;
+      font-size: 1.25rem;
     }
 
-    /* Full Responsive Enhancements */
-    @media (max-width: 1200px) {
-      .editor-parent {
-        display: flex;
-        flex-direction: column;
-        padding: 20px 15px;
-      }
+    .enterprise-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--enterprise-text-primary);
+      margin: 0;
+    }
 
-      .editor-div1,
-      .editor-div2 {
-        width: 100%;
-        height: auto;
-        margin-bottom: 20px;
+    /* ===== FORM STYLING ===== */
+    .enterprise-form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .enterprise-form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--enterprise-text-primary);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .enterprise-form-description {
+      font-size: 0.875rem;
+      color: var(--enterprise-text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Color Input Styling */
+    .enterprise-color-input {
+      width: 100%;
+      height: 80px;
+      border: 2px solid var(--enterprise-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--enterprise-bg-input);
+    }
+
+    .enterprise-color-input:hover {
+      border-color: var(--enterprise-border-hover);
+      box-shadow: var(--enterprise-shadow-sm);
+    }
+
+    .enterprise-color-input:focus {
+      outline: none;
+      border-color: var(--enterprise-primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* File Upload Styling */
+    .enterprise-upload-area {
+      position: relative;
+      border: 2px dashed var(--enterprise-border);
+      border-radius: 12px;
+      padding: 3rem;
+      text-align: center;
+      background: var(--enterprise-bg-input);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .enterprise-upload-area:hover {
+      border-color: var(--enterprise-primary);
+      background: rgba(37, 99, 235, 0.02);
+    }
+
+    .enterprise-upload-area.dragover {
+      border-color: var(--enterprise-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .enterprise-upload-icon {
+      font-size: 3rem;
+      color: var(--enterprise-text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .enterprise-upload-text {
+      font-size: 1.125rem;
+      color: var(--enterprise-text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .enterprise-upload-subtext {
+      font-size: 0.875rem;
+      color: var(--enterprise-text-muted);
+    }
+
+    .enterprise-file-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* ===== BUTTON STYLING ===== */
+    .enterprise-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      min-width: 140px;
+    }
+
+    .enterprise-btn-primary {
+      background: linear-gradient(135deg, var(--enterprise-primary), var(--enterprise-info));
+      color: white;
+      box-shadow: var(--enterprise-shadow-sm);
+    }
+
+    .enterprise-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--enterprise-shadow-md);
+    }
+
+    .enterprise-btn-danger {
+      background: linear-gradient(135deg, var(--enterprise-danger), #B91C1C);
+      color: white;
+      box-shadow: var(--enterprise-shadow-sm);
+    }
+
+    .enterprise-btn-danger:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--enterprise-shadow-md);
+    }
+
+    .enterprise-btn i {
+      margin-right: 0.5rem;
+    }
+
+    /* ===== PREVIEW SECTIONS ===== */
+    .enterprise-preview-section {
+      background: var(--enterprise-bg-hover);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 1px solid var(--enterprise-border);
+    }
+
+    .enterprise-preview-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--enterprise-text-secondary);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .enterprise-preview-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: var(--enterprise-shadow-sm);
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .enterprise-settings-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .enterprise-settings-container {
+        padding: 1.5rem;
+      }
+      
+      .enterprise-header h1 {
+        font-size: 2rem;
+      }
+      
+      .enterprise-settings-card {
+        padding: 1.5rem;
       }
     }
 
     @media (max-width: 768px) {
-      .editor-heading {
-        font-size: 1.3rem;
+      .enterprise-settings-container {
+        padding: 1rem;
+      }
+      
+      .enterprise-header h1 {
+        font-size: 1.75rem;
+      }
+      
+      .enterprise-settings-card {
+        padding: 1.25rem;
+      }
+      
+      .enterprise-card-header {
+        flex-direction: column;
         text-align: center;
+        align-items: center;
       }
-
-      .editor-form {
-        width: 100%;
+      
+      .enterprise-card-icon {
+        margin-right: 0;
+        margin-bottom: 0.75rem;
       }
-
-      .editor-label {
-        font-size: 1rem;
-        flex-direction: row;
-      }
-
-      .editor-select,
-      .editor-button,
-      .editor-file-input,
-      .submit-btn {
-        width: 100%;
-        font-size: 1rem;
-        padding: 10px;
-      }
-
-      .color-1,
-      .color-2 {
-        height: 70px;
-        border-radius: 20px;
-      }
-
-      .editor-upload-box {
-        height: 180px !important;
+      
+      .enterprise-upload-area {
+        padding: 2rem 1rem;
       }
     }
 
     @media (max-width: 480px) {
-      .editor-heading {
-        font-size: 1.1rem;
+      .enterprise-header h1 {
+        font-size: 1.5rem;
       }
-
-      .editor-label {
-        font-size: 0.95rem;
+      
+      .enterprise-card-title {
+        font-size: 1.25rem;
       }
-
-      .submit-btn {
+      
+      .enterprise-btn {
         width: 100%;
-        margin-left: 0;
-      }
-
-      .editor-parent {
-        padding: 10px;
+        justify-content: center;
       }
     }
-
-    @media (max-width: 360px) {
-      .editor-heading {
-        font-size: 1rem;
-      }
-
-      .editor-div1,
-      .editor-div2 {
-        padding: 15px;
-      }
-
-      .editor-button {
-        font-size: 0.9rem;
-        padding: 10px;
-      }
-
-      .submit-btn {
-        font-size: 0.9rem;
-        padding: 8px;
-      }
-
-      .color-1,
-      .color-2 {
-        height: 60px;
-      }
-    }
-
-    /* gggggggggggg */
-    .background-upload-box {
-      display: flex;
-      background-image: url('/images/Icon_imges.svg');
-      object-fit: fill;
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      border-radius: 20px;
-      align-items: center;
-      justify-content: center;
-      border: 2px dashed #ccc;
-      width: 100%;
-      height: 246px;
-      /* default */
-      position: relative;
-      cursor: pointer;
-    }
-
-    /* When screen is wider than 1766px */
-    @media screen and (min-width: 1767px) {
-      .background-upload-box {
-        height: 350px;
-      }
-    }
-
-    /* gggggggggggg */
   </style>
 
 </head>
@@ -378,131 +423,195 @@
           <%- include ('../partials/Sidebar.ejs') %>
             <!-- NavBar End -->
 
-            <!-- aaaaaaaaaaaaaaaaaaaaaaa -->
-<!-- Add dynamic class based on activeTab -->
-<div class="editor-parent <%= activeTab ? 'single-view' : 'dual-view' %>">
+            <!-- ===== PROFESSIONAL ENTERPRISE SYSTEM SETTINGS ===== -->
+            <div class="enterprise-settings-container">
+              
+              <!-- Header Section -->
+              <div class="enterprise-header">
+                <h1>System Configuration</h1>
+                <p>Manage your enterprise system appearance and branding settings with precision and control.</p>
+              </div>
 
-  <% if (!activeTab || activeTab === "color") { %>
-    <!-- Show Color Settings -->
-    <div class="editor-div1">
-      <h1 class="editor-heading">Color Settings</h1>
-      <form action="/textChange" method="post" class="editor-form">
-        <div class="editor-form-group">
-          <label class="editor-label">
-            <i class="fas fa-palette"></i> Update user dashboard Text Color
-          </label>
-          <input type="color" name="text_color" class="color-1" />
-        </div>
-        <button type="submit" class="submit-btn">
-          <i class="fas fa-palette"></i> Apply Color
-        </button>
-      </form>
-      <form action="/update-background-color" method="post" class="editor-form">
-        <div class="editor-form-group">
-          <label class="editor-label">
-            <i class="fas fa-fill-drip"></i> Update user dashboard Background Color
-          </label>
-          <input type="color" class="color-2" name="background_color">
-        </div>
-        <button type="submit" class="submit-btn">
-          <i class="fas fa-fill-drip"></i> Apply Color
-        </button>
-      </form>
-    </div>
-  <% } %>
+              <!-- Settings Grid -->
+              <div class="enterprise-settings-grid <%= activeTab ? 'single-column' : '' %>">
 
-  <% if (!activeTab || activeTab === "background") { %>
-    <!-- Show Background Settings -->
-    <div class="editor-div2">
-      <h1 class="editor-heading">Background Settings</h1>
-      <form action="/upload" method="post" class="editor-form" enctype="multipart/form-data">
-        <div class="editor-form-group">
-          <label class="editor-label">
-            <i class="fas fa-image"></i> Update user dashboard Background Image
-          </label>
-          <div class="background-upload-box" id="background-image-preview"
-            style="display: flex; background-image: url('/images/Icon_imges.svg');
-            object-fit: fill; background-position: center; background-size: cover;
-            background-repeat: no-repeat; border-radius: 20px; align-items: center;
-            justify-content: center; border: 2px dashed #ccc; width: 100%; height: 270px;
-            position: relative; cursor: pointer;">
-            <input type="file" id="editor-bg-image-option" name="background_img" class="editor-file-input"
-              accept="image/*" required
-              style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-              opacity: 0; cursor: pointer; z-index: 2;">
-          </div>
-        </div>
-        <button type="submit" class="submit-btn">
-          <i class="fas fa-image"></i> Upload Image
-        </button>
-      </form>
-      <button type="button" class="editor-button" data-bs-toggle="modal" data-bs-target="#deleteBackgroundModal">
-        <i class="fas fa-trash-alt" style="margin-right: 10px;"></i> Delete Background
-      </button>
-      <% bg_result.map((result)=> { %>
-        <img width="100px" class="pt-2" src="/Uploads/<%= result.background_img %>" alt="">
-      <% }) %>
-    </div>
-  <% } %>
+                <% if (!activeTab || activeTab === "color") { %>
+                  <!-- Color Management Card -->
+                  <div class="enterprise-settings-card">
+                    <div class="enterprise-card-header">
+                      <div class="enterprise-card-icon">
+                        <i class="fas fa-palette"></i>
+                      </div>
+                      <h2 class="enterprise-card-title">Color Management</h2>
+                    </div>
 
-</div>
+                    <!-- Text Color Configuration -->
+                    <form action="/textChange" method="post">
+                      <div class="enterprise-form-group">
+                        <label class="enterprise-form-label">Primary Text Color</label>
+                        <p class="enterprise-form-description">
+                          Set the primary text color that will be applied across all user interface elements.
+                        </p>
+                        <input type="color" name="text_color" class="enterprise-color-input" />
+                      </div>
+                      <button type="submit" class="enterprise-btn enterprise-btn-primary">
+                        <i class="fas fa-paint-brush"></i>
+                        Apply Text Color
+                      </button>
+                    </form>
 
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--enterprise-border);">
 
-<style>
-  /* Single-view (only one section visible) */
-.editor-parent.single-view {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
+                    <!-- Background Color Configuration -->
+                    <form action="/update-background-color" method="post">
+                      <div class="enterprise-form-group">
+                        <label class="enterprise-form-label">Background Color</label>
+                        <p class="enterprise-form-description">
+                          Configure the main background color for the user dashboard and interface.
+                        </p>
+                        <input type="color" name="background_color" class="enterprise-color-input">
+                      </div>
+                      <button type="submit" class="enterprise-btn enterprise-btn-primary">
+                        <i class="fas fa-fill-drip"></i>
+                        Apply Background Color
+                      </button>
+                    </form>
+                  </div>
+                <% } %>
 
-/* Make single visible div full width with max-width for large screens */
-.editor-parent.single-view .editor-div1,
-.editor-parent.single-view .editor-div2 {
-  flex: 1 1 100%;
-  max-width: 900px;  /* keep it centered on very wide screens */
-  height: auto;
-  padding: 30px;
-}
+                <% if (!activeTab || activeTab === "background") { %>
+                  <!-- Background Image Management Card -->
+                  <div class="enterprise-settings-card">
+                    <div class="enterprise-card-header">
+                      <div class="enterprise-card-icon">
+                        <i class="fas fa-image"></i>
+                      </div>
+                      <h2 class="enterprise-card-title">Background Assets</h2>
+                    </div>
 
-/* Adjust heading & spacing */
-.editor-parent.single-view .editor-heading {
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-}
+                    <!-- Background Image Upload -->
+                    <form action="/upload" method="post" enctype="multipart/form-data">
+                      <div class="enterprise-form-group">
+                        <label class="enterprise-form-label">Background Image Upload</label>
+                        <p class="enterprise-form-description">
+                          Upload a high-quality background image for your user dashboard. Recommended size: 1920x1080px.
+                        </p>
+                        <div class="enterprise-upload-area" id="background-image-preview">
+                          <i class="fas fa-cloud-upload-alt enterprise-upload-icon"></i>
+                          <div class="enterprise-upload-text">Drop your image here or click to browse</div>
+                          <div class="enterprise-upload-subtext">PNG, JPG up to 10MB</div>
+                          <input type="file" name="background_img" class="enterprise-file-input" accept="image/*" required id="enterprise-bg-input">
+                        </div>
+                      </div>
+                      <button type="submit" class="enterprise-btn enterprise-btn-primary">
+                        <i class="fas fa-upload"></i>
+                        Upload Background
+                      </button>
+                    </form>
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .editor-parent.single-view {
-    padding: 15px;
-  }
-  .editor-parent.single-view .editor-div1,
-  .editor-parent.single-view .editor-div2 {
-    max-width: 100%;
-    padding: 20px;
-  }
-}
+                    <!-- Current Background Preview -->
+                    <% if (bg_result && bg_result.length > 0 && bg_result[0].background_img) { %>
+                      <div class="enterprise-preview-section">
+                        <div class="enterprise-preview-title">Current Background</div>
+                        <img src="/uploads/<%= bg_result[0].background_img %>" alt="Current Background" class="enterprise-preview-image">
+                      </div>
+                    <% } %>
 
-</style>
+                    <div style="margin-top: 1.5rem;">
+                      <button type="button" class="enterprise-btn enterprise-btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBackgroundModal">
+                        <i class="fas fa-trash-alt"></i>
+                        Remove Background
+                      </button>
+                    </div>
+                  </div>
+                <% } %>
 
+              </div>
+            </div>
 
+            <!-- Add professional JavaScript for enhanced functionality -->
             <script>
-              // JavaScript for Background Image Preview
-              document.getElementById('editor-bg-image-option').addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                const previewDiv = document.getElementById('background-image-preview');
-                const previewText = document.getElementById('background-preview-text');
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = function (e) {
-                    previewDiv.style.backgroundImage = `url(${e.target.result})`;
-                    previewText.style.display = 'none';
-                  };
-                  reader.readAsDataURL(file);
-                } else {
-                  previewDiv.style.backgroundImage = `url('/images/default_background.svg')`;
-                  previewText.style.display = 'block';
+              // Professional Enterprise File Upload Handler
+              document.addEventListener('DOMContentLoaded', function() {
+                const uploadArea = document.getElementById('background-image-preview');
+                const fileInput = document.getElementById('enterprise-bg-input');
+                
+                if (uploadArea && fileInput) {
+                  // Handle drag and drop
+                  uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragover');
+                  });
+
+                  uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                  });
+
+                  uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                      fileInput.files = files;
+                      handleFilePreview(files[0]);
+                    }
+                  });
+
+                  // Handle file input change
+                  fileInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                      handleFilePreview(e.target.files[0]);
+                    }
+                  });
+
+                  function handleFilePreview(file) {
+                    if (file && file.type.startsWith('image/')) {
+                      const reader = new FileReader();
+                      reader.onload = function(e) {
+                        uploadArea.style.backgroundImage = `url(${e.target.result})`;
+                        uploadArea.style.backgroundSize = 'cover';
+                        uploadArea.style.backgroundPosition = 'center';
+                        uploadArea.querySelector('.enterprise-upload-icon').style.display = 'none';
+                        uploadArea.querySelector('.enterprise-upload-text').textContent = 'Image uploaded successfully';
+                        uploadArea.querySelector('.enterprise-upload-subtext').textContent = 'Click to change';
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }
                 }
+
+                // Add smooth transitions and professional animations
+                const cards = document.querySelectorAll('.enterprise-settings-card');
+                cards.forEach(card => {
+                  card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                  });
+                  
+                  card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-2px)';
+                  });
+                });
+
+                // Professional form validation
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                  form.addEventListener('submit', function(e) {
+                    const button = this.querySelector('button[type="submit"]');
+                    if (button) {
+                      button.style.opacity = '0.7';
+                      button.style.transform = 'scale(0.95)';
+                      const originalText = button.innerHTML;
+                      button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Processing...';
+                      
+                      setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.opacity = '1';
+                        button.style.transform = 'scale(1)';
+                      }, 2000);
+                    }
+                  });
+                });
               });
             </script>
             <!-- plugins:js -->

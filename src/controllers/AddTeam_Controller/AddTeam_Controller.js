@@ -119,7 +119,11 @@ exports.Allstaff = (req, res) => {
 
 // Insert all AdminTeams
 exports.AddTeam = (req, res) => {
-  const { Username, Email, password, role, Number } = req.body;
+  const { Username, Email, password, role, Number, department } = req.body;
+
+  const formattedDepartment = department
+    ? department.charAt(0).toUpperCase() + department.slice(1).toLowerCase()
+    : null;
 
   // Hash the password before storing it
   bcrypt.hash(password, 10, (err, hashedPassword) => {
@@ -128,10 +132,10 @@ exports.AddTeam = (req, res) => {
       return res.status(500).send("Internal Server Error");
     }
     const sql =
-      "INSERT INTO users (Username, Email, password, Number, role) VALUES ( ?, ?, ?, ?, ?)";
+      "INSERT INTO users (Username, Email, password, Number, role, department) VALUES ( ?, ?, ?, ?, ?, ?)";
     db.query(
       sql,
-      [Username, Email, hashedPassword, Number, role],
+      [Username, Email, hashedPassword, Number, role, formattedDepartment],
       (err, result) => {
         if (err) {
           console.error("Database query error:", err);

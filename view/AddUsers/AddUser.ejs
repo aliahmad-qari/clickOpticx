@@ -48,6 +48,35 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* Theme Variables for consistency with other admin pages */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --bg-tertiary: #F1F5F9;
+    --text-primary: #1E293B;
+    --text-secondary: #475569;
+    --text-tertiary: #64748B;
+    --border-primary: #E2E8F0;
+    --border-secondary: #CBD5E1;
+    --sidebar-bg: #FFFFFF;
+  }
+
+  /* Dark Theme Variables */
+  [data-theme="dark"] {
+    --bg-primary: #0F172A;
+    --bg-secondary: #1E293B;
+    --bg-tertiary: #334155;
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-tertiary: #94A3B8;
+    --border-primary: #334155;
+    --border-secondary: #475569;
+    --sidebar-bg: #1E293B;
+    --white: #1E293B;
+    --dark-color: #F8FAFC;
+    --light-color: #1E293B;
+    --gray-color: #94A3B8;
+    --border-color: #334155;
   }
 
   * {
@@ -62,6 +91,13 @@
     min-height: 100vh;
     color: var(--dark-color);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark Theme Body */
+  [data-theme="dark"] body {
+    background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+    color: var(--text-primary);
   }
 
   .container-fluid.page-body-wrapper {
@@ -100,6 +136,14 @@
     position: relative;
     overflow: hidden;
     animation: slideInUp 0.6s ease-out;
+    transition: all 0.3s ease;
+  }
+
+  /* Dark Theme Form Card */
+  [data-theme="dark"] .form-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
   }
 
   .form-card::before {
@@ -317,6 +361,69 @@
     .form-header h1 {
       font-size: 1.75rem;
     }
+  }
+
+  /* ===== DARK THEME FORM ELEMENTS ===== */
+
+  /* Dark Theme Headers */
+  [data-theme="dark"] .form-header h1 {
+    color: var(--text-primary);
+  }
+
+  [data-theme="dark"] .form-header p {
+    color: var(--text-secondary);
+  }
+
+  /* Dark Theme Form Labels */
+  [data-theme="dark"] .form-label {
+    color: var(--text-primary);
+  }
+
+  /* Dark Theme Form Inputs */
+  [data-theme="dark"] .form-control,
+  [data-theme="dark"] .form-select {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+  }
+
+  [data-theme="dark"] .form-control:focus,
+  [data-theme="dark"] .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+    background-color: var(--bg-tertiary);
+  }
+
+  [data-theme="dark"] .form-control:hover,
+  [data-theme="dark"] .form-select:hover {
+    border-color: var(--text-tertiary);
+  }
+
+  [data-theme="dark"] .form-control::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  /* Dark Theme Select Options */
+  [data-theme="dark"] .form-select option {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  /* Dark Theme Success Message */
+  [data-theme="dark"] #pusher-message-box {
+    background-color: var(--bg-tertiary) !important;
+    border-left-color: var(--primary-color) !important;
+    color: var(--success-color) !important;
+  }
+
+  /* Dark Theme Main Panel */
+  [data-theme="dark"] .main-panel {
+    background-color: transparent;
+  }
+
+  /* Dark Theme Container */
+  [data-theme="dark"] .container-fluid.page-body-wrapper {
+    background-color: var(--bg-secondary);
   }
 </style>
       
