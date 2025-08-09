@@ -204,3 +204,36 @@ exports.DeleteTeam = (req, res) => {
     res.redirect("/AdminTeam");
   });
 };
+
+// Verify Team Member
+exports.VerifyTeam = (req, res) => {
+  const userId = req.params.id;
+  
+  // Get user details first
+  const getUserSql = "SELECT Username, Email FROM users WHERE id = ? AND role IN ('Team', 'Team Lead', 'Supervisor', 'Manager')";
+  db.query(getUserSql, [userId], (err, userResults) => {
+    if (err) {
+      console.error("Database query error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    
+    if (userResults.length === 0) {
+      req.flash("error", "Team member not found");
+      return res.redirect("/AdminTeam");
+    }
+    
+    const user = userResults[0];
+    
+    // Verify the team member
+    const sql = "UPDATE users SET user_verified = 1, verification_token = NULL WHERE id = ?";
+    db.query(sql, [userId], (err, result) => {
+      if (err) {
+        console.error("Database query error:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+      
+      req.flash("success", `Team member "${user.Username}" has been verified and can now login!`);
+      res.redirect("/AdminTeam");
+    });
+  });
+};

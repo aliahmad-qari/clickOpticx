@@ -7,24 +7,22 @@ exports.getPackagesByStatus = (req, res) => {
     SELECT 
       p.id,
       p.package_name,
+      p.username,
+      p.transaction_id,
+      p.amount,
+      p.created_at,
+      p.expiry_date,
+      p.package_status,
+      p.invoice_status,
       u.Username,
-      CASE 
-        WHEN EXISTS (
-          SELECT 1 FROM payments pay 
-          WHERE pay.package_name = p.package_name AND pay.status = 'paid'
-        ) THEN 'Paid'
-        WHEN EXISTS (
-          SELECT 1 FROM payments pay 
-          WHERE pay.package_name = p.package_name AND pay.status = 'pending'
-        ) THEN 'Unpaid'
-        ELSE 'No Payment'
-      END AS payment_status
-    FROM packages p
+      u.Email
+    FROM payments p
     JOIN users u ON p.user_id = u.id
-    HAVING payment_status = ?
+    WHERE p.package_status = ? OR p.invoice_status = ?
+    ORDER BY p.created_at DESC
   `;
 
-  db.query(sql, [status], (err, results) => {
+  db.query(sql, [status, status], (err, results) => {
     if (err) return res.status(500).json({ message: 'Error filtering packages' });
     res.json(results);
   });
@@ -80,14 +78,17 @@ exports.getPendingPaymentsByUser = (req, res) => {
       u.id AS user_id,
       u.Username,
       u.Email,
+      u.Number as user_phone,
       SUM(p.amount) AS total_amount,
       SUM(p.custom_amount) AS total_custom_amount,
       COUNT(p.id) AS total_pending_payments,
-      MAX(p.created_at) AS last_payment_date
+      MAX(p.created_at) AS last_payment_date,
+      GROUP_CONCAT(DISTINCT p.package_name) AS packages,
+      GROUP_CONCAT(DISTINCT p.transaction_id) AS transaction_ids
     FROM users u
     JOIN payments p ON u.id = p.user_id
-    WHERE p.status = 'pending'
-    GROUP BY u.id, u.Username, u.Email
+    WHERE p.invoice_status = 'Unpaid' OR p.package_status = 'pending'
+    GROUP BY u.id, u.Username, u.Email, u.Number
     ORDER BY u.Username ASC
   `;
 
@@ -97,9 +98,7 @@ exports.getPendingPaymentsByUser = (req, res) => {
       return res.status(500).json({ message: 'Error fetching grouped pending payments' });
     }
 
-    res.render("Billing-Payments/pandingpayments", {
-      groupedPayments: results
-    });
+    res.json(results);
   });
 };
 
@@ -109,15 +108,27 @@ exports.getManualPackageRequests = (req, res) => {
   const sql = `
     SELECT 
       p.id,
-      p.package,
-      p.request_type,
-      p.status,
+      p.package_name,
+      p.username,
+      p.transaction_id,
+      p.amount,
       p.created_at,
+      p.expiry_date,
+      p.custom_amount,
+      p.discount,
+      p.remaining_amount,
+      p.package_status,
+      p.invoice_status,
+      p.home_collection,
+      p.collection_address,
+      p.contact_number,
+      p.preferred_time,
+      p.special_instructions,
       u.Username as user_name,
       u.Email as user_email
-    FROM packages p
+    FROM payments p
     LEFT JOIN users u ON p.user_id = u.id
-    WHERE p.request_type = 'manual' AND p.is_default = false
+    WHERE p.home_collection = 'yes' OR p.special_instructions IS NOT NULL
     ORDER BY p.created_at DESC
   `;
 
@@ -167,7 +178,7 @@ exports.renderPendingPaymentsPage = (req, res) => {
           db.query(NotifactionSql, (err, NotifactionResult) => {
             if (err) return res.status(500).send("Notif count error");
 
-            // ✅ New grouped pending payments query
+            // ✅ Fixed grouped pending payments query using correct payment table columns
             const groupedPaymentsSql = `
               SELECT 
                 u.id AS user_id,
@@ -178,10 +189,11 @@ exports.renderPendingPaymentsPage = (req, res) => {
                 SUM(p.amount) AS total_amount,
                 SUM(p.custom_amount) AS total_custom_amount,
                 COUNT(p.id) AS total_pending_payments,
-                MAX(p.created_at) AS last_payment_date
+                MAX(p.created_at) AS last_payment_date,
+                GROUP_CONCAT(DISTINCT p.package_name) AS packages
               FROM users u
               JOIN payments p ON u.id = p.user_id
-              WHERE p.status = 'pending'
+              WHERE p.invoice_status = 'Unpaid' OR p.package_status = 'pending'
               GROUP BY u.id, u.Username, u.Email, u.Number, u.address
               ORDER BY u.Username ASC
             `;
@@ -224,13 +236,16 @@ exports.getUnpaidVsActiveUsers = (req, res) => {
   const sql = `
     SELECT u.id, u.Username, u.Email, u.plan, 
       CASE 
-        WHEN SUM(p.status = 'paid') > 0 THEN 'Paid'
-        WHEN SUM(p.status = 'pending') > 0 THEN 'Unpaid'
+        WHEN SUM(CASE WHEN p.invoice_status = 'Paid' THEN 1 ELSE 0 END) > 0 THEN 'Paid'
+        WHEN SUM(CASE WHEN p.invoice_status = 'Unpaid' OR p.package_status = 'pending' THEN 1 ELSE 0 END) > 0 THEN 'Unpaid'
         ELSE 'No Payment'
-      END AS payment_status
+      END AS payment_status,
+      COUNT(p.id) as total_payments,
+      SUM(p.amount) as total_amount
     FROM users u
     LEFT JOIN payments p ON u.id = p.user_id
     GROUP BY u.id, u.Username, u.Email, u.plan
+    ORDER BY u.Username ASC
   `;
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ message: 'Query error', err });
@@ -274,10 +289,16 @@ exports.getPayments = (req, res) => {
 // 1. Get All Paid Users
 exports.getPaidUsers = (req, res) => {
   const sql = `
-    SELECT DISTINCT u.id, u.Username, u.Email, u.plan
+    SELECT DISTINCT u.id, u.Username, u.Email, u.plan,
+           COUNT(p.id) as total_payments,
+           SUM(p.amount) as total_amount,
+           MAX(p.created_at) as last_payment_date,
+           GROUP_CONCAT(DISTINCT p.package_name) as packages
     FROM users u
     JOIN payments p ON u.id = p.user_id
-    WHERE p.status = 'paid'
+    WHERE p.invoice_status = 'Paid' AND p.package_status = 'active'
+    GROUP BY u.id, u.Username, u.Email, u.plan
+    ORDER BY u.Username ASC
   `;
   db.query(sql, (err, results) => {
     if (err) {

@@ -82,11 +82,11 @@ exports.AddUser = (req, res) => {
                 return res.status(500).send("Server Error");
               }
 
-              const Package = `SELECT * FROM packages`;
-              db.query(Package, (err, Package_results) => {
+              const PackageSQL = `SELECT DISTINCT package_name FROM payments ORDER BY package_name`;
+              db.query(PackageSQL, (err, Package_results) => {
                 if (err) {
-                  console.error("Database query error:", err);
-                  return res.status(500).send("Internal Server Error");
+                  console.error("Package query error:", err);
+                  Package_results = []; // Use empty array as fallback
                 }
 
                 const successMsg = req.flash("success");
@@ -129,21 +129,22 @@ exports.AllUser = (req, res) => {
       return res.status(500).send("Internal Server Error");
     }
 
+    // Admin-created users are automatically verified
     const sql = `
-        INSERT INTO users (Username, Email, password, Number, role, plan, expiry) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (Username, Email, password, Number, role, plan, expiry, user_verified, verification_token) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
     db.query(
       sql,
-      [Username, Email, hashedPassword, Number, role, plan, expiry],
+      [Username, Email, hashedPassword, Number, role, plan, expiry, 1, null],
       (err, result) => {
         if (err) {
           console.error("Database query error:", err);
           return res.status(500).send("Internal Server Error");
         }
 
-        req.flash("success", "User added successfully!");
+        req.flash("success", `User "${Username}" added successfully and is ready to login!`);
         res.redirect("/AdminUser");
       }
     );

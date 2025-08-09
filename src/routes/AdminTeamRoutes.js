@@ -15,6 +15,9 @@ router.get(
 // Update Admin Team Routes
 router.post("/AdminTeam/update/:id", AdminTeamController.UpdateTeam);
 
+// Verify Admin Team Member
+router.post("/AdminTeam/verify/:id", AdminTeamController.VerifyTeam);
+
 // Delete Admin User Routes
 router.delete("/AdminTeam/:id", AdminTeamController.DeleteTeam);
 

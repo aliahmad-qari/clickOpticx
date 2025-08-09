@@ -1,10 +1,15 @@
 const db = require("../config/db");
 exports.getPaidUsers = (req, res) => {
   const sql = `
-    SELECT DISTINCT u.id, u.Username, u.Email, u.plan
+    SELECT DISTINCT u.id, u.Username, u.Email, u.plan,
+           COUNT(p.id) as total_payments,
+           SUM(p.amount) as total_amount,
+           MAX(p.created_at) as last_payment_date
     FROM users u
     JOIN payments p ON u.id = p.user_id
-    WHERE p.status = 'paid'
+    WHERE p.invoice_status = 'Paid' AND p.package_status = 'active'
+    GROUP BY u.id, u.Username, u.Email, u.plan
+    ORDER BY u.Username ASC
   `;
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ message: 'Error fetching paid users' });
@@ -63,13 +68,24 @@ exports.getPendingPaymentsByUser = (req, res) => {
       u.Email,
       p.id AS payment_id,
       p.package_name,
+      p.username,
       p.amount,
       p.custom_amount,
+      p.discount,
+      p.remaining_amount,
       p.transaction_id,
-      p.created_at
+      p.created_at,
+      p.expiry_date,
+      p.package_status,
+      p.invoice_status,
+      p.home_collection,
+      p.collection_address,
+      p.contact_number,
+      p.preferred_time,
+      p.special_instructions
     FROM users u
     JOIN payments p ON u.id = p.user_id
-    WHERE p.status = 'pending'
+    WHERE p.invoice_status = 'Unpaid' OR p.package_status = 'pending'
     ORDER BY u.Username ASC, p.created_at DESC
   `;
 
