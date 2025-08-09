@@ -274,31 +274,47 @@
         color: white;
       }
 
-      /* Action Buttons */
+      /* Action Buttons - DESKTOP FIRST WITH FIXED LAYOUT */
       .action-buttons {
-        position: absolute;
-        top: var(--spacing-xl);
-        right: var(--spacing-xl);
-        display: flex;
-        gap: var(--spacing-md);
-        z-index: 3;
+        position: absolute !important;
+        top: 32px !important;
+        right: 32px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 16px !important;
+        z-index: 3 !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex-wrap: nowrap !important;
+        white-space: nowrap !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
 
       .action-btn {
-        width: 56px;
-        height: 56px;
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        min-height: 56px !important;
+        max-width: 56px !important;
+        max-height: 56px !important;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         color: white;
         text-decoration: none;
         transition: all 0.3s ease;
         cursor: pointer;
         font-size: 1.25rem;
+        flex-shrink: 0 !important;
+        flex-grow: 0 !important;
+        box-sizing: border-box;
       }
 
       .action-btn:hover {
@@ -1599,6 +1615,32 @@
         }
       }
 
+      /* DESKTOP SPECIFIC - Ensure buttons stay in row */
+      @media (min-width: 1024px) {
+        .action-buttons {
+          position: absolute !important;
+          top: 40px !important;
+          right: 40px !important;
+          display: flex !important;
+          flex-direction: row !important;
+          gap: 20px !important;
+          align-items: center !important;
+          justify-content: flex-end !important;
+          flex-wrap: nowrap !important;
+          width: auto !important;
+          height: auto !important;
+        }
+
+        .action-btn {
+          width: 60px !important;
+          height: 60px !important;
+          min-width: 60px !important;
+          min-height: 60px !important;
+          font-size: 1.3rem !important;
+          flex-shrink: 0 !important;
+        }
+      }
+
       @media (max-width: 768px) {
         .hero-container {
           padding: var(--spacing-lg);
@@ -1608,9 +1650,52 @@
         }
 
         .action-buttons {
-          position: static;
-          justify-content: center;
-          margin-top: var(--spacing-lg);
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          justify-content: flex-end;
+          flex-wrap: nowrap;
+          flex-direction: row;
+          gap: 12px;
+          min-width: fit-content;
+          white-space: nowrap;
+        }
+
+        .action-btn {
+          width: 48px;
+          height: 48px;
+          font-size: 1.1rem;
+          flex-shrink: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .action-buttons {
+          gap: 8px;
+          top: 15px;
+          right: 15px;
+        }
+
+        .action-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 0.9rem;
+          flex-shrink: 0;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .action-buttons {
+          gap: 6px;
+          top: 10px;
+          right: 10px;
+        }
+
+        .action-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 0.85rem;
+          flex-shrink: 0;
         }
 
         .user-profile-section {

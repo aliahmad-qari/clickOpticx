@@ -62,10 +62,6 @@ exports.getAllPackageRequests = (req, res) => {
       return res.status(500).json({ message: 'Error fetching package requests' });
     }
     
-    // Debug: Log home collection requests
-    const homeCollectionRequests = results.filter(req => req.home_collection === 'yes');
-    console.log(`🏠 Found ${homeCollectionRequests.length} home collection requests out of ${results.length} total requests`);
-    
     res.json(results);
   });
 };

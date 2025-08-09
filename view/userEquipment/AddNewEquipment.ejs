@@ -31,17 +31,27 @@
 
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-light: #a29bfe;
-            --secondary: #00cec9;
-            --success: #00b894;
-            --warning: #fdcb6e;
-            --danger: #d63031;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --gray: #dfe6e9;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --glass-effect: rgba(255, 255, 255, 0.15);
+            --primary: #4F46E5;
+            --primary-light: #6366F1;
+            --primary-dark: #3730A3;
+            --secondary: #06B6D4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --light: #F8FAFC;
+            --gray: #E5E7EB;
+            --gray-light: #F3F4F6;
+            --gray-dark: #6B7280;
+            --card-bg: #FFFFFF;
+            --glass-effect: rgba(255, 255, 255, 0.25);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
         }
 
         /* Responsive Adjustments */
@@ -211,8 +221,27 @@
 
 
         body {
-            background: #f5f6fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: var(--dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 70, 229, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container-fluid.page-body-wrapper {
@@ -222,26 +251,39 @@
 
         .main-panel {
             flex-grow: 1;
-            padding: 20px;
+            padding: 40px 20px;
             transition: margin-left 0.3s ease;
         }
 
         @media (max-width: 991px) {
             .main-panel {
                 margin-left: 0;
+                padding: 20px 15px;
             }
         }
 
         .form-card {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: slideUp 0.8s ease forwards;
+            border-radius: var(--border-radius-xl);
+            padding: 48px;
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--secondary));
         }
 
         @keyframes slideUp {
@@ -257,16 +299,18 @@
         }
 
         .form-header {
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 32px 24px;
+            border-radius: var(--border-radius-lg);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 19px;
-            font-weight: 600;
+            margin: -48px -48px 40px -48px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-lg);
         }
 
         .form-header::before {
@@ -276,8 +320,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shine 2s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .form-header i {
+            font-size: 28px;
+            margin-right: 12px;
+            vertical-align: middle;
         }
 
         @keyframes shine {
@@ -292,37 +342,53 @@
 
         .form-group {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
         .form-control,
         .form-select,
         .form-file {
             width: 100%;
-            border: none;
-            border-bottom: 2px solid var(--gray);
-            background: transparent;
-            padding: 12px 0;
-            font-size: 1rem;
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius);
+            background: var(--gray-light);
+            padding: 16px 20px;
+            padding-right: 50px;
+            font-size: 16px;
+            font-weight: 500;
             color: var(--dark);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
         }
 
         .form-control:focus,
         .form-select:focus,
         .form-file:focus {
-            border-bottom-color: var(--primary);
+            border-color: var(--primary);
+            background: white;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control:hover:not(:focus),
+        .form-select:hover:not(:focus),
+        .form-file:hover:not(:focus) {
+            border-color: var(--gray-dark);
+            transform: translateY(-1px);
         }
 
         .form-label {
             position: absolute;
-            top: 12px;
-            left: 0;
-            font-weight: 500;
-            color: black;
+            top: 16px;
+            left: 20px;
+            font-weight: 600;
+            color: var(--gray-dark);
             pointer-events: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--gray-light);
+            padding: 0 8px;
+            border-radius: 6px;
         }
 
         .form-control:focus~.form-label,
@@ -331,10 +397,12 @@
         .form-select:not([value=""])~.form-label,
         .form-file:focus~.form-label,
         .form-file:valid~.form-label {
-            top: -20px;
-            left: 0;
-            font-size: 0.85rem;
+            top: -12px;
+            left: 16px;
+            font-size: 14px;
             color: var(--primary);
+            background: white;
+            font-weight: 700;
         }
 
         .form-control:focus~.form-label::after,
@@ -345,7 +413,8 @@
         .form-file:valid~.form-label::after {
             content: '*';
             color: var(--danger);
-            margin-left: 5px;
+            margin-left: 4px;
+            font-weight: 600;
         }
 
         .form-select option {
@@ -354,22 +423,37 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border: none;
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: 600;
+            padding: 18px 32px;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.025em;
             color: white;
             width: 100%;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            margin-top: 16px;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -8px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -4px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-primary i {
+            font-size: 18px;
+            margin-right: 8px;
         }
 
         .btn-primary::before {
@@ -379,34 +463,64 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shine 2s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shine 3s infinite;
         }
 
         .error-message {
             color: var(--danger);
-            font-size: 0.85rem;
-            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
             display: none;
+            padding: 8px 12px;
+            background: rgba(239, 68, 68, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--danger);
         }
 
         .input-error .error-message {
             display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .input-error .form-control,
         .input-error .form-select,
         .input-error .form-file {
-            border-bottom-color: var(--danger);
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
         .form-icon {
             position: absolute;
-            right: 10px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--gray);
-            transition: color 0.3s ease;
+            color: var(--gray-dark);
+            font-size: 18px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .form-group:hover .form-icon,
+        .form-control:focus ~ .form-icon,
+        .form-select:focus ~ .form-icon,
+        .form-file:focus ~ .form-icon {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
         }
     </style>
 

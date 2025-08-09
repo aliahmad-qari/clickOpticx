@@ -555,69 +555,64 @@
         </a>
         <div class="collapse" id="Customize-menu">
           <ul class="nav flex-column sub-menu" style="padding: 0.25rem 0 0; list-style: none !important;">
+            <li class="nav-item">
+              <!-- Single clickable area for toggling dropdown -->
+              <a class="nav-link" data-bs-toggle="collapse" href="#userDashboardMenu"
+                aria-expanded="false" aria-controls="userDashboardMenu">
+                <i class="mdi mdi-view-dashboard-edit dynamic-color-icon"></i>
+                <span class="menu-title">User Dashboard</span>
+                <i class="menu-arrow"></i>
+              </a>
+
+              <div class="collapse" id="userDashboardMenu">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/ColorSetting">
+                      <i class="mdi mdi-palette dynamic-color-icon"></i> Color Settings
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/BackGroundSettings">
+                      <i class="mdi mdi-image-area dynamic-color-icon"></i> Background Settings
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
             
-<li class="nav-item">
-  <!-- Single clickable area for toggling dropdown -->
-  <a class="nav-link d-flex align-items-center gap-1" data-bs-toggle="collapse" href="#userDashboardMenu"
-    aria-expanded="false" aria-controls="userDashboardMenu">
-  <i class="mdi mdi-view-dashboard-edit dynamic-color-icon"></i>
-<span class="menu-title">User Dashboard</span>
-
-   <i class="menu-arrow"></i>
-
-  </a>
-
-  <div class="collapse" id="userDashboardMenu">
-    <ul class="nav flex-column sub-menu">
-      <li class="nav-item">
-        <a class="nav-link" href="/ColorSetting">
-          <i class="mdi mdi-palette menu-icon dynamic-color-icon" style="font-size:16px;"></i>
-          Color Settings
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/BackGroundSettings">
-          <i class="mdi mdi-image-area menu-icon dynamic-color-icon" style="font-size:16px;"></i>
-          Background Settings
-        </a>
-      </li>
-    </ul>
-  </div>
-</li>
-
-           
 
             <li class="nav-item">
               <a class="nav-link" href="/BrandingPage">
-                <i class="mdi mdi-image-marker-outline dynamic-color-icon"></i> Slider images
+                <i class="mdi mdi-image-marker-outline dynamic-color-icon"></i> Slider Images
               </a>
             </li>
             
               
             <li class="nav-item">
-  <!-- Single clickable area for toggle -->
-  <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#headerFooterMenu"
-     aria-expanded="false" aria-controls="headerFooterMenu">
-    <i class="mdi mdi-format-align-top dynamic-color-icon"></i>
-    Edit Footer & Header
-    <i class="menu-arrow dynamic-color-icon" style="margin-left: 5px;"></i>
-  </a>
+              <!-- Single clickable area for toggle -->
+              <a class="nav-link" data-bs-toggle="collapse" href="#headerFooterMenu"
+                 aria-expanded="false" aria-controls="headerFooterMenu">
+                <i class="mdi mdi-format-align-top dynamic-color-icon"></i>
+                <span class="menu-title">Edit Footer & Header</span>
+                <i class="menu-arrow"></i>
+              </a>
 
-  <div class="collapse" id="headerFooterMenu">
-    <ul class="nav flex-column sub-menu">
-      <li class="nav-item">
-        <a class="nav-link" href="/NavbarSetting">
-          <i class="mdi mdi-view-headline dynamic-color-icon" style="font-size:16px;"></i> Navbar Setting
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/FooterSetting">
-          <i class="mdi mdi-format-align-bottom dynamic-color-icon" style="font-size:16px;"></i> Footer Setting
-        </a>
-      </li>
-    </ul>
-  </div>
-</li>
+              <div class="collapse" id="headerFooterMenu">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/NavbarSetting">
+                      <i class="mdi mdi-view-headline dynamic-color-icon"></i> Navbar Setting
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/FooterSetting">
+                      <i class="mdi mdi-format-align-bottom dynamic-color-icon"></i> Footer Setting
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
 
 
 

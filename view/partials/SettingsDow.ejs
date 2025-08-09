@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     init() {
       // Listen for theme changes from navbar
       window.addEventListener('themeChanged', (e) => {
-        console.log('Theme changed event received:', e.detail.theme);
         this.syncSidebarSkin(e.detail.theme);
       });
 
@@ -82,18 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 
                            localStorage.getItem('clicktake-theme') || 'light';
-        console.log('Initial theme sync:', currentTheme);
         this.syncSidebarSkin(currentTheme);
       }, 100);
     }
 
     syncSidebarSkin(theme) {
-      console.log('Syncing sidebar skin to:', theme);
       const lightOption = document.getElementById('sidebar-light-theme');
       const darkOption = document.getElementById('sidebar-dark-theme');
 
       if (!lightOption || !darkOption) {
-        console.error('Sidebar theme options not found!');
         return;
       }
 
@@ -105,11 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (theme === 'dark') {
         darkOption.classList.add('selected');
         this.applySidebarTheme('dark');
-        console.log('Dark sidebar theme applied');
       } else {
         lightOption.classList.add('selected');
         this.applySidebarTheme('light');
-        console.log('Light sidebar theme applied');
       }
 
       // Save to localStorage for persistence (use same key as main theme for consistency)

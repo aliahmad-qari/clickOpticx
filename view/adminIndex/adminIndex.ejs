@@ -230,6 +230,369 @@
       color: #FFFFFF !important;
     }
 
+    /* ===== FIX DROPDOWN COLORS TO MATCH MAIN SIDEBAR EXACTLY ===== */
+    
+    /* LIGHT SIDEBAR - Default dropdown styling */
+    .sidebar .nav.sub-menu .nav-item .nav-link {
+      color: #6c757d !important; /* Same as main sidebar items */
+    }
+
+    .sidebar .nav.sub-menu .nav-item .nav-link:hover {
+      color: #4B49AC !important; /* Same purple as main items */
+      background: rgba(75, 73, 172, 0.1) !important;
+    }
+
+    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+      color: #4B49AC !important; /* Same purple as main active */
+      background: rgba(75, 73, 172, 0.1) !important;
+    }
+
+    /* DARK SIDEBAR - Dropdown styling to match main items exactly */
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link {
+      color: #FFFFFF !important; /* Same white as main sidebar items */
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link:hover {
+      color: #FFFFFF !important; /* Keep white, not gray */
+      background: #4B49AC !important; /* Same purple as main items */
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link.active {
+      color: #FFFFFF !important; /* White text */
+      background: #4B49AC !important; /* Same purple as main active */
+    }
+
+    /* Fix dropdown container backgrounds */
+    .sidebar-dark .sidebar .nav.sub-menu {
+      background: #1a1f26 !important; /* Darker background for dropdown container */
+    }
+
+    .sidebar .nav.sub-menu {
+      background: #f8f9fa !important; /* Light background for dropdown container */
+    }
+
+    /* ===== FIX ACTIVE/SELECTED STATES FOR BOTH MODES ===== */
+    
+    /* LIGHT MODE - Active states */
+    .sidebar .nav .nav-item.active > .nav-link,
+    .sidebar .nav .nav-item > .nav-link.active {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    .sidebar .nav .nav-item.active > .nav-link .menu-title,
+    .sidebar .nav .nav-item.active > .nav-link i,
+    .sidebar .nav .nav-item > .nav-link.active .menu-title,
+    .sidebar .nav .nav-item > .nav-link.active i {
+      color: #FFFFFF !important;
+    }
+
+    /* DARK MODE - Active states (already defined above but ensuring consistency) */
+    .sidebar-dark .sidebar .nav .nav-item.active > .nav-link,
+    .sidebar-dark .sidebar .nav .nav-item > .nav-link.active {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item.active > .nav-link .menu-title,
+    .sidebar-dark .sidebar .nav .nav-item.active > .nav-link i,
+    .sidebar-dark .sidebar .nav .nav-item > .nav-link.active .menu-title,
+    .sidebar-dark .sidebar .nav .nav-item > .nav-link.active i {
+      color: #FFFFFF !important;
+    }
+
+    /* Dropdown active states in both modes - SPECIFIC TARGETING */
+    .sidebar .nav.sub-menu .nav-item.active > .nav-link,
+    .sidebar .nav.sub-menu .nav-item > .nav-link.active {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item.active > .nav-link,
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item > .nav-link.active {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    /* ===== PREVENT SIDEBAR-WIDE CHANGES WHEN DROPDOWN IS ACTIVE ===== */
+    
+    /* Ensure main sidebar items keep their normal styling when dropdown is active */
+    .sidebar .nav:not(.sub-menu) .nav-item .nav-link {
+      color: #6c757d !important; /* Normal gray color */
+    }
+
+    .sidebar .nav:not(.sub-menu) .nav-item .nav-link:hover {
+      color: #4B49AC !important;
+      background: rgba(75, 73, 172, 0.1) !important;
+    }
+
+    /* Ensure main sidebar items in dark mode keep their styling */
+    .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item .nav-link {
+      color: #FFFFFF !important; /* Normal white color */
+    }
+
+    .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item .nav-link:hover {
+      color: #FFFFFF !important;
+      background: #4B49AC !important;
+    }
+
+    /* Only allow active styling on specifically active main items, not when sub-item is active */
+    .sidebar .nav:not(.sub-menu) .nav-item.active:not(.has-active-child) > .nav-link,
+    .sidebar .nav:not(.sub-menu) .nav-item > .nav-link.active:not(.has-active-child) {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item.active:not(.has-active-child) > .nav-link,
+    .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item > .nav-link.active:not(.has-active-child) {
+      background: #4B49AC !important;
+      color: #FFFFFF !important;
+    }
+
+    /* When a parent has active child, keep parent normal but maybe slightly highlighted */
+    .sidebar .nav:not(.sub-menu) .nav-item.has-active-child > .nav-link {
+      color: #4B49AC !important;
+      background: rgba(75, 73, 172, 0.05) !important;
+    }
+
+    .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item.has-active-child > .nav-link {
+      color: #FFFFFF !important;
+      background: rgba(75, 73, 172, 0.2) !important;
+    }
+
+    /* ===== FORCE OVERRIDE ANY GLOBAL ACTIVE STATES ===== */
+    
+    /* Reset any body or global classes that might affect sidebar */
+    body.sidebar-dark .sidebar .nav .nav-item .nav-link,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link {
+      color: #FFFFFF !important;
+      background: transparent !important;
+    }
+
+    body.sidebar-light .sidebar .nav .nav-item .nav-link,
+    body .sidebar .nav .nav-item .nav-link {
+      color: #6c757d !important;
+      background: transparent !important;
+    }
+
+    /* Only dropdowns should have different backgrounds */
+    body.sidebar-dark .sidebar .nav.sub-menu,
+    .sidebar-dark .sidebar .nav.sub-menu {
+      background: #1a1f26 !important;
+    }
+
+    body.sidebar-light .sidebar .nav.sub-menu,
+    body .sidebar .nav.sub-menu {
+      background: #f8f9fa !important;
+    }
+
+    /* Force normal state for all non-active items */
+    .sidebar .nav .nav-item:not(.active) .nav-link,
+    .sidebar .nav .nav-item .nav-link:not(.active) {
+      background: transparent !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item:not(.active) .nav-link,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link:not(.active) {
+      background: transparent !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Specific override for expanded dropdown parents - they should not get active styling */
+    .sidebar .nav .nav-item[aria-expanded="true"] .nav-link:not(.active) {
+      background: transparent !important;
+      color: #6c757d !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item[aria-expanded="true"] .nav-link:not(.active) {
+      background: transparent !important;
+      color: #FFFFFF !important;
+    }
+
+    /* ===== SPECIFIC FIX FOR USER EQUIPMENT AND ALL DROPDOWNS ===== */
+    
+    /* Force normal styling for all dropdown parent items when expanded */
+    .sidebar .nav .nav-item .nav-link[aria-expanded="true"] {
+      background: transparent !important;
+      color: #6c757d !important;
+    }
+
+    .sidebar .nav .nav-item .nav-link[aria-expanded="true"] i,
+    .sidebar .nav .nav-item .nav-link[aria-expanded="true"] .menu-title {
+      color: #6c757d !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] {
+      background: transparent !important;
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] i,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] .menu-title {
+      color: #FFFFFF !important;
+    }
+
+    /* Ensure no active/selected styling is applied to parent when child is active */
+    .sidebar .nav .nav-item:has(.nav.sub-menu .nav-item.active) .nav-link,
+    .sidebar .nav .nav-item:has(.nav.sub-menu .nav-link.active) .nav-link {
+      background: transparent !important;
+      color: #6c757d !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item:has(.nav.sub-menu .nav-item.active) .nav-link,
+    .sidebar-dark .sidebar .nav .nav-item:has(.nav.sub-menu .nav-link.active) .nav-link {
+      background: transparent !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Force reset any inherited active states */
+    .sidebar .nav .nav-item .nav-link,
+    .sidebar .nav .nav-item .nav-link * {
+      background: inherit !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link * {
+      background: inherit !important;
+    }
+
+    /* ===== SPECIFIC FIX FOR ALL STOCK AND OTHER DROPDOWN ITEMS ===== */
+    
+    /* Target all dropdown items including All Stock specifically */
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"],
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"],
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"],
+    .sidebar .nav .sub-menu .nav-item .nav-link {
+      color: #6c757d !important;
+      background: transparent !important;
+    }
+
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"]:hover,
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"]:hover,
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"]:hover,
+    .sidebar .nav .sub-menu .nav-item .nav-link:hover {
+      color: #4B49AC !important;
+      background: rgba(75, 73, 172, 0.1) !important;
+    }
+
+    /* Dark mode - Target all dropdown items including All Stock */
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link {
+      color: #FFFFFF !important;
+      background: transparent !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"]:hover,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"]:hover,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"]:hover,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link:hover {
+      color: #FFFFFF !important;
+      background: #4B49AC !important;
+    }
+
+    /* Force active state only for the specific active item, not affecting rest of sidebar */
+    .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/ViewAllEquipments"],
+    .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/AddNewEquipment"], 
+    .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/userEquipment"],
+    .sidebar .nav .sub-menu .nav-item .nav-link.active {
+      color: #FFFFFF !important;
+      background: #4B49AC !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/ViewAllEquipments"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/AddNewEquipment"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link.active[href="/userEquipment"],
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link.active {
+      color: #FFFFFF !important;
+      background: #4B49AC !important;
+    }
+
+    /* Ensure icons in dropdown items also follow the same color rules */
+    .sidebar .nav .sub-menu .nav-item .nav-link i,
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"] i,
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"] i,
+    .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"] i {
+      color: inherit !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link i,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/ViewAllEquipments"] i,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/AddNewEquipment"] i,
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link[href="/userEquipment"] i {
+      color: inherit !important;
+    }
+
+    /* ===== FIX WHITE DROPDOWN BACKGROUND ISSUE ===== */
+    
+    /* Force dropdown container backgrounds to be correct */
+    .sidebar .nav .sub-menu,
+    .sidebar .collapse.show,
+    .sidebar .collapse.show .nav,
+    .sidebar .collapse.show ul,
+    .sidebar #equipmentMenu,
+    .sidebar #equipmentMenu.show,
+    .sidebar #equipmentMenu .nav,
+    .sidebar #equipmentMenu ul {
+      background: #f8f9fa !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu,
+    .sidebar-dark .sidebar .collapse.show,
+    .sidebar-dark .sidebar .collapse.show .nav,
+    .sidebar-dark .sidebar .collapse.show ul,
+    .sidebar-dark .sidebar #equipmentMenu,
+    .sidebar-dark .sidebar #equipmentMenu.show,
+    .sidebar-dark .sidebar #equipmentMenu .nav,
+    .sidebar-dark .sidebar #equipmentMenu ul {
+      background: #1a1f26 !important;
+    }
+
+    /* Prevent any white backgrounds from appearing */
+    .sidebar .nav .sub-menu *,
+    .sidebar .collapse.show *,
+    .sidebar #equipmentMenu * {
+      background-color: transparent !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu *,
+    .sidebar-dark .sidebar .collapse.show *,
+    .sidebar-dark .sidebar #equipmentMenu * {
+      background-color: transparent !important;
+    }
+
+    /* Exception: only active items can have colored backgrounds */
+    .sidebar .nav .sub-menu .nav-item .nav-link.active {
+      background: #4B49AC !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link.active {
+      background: #4B49AC !important;
+    }
+
+    .sidebar .nav .sub-menu .nav-item .nav-link:hover {
+      background: rgba(75, 73, 172, 0.1) !important;
+    }
+
+    .sidebar-dark .sidebar .nav .sub-menu .nav-item .nav-link:hover {
+      background: #4B49AC !important;
+    }
+
+    /* ===== SIMPLE DIRECT FIX - FORCE DARK MODE DROPDOWN BACKGROUND ===== */
+    
+    .sidebar-dark .sidebar .nav.sub-menu {
+      background: #1a1f26 !important;
+    }
+
+    .sidebar-dark .sidebar #equipmentMenu {
+      background: #1a1f26 !important;
+    }
+
+    .sidebar-dark .sidebar #equipmentMenu ul {
+      background: #1a1f26 !important;
+    }
+
     body {
       background-color: #F3F3F9;
       overflow-x: hidden;
@@ -1633,6 +1996,54 @@
                         msgBox.style.opacity = 0;
                         setTimeout(() => msgBox.style.display = "none", 500);
                       }, 4000);
+                    }
+                  });
+                </script>
+
+                <script>
+                  // Fix sidebar active state for User Equipment dropdown items
+                  document.addEventListener('DOMContentLoaded', function() {
+                    const currentPath = window.location.pathname;
+                    
+                    // Check if we're on any User Equipment page
+                    const equipmentPages = {
+                      '/ViewAllEquipments': 'All Stock',
+                      '/AddNewEquipment': 'Add Stock', 
+                      '/userEquipment': 'Assign Equipment'
+                    };
+                    
+                    if (equipmentPages[currentPath]) {
+                      // Find and expand the User Equipment dropdown
+                      const equipmentMenu = document.getElementById('equipmentMenu');
+                      const equipmentToggle = document.querySelector('a[href="#equipmentMenu"]');
+                      
+                      if (equipmentMenu && equipmentToggle) {
+                        // Expand the dropdown
+                        equipmentMenu.classList.add('show');
+                        equipmentToggle.setAttribute('aria-expanded', 'true');
+                        equipmentToggle.classList.add('expanded');
+                        
+                        // Find and mark the correct item as active
+                        const activeLink = document.querySelector(`a[href="${currentPath}"]`);
+                        if (activeLink) {
+                          activeLink.classList.add('active');
+                          activeLink.parentElement.classList.add('active');
+                        }
+                        
+                        console.log(`Activated sidebar for ${equipmentPages[currentPath]} (${currentPath})`);
+                        
+                        // Simple force fix for dropdown background
+                        setTimeout(() => {
+                          const isDark = document.body.classList.contains('sidebar-dark');
+                          if (isDark) {
+                            equipmentMenu.style.setProperty('background', '#1a1f26', 'important');
+                            const submenu = equipmentMenu.querySelector('ul');
+                            if (submenu) {
+                              submenu.style.setProperty('background', '#1a1f26', 'important');
+                            }
+                          }
+                        }, 50);
+                      }
                     }
                   });
                 </script>
