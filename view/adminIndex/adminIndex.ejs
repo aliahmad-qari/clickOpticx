@@ -125,128 +125,6 @@
       color: #4F46E5 !important;
     }
 
-    /* DARK MODE - Admin Panel Sidebar Dropdown Fix */
-    [data-theme="dark"] .sidebar .nav-link,
-    [data-theme="dark"] .sidebar .nav-link .menu-title,
-    [data-theme="dark"] .sidebar .nav-link i {
-      color: var(--text-primary) !important; /* Light text for dark mode */
-    }
-
-    [data-theme="dark"] .sidebar .nav.sub-menu .nav-link,
-    [data-theme="dark"] .sidebar .sub-menu .nav-link {
-      color: var(--text-secondary) !important; /* Light gray for dark mode dropdowns */
-      background: transparent !important;
-    }
-
-    [data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover,
-    [data-theme="dark"] .sidebar .sub-menu .nav-link:hover {
-      color: var(--primary-color) !important;
-      background: var(--bg-tertiary) !important;
-    }
-
-    /* Dark mode dropdown menu text colors */
-    [data-theme="dark"] .sidebar .collapse .nav-link,
-    [data-theme="dark"] .sidebar .collapsing .nav-link,
-    [data-theme="dark"] .sidebar .collapse a,
-    [data-theme="dark"] .sidebar .collapsing a,
-    [data-theme="dark"] .sidebar .show .nav-link,
-    [data-theme="dark"] .sidebar .show a {
-      color: var(--text-secondary) !important; /* Light gray: #CBD5E1 */
-      background: transparent !important;
-    }
-
-    [data-theme="dark"] .sidebar .collapse .nav-link:hover,
-    [data-theme="dark"] .sidebar .collapsing .nav-link:hover,
-    [data-theme="dark"] .sidebar .collapse a:hover,
-    [data-theme="dark"] .sidebar .collapsing a:hover,
-    [data-theme="dark"] .sidebar .show .nav-link:hover,
-    [data-theme="dark"] .sidebar .show a:hover {
-      color: var(--primary-color) !important; /* Blue on hover */
-      background: rgba(79, 70, 229, 0.1) !important;
-    }
-
-    /* Dark mode icons in dropdowns */
-    [data-theme="dark"] .sidebar .collapse i,
-    [data-theme="dark"] .sidebar .collapsing i,
-    [data-theme="dark"] .sidebar .show i {
-      color: var(--text-secondary) !important;
-    }
-
-    [data-theme="dark"] .sidebar .collapse .nav-link:hover i,
-    [data-theme="dark"] .sidebar .collapsing .nav-link:hover i,
-    [data-theme="dark"] .sidebar .show .nav-link:hover i {
-      color: var(--primary-color) !important;
-    }
-
-    /* DARK MODE - Fix active/selected and hover states */
-    [data-theme="dark"] .sidebar .nav-link.active,
-    [data-theme="dark"] .sidebar .nav-link.active .menu-title,
-    [data-theme="dark"] .sidebar .nav-link.active i,
-    [data-theme="dark"] .sidebar .nav-item.active .nav-link,
-    [data-theme="dark"] .sidebar .nav-item.active .nav-link .menu-title,
-    [data-theme="dark"] .sidebar .nav-item.active .nav-link i {
-      color: white !important; /* White text on blue background for active items */
-      background: var(--primary-color) !important; /* Blue background for active */
-    }
-
-    [data-theme="dark"] .sidebar .nav-link:hover,
-    [data-theme="dark"] .sidebar .nav-link:hover .menu-title,
-    [data-theme="dark"] .sidebar .nav-link:hover i {
-      color: var(--text-primary) !important; /* Light gray on hover, not white */
-      background: var(--bg-tertiary) !important; /* Dark gray background */
-    }
-
-    /* Override any Bootstrap active states that might be causing white text */
-    [data-theme="dark"] .sidebar .nav-link.show,
-    [data-theme="dark"] .sidebar .nav-link.show .menu-title,
-    [data-theme="dark"] .sidebar .nav-link.show i,
-    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"],
-    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"] .menu-title,
-    [data-theme="dark"] .sidebar .nav-link[aria-expanded="true"] i {
-      color: var(--text-primary) !important; /* Light text for expanded dropdowns */
-      background: transparent !important;
-    }
-
-    /* Fix dropdown active/selected states */
-    [data-theme="dark"] .sidebar .collapse .nav-link.active,
-    [data-theme="dark"] .sidebar .collapse a.active,
-    [data-theme="dark"] .sidebar .show .nav-link.active,
-    [data-theme="dark"] .sidebar .show a.active {
-      color: white !important; /* White text on blue for active dropdown items */
-      background: var(--primary-color) !important;
-    }
-
-    /* Dropdown hover - make sure it's not white */
-    [data-theme="dark"] .sidebar .collapse .nav-link:hover,
-    [data-theme="dark"] .sidebar .collapse a:hover,
-    [data-theme="dark"] .sidebar .show .nav-link:hover,
-    [data-theme="dark"] .sidebar .show a:hover {
-      color: var(--text-primary) !important; /* Light gray, not white */
-      background: var(--bg-tertiary) !important;
-    }
-
-    /* Ensure proper text inheritance for all nested elements */
-    .sidebar .collapse *,
-    .sidebar .collapsing *,
-    .sidebar .show * {
-      color: inherit !important;
-    }
-
-    [data-theme="dark"] .sidebar .collapse *,
-    [data-theme="dark"] .sidebar .collapsing *,
-    [data-theme="dark"] .sidebar .show * {
-      color: inherit !important;
-    }
-
-    /* Override any white text that might be coming from other sources */
-    [data-theme="dark"] .sidebar * {
-      color: inherit !important;
-    }
-
-    [data-theme="dark"] .sidebar .text-white,
-    [data-theme="dark"] .sidebar .text-light {
-      color: var(--text-primary) !important;
-    }
 
     /* Apply theme to body and main elements */
     [data-theme="dark"] body {
@@ -254,9 +132,102 @@
       color: var(--text-primary) !important;
     }
 
-    [data-theme="dark"] .sidebar {
-      background: var(--sidebar-bg) !important;
-      color: var(--text-primary) !important;
+    /* ===== SIDEBAR THEME STYLING - SAME AS USER DASHBOARD ===== */
+    
+    /* Dark sidebar theme styles - HIGH PRIORITY */
+    .sidebar-dark .sidebar {
+      background: #232227 !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link i {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link i.menu-icon {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link .menu-title {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] .menu-title {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item.active>.nav-link {
+      background: #4B49AC !important;
+    }
+
+    .sidebar-dark .sidebar .nav .nav-item.active>.nav-link .menu-title,
+    .sidebar-dark .sidebar .nav .nav-item.active>.nav-link i {
+      color: #ffffff !important;
+    }
+
+    .sidebar-dark .sidebar .nav:not(.sub-menu)>.nav-item:hover>.nav-link {
+      background: #4B49AC !important;
+      color: #fff !important;
+    }
+
+    .sidebar-dark .sidebar .nav:not(.sub-menu)>.nav-item .nav-link[aria-expanded="true"] {
+      background: #1a1f26 !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu {
+      background: #1a1f26 !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link {
+      color: #FFFFFF !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link:before {
+      color: white !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link.active {
+      color: #ffffff !important;
+      background: transparent !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link:hover {
+      color: #9a94a7 !important;
+    }
+
+    .sidebar-dark .sidebar .nav.sub-menu .nav-item:hover {
+      background: transparent !important;
+    }
+
+    .sidebar-dark .navbar {
+      box-shadow: none !important;
+    }
+
+    .sidebar-dark .navbar .navbar-brand-wrapper {
+      background: #232227 !important;
+    }
+
+    /* Ensure dropdown arrows and all nested elements are white in dark sidebar */
+    .sidebar-dark .sidebar .nav .nav-item .nav-link::after,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link .menu-arrow::before,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link .menu-arrow {
+      color: #FFFFFF !important;
+      border-color: #FFFFFF !important;
+    }
+
+    /* Fix any potential text inheritance issues */
+    .sidebar-dark .sidebar * {
+      color: inherit !important;
+    }
+
+    /* Make sure expanded dropdowns have proper styling */
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"],
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] .menu-title,
+    .sidebar-dark .sidebar .nav .nav-item .nav-link[aria-expanded="true"] i {
+      color: #FFFFFF !important;
     }
 
     body {
@@ -1628,6 +1599,8 @@
 
       <!-- partial -->
       <div class="container-fluid page-body-wrapper pl-0">
+        <!-- Include Settings Dow for theme synchronization -->
+        <%- include('../partials/SettingsDow.ejs') %>
 
         <!-- NavBar Start -->
         <%- include ('../partials/Sidebar.ejs') %>
