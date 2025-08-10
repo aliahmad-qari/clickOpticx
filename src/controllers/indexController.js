@@ -180,7 +180,7 @@ exports.updateNav_img = (req, res) => {
     return res.status(400).send("No image uploaded.");
   }
 
-  const newNavImg = req.file.filename;
+  const newNavImg = req.file.path;
 
   const sqlUpdate = "UPDATE nav_table SET nav_imgs = ?";
   db.query(sqlUpdate, [newNavImg, userId], (err, result) => {
@@ -281,7 +281,7 @@ exports.uploadBackgroundImage = (req, res) => {
     return res.status(400).send("No image uploaded.");
   }
 
-  const uploadimg = req.file.filename;
+  const uploadimg = req.file.path;
 
   const sqlUpdate = "UPDATE nav_table SET background_img = ?";
   db.query(sqlUpdate, [uploadimg, userId], (err, result) => {
@@ -317,7 +317,7 @@ exports.updateText = (req, res) => {
 
 // Icon Change Slider
 exports.updateIcon = (req, res) => {
-  const Icon = req.file.filename;
+  const Icon = req.file.path;
   const Link = req.body.Link;
   if (!Icon || !Link) {
     return res.status(400).send("Icon and Link are required.");

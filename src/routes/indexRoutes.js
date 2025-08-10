@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const indexController = require("../controllers/indexController");
-const upload = require("../middlewares/uploadMiddleware");
+const { upload } = require("../config/cloudinary");
 
 router.get("/index", indexController.plan);
 

@@ -108,7 +108,7 @@ exports.profile = (req, res) => {
 };
 exports.task = (req, res) => {
   const { title, paragraph, link } = req.body;
-  const image = req.file.filename;
+  const image = req.file.path;
 
   const sql =
     "INSERT INTO tasks (title, paragraph, image, link) VALUES (?, ?, ?, ?)";

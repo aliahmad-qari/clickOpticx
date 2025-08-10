@@ -163,10 +163,11 @@
   }
 
   .table-responsive {
-    overflow-x: auto;
+    overflow-x: hidden;
     border-radius: 10px;
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
 
@@ -363,7 +364,8 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    min-width: 800px;
+    min-width: auto;
+    table-layout: fixed;
   }
 
   .equipment-table th {
@@ -890,6 +892,100 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Dark Mode Styles */
+[data-theme="dark"] body {
+  background-color: #111827 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .main-panel {
+  background-color: #111827 !important;
+}
+
+[data-theme="dark"] .container-fluid.page-body-wrapper {
+  background-color: #111827 !important;
+}
+
+[data-theme="dark"] .card {
+  background-color: #1F2937 !important;
+  border-color: #374151 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .card-header {
+  background-color: #374151 !important;
+  border-color: #4B5563 !important;
+}
+
+[data-theme="dark"] .table {
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .table th,
+[data-theme="dark"] .table td {
+  border-color: #374151 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .table thead th {
+  background-color: #374151 !important;
+}
+
+[data-theme="dark"] .table tbody tr:hover {
+  background-color: #374151 !important;
+}
+
+[data-theme="dark"] .badge {
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-outline-primary {
+  border-color: #8B5CF6 !important;
+  color: #8B5CF6 !important;
+}
+
+[data-theme="dark"] .btn-outline-primary:hover {
+  background-color: #8B5CF6 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-outline-danger {
+  border-color: #EF4444 !important;
+  color: #EF4444 !important;
+}
+
+[data-theme="dark"] .btn-outline-danger:hover {
+  background-color: #EF4444 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #374151 !important;
+  border-color: #4B5563 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background-color: #374151 !important;
+  border-color: #8B5CF6 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .modal-content {
+  background-color: #1F2937 !important;
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .modal-header {
+  border-color: #374151 !important;
+}
+
+[data-theme="dark"] .modal-footer {
+  border-color: #374151 !important;
+}
 </style>
 
 <body>
@@ -979,7 +1075,7 @@
                               <td class="name-col" data-label="Image">
                                 <div class="equipment-info">
                                   <img class="equipment-image"
-                                    src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                                    src="<%= user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : '/images/profile-1740414577370.webp' %>"
                                     alt="User">
                                 </div>
                               </td>
@@ -1041,7 +1137,7 @@
                         <div class="user-card">
                           <div class="user-card-header">
                             <img class="user-card-avatar" 
-                                 src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>" 
+                                 src="<%= user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : '/images/profile-1740414577370.webp' %>" 
                                  alt="<%= user.Username %>">
                             <div class="user-card-name">
                               <h6><%= user.Username %></h6>

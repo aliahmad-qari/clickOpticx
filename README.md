@@ -2,6 +2,105 @@
 
 A comprehensive Internet Service Provider (ISP) management system built with Node.js, Express.js, and MySQL. This application provides a complete solution for managing ISP operations including user management, billing, equipment tracking, and customer support.
 
+## 🚀 Railway Free Deployment Guide
+
+### 📋 Prerequisites
+- ✅ GitHub account (free)
+- ✅ Railway account (free - railway.app) 
+- ✅ Cloudinary account (free - cloudinary.com)
+- ✅ Your project pushed to GitHub
+
+### 🔧 Step 1: Prepare Project for Deployment
+
+1. **Update package.json start script:**
+```json
+"start": "node index.js"  // Change from nodemon to node
+```
+
+2. **Update port in index.js:**
+```javascript
+const port = process.env.PORT || 3000;  // Add PORT env support
+```
+
+3. **Commit to GitHub:**
+```bash
+git add .
+git commit -m "Prepare for Railway deployment"
+git push origin main
+```
+
+### 🚀 Step 2: Deploy on Railway
+
+1. **Go to [railway.app](https://railway.app)**
+2. **Sign up** with GitHub
+3. **Click "Start a New Project"**
+4. **Select "Deploy from GitHub repo"** 
+5. **Choose your ClickOpticx repository**
+6. **Railway auto-detects** Node.js project
+
+### 🗄️ Step 3: Add MySQL Database
+
+1. **In Railway dashboard:**
+   - Click **"+ New Service"**
+   - Select **"Database"** → **"MySQL"**
+2. **Copy database credentials** from Variables tab
+
+### 🔑 Step 4: Set Environment Variables
+
+In your **Node.js service** → **Variables** tab, add:
+
+**Database Variables:**
+```env
+HOST=your-railway-mysql-host
+USER=root
+PASSWORD=your-railway-mysql-password
+DATABASE=railway
+Port=3306
+```
+
+**Cloudinary Variables:**
+```env
+CLOUDINARY_CLOUD_NAME=dzzuvb4fg
+CLOUDINARY_API_KEY=946697296522253
+CLOUDINARY_API_SECRET=AHcpyhnG_xRgTPTp_LrsSgVwWI8
+```
+
+**Payment & Email Variables:**
+```env
+PAYFAST_MERCHANT_ID=26995
+PAYFAST_SECURED_KEY=fts432DwdbTzWo0q714sOTgb
+PAYFAST_API_URL=https://ipg1.apps.net.pk/Ecommerce/api/Transaction
+GMAIL_USER=clickopticx@gmail.com
+GMAIL_PASS=qjnm esst kuxp kabq
+```
+
+### ✅ Step 5: Complete Deployment
+
+1. **Railway auto-deploys** after adding variables
+2. **Monitor build logs** in Deployments tab
+3. **Get your app URL** from Railway dashboard
+4. **Import database tables** via MySQL client
+
+### 🧪 Step 6: Test Your Deployed App
+
+- ✅ Homepage loads
+- ✅ User registration/login works
+- ✅ Image uploads go to Cloudinary
+- ✅ Database operations work
+- ✅ Static assets load properly
+
+### 💡 Railway Free Tier Benefits
+
+- ✅ $5 monthly credit (resets each month)
+- ✅ Up to 3 projects
+- ✅ Custom domains
+- ✅ Automatic HTTPS
+- ✅ Auto-deployments from GitHub
+
+**🎉 Your app is now live on Railway for FREE!**
+
+---
+
 ## 🚀 Features
 
 ### Core Features

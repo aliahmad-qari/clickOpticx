@@ -33,6 +33,9 @@ exports.updateSubscription = (req, res) => {
     special_instructions,
   } = req.body;
 
+  // Handle uploaded screenshot file - use Cloudinary URL
+  const screenshotPath = req.file ? req.file.path : null;
+
   // For home collection, transaction_id is not required  
   // Check both the checkbox and the final hidden input
   const isHomeCollection = home_collection === 'yes' || home_collection === true || home_collection === '1' || home_collection === 1 ||
@@ -108,8 +111,9 @@ exports.updateSubscription = (req, res) => {
         collection_address,
         contact_number,
         preferred_time,
-        special_instructions
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid', ?, ?, ?, ?, ?)
+        special_instructions,
+        payment_screenshot
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid', ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -128,6 +132,7 @@ exports.updateSubscription = (req, res) => {
         contact_number || null,
         preferred_time || null,
         special_instructions || null,
+        screenshotPath || null,
       ],
       (err) => {
         if (err) {

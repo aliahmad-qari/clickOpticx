@@ -86,7 +86,7 @@ exports.Slider_imgs = (req, res) => {
 // update the Nav_br img // update the Nav_bar img
 exports.Slider_img = (req, res) => {
   // Check if files exist
-  const Slider_1 = req.files?.Slider_1 ? req.files.Slider_1[0].filename : null;
+  const Slider_1 = req.files?.Slider_1 ? req.files.Slider_1[0].path : null;
 
   if (Slider_1) {
     const SqlInsert = "INSERT INTO slider ( Slider_1) VALUES (?)";

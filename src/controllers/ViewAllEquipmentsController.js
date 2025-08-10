@@ -158,7 +158,7 @@ exports.deleteEquipment = (req, res) => {
 
 exports.updateEquipment = (req, res) => {
   const { id, type, name, category, quantity } = req.body;
-  const image = req.file ? `uploads/${req.file.filename}` : null;
+  const image = req.file ? req.file.path : null;
 
   let sql, params;
   if (image) {

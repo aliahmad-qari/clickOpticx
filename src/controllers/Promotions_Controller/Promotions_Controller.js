@@ -165,7 +165,7 @@ exports.InsertPromotions = async (req, res) => {
       return res.redirect("/Promotions");
     }
 
-    const promot = req.file.filename;
+    const promot = req.file.path;
     const sql = `
       INSERT INTO promotions (img1, link, valid_till, created_at) 
       VALUES (?, ?, ?, NOW())

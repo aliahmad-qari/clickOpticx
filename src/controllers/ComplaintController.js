@@ -129,7 +129,7 @@ exports.AllComplaint = (req, res) => {
 // Assuming you're using multer middleware as `upload`
 exports.uploadTaskImages = async (req, res) => {
   const { id, name, title } = req.body;
-  const imagePath = req.file ? req.file.filename : null;
+  const imagePath = req.file ? req.file.path : null;
 
   const sql = "INSERT INTO daily_tasks (user_id, user_name, title, image) VALUES (?, ?, ?, ?)";
   db.query(sql, [id, name, title, imagePath], async (err) => {

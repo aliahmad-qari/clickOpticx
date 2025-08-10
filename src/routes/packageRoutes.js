@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated, isAdmin } = require("../middlewares/authMiddleware");
+const { upload } = require("../config/cloudinary");
 const {
   updateSubscription,
   getPackage,
@@ -30,7 +31,7 @@ router.delete("/package/:id", isAuthenticated, isAdmin, deletePackage);
 router.post("/discount/:id", isAuthenticated, isAdmin, adminDiscount);
 
 // POST update subscription (User)
-router.post("/subscription", updateSubscription);
+router.post("/subscription", upload.single('payment_screenshot'), updateSubscription);
 
 // POST get PayFast token for a package
 router.post("/get-payfast-token", getPayFastToken);

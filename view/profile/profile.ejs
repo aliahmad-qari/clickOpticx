@@ -1390,7 +1390,7 @@
                               <div class="profile-bg"></div>
                               <div class="profile-avatar-section">
                                 <img
-                                  src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                                  src="<%= user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : '/images/profile-1740414577370.webp' %>"
                                   alt="Avatar" class="profile-avatar" />
                                 <div class="profile-status"></div>
                               </div>
@@ -1958,7 +1958,7 @@
             <input type="hidden" name="existing_img" value="<%= user.user_img %>">
             <div class="modal-body">
               <div class="d-flex align-items-center gap-3 mb-4">
-                <img src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                <img src="<%= user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : '/images/profile-1740414577370.webp' %>"
                   alt="Profile" class="profile-img" style="width: 77px !important;">
                 <label class="custom-file-btn bg-primary text-white btn btn-outline-secondary">
                   Choose file

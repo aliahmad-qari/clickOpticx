@@ -190,8 +190,8 @@ exports.updateUser = (req, res) => {
   // ✅ Log the uploaded file
   console.log("Uploaded file:", req.file);
 
-  // ✅ Get filename or fallback to existing image
-  const userimg = req.file ? req.file.filename : existing_img;
+  // ✅ Get Cloudinary URL or fallback to existing image
+  const userimg = req.file ? req.file.path : existing_img;
 
   // Log the parameters before query
   console.log("UpdateUser params:", {

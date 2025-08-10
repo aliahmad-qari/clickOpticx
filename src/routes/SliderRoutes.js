@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const SliderController = require("../controllers/SliderController");
-const upload = require("../middlewares/uploadMiddleware");
+const { upload } = require("../config/cloudinary");
 
 // ssss
 router.get("/Slider_img", SliderController.Slider_imgs);

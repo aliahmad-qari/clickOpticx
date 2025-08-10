@@ -2160,7 +2160,7 @@
 
     <!-- Payment Form -->
     <% if (user) { %>
-    <form id="paymentForm" action="/subscription" method="POST" class="mt-4">
+    <form id="paymentForm" action="/subscription" method="POST" enctype="multipart/form-data" class="mt-4">
       <input type="hidden" name="active" value="Pending">
       <input type="hidden" name="package_name" id="package_name">
       <input type="hidden" name="user_id" value="<%= user.id %>">
@@ -2450,6 +2450,34 @@
                     pointer-events: none;
                   "></i>
                 </div>
+              </div>
+
+              <!-- Payment Screenshot Upload -->
+              <div class="col-md-6 col-12 mb-3" id="screenshotField" style="display: none;">
+                <label class="form-label" style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">Payment Screenshot (Optional)</label>
+                <div style="position: relative;">
+                  <input type="file" class="form-control" id="payment_screenshot" name="payment_screenshot" accept="image/*" style="
+                    border: 2px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 12px 16px 12px 50px !important;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                  " onfocus="this.style.borderColor='#8B5CF6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                  <i class="fas fa-camera" style="
+                    position: absolute;
+                    left: 18px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #8B5CF6;
+                    font-size: 1rem;
+                    z-index: 10;
+                    pointer-events: none;
+                  "></i>
+                </div>
+                <small class="text-muted" style="font-size: 0.8rem; color: #6B7280; margin-top: 0.5rem; display: block;">
+                  <i class="fas fa-info-circle" style="margin-right: 4px;"></i>
+                  Upload a screenshot of your payment confirmation for faster verification
+                </small>
               </div>
             </div>
           </div>
@@ -2862,254 +2890,71 @@
             const phoneField = document.getElementById('phoneField');
             const timeField = document.getElementById('timeField');
             const instructionsField = document.getElementById('instructionsField');
+            const screenshotField = document.getElementById('screenshotField');
             const transactionField = document.querySelector('[name="transaction_id"]').closest('.col-md-6');
 
-            console.log('toggleAddressFields called:', {
-                checkboxChecked: checkbox?.checked,
-                addressFieldExists: !!addressField,
-                phoneFieldExists: !!phoneField,
-                timeFieldExists: !!timeField,
-                instructionsFieldExists: !!instructionsField,
-                homeCollectionFieldsExists: !!homeCollectionFields
-            });
-
             if (checkbox.checked) {
-                console.log('Showing home collection fields...');
+                // Show main container and all fields
+                if (homeCollectionFields) homeCollectionFields.style.display = 'block';
+                if (addressField) addressField.style.display = 'block';
+                if (phoneField) phoneField.style.display = 'block';
+                if (timeField) timeField.style.display = 'block';
+                if (instructionsField) instructionsField.style.display = 'block';
+                if (screenshotField) screenshotField.style.display = 'block';
                 
-                // Show main container first
-                if (homeCollectionFields) {
-                    homeCollectionFields.style.display = 'block';
-                    homeCollectionFields.style.setProperty('display', 'block', 'important');
-                }
-                
-                // Show individual fields with multiple fallback approaches
-                const fieldsToShow = [
-                    { element: addressField, name: 'addressField' },
-                    { element: phoneField, name: 'phoneField' },
-                    { element: timeField, name: 'timeField' },
-                    { element: instructionsField, name: 'instructionsField' }
-                ];
-                
-                fieldsToShow.forEach(({ element, name }) => {
-                    if (element) {
-                        // Multiple approaches to ensure visibility
-                        element.style.display = 'block';
-                        element.style.setProperty('display', 'block', 'important');
-                        element.style.visibility = 'visible';
-                        element.style.setProperty('visibility', 'visible', 'important');
-                        element.removeAttribute('hidden');
-                        element.classList.remove('d-none');
-                        console.log(`${name} visibility set to block`);
-                    } else {
-                        console.warn(`${name} element not found!`);
+                // Hide transaction ID field for home collection
+                if (transactionField) {
+                    transactionField.style.display = 'none';
+                    const transactionInput = document.getElementById('transaction_id');
+                    if (transactionInput) {
+                        transactionInput.required = false;
                     }
-                });
-                
-                // Smooth scroll to the fields
-                setTimeout(() => {
-                    homeCollectionFields.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-                
-                // Show success toast
-                const toast = document.createElement('div');
-                const isMobile = window.innerWidth <= 768;
-                toast.className = isMobile ? 'mobile-toast' : '';
-                toast.style.cssText = `
-                    position: fixed;
-                    top: ${isMobile ? '10px' : '20px'};
-                    right: ${isMobile ? '10px' : '20px'};
-                    ${isMobile ? 'left: 10px;' : ''}
-                    background: linear-gradient(135deg, #10B981, #059669);
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 8px;
-                    z-index: 10000;
-                    font-weight: 500;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    animation: slideIn 0.3s ease-out;
-                    font-size: ${isMobile ? '0.9rem' : '1rem'};
-                `;
-                toast.innerHTML = '<i class="fas fa-home" style="margin-right: 8px;"></i>Home collection fields activated!';
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.remove();
-                }, 3000);
-                
-                // Hide transaction ID field ONLY for home collection
-if (transactionField) {
-    transactionField.style.display = 'none';
-    const transactionInput = document.getElementById('transaction_id');
-    if (transactionInput) {
-        transactionInput.required = false;
-    }
-}
-                // Auto-fill user address if available from profile with better debugging
-                <% const userAddress = user && user.address; %>
-                <% const userPhone = user && user.Number; %>
-                
-                console.log('Auto-fill data check:', {
-                    userExists: '<%= !!user %>',
-                    userAddress: '<%= userAddress || "not available" %>',
-                    userPhone: '<%= userPhone || "not available" %>'
-                });
-                
-                const addressInputField = document.getElementById('collection_address');
-                const contactInputField = document.getElementById('contact_number');
-                
-                console.log('Input fields found:', {
-                    addressField: !!addressInputField,
-                    contactField: !!contactInputField
-                });
-                
-                <% if (userAddress) { %>
-                if (addressInputField) {
-                    try {
-                        addressInputField.value = "<%= String(userAddress).replace(/\n/g, '\\n').replace(/"/g, '\\"') %>";
-                        addressInputField.style.borderColor = '#10B981';
-                        addressInputField.style.backgroundColor = '#F0FDF4';
-                        console.log('Address auto-filled successfully:', addressInputField.value);
-                    } catch (error) {
-                        console.error('Error auto-filling address:', error);
-                    }
-                } else {
-                    console.warn('collection_address input field not found');
                 }
-                <% } else { %>
-                console.log('No user address available for auto-fill');
+
+                // Auto-fill user address and phone from profile
+                const addressInput = document.getElementById('collection_address');
+                const contactInput = document.getElementById('contact_number');
+                
+                <% if (user && user.address) { %>
+                if (addressInput) {
+                    addressInput.value = "<%= (user.address || '').replace(/\n/g, '\\n').replace(/"/g, '\\"') %>";
+                }
                 <% } %>
                 
-                <% if (userPhone) { %>
-                if (contactInputField) {
-                    try {
-                        contactInputField.value = "<%= userPhone %>";
-                        contactInputField.style.borderColor = '#10B981';
-                        contactInputField.style.backgroundColor = '#F0FDF4';
-                        console.log('Phone auto-filled successfully:', contactInputField.value);
-                    } catch (error) {
-                        console.error('Error auto-filling phone:', error);
-                    }
-                } else {
-                    console.warn('contact_number input field not found');
+                <% if (user && user.Number) { %>
+                if (contactInput) {
+                    contactInput.value = "<%= user.Number || '' %>";
                 }
-                <% } else { %>
-                console.log('No user phone available for auto-fill');
                 <% } %>
-                
-                // Ensure all fields are always editable and visible
-                setTimeout(() => {
-                    const allFields = [addressInputField, contactInputField];
-                    const isMobile = window.innerWidth <= 768;
-                    
-                    allFields.forEach(field => {
-                        if (field) {
-                            field.removeAttribute('readonly');
-                            field.removeAttribute('disabled');
-                            field.style.pointerEvents = 'auto';
-                            field.style.userSelect = 'text';
-                            if (!field.value) {
-                                if (field.id === 'collection_address') {
-                                    field.placeholder = isMobile ? "Enter address" : "Please enter your complete address for collection";
-                                } else if (field.id === 'contact_number') {
-                                    field.placeholder = isMobile ? "Contact number" : "Enter your contact number";
-                                }
-                            }
-                        }
-                    });
-                    
-                    // Also set mobile placeholders for other fields
-                    const specialInstructions = document.getElementById('special_instructions');
-                    if (specialInstructions && isMobile) {
-                        specialInstructions.placeholder = "Special notes";
-                    }
-                    
-                    const preferredTime = document.getElementById('preferred_time');
-                    if (preferredTime && isMobile) {
-                        preferredTime.placeholder = "Time";
-                    }
-                    
-                    console.log('All fields made editable and mobile-optimized');
-                }, 100);
-                
-                // Show message if data was auto-filled
-                <% if (userAddress || (user && user.Number)) { %>
-                setTimeout(() => {
-                    const toast = document.createElement('div');
-                    toast.style.cssText = `
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-                        color: white;
-                        padding: 12px 20px;
-                        border-radius: 8px;
-                        font-size: 14px;
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-                        z-index: 10000;
-                        animation: slideIn 0.3s ease-out;
-                    `;
-                    toast.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 8px;"></i>Profile data auto-filled for home collection';
-                    document.body.appendChild(toast);
-                    
-                    setTimeout(() => {
-                        toast.style.animation = 'slideOut 0.3s ease-in forwards';
-                        setTimeout(() => document.body.removeChild(toast), 300);
-                    }, 3000);
-                }, 500);
-                <% } %>
-                
-                // Change button text
-                const submitBtn = document.querySelector('[type="submit"]');
-                submitBtn.innerHTML = '<i class="fas fa-calendar-check" style="margin-right: 8px;"></i>Schedule Home Collection';
-                
-                // Update instructions
-                const instructionsList = document.querySelector('ol');
-                if (instructionsList) {
-                    instructionsList.innerHTML = `
-                        <li>Fill in your address and contact details</li>
-                        <li>Choose your preferred collection time</li>
-                        <li>Enter a transaction ID or reference number for tracking</li>
-                        <li>Submit the request for home collection</li>
-                        <li>Our agent will visit your location to collect payment</li>
-                    `;
-                }
             } else {
                 // Hide home collection fields
-                homeCollectionFields.style.display = 'none';
-                addressField.style.display = 'none';
-                phoneField.style.display = 'none';
-                timeField.style.display = 'none';
-                instructionsField.style.display = 'none';
+                if (homeCollectionFields) homeCollectionFields.style.display = 'none';
+                if (addressField) addressField.style.display = 'none';
+                if (phoneField) phoneField.style.display = 'none';
+                if (timeField) timeField.style.display = 'none';
+                if (instructionsField) instructionsField.style.display = 'none';
+                if (screenshotField) screenshotField.style.display = 'none';
                 
-                // Clear home collection field values when unchecked
-                document.getElementById('collection_address').value = '';
-                document.getElementById('contact_number').value = '';
-                document.getElementById('preferred_time').value = '';
-                document.getElementById('special_instructions').value = '';
+                // Clear field values
+                const addressInput = document.getElementById('collection_address');
+                const contactInput = document.getElementById('contact_number');
+                const timeInput = document.getElementById('preferred_time');
+                const instructionsInput = document.getElementById('special_instructions');
+                const screenshotInput = document.getElementById('payment_screenshot');
                 
-                // Remove or clear hidden home collection input
-                const hiddenHomeCollection = document.querySelector('input[name="home_collection"][type="hidden"]');
-                if (hiddenHomeCollection) {
-                    hiddenHomeCollection.remove();
-                }
+                if (addressInput) addressInput.value = '';
+                if (contactInput) contactInput.value = '';
+                if (timeInput) timeInput.value = '';
+                if (instructionsInput) instructionsInput.value = '';
+                if (screenshotInput) screenshotInput.value = '';
                 
                 // Show transaction ID field
-                transactionField.style.display = 'block';
-                document.getElementById('transaction_id').required = true;
-                
-                // Reset button text
-                const submitBtn = document.querySelector('[type="submit"]');
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Submit for Verification';
-                
-                // Reset instructions
-                const instructionsList = document.querySelector('ol');
-                if (instructionsList) {
-                    instructionsList.innerHTML = `
-                        <li>Complete payment using any method above</li>
-                        <li>Copy the transaction ID from your payment confirmation</li>
-                        <li>Enter the transaction ID in the form above</li>
-                        <li>Submit for verification and activation</li>
-                    `;
+                if (transactionField) {
+                    transactionField.style.display = 'block';
+                    const transactionInput = document.getElementById('transaction_id');
+                    if (transactionInput) {
+                        transactionInput.required = true;
+                    }
                 }
             }
         }
@@ -3123,8 +2968,10 @@ if (transactionField) {
                 phoneField: document.getElementById('phoneField'),
                 timeField: document.getElementById('timeField'),
                 instructionsField: document.getElementById('instructionsField'),
+                screenshotField: document.getElementById('screenshotField'),
                 addressInput: document.getElementById('collection_address'),
-                contactInput: document.getElementById('contact_number')
+                contactInput: document.getElementById('contact_number'),
+                screenshotInput: document.getElementById('payment_screenshot')
             };
             
             console.log('=== HOME COLLECTION DEBUG ===');
@@ -3190,8 +3037,7 @@ if (transactionField) {
                             // Debug info
                             console.log('Address validation failed:', {
                                 fieldValue: addressField.value,
-                                fieldExists: !!addressField,
-                                userAddress: '<%= userAddress || "not found" %>'
+                                fieldExists: !!addressField
                             });
                             alert('Please enter your collection address for home collection service.');
                             addressField.focus();

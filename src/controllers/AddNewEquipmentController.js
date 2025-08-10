@@ -71,7 +71,7 @@ exports.AddEquipments = (req, res) => {
 
 exports.AddEquipment = (req, res) => {
   const { type, name, quantity } = req.body;
-  const image = req.file ? `uploads/${req.file.filename}` : null;
+  const image = req.file ? req.file.path : null;
 
   // Validate inputs
   if (!type || !name || !quantity) {

@@ -2290,7 +2290,7 @@
                   <div class="profile">
                     <a href="/profile">
                       <img class="profile-avatar"
-                        src="<%= user.user_img ? '/uploads/' + user.user_img : '/images/profile-1740414577370.webp' %>"
+                        src="<%= user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : '/images/profile-1740414577370.webp' %>"
                         alt="Profile">
                     </a>
                   </div>
@@ -2831,7 +2831,7 @@
         <div class="col-12">
           <div class="container-fluid shadow-sm border-0">
             <div class="offer-image-wrapper full-width-offer">
-              <img src="/uploads/<%= slider[0].Slider_1 %>" alt="Featured Offer" >
+              <img src="<%= slider[0].Slider_1.startsWith('http') ? slider[0].Slider_1 : '/uploads/' + slider[0].Slider_1 %>" alt="Featured Offer" >
             </div>
             <div class="card-body text-center">
              <h5 class="card-title fw-semibold">Live Alert</h5>

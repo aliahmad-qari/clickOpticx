@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../../middlewares/uploadMiddleware");
+const { upload } = require("../../config/cloudinary");
 
 const PromotionsAdd = require("../../controllers/Promotions_Controller/Promotions_Controller");
 
