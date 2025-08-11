@@ -559,7 +559,7 @@
                 <div class="images-grid">
                   <% promotionresult.forEach((item) => { %>
                     <div class="image-item">
-                      <img src="/uploads/<%= item.img1 %>" alt="Promotion" class="image-thumbnail">
+                      <img src="<%= item.img1.startsWith('http') ? item.img1 : '/uploads/' + item.img1 %>" alt="Promotion" class="image-thumbnail">
                       <form method="POST" action="/Promotions/delete/<%= item.id %>" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this promotion?')">
                         <button type="submit" class="btn-delete">
                           <i class="fas fa-times"></i>

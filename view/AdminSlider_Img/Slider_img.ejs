@@ -628,7 +628,7 @@ border-bottom-left-radius: 18px;
               </div>
 
               <div class="container-fluid main-div" id="cont1"
-                style="background-image: url('/uploads/<%= bg_result[0].background_img %>');background-color: <%= bg_result[0].background_color %>; background-size: cover;  padding: 20px;">
+                style="background-image: url('<%= bg_result[0].background_img.startsWith('http') ? bg_result[0].background_img : '/uploads/' + bg_result[0].background_img %>');background-color: <%= bg_result[0].background_color %>; background-size: cover;  padding: 20px;">
                 <div class="row">
                   <div class="col-md-12" style="padding-left: 15px;">
                     <div class="header-section d-flex justify-content-between align-items-center">
@@ -877,7 +877,7 @@ border-bottom-left-radius: 18px;
                 <div style="display: flex; justify-content: center; gap: 10px;">
                   <% slider.forEach(function(slider) { %>
                     <div>
-                      <img style="width:80px; height:50px" src="/uploads/<%= slider.Slider_1 %>" alt="Slider 1 Image">
+                      <img style="width:80px; height:50px" src="<%= slider.Slider_1.startsWith('http') ? slider.Slider_1 : '/uploads/' + slider.Slider_1 %>" alt="Slider 1 Image">
                     </div>
 
                     <button style="border: none ; background-color: transparent;"

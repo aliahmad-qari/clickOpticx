@@ -353,6 +353,73 @@ exports.deleteBackgroundImage = (req, res) => {
   res.redirect("/UserDashboard");
 };
 
+// Reset background color to default
+exports.resetBackgroundColor = (req, res) => {
+  const defaultColor = '#4F46E5'; // Default primary blue
+  const sql = "UPDATE nav_table SET background_color = ? WHERE user_id IS NULL";
+  db.query(sql, [defaultColor], (err) => {
+    if (err) {
+      console.error("❌ Error resetting background color:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    req.flash("success", "Background color reset to default successfully!");
+    res.redirect("/UserDashboard");
+  });
+};
+
+// Reset text color to default  
+exports.resetTextColor = (req, res) => {
+  const defaultColor = '#FFFFFF'; // Default white text
+  const sql = "UPDATE nav_table SET text_color = ? WHERE user_id IS NULL";
+  db.query(sql, [defaultColor], (err) => {
+    if (err) {
+      console.error("❌ Error resetting text color:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    req.flash("success", "Text color reset to default successfully!");
+    res.redirect("/UserDashboard");
+  });
+};
+
+// Delete/Reset logo to default
+exports.resetLogo = (req, res) => {
+  const sql = "UPDATE nav_table SET nav_imgs = NULL WHERE user_id IS NULL";
+  db.query(sql, (err) => {
+    if (err) {
+      console.error("❌ Error resetting logo:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    req.flash("success", "Logo reset to default successfully!");
+    res.redirect("/HeaderFooter");
+  });
+};
+
+// Delete all slider images at once
+exports.deleteAllSliders = (req, res) => {
+  const sql = "DELETE FROM slider_table";
+  db.query(sql, (err) => {
+    if (err) {
+      console.error("❌ Error deleting all sliders:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    req.flash("success", "All slider images deleted successfully!");
+    res.redirect("/UserDashboard");
+  });
+};
+
+// Delete all footer icons at once
+exports.deleteAllIcons = (req, res) => {
+  const sql = "DELETE FROM icon_table";
+  db.query(sql, (err) => {
+    if (err) {
+      console.error("❌ Error deleting all icons:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    req.flash("success", "All footer icons deleted successfully!");
+    res.redirect("/UserDashboard");
+  });
+};
+
 // background color change
 exports.updatebackgroundcolor = (req, res) => {
   const backgroundColor = req.body.background_color;

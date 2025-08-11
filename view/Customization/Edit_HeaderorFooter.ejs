@@ -579,7 +579,7 @@
                     <% if (bg_result && bg_result.length > 0 && bg_result[0].nav_imgs) { %>
                       <div class="enterprise-preview-section">
                         <div class="enterprise-preview-title">Current Logo</div>
-                        <img src="/uploads/<%= bg_result[0].nav_imgs %>" alt="Current Logo" class="enterprise-preview-image">
+                        <img src="<%= bg_result[0].nav_imgs.startsWith('http') ? bg_result[0].nav_imgs : '/uploads/' + bg_result[0].nav_imgs %>" alt="Current Logo" class="enterprise-preview-image">
                       </div>
                     <% } %>
 
@@ -656,7 +656,7 @@
                         <div class="enterprise-icon-grid">
                           <% IconSliders.forEach(function(result) { %>
                             <div class="enterprise-icon-item">
-                              <img src="/uploads/<%= result.Icon %>" alt="Footer Icon">
+                              <img src="<%= result.Icon.startsWith('http') ? result.Icon : '/uploads/' + result.Icon %>" alt="Footer Icon">
                               <button type="button" class="delete-btn" onclick="deleteSlider('<%= result.id %>')">
                                 <i class="fas fa-times"></i>
                               </button>

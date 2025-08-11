@@ -26,6 +26,11 @@ router.post("/updateIcon", upload.single("Icon"), indexController.updateIcon);
 
 // ssssssssssssssss
 router.post("/delete-background", indexController.deleteBackgroundImage);
+router.post("/reset-background-color", indexController.resetBackgroundColor);
+router.post("/reset-text-color", indexController.resetTextColor);
+router.post("/reset-logo", indexController.resetLogo);
+router.post("/delete-all-sliders", indexController.deleteAllSliders);
+router.post("/delete-all-icons", indexController.deleteAllIcons);
 
 router.post("/logoTextChange", indexController.updateLogoText);
 

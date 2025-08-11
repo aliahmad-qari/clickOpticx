@@ -330,12 +330,12 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
  <img 
-  src="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/blacklogo.png' %>" 
+  src="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/blacklogo.png' %>" 
   alt="logo" 
   id="navImgPreview" 
   class="img-fluid logo-img theme-light-logo"
-  data-theme-logo-light="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/blacklogo.png' %>"
-  data-theme-logo-dark="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/ClickTake.png' %>"
+  data-theme-logo-light="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/blacklogo.png' %>"
+  data-theme-logo-dark="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/ClickTake.png' %>"
 />
 
     <% if (isAdmin) { %>
@@ -762,7 +762,7 @@
                 <li class="nav-item nav-profile dropdown">
                   <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     <img
-                      src="<%= user && user.user_img ? '/uploads/' + user.user_img : 'https://img.icons8.com/bubbles/100/standing-man.png' %>"
+                      src="<%= user && user.user_img ? (user.user_img.startsWith('http') ? user.user_img : '/uploads/' + user.user_img) : 'https://img.icons8.com/bubbles/100/standing-man.png' %>"
                       alt="profile" />
                   </a>
                  

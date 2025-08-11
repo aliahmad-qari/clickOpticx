@@ -587,7 +587,7 @@
                     <% if (bg_result && bg_result.length > 0 && bg_result[0].background_img) { %>
                       <div class="enterprise-preview-section">
                         <div class="enterprise-preview-title">Current Background</div>
-                        <img src="/uploads/<%= bg_result[0].background_img %>" alt="Current Background" class="enterprise-preview-image">
+                        <img src="<%= bg_result[0].background_img.startsWith('http') ? bg_result[0].background_img : '/uploads/' + bg_result[0].background_img %>" alt="Current Background" class="enterprise-preview-image">
                       </div>
                     <% } %>
 

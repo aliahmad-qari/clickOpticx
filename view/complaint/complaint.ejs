@@ -416,7 +416,7 @@
                             <div class="price-card p-3 mb-3 task-card hover-lift transition-all">
                               <div class="d-flex align-items-start gap-3">
                                 <div class="task-image-wrapper flex-shrink-0">
-                                  <img src="/uploads/<%= task.image %>" alt="Task Image" class="task-image rounded-2">
+                                  <img src="<%= task.image.startsWith('http') ? task.image : '/uploads/' + task.image %>" alt="Task Image" class="task-image rounded-2">
                                   <div class="task-badge bg-primary">New</div>
                                 </div>
                                 <div class="flex-grow-1">

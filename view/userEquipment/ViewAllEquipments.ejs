@@ -1541,7 +1541,7 @@
                                             <td class="name-col">
                                               <div class="equipment-info">
                                                 <img class="equipment-image"
-                                                  src="<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>">
+                                                  src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>">
                                                 <div>
                                                   <div class="equipment-name">
                                                     <%= item.name || 'Unnamed' %>
@@ -1656,7 +1656,7 @@
                                     <div class="equipment-card">
                                       <div class="equipment-card-header">
                                         <img class="equipment-card-image" 
-                                             src="<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>" 
+                                             src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>" 
                                              alt="<%= item.name || 'Unnamed' %>">
                                         <div class="equipment-card-name">
                                           <h6><%= item.name || 'Unnamed' %></h6>
@@ -1697,7 +1697,7 @@
                                       </div>
                                       
                                       <div class="equipment-card-actions">
-                                        <button class="mobile-btn view" onclick="viewEquipmentDetails('<%= item.id %>', '<%= item.name || 'Unnamed' %>', '<%= item.type || 'N/A' %>', '<%= item.category || 'N/A' %>', '<%= item.quantity || '0' %>', '<%= item.image ? '/' + item.image : '/images/default-equipment.png' %>')">
+                                        <button class="mobile-btn view" onclick="viewEquipmentDetails('<%= item.id %>', '<%= item.name || 'Unnamed' %>', '<%= item.type || 'N/A' %>', '<%= item.category || 'N/A' %>', '<%= item.quantity || '0' %>', '<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>')">
                                           <i class="fas fa-eye"></i> View
                                         </button>
                                         

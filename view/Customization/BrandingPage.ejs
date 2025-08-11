@@ -457,7 +457,7 @@
                       <div class="slider">
                           <% slider.forEach(function(slider, index) { %>
                               <div class="slide">
-                                  <img src="/uploads/<%= slider.Slider_1 %>" alt="Slide <%= index + 1 %>">
+                                  <img src="<%= slider.Slider_1.startsWith('http') ? slider.Slider_1 : '/uploads/' + slider.Slider_1 %>" alt="Slide <%= index + 1 %>">
                               </div>
                           <% }); %>
                       </div>
@@ -485,7 +485,7 @@
                         <% slider.forEach(function(slider) { %>
                             <div style="display: flex;align-items: center;justify-content: center;gap: 20px; border: 2px solid #ccc; border-radius: 20px; padding: 10px;margin-top: 5px;">
                             <div >
-                              <img style="width:80px; height:50px" src="/uploads/<%= slider.Slider_1 %>" alt="Slider 1 Image">
+                              <img style="width:80px; height:50px" src="<%= slider.Slider_1.startsWith('http') ? slider.Slider_1 : '/uploads/' + slider.Slider_1 %>" alt="Slider 1 Image">
                             </div>
                             <button type="button" style="border: none ; background-color: transparent;" onclick="deleteSlider('<%= slider.id %>')">
                                 <i class="ti-trash" style="font-size: 20px; color: red;"></i>

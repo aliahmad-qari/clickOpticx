@@ -434,7 +434,7 @@
                         <% tasks.forEach(task=> { %>
                           <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                             <div class="card border-0 rounded shadow text-white"
-                              style="background: url('/uploads/<%= task.image %>') center center / cover no-repeat;">
+                              style="background: url('<%= task.image.startsWith('http') ? task.image : '/uploads/' + task.image %>') center center / cover no-repeat;">
                               <div class="card-body p-4"
                                 style="background-color: rgba(0, 0, 0, 0.5); border-radius: 19px;">
                                 <h5>
