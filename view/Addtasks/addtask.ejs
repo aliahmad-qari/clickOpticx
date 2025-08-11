@@ -46,6 +46,45 @@
     background-color: #f5f6fa;
   }
 
+  /* Dark Mode Styles */
+  [data-theme="dark"] {
+    --light: #1a1a1a;
+    --card-bg: rgba(30, 30, 30, 0.9);
+    --dark: #e0e0e0;
+    --gray: #444;
+  }
+
+  [data-theme="dark"] body {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+  }
+
+  [data-theme="dark"] .card {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+  }
+
+  [data-theme="dark"] .form-card {
+    background: rgba(30, 30, 30, 0.9) !important;
+    color: #e0e0e0 !important;
+  }
+
+  [data-theme="dark"] .form-control,
+  [data-theme="dark"] .form-select {
+    background-color: #333 !important;
+    color: #e0e0e0 !important;
+    border-bottom-color: #555 !important;
+  }
+
+  [data-theme="dark"] .form-label {
+    color: #b0b0b0 !important;
+  }
+
+  [data-theme="dark"] .modal-content {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+  }</style>
+
   .rounded {
     border-radius: 19px !important;
   }

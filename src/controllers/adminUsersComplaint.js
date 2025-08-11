@@ -76,7 +76,7 @@ if (isAdmin) {
   // Directly query and render
   db.query(complaintQuery, queryParams, (err, results) => {
     if (err) return res.status(500).send("DB error (Admin)");
-    renderComplaintPage(results, selectedDepartment);
+    renderComplaintPage(results, selectedDepartment, null);
   });
 
 } else if (isteam) {
@@ -86,12 +86,15 @@ if (isAdmin) {
     if (err) return res.status(500).send("DB error (Team Dept)");
     if (teamResult.length === 0) return res.status(404).send("Team user not found");
 
-    const dept = teamResult[0].department;
+    const userDept = teamResult[0].department;
+    
+    // Always show complaints from user's assigned department
     const teamQuery = "SELECT * FROM usercomplaint WHERE department = ?";
 
-    db.query(teamQuery, [dept], (err, results) => {
+    db.query(teamQuery, [userDept], (err, results) => {
       if (err) return res.status(500).send("DB error (Team Complaints)");
-      renderComplaintPage(results, dept);
+      // Pass both selected department (for dropdown) and user department for permission check
+      renderComplaintPage(results, selectedDepartment, userDept);
     });
   });
 
@@ -102,17 +105,27 @@ if (isAdmin) {
 
   db.query(complaintQuery, queryParams, (err, results) => {
     if (err) return res.status(500).send("DB error (User)");
-    renderComplaintPage(results);
+    renderComplaintPage(results, null, null);
   });
 }
 
 // Render Page
-function renderComplaintPage(results, dept) {
+function renderComplaintPage(results, selectedDept, userDept) {
   const successMsg = req.flash("success");
 
+  // For admin: use selected department, for team: use selectedDept for dropdown, userDept for user object
+  const finalSelectedDept = selectedDept || (isteam ? userDept : selectedDepartment);
+  
+  // Create user object for team members to include their department
+  let userObj = null;
+  if (isteam && userDept) {
+    userObj = { department: userDept, role: 'Team' };
+  }
+
   res.render("AdminComplaint/AdminComplaint", {
-    user: results,
-    selectedDepartment: dept || selectedDepartment,
+    user: userObj || results,
+    complaints: results,
+    selectedDepartment: finalSelectedDept,
     message: null,
     isAdmin,
     isteam,

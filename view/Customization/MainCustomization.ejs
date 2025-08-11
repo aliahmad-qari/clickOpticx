@@ -751,7 +751,7 @@
                   <form action="/textChange" method="post">
                     <div class="form-group">
                       <label class="form-label">Dashboard Text Color</label>
-                      <input type="color" name="text_color" class="color-input" />
+                     <input type="color" name="text_color" class="color-input" value="<%= bg_result && bg_result[0] ? bg_result[0].text_color : '#000000' %>" />
                     </div>
                     <button type="submit" class="btn-primary">
                       <i class="fas fa-save"></i> Apply Color Changes
@@ -773,7 +773,7 @@
                   <form action="/update-background-color" method="post">
                     <div class="form-group">
                       <label class="form-label">Dashboard Background Color</label>
-                      <input type="color" name="background_color" class="color-input">
+                      <input type="color" name="text_color" class="color-input" value="<%= bg_result && bg_result[0] ? bg_result[0].text_color : '#000000' %>" />
                     </div>
                     <button type="submit" class="btn-primary">
                       <i class="fas fa-save"></i> Apply Background Color

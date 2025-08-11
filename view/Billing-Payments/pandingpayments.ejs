@@ -56,6 +56,63 @@
       color: var(--dark);
     }
 
+    /* Dark Mode Styles */
+    [data-theme="dark"] {
+      --light: #1a1a1a;
+      --dark: #e0e0e0;
+      --warning: #fbbf24;
+      --primary: #8b5cf6;
+    }
+
+    [data-theme="dark"] body {
+      background: #1a1a1a !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .card {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .card-header {
+      background: linear-gradient(90deg, #8b5cf6, #a855f7) !important;
+    }
+
+    [data-theme="dark"] .equipment-table {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .equipment-table th {
+      background-color: #374151 !important;
+      color: #8b5cf6 !important;
+    }
+
+    [data-theme="dark"] .equipment-table td {
+      border-bottom: 1px solid #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .equipment-table tr:hover {
+      background-color: #374151 !important;
+    }
+
+    [data-theme="dark"] .payment-card {
+      background: #2d2d2d !important;
+      border: 1px solid #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .search-input {
+      background-color: #374151 !important;
+      border-color: #4b5563 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] tr.pending {
+      background-color: rgba(251, 191, 36, 0.1) !important;
+    }</style>
+
     .container-fluid.page-body-wrapper {
       display: flex;
       flex-direction: row;

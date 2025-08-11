@@ -416,7 +416,7 @@
 
                   <div class="editor-div1">
                     <h1 class="editor-heading">Slider image Settings </h1>
-                    <form action="/Slider_img" method="post" enctype="multipart/form-data" class="editor-form">
+                    <!-- <form action="/Slider_img" method="post" enctype="multipart/form-data" class="editor-form">
                       <div class="editor-form-group">
                         <label for="Slider_1" class="editor-label"><i class="fas fa-image"></i>Add slider images on user dashboard</label>
                         <div
@@ -435,7 +435,22 @@
                         </div>        
                       </div>
                       <button type="submit" class="submit-btn" style="background:#2b9062;"><i class="fas fa-image" ></i> Update Image</button>
-                    </form>
+                    </form> -->
+                    <form id="uploadSliderForm" action="/Slider_img" method="post" enctype="multipart/form-data"
+                  class="editor-form">
+                  <div class="editor-form-group">
+                    <label for="Slider_1" class="editor-label"><i class="fas fa-image"></i>Add slider images on user
+                      dashboard</label>
+                    <div id="slider-image-preview"
+                      style="display: flex; background-image: url(/images/Icon_imges.svg); object-fit: fill; background-position: center; background-size: cover; background-repeat: no-repeat; border-radius: 20px; align-items: center; justify-content: center; border: 2px dashed #ccc; width: 100%; height: 280px; position: relative; cursor: pointer;">
+                      <input type="file" id="Slider_1" name="Slider_1" class="editor-file-input" accept="image/*"
+                        required
+                        style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; z-index: 2;">
+                    </div>
+                  </div>
+                  <button type="submit" class="submit-btn" style="background:#2b9062;"><i class="fas fa-image"></i>
+                    Update Image</button>
+                </form>
                     
                     <!-- ssssssssssss -->
                     <div class="slider-container">
@@ -503,7 +518,42 @@
                               previewDiv.style.backgroundImage = `url('/images/icon_imges.svg')`;
                               previewText.style.display = 'block'; 
                             }
-                          });
+                            function setPreview(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const url = URL.createObjectURL(file);
+    previewBox.style.backgroundImage = url("${url}");
+    previewBox.style.backgroundSize = 'cover';
+    previewBox.style.backgroundPosition = 'center';
+    previewBox.style.backgroundRepeat = 'no-repeat';
+  }
+
+  // When file is selected via click
+  fileInput.addEventListener('change', (e) => {
+    setPreview(e.target.files[0]);
+  });
+
+  // Drag & drop highlight
+  previewBox.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    previewBox.style.borderColor = '#2b9062';
+  });
+
+  previewBox.addEventListener('dragleave', () => {
+    previewBox.style.borderColor = '#ccc';
+  });
+
+  // Handle drop
+  previewBox.addEventListener('drop', (e) => {
+    e.preventDefault();
+    previewBox.style.borderColor = '#ccc';
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      fileInput.files = e.dataTransfer.files; // so form also gets it
+      setPreview(file);
+    }
+  });
+    });
+                          
                         function deleteSlider(id) {
                           if (confirm("Are you sure you want to delete this slider image?")) {
                             fetch(`/Slider_img/${id}`, {

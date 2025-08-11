@@ -50,6 +50,55 @@
       overflow-x: hidden;
     }
 
+    /* Dark Mode Styles */
+    [data-theme="dark"] {
+      --light: #1a1a1a;
+      --dark: #e0e0e0;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --info: #06b6d4;
+    }
+
+    [data-theme="dark"] body {
+      background: #1a1a1a !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .card {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .stats-card {
+      background: #2d2d2d !important;
+      border: 1px solid #374151 !important;
+    }
+
+    [data-theme="dark"] .table {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .table th {
+      background-color: #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .table td {
+      border-bottom: 1px solid #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .table tr:hover {
+      background-color: #374151 !important;
+    }
+
+    [data-theme="dark"] .search-input {
+      background-color: #374151 !important;
+      border-color: #4b5563 !important;
+      color: #e0e0e0 !important;
+    }
+
     .main-panel {
       flex-grow: 1;
       padding: 20px;

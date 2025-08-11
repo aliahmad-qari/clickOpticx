@@ -29,6 +29,59 @@
       overflow-x: hidden;
     }
 
+    /* Dark Mode Styles */
+    [data-theme="dark"] {
+      --light: #1a1a1a;
+      --dark: #e0e0e0;
+      --warning: #fbbf24;
+      --primary: #8b5cf6;
+    }
+
+    [data-theme="dark"] body {
+      background: #1a1a1a !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .card {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .card-header {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b) !important;
+    }
+
+    [data-theme="dark"] .table {
+      background: #2d2d2d !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .table th {
+      background-color: #374151 !important;
+      color: #fbbf24 !important;
+    }
+
+    [data-theme="dark"] .table td {
+      border-bottom: 1px solid #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .table tr:hover {
+      background-color: #374151 !important;
+    }
+
+    [data-theme="dark"] .payment-card {
+      background: #2d2d2d !important;
+      border: 1px solid #374151 !important;
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .search-input {
+      background-color: #374151 !important;
+      border-color: #4b5563 !important;
+      color: #e0e0e0 !important;
+    }</style>
+
     .main-panel {
       flex-grow: 1;
       padding: 20px;

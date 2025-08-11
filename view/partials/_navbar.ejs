@@ -330,12 +330,12 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
  <img 
-  src="/images/blacklogo.png" 
+  src="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/blacklogo.png' %>" 
   alt="logo" 
   id="navImgPreview" 
   class="img-fluid logo-img theme-light-logo"
-  data-theme-logo-light="/images/blacklogo.png"
-  data-theme-logo-dark="/images/ClickTake.png"
+  data-theme-logo-light="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/blacklogo.png' %>"
+  data-theme-logo-dark="<%= (typeof navImg !== 'undefined' && navImg) ? '/uploads/' + navImg : '/images/ClickTake.png' %>"
 />
 
     <% if (isAdmin) { %>
@@ -1036,6 +1036,69 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('themeChanged', (e) => {
     updateLogoForTheme(e.detail.theme);
   });
+
+  // Global Profile Photo Update System
+  window.globalUpdateNavbarPhoto = function(imageUrl) {
+    console.log('🖼️ Updating navbar profile photo to:', imageUrl);
+    
+    // Update navbar profile image
+    const navbarProfileImg = document.querySelector('.navbar .nav-profile img');
+    if (navbarProfileImg) {
+      navbarProfileImg.src = imageUrl;
+      
+      // Add subtle animation
+      navbarProfileImg.style.transition = 'all 0.3s ease';
+      navbarProfileImg.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        navbarProfileImg.style.transform = 'scale(1)';
+      }, 300);
+      
+      console.log('✅ Navbar profile photo updated successfully');
+    } else {
+      console.warn('⚠️ Navbar profile image not found');
+    }
+    
+    // Also update any profile images on the current page
+    const pageProfileImages = document.querySelectorAll('.profile-avatar, .avatar-lg, .profile-img');
+    pageProfileImages.forEach((img, index) => {
+      if (img && img.tagName === 'IMG') {
+        img.src = imageUrl;
+        console.log(`✅ Updated page profile image ${index + 1}`);
+      }
+    });
+    
+    // Store in localStorage for persistence across pages
+    localStorage.setItem('currentUserProfileImage', imageUrl);
+    localStorage.setItem('profileImageLastUpdated', Date.now().toString());
+  };
+
+  // Auto-sync profile photo from localStorage on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const storedProfileImage = localStorage.getItem('currentUserProfileImage');
+    const lastUpdated = localStorage.getItem('profileImageLastUpdated');
+    
+    // Only update if image was updated in the last hour (to avoid stale data)
+    if (storedProfileImage && lastUpdated) {
+      const oneHourAgo = Date.now() - (60 * 60 * 1000);
+      if (parseInt(lastUpdated) > oneHourAgo) {
+        const navbarProfileImg = document.querySelector('.navbar .nav-profile img');
+        if (navbarProfileImg && navbarProfileImg.src !== storedProfileImage) {
+          navbarProfileImg.src = storedProfileImage;
+          console.log('🔄 Profile photo synced from localStorage');
+        }
+      }
+    }
+  });
+
+  // Listen for profile update events from other pages
+  window.addEventListener('profilePhotoUpdated', function(e) {
+    if (e.detail && e.detail.imageUrl) {
+      window.globalUpdateNavbarPhoto(e.detail.imageUrl);
+    }
+  });
+
+  // Backward compatibility
+  window.updateNavbarProfilePhoto = window.globalUpdateNavbarPhoto;
 
 // Speed Test Modal Integration for Navbar
 console.log('Speed test navbar integration loaded');

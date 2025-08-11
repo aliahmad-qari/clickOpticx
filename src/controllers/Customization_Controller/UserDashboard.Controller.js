@@ -46,8 +46,14 @@ exports.Coustomizations = (req, res) => {
                     AND is_read = 0 
                     AND created_at >= NOW() - INTERVAL 2 DAY 
                     ORDER BY id DESC`;
+
+                    const sliderSql = "SELECT * FROM slider ORDER BY id DESC";
+
+
             db.query(passwordSql, [userId], (err, notifications_users) => {
               if (err) return res.status(500).send("Server Error");
+              db.query(sliderSql, (err, slider_result) => {
+            if (err) return res.status(500).send("Internal Server Error");
 
               const successMsg = req.flash("success");
               const isAdmin = "admin";
@@ -55,6 +61,8 @@ exports.Coustomizations = (req, res) => {
 
               res.render("Customization/CustomizationUserPage", {
                 user: results,
+                slider: slider_result,
+
                 message: null,
                 isAdmin,
                 isUser,
@@ -74,7 +82,8 @@ exports.Coustomizations = (req, res) => {
       });
     });
   });
-};
+  });
+}
 
 // Color Settings Page (only color settings div)
 exports.ColorSetting = (req, res) => {

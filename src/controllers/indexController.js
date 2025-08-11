@@ -30,7 +30,7 @@ exports.plan = (req, res) => {
 
     const user = results[0];
 
-    const SliderSql = "SELECT * FROM slider";
+    const SliderSql = "SELECT * FROM slider ORDER BY id DESC";
     db.query(SliderSql, (err, sliderResults) => {
       if (err) return res.status(500).send("Internal Server Error");
 
@@ -137,8 +137,10 @@ exports.plan = (req, res) => {
                             cards: cardResults,
                             password_data, // ✅ fixed here
                             totalNotifactions,
+                            navImg: bg_result[0]?.nav_imgs || null,
                             bg_result,
                             Iconresult,
+                            
                             packages: packageResults,
                             subscription,
                             matchedPackage,
@@ -183,7 +185,7 @@ exports.updateNav_img = (req, res) => {
   const newNavImg = req.file.path;
 
   const sqlUpdate = "UPDATE nav_table SET nav_imgs = ?";
-  db.query(sqlUpdate, [newNavImg, userId], (err, result) => {
+  db.query(sqlUpdate, [newNavImg], (err, result) => {
     if (err) {
       console.error("Database query error:", err);
       return res.status(500).send("Internal Server Error");
@@ -192,6 +194,9 @@ exports.updateNav_img = (req, res) => {
     if (result.affectedRows === 0) {
       console.error("No admin user found to update.");
       return res.status(404).send("No admin user found.");
+    }
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({ success: true, newNavImg: newNavImg });
     }
     req.session.navImg = newNavImg;
     res.redirect("/HeaderFooter");
@@ -303,7 +308,7 @@ exports.updateText = (req, res) => {
     return res.status(400).send("No text color provided.");
   }
 
-  const textSql = "UPDATE nav_table SET text_color = ?";
+  const textSql = "UPDATE nav_table SET text_color = ? WHERE user_id IS NULL";
   db.query(textSql, [textColor], (err, result) => {
     if (err) {
       console.error("❌ Database query error:", err);
@@ -356,7 +361,7 @@ exports.updatebackgroundcolor = (req, res) => {
     return res.status(400).send("No background color provided.");
   }
 
-  const backgroundText = "UPDATE nav_table SET background_color = ?";
+  const backgroundText = "UPDATE nav_table SET background_color = ? WHERE user_id IS NULL";
   db.query(backgroundText, [backgroundColor], (err, result) => {
     if (err) {
       console.error("❌ Database query error:", err);

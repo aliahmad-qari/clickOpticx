@@ -1987,6 +1987,103 @@
                     // Optionally reset profile image to original if needed
                   }
                 });
+
+                // Profile Photo Update Handler
+                document.addEventListener('DOMContentLoaded', function() {
+                  let selectedImageUrl = null;
+
+                  const updateForm = document.querySelector('form[action="/update-profile"]');
+                  if (updateForm) {
+                    updateForm.addEventListener('submit', function(e) {
+                      // Get the current profile image preview
+                      const modalProfileImg = document.querySelector('.profile-img');
+                      if (modalProfileImg && modalProfileImg.src) {
+                        selectedImageUrl = modalProfileImg.src;
+                        
+                        // Store in sessionStorage for immediate update
+                        sessionStorage.setItem('pendingProfileImage', selectedImageUrl);
+                        console.log('📤 Profile form submitted with new image:', selectedImageUrl);
+                      }
+                    });
+                  }
+
+                  // Handle page load after successful update
+                  setTimeout(() => {
+                    // Check if there's a pending profile image to update
+                    const pendingImage = sessionStorage.getItem('pendingProfileImage');
+                    
+                    // Check for success message indicating profile was updated
+                    const successMessage = document.getElementById('pusher-message-box');
+                    const hasSuccessMessage = successMessage && (
+                      successMessage.textContent.includes('updated successfully') ||
+                      successMessage.textContent.includes('Profile updated')
+                    );
+
+                    if (hasSuccessMessage) {
+                      console.log('✅ Profile update success detected');
+                      
+                      if (pendingImage) {
+                        // Use the pending image if available
+                        console.log('🖼️ Using pending image from upload:', pendingImage);
+                        updateNavbarProfilePhoto(pendingImage);
+                        sessionStorage.removeItem('pendingProfileImage');
+                      } else {
+                        // Fallback to server-rendered image
+                        const currentUserImg = '<%= user.user_img ? (user.user_img.startsWith("http") ? user.user_img : "/uploads/" + user.user_img) : "/images/profile-1740414577370.webp" %>';
+                        console.log('🖼️ Using current server image:', currentUserImg);
+                        updateNavbarProfilePhoto(currentUserImg);
+                      }
+                    } else if (pendingImage) {
+                      // Clean up pending image if no success message (failed update)
+                      sessionStorage.removeItem('pendingProfileImage');
+                    }
+                  }, 100); // Small delay to ensure DOM is fully loaded
+                });
+
+                // Function to update navbar profile photo (uses global function)
+                function updateNavbarProfilePhoto(imageUrl) {
+                  console.log('🔄 Updating navbar profile photo:', imageUrl);
+                  
+                  // Use the global navbar function if available
+                  if (window.globalUpdateNavbarPhoto) {
+                    window.globalUpdateNavbarPhoto(imageUrl);
+                  } else if (window.updateNavbarProfilePhoto && window.updateNavbarProfilePhoto !== updateNavbarProfilePhoto) {
+                    // Use backward compatibility function if available
+                    window.updateNavbarProfilePhoto(imageUrl);
+                  } else {
+                    // Fallback if global function not loaded yet
+                    const navbarProfileImg = document.querySelector('.navbar .nav-profile img');
+                    if (navbarProfileImg) {
+                      navbarProfileImg.src = imageUrl;
+                      console.log('📸 Navbar profile photo updated (fallback):', imageUrl);
+                      
+                      // Add animation
+                      navbarProfileImg.style.transition = 'all 0.3s ease';
+                      navbarProfileImg.style.transform = 'scale(1.05)';
+                      setTimeout(() => {
+                        navbarProfileImg.style.transform = 'scale(1)';
+                      }, 300);
+                    }
+                    
+                    // Update all profile avatars on the current page
+                    const allProfileImages = document.querySelectorAll('.profile-avatar, .avatar-lg, .profile-img');
+                    allProfileImages.forEach((img, index) => {
+                      if (img && img.tagName === 'IMG') {
+                        img.src = imageUrl;
+                        console.log(`✅ Updated profile image ${index + 1}`);
+                      }
+                    });
+                    
+                    // Store for persistence
+                    localStorage.setItem('currentUserProfileImage', imageUrl);
+                    localStorage.setItem('profileImageLastUpdated', Date.now().toString());
+                  }
+                  
+                  // Dispatch event for other pages to listen
+                  window.dispatchEvent(new CustomEvent('profilePhotoUpdated', {
+                    detail: { imageUrl: imageUrl }
+                  }));
+                }
               </script>
             </div>
 

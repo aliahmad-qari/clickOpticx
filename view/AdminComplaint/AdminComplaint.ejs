@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
   <title>Users Complaint</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="vendors/feather/feather.css">
@@ -683,24 +683,25 @@
     }
 
     .progress-stat-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #6366f1;
       border-radius: 12px;
       padding: 20px;
       color: white;
       position: relative;
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .progress-stat-card.pending {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: #ef4444;
     }
 
     .progress-stat-card.progress {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: #3b82f6;
     }
 
     .progress-stat-card.complete {
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      background: #22c55e;
     }
 
     .progress-stat-card::before {
@@ -827,17 +828,17 @@
     }
 
     .status-progress-fill.pending {
-      background: linear-gradient(90deg, #f093fb, #f5576c);
+      background: #ef4444;
       width: 33%;
     }
 
     .status-progress-fill.progress {
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      background: #3b82f6;
       width: 66%;
     }
 
     .status-progress-fill.complete {
-      background: linear-gradient(90deg, #43e97b, #38f9d7);
+      background: #22c55e;
       width: 100%;
     }
 
@@ -853,15 +854,15 @@
     }
 
     .complaint-row.pending::before {
-      background: linear-gradient(135deg, #f093fb, #f5576c);
+      background: #ef4444;
     }
 
     .complaint-row.progress::before {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: #3b82f6;
     }
 
     .complaint-row.complete::before {
-      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      background: #22c55e;
     }
 
     .priority-indicator {
@@ -870,31 +871,84 @@
       height: 8px;
       border-radius: 50%;
       margin-right: 8px;
-      animation: pulse 2s infinite;
     }
 
     .priority-high {
-      background: #dc3545;
+      background: #dc2626;
     }
 
     .priority-medium {
-      background: #ffc107;
+      background: #d97706;
     }
 
     .priority-low {
-      background: #28a745;
+      background: #16a34a;
     }
 
-    @keyframes pulse {
+    /* Professional Permission Warning Styles */
+    .permission-warning-container {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 800px;
+    }
 
-      0%,
-      100% {
+    .permission-warning-message {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border: 1px solid #fca5a5;
+      border-left: 4px solid #dc2626;
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+      animation: slideInWarning 0.3s ease-out;
+    }
+
+    .permission-warning-message i {
+      color: #dc2626;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .permission-text {
+      color: #7f1d1d;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .permission-text strong {
+      color: #991b1b;
+      font-weight: 600;
+    }
+
+    @keyframes slideInWarning {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
         opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      50% {
-        opacity: 0.5;
-      }
+    /* Dark mode support for permission warning */
+    [data-theme="dark"] .permission-warning-message {
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+      border-color: #dc2626;
+      color: #fecaca;
+    }
+
+    [data-theme="dark"] .permission-text {
+      color: #fecaca;
+    }
+
+    [data-theme="dark"] .permission-text strong {
+      color: #fee2e2;
     }
 
     .time-tracker {
@@ -912,56 +966,576 @@
       font-weight: 500;
     }
 
-    /* Mobile Responsive Styles */
+    /* ===== COMPREHENSIVE DARK MODE SUPPORT ===== */
+    [data-theme="dark"] .main-panel {
+      background: var(--bg-primary) !important;
+    }
+
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .card-body {
+      background: var(--bg-secondary) !important;
+      border-color: var(--border-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .card-header {
+      background: var(--bg-tertiary) !important;
+      border-color: var(--border-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    /* Progress Tracking Dark Mode */
+    [data-theme="dark"] .progress-tracking {
+      background: var(--bg-secondary) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    [data-theme="dark"] .progress-title {
+      color: var(--primary-color) !important;
+    }
+
+    [data-theme="dark"] .progress-subtitle {
+      color: var(--text-secondary) !important;
+    }
+
+    /* Progress Stats Cards - Keep colors but enhance for dark mode */
+    [data-theme="dark"] .progress-stat-card {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Table Dark Mode */
+    [data-theme="dark"] .complaint-table-container {
+      background: var(--bg-secondary) !important;
+    }
+
+    [data-theme="dark"] .equipment-table {
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .equipment-table thead th {
+      background: var(--bg-tertiary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .equipment-table tbody td {
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .equipment-table tbody tr:hover {
+      background: var(--bg-tertiary) !important;
+    }
+
+    /* Status Badges Dark Mode */
+    [data-theme="dark"] .status-badge.pending {
+      background: #dc2626 !important;
+      color: white !important;
+    }
+
+    [data-theme="dark"] .status-badge.progress {
+      background: #2563eb !important;
+      color: white !important;
+    }
+
+    [data-theme="dark"] .status-badge.complete {
+      background: #16a34a !important;
+      color: white !important;
+    }
+
+    /* Action Buttons Dark Mode */
+    [data-theme="dark"] .action-btn {
+      background: var(--bg-tertiary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .action-btn:hover {
+      background: var(--primary-color) !important;
+      color: white !important;
+    }
+
+    /* Form Elements Dark Mode */
+    [data-theme="dark"] .form-select,
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] select,
+    [data-theme="dark"] input {
+      background: var(--bg-tertiary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .form-select:focus,
+    [data-theme="dark"] .form-control:focus {
+      background: var(--bg-tertiary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25) !important;
+    }
+
+    /* Buttons Dark Mode */
+    [data-theme="dark"] .btn-outline-primary {
+      color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    [data-theme="dark"] .btn-outline-primary:hover {
+      background: var(--primary-color) !important;
+      color: white !important;
+    }
+
+    /* Overall Progress Bar Dark Mode */
+    [data-theme="dark"] .overall-progress {
+      background: var(--bg-tertiary) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    [data-theme="dark"] .overall-progress-title {
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .progress-bar-container {
+      background: var(--bg-primary) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    /* Toolbar Dark Mode */
+    [data-theme="dark"] .toolbar {
+      background: var(--bg-secondary) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    /* Modal Dark Mode */
+    [data-theme="dark"] .modal-content {
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    [data-theme="dark"] .modal-header {
+      background: var(--bg-tertiary) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-title {
+      color: var(--text-primary) !important;
+    }
+
+    /* Resolution Time Badge Dark Mode */
+    [data-theme="dark"] .resolution-time {
+      background: var(--bg-tertiary) !important;
+      color: var(--primary-color) !important;
+      border: 1px solid var(--border-primary);
+    }
+
+    /* ===== PROFESSIONAL MODAL STYLING ===== */
+    .professional-modal {
+      border: none !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+      max-height: 90vh !important;
+      overflow-y: auto !important;
+    }
+    
+    /* Modal Dialog Size Control */
+    .modal-dialog[style*="max-width: 600px"] {
+      width: 100% !important;
+      max-width: 600px !important;
+      margin: 1.75rem auto !important;
+    }
+    
+    /* Mobile Modal Responsive */
+    @media (max-width: 768px) {
+      .modal-dialog[style*="max-width: 600px"] {
+        max-width: 95vw !important;
+        margin: 10px auto !important;
+      }
+      
+      .professional-modal {
+        max-height: 95vh !important;
+      }
+    }
+
+    /* Professional Modal Header */
+    .professional-header {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+      padding: 20px 24px !important;
+    }
+
+    .modal-title-container {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    .modal-icon {
+      color: #4f46e5 !important;
+      font-size: 1.2rem !important;
+    }
+
+    .professional-title {
+      color: #1e293b !important;
+      font-weight: 600 !important;
+      font-size: 1.25rem !important;
+      margin: 0 !important;
+    }
+
+    .professional-close {
+      background: none !important;
+      border: none !important;
+      color: #64748b !important;
+      font-size: 1.5rem !important;
+      padding: 8px !important;
+      border-radius: 8px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .professional-close:hover {
+      background: #f1f5f9 !important;
+      color: #dc2626 !important;
+      transform: scale(1.1) !important;
+    }
+
+    /* Simple Professional Modal Body */
+    .modal-body {
+      padding: 24px !important;
+      background: #ffffff !important;
+    }
+
+    /* Professional Form Styling */
+    .modal-body .form-group {
+      margin-bottom: 20px !important;
+    }
+
+    .modal-body .form-label {
+      color: #374151 !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      margin-bottom: 8px !important;
+      display: block !important;
+    }
+
+    .modal-body .form-control,
+    .modal-body .form-select {
+      border: 2px solid #e5e7eb !important;
+      border-radius: 8px !important;
+      padding: 12px 16px !important;
+      font-size: 0.875rem !important;
+      transition: all 0.3s ease !important;
+      background: #ffffff !important;
+      color: #1f2937 !important;
+      font-weight: 500 !important;
+    }
+
+    .modal-body .form-control:focus,
+    .modal-body .form-select:focus {
+      border-color: #4f46e5 !important;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+      outline: none !important;
+    }
+
+    .modal-body textarea.form-control {
+      resize: vertical !important;
+      min-height: 100px !important;
+    }
+
+    .modal-body .btn-success {
+      background: #22c55e !important;
+      border-color: #22c55e !important;
+      font-weight: 600 !important;
+      padding: 10px 24px !important;
+      border-radius: 8px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .modal-body .btn-success:hover {
+      background: #16a34a !important;
+      border-color: #16a34a !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+    }
+
+    /* Modal Dark Mode */
+    [data-theme="dark"] .professional-modal {
+      background: var(--bg-secondary) !important;
+    }
+
+    [data-theme="dark"] .professional-header {
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .professional-title {
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-icon {
+      color: var(--primary-color) !important;
+    }
+
+    [data-theme="dark"] .professional-close {
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="dark"] .professional-close:hover {
+      background: var(--bg-tertiary) !important;
+      color: #ef4444 !important;
+    }
+
+    [data-theme="dark"] .modal-body {
+      background: var(--bg-secondary) !important;
+    }
+
+    [data-theme="dark"] .modal-body .form-label {
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-body .form-control,
+    [data-theme="dark"] .modal-body .form-select {
+      background: var(--bg-primary) !important;
+      border-color: var(--border-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-body .form-control:focus,
+    [data-theme="dark"] .modal-body .form-select:focus {
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2) !important;
+    }
+
+    /* Enhanced Mobile Responsive Styles */
     @media (max-width: 768px) {
       .main-panel {
         padding: 10px;
+        margin-left: 0 !important;
       }
 
       .card-body {
         padding: 15px;
       }
 
+      .card-header {
+        font-size: 1.2rem;
+        padding: 15px 20px;
+        text-align: center;
+      }
+
+      /* Enhanced Toolbar for Mobile */
       .toolbar {
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
         align-items: stretch;
+        margin-bottom: 20px;
       }
 
       .search-box {
         max-width: 100%;
+        order: 1;
       }
 
+      .search-input {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 12px 15px 12px 45px;
+      }
+
+      /* Mobile Filter Controls */
       .d-flex.align-items-center.gap-2.ms-3 {
         margin-left: 0 !important;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 10px;
         width: 100%;
+        order: 2;
       }
 
       .form-select-sm {
         width: 100%;
         min-width: 150px;
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 10px;
       }
 
+      /* Mobile Button Groups */
       .btn-group {
         flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
       }
 
       .btn-group .btn {
-        font-size: 0.8rem;
-        padding: 4px 8px;
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        margin: 2px;
+        flex: 1;
+        min-width: 80px;
+        white-space: nowrap;
       }
 
-      /* Mobile Table Styles */
+      /* Progress Stats Mobile Optimization */
+      .progress-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
 
+      .progress-stat-card {
+        padding: 20px;
+        text-align: center;
+      }
 
+      .stat-number {
+        font-size: 2rem;
+      }
 
+      .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
 
+      .stat-label {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
 
+      .stat-percentage {
+        font-size: 0.9rem;
+      }
 
-      /* Progress stats mobile */
+      /* Progress Header Mobile */
+      .progress-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
+      .progress-title {
+        font-size: 1.3rem;
+      }
+
+      .progress-subtitle {
+        font-size: 0.9rem;
+      }
+
+      /* Overall Progress Mobile */
+      .overall-progress {
+        padding: 20px;
+      }
+
+      .overall-progress-title {
+        font-size: 1.1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+      }
+
+      .progress-percentage {
+        font-size: 1.3rem !important;
+      }
+
+      /* Modal Mobile Adjustments */
+      .modal-dialog {
+        margin: 5px;
+        max-width: calc(100% - 10px);
+        width: calc(100% - 10px);
+      }
+
+      .form-card {
+        padding: 15px;
+        margin: 0;
+      }
+
+      .form-header {
+        font-size: 16px !important;
+        padding: 12px;
+        margin-bottom: 20px;
+      }
+
+      .form-header h3 {
+        font-size: 16px;
+      }
+
+      /* Modal Form Mobile */
+      .d-flex.gap-4 {
+        flex-direction: column;
+        gap: 0 !important;
+      }
+
+      .d-flex.gap-4 .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group.w-100 {
+        width: 100% !important;
+      }
+
+      .row .form-group {
+        margin-bottom: 15px;
+      }
+
+      /* Mobile Table Footer */
+      .table-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px 10px;
+      }
+
+      .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .showing-entries {
+        font-size: 0.9rem;
+      }
+
+      /* Mobile Navigation Enhancements */
+      .page-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+        touch-action: manipulation;
+      }
+
+      /* Fix Mobile Input Focus Issues */
+      .form-control:focus,
+      .form-select:focus {
+        font-size: 16px; /* Prevent zoom on iOS */
+      }
+
+      /* Mobile Close Button */
+      .btn-close-professional {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 14px !important;
+        top: 10px !important;
+        right: 10px !important;
+      }
+    }
+
+    /* Extra Small Mobile Devices */
+    @media (max-width: 480px) {
+      .main-panel {
+        padding: 5px;
+      }
+
+      .card-header {
+        font-size: 1.1rem;
+        padding: 15px;
+      }
+
+      /* Smaller buttons for very small screens */
+      .btn-group .btn {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        min-width: 70px;
+      }
+
+      /* Compact progress stats */
       .progress-stat-card {
         padding: 15px;
       }
@@ -974,81 +1548,80 @@
         font-size: 2rem;
       }
 
-      /* Modal mobile adjustments */
-      .modal-dialog {
-        margin: 10px;
-        max-width: calc(100% - 20px);
+      .stat-label {
+        font-size: 0.9rem;
       }
 
+      .stat-percentage {
+        font-size: 0.8rem;
+      }
+
+      /* Very compact modal */
       .form-card {
-        padding: 20px;
-      }
-
-      .form-header {
-        font-size: 18px;
         padding: 10px;
-      }
-
-      .d-flex.gap-4 {
-        flex-direction: column;
-        gap: 0 !important;
-      }
-
-      .d-flex.gap-4 .form-group {
-        margin-bottom: 20px;
-      }
-
-      .table-footer {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-
-      .pagination {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .main-panel {
-        padding: 5px;
-      }
-
-      .card-header {
-        font-size: 1.1rem;
-        padding: 15px;
-      }
-
-      .btn-group .btn {
-        font-size: 0.7rem;
-        padding: 3px 6px;
-      }
-
-
-
-      .progress-stat-card {
-        padding: 12px;
-      }
-
-      .stat-number {
-        font-size: 1.3rem;
-      }
-
-      .stat-icon {
-        font-size: 1.8rem;
-      }
-
-      .form-card {
-        padding: 15px;
-        margin: 5px;
+        margin: 2px;
       }
 
       .search-input {
         padding: 10px 10px 10px 35px;
-        font-size: 0.9rem;
+        font-size: 16px; /* Maintain 16px to prevent zoom */
       }
 
+      /* Stack progress header items */
+      .progress-title {
+        font-size: 1.1rem;
+      }
 
+      .progress-subtitle {
+        font-size: 0.8rem;
+      }
+
+      .overall-progress-title {
+        font-size: 1rem;
+      }
+
+      /* Smaller modal close button */
+      .btn-close-professional {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 12px !important;
+        top: 8px !important;
+        right: 8px !important;
+      }
+
+      /* Compact toolbar spacing */
+      .toolbar {
+        gap: 10px;
+      }
+
+      /* Improve touch targets */
+      .page-btn {
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .btn-action {
+        min-width: 36px;
+        min-height: 36px;
+      }
+
+      /* Enhanced complaint text for very small screens */
+      .equipment-table td[data-label="Complaint"] {
+        font-size: 0.85rem;
+        line-height: 1.3;
+      }
+
+      .complaint-toggle {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+        margin-top: 2px;
+      }
+
+      .complaint-content {
+        max-width: calc(100vw - 40px);
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
     }
 
     /* Modal */
@@ -1087,9 +1660,9 @@
                       <!-- Progress Statistics Cards -->
                       <% 
                         // Calculate counts once at the top 
-                        const pendingCount = user.filter(u => u.status && u.status.toLowerCase() === 'pending').length;
-                        const progressCount = user.filter(u => u.status && u.status.toLowerCase() === 'progress').length;
-                        const completeCount = user.filter(u => u.status && u.status.toLowerCase() === 'complete').length;
+                        const pendingCount = (complaints && complaints.length > 0) ? complaints.filter(u => u.status && u.status.toLowerCase() === 'pending').length : 0;
+                        const progressCount = (complaints && complaints.length > 0) ? complaints.filter(u => u.status && u.status.toLowerCase() === 'progress').length : 0;
+                        const completeCount = (complaints && complaints.length > 0) ? complaints.filter(u => u.status && u.status.toLowerCase() === 'complete').length : 0;
                       %>
                         <div class="progress-stats">
                           <div class="progress-stat-card pending">
@@ -1101,7 +1674,7 @@
                             </div>
                             <div class="stat-label">Pending Complaints</div>
                             <div class="stat-percentage" id="pending-percentage">
-                              <%= user.length> 0 ? Math.round((pendingCount / user.length) * 100) : 0 %>% of total
+                              <%= complaints && complaints.length > 0 ? Math.round((pendingCount / complaints.length) * 100) : 0 %>% of total
                             </div>
                           </div>
 
@@ -1114,7 +1687,7 @@
                             </div>
                             <div class="stat-label">In Progress</div>
                             <div class="stat-percentage" id="progress-percentage">
-                              <%= user.length> 0 ? Math.round((progressCount / user.length) * 100) : 0 %>% of total
+                              <%= complaints && complaints.length > 0 ? Math.round((progressCount / complaints.length) * 100) : 0 %>% of total
                             </div>
                           </div>
 
@@ -1127,7 +1700,7 @@
                             </div>
                             <div class="stat-label">Completed</div>
                             <div class="stat-percentage" id="complete-percentage">
-                              <%= user.length> 0 ? Math.round((completeCount / user.length) * 100) : 0 %>% of total
+                              <%= complaints && complaints.length > 0 ? Math.round((completeCount / complaints.length) * 100) : 0 %>% of total
                             </div>
                           </div>
                         </div>
@@ -1138,12 +1711,12 @@
                             <i class="fas fa-chart-bar"></i>
                             Overall Resolution Rate
                             <span class="progress-percentage" id="overall-percentage">
-                              <%= user.length> 0 ? Math.round((completeCount / user.length) * 100) : 0 %>%
+                              <%= complaints && complaints.length > 0 ? Math.round((completeCount / complaints.length) * 100) : 0 %>%
                             </span>
                           </div>
                           <div class="progress-bar-container">
                             <div class="progress-bar"
-                              style="width: <%= user.length > 0 ? Math.round((completeCount / user.length) * 100) : 0 %>%">
+                              style="width: <%= complaints && complaints.length > 0 ? Math.round((completeCount / complaints.length) * 100) : 0 %>%">
                             </div>
                           </div>
                           <div class="d-flex justify-content-between text-small">
@@ -1223,6 +1796,19 @@
                           </div>
                         </div>
 
+                        <!-- Professional Permission Message -->
+                        <% if (selectedDepartment && user.department && selectedDepartment !== user.department) { %>
+                          <div class="permission-warning-container mt-3">
+                            <div class="permission-warning-message">
+                              <i class="fas fa-exclamation-triangle"></i>
+                              <span class="permission-text">
+                                <strong>Access Restricted:</strong> You can only view and manage complaints from your assigned department (<strong><%= user.department %></strong>). 
+                                Please select your department to proceed.
+                              </span>
+                            </div>
+                          </div>
+                        <% } %>
+
                       </div>
 
                       <!-- table -->
@@ -1242,8 +1828,8 @@
       </tr>
     </thead>
     <tbody id="complaint-table">
-      <% if (user.length > 0) { %>
-        <% user.forEach((complaint, index) => { %>
+      <% if (complaints && complaints.length > 0) { %>
+        <% complaints.forEach((complaint, index) => { %>
           <tr class="complaint-row <%= complaint.status.toLowerCase() %>">
             <td data-label="Username">
               <strong><%= complaint.Username %></strong>
@@ -1260,11 +1846,23 @@
             </td>
             <td data-label="Number"><%= complaint.number %></td>
             <td data-label="Address"><%= complaint.Address %></td>
-            <td data-label="Complaint">
-              <%= complaint.Complaint.length > 50 
-                    ? complaint.Complaint.substring(0, 50) + '...' 
-                    : complaint.Complaint 
-              %>
+            <td data-label="Complaint" class="complaint-text">
+              <div class="complaint-content">
+                <span class="complaint-short">
+                  <%= complaint.Complaint.length > 80 
+                        ? complaint.Complaint.substring(0, 80) + '...' 
+                        : complaint.Complaint 
+                  %>
+                </span>
+                <% if (complaint.Complaint.length > 80) { %>
+                  <span class="complaint-full" style="display: none;">
+                    <%= complaint.Complaint %>
+                  </span>
+                  <button type="button" class="complaint-toggle" onclick="toggleComplaint(this)">
+                    Read More
+                  </button>
+                <% } %>
+              </div>
             </td>
             <td data-label="Status & Progress">
               <div>
@@ -1331,7 +1929,7 @@
 
                       <div class="table-footer">
                         <div class="showing-entries">Showing <span id="entry-count">
-                            <%= user.length %>
+                            <%= complaints ? complaints.length : 0 %>
                           </span> entries</div>
                         <div class="pagination">
                           <a class="page-btn disabled" href="#">«</a>
@@ -1398,84 +1996,75 @@
             </div>
             <!-- Edit Equipment Modal -->
             <!-- Update Modal -->
-            <% user.forEach(complaint=> { %>
+            <% complaints.forEach(complaint=> { %>
               <div class="modal fade" id="myModal<%= complaint.id %>" tabindex="-1" aria-labelledby="myModalLabel"
-                aria-hidden="true" style="padding-left: 0% !important; padding-right: 0% !important;">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                  <div class="modal-content p-4"
-                    style="background-color: #e9ecef00 !important; border: none; padding: 0% !important;">
-                    <div class="main-panel position-relative" style="padding: 0% !important;">
-                      <!-- Modal Body -->
-                      <div class="content-wrapper">
-                        <div class="form-card" style="margin-top: -39px;">
-                          <div class="form-header">
-                            <div style="display:flex; align-items:center;justify-content:center;gap:10px;">
-                              <i class="bi bi-bookmark-star-fill"></i>
-                              <h3>Update Complaint</h3>
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                  <div class="modal-content professional-modal">
+                    <!-- Professional Modal Header -->
+                    <div class="modal-header professional-header">
+                      <div class="modal-title-container">
+                        <i class="fas fa-edit modal-icon"></i>
+                        <h4 class="modal-title professional-title">Update Complaint #<%= complaint.id %></h4>
+                      </div>
+                      <button type="button" class="btn-close professional-close" data-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <form action="/UserComplaint/update/<%= complaint.id %>" method="POST">
+                          <div class="d-flex gap-4 mb-3">
+                            <div class="form-group w-100">
+                              <label for="Username" class="form-label">Your Name</label>
+                              <input type="text" name="Username" id="Username" class="form-control"
+                                value="<%= complaint.Username %>">
                             </div>
-                            <!-- Professional Red Close Button -->
-                            <button type="button" class="btn-close-professional" data-dismiss="modal" aria-label="Close"
-                              style="position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #dc3545; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3); z-index: 1060;">
-                              <i class="fas fa-times"></i>
+                            <div class="form-group w-100">
+                              <label for="number" class="form-label">Number</label>
+                              <input type="number" name="number" id="number" class="form-control"
+                                value="<%= complaint.number %>">
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="teamName">Team Name:</label>
+                              <input type="text" class="form-control" id="teamName" name="teamName"
+                                value="<%= complaint.teamName || '' %>">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="equipment">Equipment:</label>
+                              <input type="text" class="form-control" id="equipment" name="equipment"
+                                value="<%= complaint.equipment || '' %>">
+                            </div>
+                          </div>
+                          <div class="d-flex gap-4 mb-3">
+                            <div class="form-group w-100">
+                              <label for="status" class="form-label">Status</label>
+                              <select id="status" name="status" class="form-select" required>
+                                <option value="" disabled>Status:</option>
+                                <option value="Pending" <%=complaint.status==="Pending" ? "selected" : "" %>>Pending</option>
+                                <option value="Progress" <%=complaint.status==="Progress" ? "selected" : "" %>>Progress</option>
+                                <option value="Complete" <%=complaint.status==="Complete" ? "selected" : "" %>>Complete</option>
+                              </select>
+                            </div>
+                            <div class="form-group w-100">
+                              <label for="Address" class="form-label">Address</label>
+                              <input type="text" name="Address" id="Address" class="form-control"
+                                value="<%= complaint.Address %>">
+                            </div>
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="Complaint" class="form-label">Complaint</label>
+                            <textarea name="Complaint" id="Complaint" class="form-control" rows="4"><%= complaint.Complaint %></textarea>
+                          </div>
+                          <div class="mt-4">
+                            <button type="submit" class="btn btn-success">
+                              <i class="bi bi-check2-circle"></i> Update
                             </button>
                           </div>
-                          <form action="/UserComplaint/update/<%= complaint.id %>" method="POST">
-                            <div class="d-flex gap-4 mb-3">
-                              <div class="form-group w-100">
-                                <input type="text" name="Username" id="Username" class="form-control"
-                                  value="<%= complaint.Username %>">
-                                <label for="Username" class="form-label">Your Name</label>
-                              </div>
-                              <div class="form-group w-100">
-                                <input type="number" name="number" id="number" class="form-control"
-                                  value="<%= complaint.number %>">
-                                <label for="number" class="form-label">Number</label>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="form-group col-md-6">
-                                <label for="teamName">Team Name:</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName"
-                                  value="<%= complaint.teamName || '' %>">
-                              </div>
-                              <div class="form-group col-md-6">
-                                <label for="equipment">Equipment:</label>
-                                <input type="text" class="form-control" id="equipment" name="equipment"
-                                  value="<%= complaint.equipment || '' %>">
-                              </div>
-                            </div>
-                            <div class="d-flex gap-4 mb-3">
-                              <div class="form-group w-100">
-                                <select id="status" name="status" class="form-select" required>
-                                  <option value="" disabled selected>Status:</option>
-                                  <option value="Pending" <%=complaint.status==="Pending" ? "selected" : "" %>>Pending
-                                  </option>
-                                  <option value="Progress" <%=complaint.status==="Progress" ? "selected" : "" %>
-                                    >Progress</option>
-                                  <option value="Complete" <%=complaint.status==="Complete" ? "selected" : "" %>
-                                    >Complete</option>
-                                </select>
-                                <label for="status" class="form-label">Status</label>
-                              </div>
-                              <div class="form-group w-100">
-                                <input type="text" name="Address" id="Address" class="form-control"
-                                  value="<%= complaint.Address %>">
-                                <label for="Address" class="form-label">Address</label>
-                              </div>
-                            </div>
-                            <div class="form-group mb-4" style="border: 1px solid #272626; border-radius: 4px;">
-                              <textarea name="Complaint" id="Complaint" class="form-control"
-                                placeholder=" "><%= complaint.Complaint %></textarea>
-                              <label for="Complaint" class="form-label">Complaint</label>
-                            </div>
-                            <div class="mt-4">
-                              <button type="submit" class="btn btn-success">
-                                <i class="bi bi-check2-circle"></i> Update
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -1543,9 +2132,11 @@
 .complaint-table-container {
   overflow-x: auto;
   border-radius: 10px;
-  background: #fff;
+  background: var(--card-bg, #fff);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color, #ddd);
+  width: 100%;
+  max-width: 100%;
   padding: 0;
 }
 
@@ -1691,97 +2282,947 @@
   gap: 4px;
 }
 
-/* --- Responsive Card Layout (≤1024px) --- */
-@media (max-width: 1024px) {
-  .complaint-table-container {
-    overflow: hidden;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    width: 100%;
-    max-width: 100%;
-  }
-  .equipment-table {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-  }
-  .equipment-table thead { display: none; }
-  .equipment-table tbody { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-    width: 100%;
-    max-width: 100%;
-  }
-  .equipment-table tr {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 15px;
-    transition: 0.2s ease;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .equipment-table tr:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-  .equipment-table td {
-    flex: 1 1 45%;
-    margin-bottom: 10px;
-    padding: 8px 0;
-    border: none;
-    text-align: left;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-width: 100%;
-  }
-  .equipment-table td:before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: var(--primary, #1a73e8);
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.85rem;
-  }
-  .action-buttons { width: 100%; justify-content: flex-end; margin-top: 10px; }
-}
+/* This section is consolidated below to avoid conflicts */
 
-/* --- Full Column Layout (≤768px) --- */
+/* --- Enhanced Full Column Layout (≤768px) --- */
 @media (max-width: 768px) {
   .equipment-table tr { 
     flex-direction: column; 
     align-items: flex-start; 
     width: 100%;
     max-width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
   }
+  
   .equipment-table td { 
     width: 100%; 
     max-width: 100%;
     word-break: break-word;
+    margin-bottom: 10px;
+    flex: none;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
+  
+  /* Enhanced complaint text handling on mobile */
+  .equipment-table td[data-label="Complaint"] {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    max-height: none;
+    display: block;
+  }
+  
+  .complaint-content {
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  .complaint-toggle {
+    background: var(--primary-color, #4F46E5);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+  }
+  
+  .complaint-toggle:hover {
+    background: var(--primary-dark, #3730A3);
+    transform: translateY(-1px);
+  }
+  
+  .equipment-table td:before {
+    font-size: 0.75rem;
+    color: var(--primary-color, #4F46E5);
+    font-weight: 700;
+  }
+  
   .action-buttons { 
-    justify-content: flex-end; 
+    justify-content: center; 
     width: 100%; 
-    margin-top: 15px; 
+    margin-top: 20px; 
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
   }
+  
+  .btn-action {
+    min-width: 44px;
+    min-height: 44px;
+    background: var(--bg-secondary, #f8fafc);
+    border-radius: 8px;
+    touch-action: manipulation;
+  }
+  
+  .btn-action:hover {
+    background: var(--primary-color, #4F46E5);
+    color: white;
+  }
+  
   .category-badge, .status-badge { 
-    font-size: 0.75rem; 
-    padding: 4px 8px; 
+    font-size: 0.8rem; 
+    padding: 6px 12px; 
     word-break: normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
+  
   .time-tracker { 
-    font-size: 0.7rem; 
-    margin-top: 2px; 
+    font-size: 0.75rem; 
+    margin-top: 4px;
+    color: var(--text-secondary, #6b7280);
   }
+  
+  .priority-indicator {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .resolution-time {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+  
+  /* Status progress improvements */
+  .status-progress-container {
+    height: 6px;
+    margin-top: 8px;
+  }
+  
+  /* Better spacing for mobile cards */
+  .equipment-table tr {
+    background: var(--bg-primary, #fff);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  
+  /* Dark mode support for mobile cards */
+  [data-theme="dark"] .equipment-table tr {
+    background: var(--bg-secondary, #1E293B);
+    border-color: var(--border-primary, #334155);
+  }
+  
+  [data-theme="dark"] .equipment-table td:before {
+    color: var(--primary-color, #4F46E5);
+  }
+  
+  [data-theme="dark"] .btn-action {
+    background: var(--bg-tertiary, #334155);
+    color: var(--text-primary, #F8FAFC);
+  }
+  
+  [data-theme="dark"] .action-buttons {
+    border-color: var(--border-primary, #334155);
+  }
+}
+
+/* BEAUTIFUL MOBILE TABLE DESIGN - MODERN & POLISHED */
+@media screen and (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  body, html {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    background: var(--bg-secondary, #f8fafc) !important;
+  }
+  
   .main-panel {
-    padding: 10px;
-    width: 100%;
-    max-width: 100%;
+    padding: 15px !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    background: var(--bg-secondary, #f8fafc) !important;
+  }
+  
+  .card {
+    margin: 15px 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--primary-color, #4F46E5), #6366F1) !important;
+    color: white !important;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 20px !important;
+    border: none !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+  }
+  
+  .card-body {
+    padding: 20px 15px !important;
+    overflow-x: hidden !important;
+    background: var(--bg-primary, #fff) !important;
+    border-radius: 0 0 16px 16px !important;
+  }
+  
+  /* Beautiful container */
+  .complaint-table-container {
+    overflow: hidden !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin-top: 20px !important;
+  }
+  
+  /* Table structure */
+  .equipment-table {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  .equipment-table thead { 
+    display: none !important; 
+  }
+  
+  .equipment-table tbody { 
+    display: block !important; 
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Modern User-Friendly Mobile Cards */
+  .equipment-table tr {
+    display: block !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    padding: 24px 20px !important;
+    margin: 16px 8px !important;
+    width: calc(100% - 16px) !important;
+    border: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  .equipment-table tr:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+  
+  /* Professional status indicators - left border */
+  .equipment-table tr.pending {
+    border-left: 4px solid #f59e0b !important;
+  }
+  
+  .equipment-table tr.progress {
+    border-left: 4px solid #3b82f6 !important;
+  }
+  
+  .equipment-table tr.complete {
+    border-left: 4px solid #10b981 !important;
+  }
+  
+  /* Elegant cell styling */
+  .equipment-table td { 
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important; 
+    max-width: 100% !important;
+    word-break: break-word !important;
+    margin-bottom: 16px !important;
+    padding: 0 !important;
+    border: none !important;
+    text-align: left !important;
+    line-height: 1.6 !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+  }
+  
+  /* Hidden labels - we'll redesign the layout */
+  .equipment-table td::before {
+    display: none !important;
+  }
+  
+  /* Modern Card Layout */
+  .equipment-table td {
+    display: block !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  
+  /* Card Header - Username & Status */
+  .equipment-table td[data-label="Username"] {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+  
+  .equipment-table td[data-label="Username"] strong {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    margin: 0 !important;
+  }
+  
+  /* Card Info Grid */
+  .equipment-table td[data-label="Department"],
+  .equipment-table td[data-label="Number"],
+  .equipment-table td[data-label="Address"] {
+    display: inline-block !important;
+    width: auto !important;
+    margin-right: 20px !important;
+    margin-bottom: 8px !important;
+    font-size: 0.875rem !important;
+    color: #64748b !important;
+  }
+  
+  /* Add icons and labels inline */
+  .equipment-table td[data-label="Department"]::before {
+    content: "🏢 " !important;
+    display: inline !important;
+  }
+  
+  .equipment-table td[data-label="Number"]::before {
+    content: "📞 " !important;
+    display: inline !important;
+  }
+  
+  .equipment-table td[data-label="Address"]::before {
+    content: "📍 " !important;
+    display: inline !important;
+  }
+  
+  /* Modern Complaint Content */
+  .equipment-table td[data-label="Complaint"] {
+    margin: 16px 0 !important;
+    padding: 16px !important;
+    background: #f8fafc !important;
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    position: relative !important;
+  }
+  
+  .equipment-table td[data-label="Complaint"]::before {
+    content: "💬 Complaint Details" !important;
+    display: block !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    font-size: 0.875rem !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .equipment-table td[data-label="Complaint"] .complaint-content {
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+    color: #334155 !important;
+  }
+  
+  /* Status & Progress Section */
+  .equipment-table td[data-label="Status & Progress"] {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin: 16px 0 !important;
+    padding: 12px 16px !important;
+    background: #ffffff !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+  }
+  
+  .equipment-table td[data-label="Status & Progress"]::before {
+    content: "⚡ Status" !important;
+    display: block !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  /* Priority Section */
+  .equipment-table td[data-label="Priority"] {
+    display: inline-block !important;
+    margin-right: 16px !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .equipment-table td[data-label="Priority"]::before {
+    content: "🎯 Priority: " !important;
+    display: inline !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Professional username styling */
+  .equipment-table td[data-label="Username"] strong {
+    color: #111827 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    display: block !important;
+    margin-bottom: 2px !important;
+  }
+  
+  /* Clean time tracker */
+  .time-tracker {
+    background: #f3f4f6 !important;
+    color: #6b7280 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 400 !important;
+    margin-top: 4px !important;
+    display: inline-block !important;
+    width: fit-content !important;
+  }
+  
+  /* Professional category badges */
+  .category-badge {
+    background: #4f46e5 !important;
+    color: white !important;
+    padding: 4px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+  }
+  
+  /* Professional status badges */
+  .status-badge {
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  
+  .status-badge.status-pending {
+    background: #fef3c7 !important;
+    color: #d97706 !important;
+    border: 1px solid #fbbf24 !important;
+  }
+  
+  .status-badge.status-progress {
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
+    border: 1px solid #60a5fa !important;
+  }
+  
+  .status-badge.status-complete {
+    background: #d1fae5 !important;
+    color: #065f46 !important;
+    border: 1px solid #34d399 !important;
+  }
+  
+  /* Simple priority indicators */
+  .priority-indicator {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+    margin-right: 6px !important;
+  }
+  
+  .resolution-time {
+    background: #f9fafb !important;
+    color: #374151 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 400 !important;
+    display: inline-block !important;
+    margin-left: 4px !important;
+    border: 1px solid #e5e7eb !important;
+  }
+  
+  /* Professional complaint text handling */
+  .equipment-table td[data-label="Complaint"] .complaint-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+    background: #f9fafb !important;
+    padding: 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e5e7eb !important;
+    line-height: 1.5 !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .complaint-toggle {
+    background: #4f46e5 !important;
+    color: white !important;
+    border: none !important;
+    padding: 6px 12px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    margin-top: 8px !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    touch-action: manipulation !important;
+    transition: background-color 0.15s ease-in-out !important;
+  }
+  
+  .complaint-toggle:hover {
+    background: #3730a3 !important;
+  }
+  
+  /* Modern Action Buttons */
+  .equipment-table .action-buttons { 
+    display: flex !important;
+    justify-content: center !important; 
+    width: 100% !important; 
+    margin-top: 20px !important; 
+    gap: 12px !important;
+    padding-top: 20px !important;
+    border-top: 2px solid #f1f5f9 !important;
+  }
+  
+  .equipment-table .btn-action {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    touch-action: manipulation !important;
+    border: 2px solid #e2e8f0 !important;
+    color: #64748b !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .equipment-table .btn-action:hover {
+    background: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3) !important;
+  }
+  
+  /* Professional dark mode */
+  [data-theme="dark"] .equipment-table tr {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td::before {
+    color: #9ca3af !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td > * {
+    color: #f9fafb !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Username"] strong {
+    color: #f9fafb !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"] .complaint-content {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e5e7eb !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e5e7eb !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action:hover {
+    background: #4b5563 !important;
+    border-color: #6b7280 !important;
+  }
+  
+  /* Professional toolbar for mobile */
+  .toolbar {
+    background: #ffffff !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .search-box {
+    background: #f9fafb !important;
+    border-radius: 8px !important;
+    padding: 2px !important;
+    border: 1px solid #d1d5db !important;
+  }
+  
+  .search-input {
+    border: none !important;
+    background: transparent !important;
+    padding: 12px 16px 12px 40px !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    color: #111827 !important;
+  }
+  
+  .search-box i {
+    color: #6b7280 !important;
+    font-size: 1rem !important;
+  }
+  
+  /* Professional progress stats mobile */
+  .progress-stats {
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .progress-stat-card {
+    border-radius: 8px !important;
+    padding: 20px 16px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    text-align: center !important;
+    transition: box-shadow 0.15s ease-in-out !important;
+    color: white !important;
+  }
+  
+  .progress-stat-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .progress-stat-card.pending {
+    background: #ef4444 !important;
+  }
+  
+  .progress-stat-card.progress {
+    background: #3b82f6 !important;
+  }
+  
+  .progress-stat-card.complete {
+    background: #22c55e !important;
+  }
+  
+  .stat-icon {
+    font-size: 2rem !important;
+    margin-bottom: 12px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  .stat-number {
+    font-size: 1.875rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-transform: none !important;
+  }
+  
+  .stat-percentage {
+    font-size: 0.75rem !important;
+    color: #9ca3af !important;
+    margin-top: 4px !important;
+    font-weight: 400 !important;
+  }
+}
+
+/* ===== MOBILE DARK MODE SUPPORT ===== */
+@media (max-width: 768px) {
+  /* Mobile Dark Mode - Modern User-Friendly Cards */
+  [data-theme="dark"] .equipment-table tr {
+    background: var(--bg-secondary) !important;
+    border: none !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table tr:hover {
+    background: var(--bg-tertiary) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    transform: translateY(-2px) !important;
+  }
+  
+  /* Mobile Dark Mode - Left Status Borders */
+  [data-theme="dark"] .equipment-table tr.pending {
+    border-left: 4px solid #dc2626 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table tr.progress {
+    border-left: 4px solid #2563eb !important;
+  }
+  
+  [data-theme="dark"] .equipment-table tr.complete {
+    border-left: 4px solid #16a34a !important;
+  }
+  
+  /* Mobile Dark Mode - Action Buttons */
+  [data-theme="dark"] .equipment-table .action-buttons {
+    border-top: 1px solid var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action:hover {
+    background: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+  }
+  
+  /* Mobile Dark Mode - Status Badges */
+  [data-theme="dark"] .equipment-table .status-badge {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+  
+  /* Mobile Dark Mode - Search Box */
+  [data-theme="dark"] .search-box {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .search-input {
+    color: var(--text-primary) !important;
+    background: transparent !important;
+  }
+  
+  [data-theme="dark"] .search-input::placeholder {
+    color: var(--text-tertiary) !important;
+  }
+  
+  [data-theme="dark"] .search-box i {
+    color: var(--text-secondary) !important;
+  }
+  
+  /* Mobile Dark Mode - Progress Stats Cards - Keep Status Colors */
+  [data-theme="dark"] .progress-stat-card.pending {
+    background: #dc2626 !important;
+    color: white !important;
+  }
+  
+  [data-theme="dark"] .progress-stat-card.progress {
+    background: #2563eb !important;
+    color: white !important;
+  }
+  
+  [data-theme="dark"] .progress-stat-card.complete {
+    background: #16a34a !important;
+    color: white !important;
+  }
+  
+  [data-theme="dark"] .stat-icon {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  [data-theme="dark"] .stat-number {
+    color: white !important;
+  }
+  
+  [data-theme="dark"] .stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  /* Mobile Dark Mode - Overall Progress */
+  [data-theme="dark"] .overall-progress {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+  
+  /* Mobile Dark Mode - Table Headers */
+  [data-theme="dark"] .equipment-table thead {
+    background: var(--bg-tertiary) !important;
+  }
+  
+  /* Mobile Dark Mode - Table Data Labels & Content */
+  [data-theme="dark"] .equipment-table td::before {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 6px !important;
+    opacity: 0.9;
+  }
+  
+  [data-theme="dark"] .equipment-table td > * {
+    color: var(--text-primary) !important;
+  }
+  
+  /* Mobile Dark Mode - All Card Field Content */
+  [data-theme="dark"] .equipment-table td[data-label="Username"] {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Username"] strong {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Department"] {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Number"] {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Address"] {
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"] {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"] .complaint-content {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Status & Progress"] {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Priority"] {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Action"] {
+    color: var(--text-primary) !important;
+  }
+  
+  /* Mobile Dark Mode - Complaint Toggle Button */
+  [data-theme="dark"] .complaint-toggle {
+    background: var(--primary-color) !important;
+    color: white !important;
+  }
+  
+  [data-theme="dark"] .complaint-toggle:hover {
+    background: var(--primary-dark) !important;
+  }
+  
+  /* Dark Mode - Modern Card Elements */
+  [data-theme="dark"] .equipment-table td[data-label="Username"] {
+    border-color: var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Username"] strong {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Department"],
+  [data-theme="dark"] .equipment-table td[data-label="Number"],
+  [data-theme="dark"] .equipment-table td[data-label="Address"] {
+    color: var(--text-secondary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"] {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"]::before {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Complaint"] .complaint-content {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Status & Progress"] {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table td[data-label="Status & Progress"]::before,
+  [data-theme="dark"] .equipment-table td[data-label="Priority"]::before {
+    color: var(--text-secondary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .action-buttons {
+    border-color: var(--border-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--border-primary) !important;
+    color: var(--text-secondary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .btn-action:hover {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+  }
+  
+  /* Mobile Dark Mode - Time Tracker */
+  [data-theme="dark"] .time-tracker {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+  
+  /* Mobile Dark Mode - Status Badges in Cards */
+  [data-theme="dark"] .equipment-table .status-badge.pending {
+    background: #dc2626 !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .status-badge.progress {
+    background: #2563eb !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .status-badge.complete {
+    background: #16a34a !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Mobile Dark Mode - Priority Indicators */
+  [data-theme="dark"] .priority-indicator {
+    opacity: 0.9;
+  }
+  
+  /* Mobile Dark Mode - Action Button Text */
+  [data-theme="dark"] .equipment-table .action-buttons a,
+  [data-theme="dark"] .equipment-table .action-buttons button {
+    color: var(--text-primary) !important;
+  }
+  
+  [data-theme="dark"] .equipment-table .action-buttons a:hover,
+  [data-theme="dark"] .equipment-table .action-buttons button:hover {
+    color: white !important;
   }
 }
 
@@ -1933,6 +3374,50 @@
           bar.style.opacity = '1';
         });
       }, 500);
+
+      // Mobile-specific enhancements
+      if (window.innerWidth <= 768) {
+        // Improve touch responsiveness for mobile
+        const actionButtons = document.querySelectorAll('.btn-action');
+        actionButtons.forEach(button => {
+          button.style.touchAction = 'manipulation';
+          
+          // Add visual feedback for touch
+          button.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+          });
+          
+          button.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+          });
+        });
+
+        // Optimize table cards for mobile
+        const tableCards = document.querySelectorAll('.equipment-table tr');
+        tableCards.forEach(card => {
+          card.style.cursor = 'default';
+          
+          // Add subtle touch feedback
+          card.addEventListener('touchstart', function() {
+            this.style.transform = 'translateY(-1px)';
+          });
+          
+          card.addEventListener('touchend', function() {
+            this.style.transform = 'translateY(0)';
+          });
+        });
+
+        // Prevent horizontal scroll on mobile
+        document.body.style.overflowX = 'hidden';
+
+        // Optimize button group layout for mobile
+        const btnGroups = document.querySelectorAll('.btn-group');
+        btnGroups.forEach(group => {
+          group.style.display = 'flex';
+          group.style.flexWrap = 'wrap';
+          group.style.justifyContent = 'center';
+        });
+      }
     });
 
     // Priority filter functionality
@@ -1989,6 +3474,30 @@
         }
       }
     });
+
+    // Complaint text toggle functionality
+    function toggleComplaint(button) {
+      const complaintContent = button.closest('.complaint-content');
+      const shortText = complaintContent.querySelector('.complaint-short');
+      const fullText = complaintContent.querySelector('.complaint-full');
+      
+      if (fullText.style.display === 'none') {
+        // Show full text
+        shortText.style.display = 'none';
+        fullText.style.display = 'inline';
+        button.textContent = 'Read Less';
+        button.style.background = 'var(--warning-color, #F59E0B)';
+      } else {
+        // Show short text
+        shortText.style.display = 'inline';
+        fullText.style.display = 'none';
+        button.textContent = 'Read More';
+        button.style.background = 'var(--primary-color, #4F46E5)';
+      }
+    }
+    
+    // Make function globally available
+    window.toggleComplaint = toggleComplaint;
   </script>
 </body>
 

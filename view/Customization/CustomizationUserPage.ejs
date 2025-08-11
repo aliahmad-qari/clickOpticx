@@ -598,6 +598,25 @@
                       </button>
                     </div>
                   </div>
+                  <div class="modal fade" id="deleteBackgroundModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable">
+    <div class="modal-content rounded-3 shadow-lg">
+      <div class="modal-header bg-light border-bottom-0">
+        <h5 class="modal-title text-dark">Confirm Remove Background</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-center fs-5">Are you sure you want to remove the current background image?</p>
+      </div>
+      <div class="modal-footer border-top-0 d-flex justify-content-end">
+        <form action="/delete-background" method="POST" style="margin: 0;">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger ms-2">Remove</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
                 <% } %>
 
               </div>

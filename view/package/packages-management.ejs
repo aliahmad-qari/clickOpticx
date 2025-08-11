@@ -46,6 +46,50 @@
             line-height: 1.6;
         }
 
+        /* Dark Mode Styles */
+        [data-theme="dark"] {
+            --gray-50: #111827;
+            --gray-100: #1F2937;
+            --gray-200: #374151;
+            --gray-900: #F9FAFB;
+        }
+
+        [data-theme="dark"] body {
+            background: #111827 !important;
+            color: #F9FAFB !important;
+        }
+
+        [data-theme="dark"] .card {
+            background: #1F2937 !important;
+            color: #F9FAFB !important;
+            border: 1px solid #374151 !important;
+        }
+
+        [data-theme="dark"] .table {
+            background: #1F2937 !important;
+            color: #F9FAFB !important;
+        }
+
+        [data-theme="dark"] .table th {
+            background-color: #374151 !important;
+            color: #6366F1 !important;
+        }
+
+        [data-theme="dark"] .table td {
+            border-bottom: 1px solid #374151 !important;
+            color: #F9FAFB !important;
+        }
+
+        [data-theme="dark"] .form-control {
+            background-color: #374151 !important;
+            border-color: #4B5563 !important;
+            color: #F9FAFB !important;
+        }
+
+        [data-theme="dark"] .packages-header {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+        }
+
         /* Professional Header */
         .packages-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
