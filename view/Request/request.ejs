@@ -947,36 +947,37 @@
       </div>
 
       <form action="/update-plan" method="POST">
-        <input type="hidden" name="user_id" id="user_id">
-        <input type="hidden" name="transaction_id" id="TransactionId">
-        <input type="hidden" name="package_name" id="PreviousPackage">
+  <input type="hidden" name="user_id" id="user_id">
+  <input type="hidden" name="transaction_id" id="TransactionId">
+  <input type="hidden" name="package_name" id="PreviousPackage">
 
-        <div class="form-group col-md-6">
-          <label for="invoice_status">Invoice Status</label>
-          <select class="form-control" id="invoice_status" name="invoice_status" required>
-            <option value="Paid">Paid</option>
-            <option value="Unpaid">Unpaid</option>
-          </select>
-        </div>
+  <div class="form-group col-md-6">
+    <label for="invoice_status">Invoice Status</label>
+    <select class="form-control" id="invoice_status" name="invoice_status" required>
+      <option value="Paid">Paid</option>
+      <option value="Unpaid">Unpaid</option>
+    </select>
+  </div>
 
-        <div class="form-group col-md-6">
-          <label for="package_status">Package Status</label>
-          <select class="form-control" id="package_status" name="package_status" required>
-            <option value="Active">Active</option>
-            <option value="Pending">Pending</option>
-            <option value="Expired">Expired</option>
-          </select>
-        </div>
+  <div class="form-group col-md-6">
+    <label for="package_status">Package Status</label>
+    <select class="form-control" id="package_status" name="package_status" required>
+      <option value="Active">Active</option>
+      <option value="Pending">Pending</option>
+      <option value="Expired">Expired</option>
+    </select>
+  </div>
 
-        <div class="form-group col-md-6">
-          <label for="expiry">Expiry Date</label>
-          <input type="date" class="form-control" id="expiry" name="Expiry" required>
-        </div>
+  <div class="form-group col-md-6">
+    <label for="expiry">Expiry Date</label>
+    <input type="date" class="form-control" id="expiry" name="expiry" required> <!-- Change "Expiry" to "expiry" -->
+  </div>
 
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Update Plan</button>
-        </div>
-      </form>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Update Plan</button>
+  </div>
+</form>
+
     </div>
   </div>
 </div>
@@ -1272,35 +1273,35 @@
     };
 
     // ✏️ Populate Edit Modal on button click
-    document.querySelectorAll(".edit").forEach(button => {
-    button.addEventListener("click", function () {
-      document.getElementById("user_id").value = this.dataset.userid || "";
-      document.getElementById("TransactionId").value = this.dataset.transactionid || "";
-      document.getElementById("PreviousPackage").value = this.dataset.packagename || "";
+document.querySelectorAll(".edit").forEach(button => {
+  button.addEventListener("click", function () {
+    document.getElementById("user_id").value = this.dataset.userid || "";
+    document.getElementById("TransactionId").value = this.dataset.transactionid || "";
+    document.getElementById("PreviousPackage").value = this.dataset.packagename || "";
 
-      const invoiceStatus = this.dataset.invoice || "";
-      const packageStatus = this.dataset.status || "";
-      const expiryDate = this.dataset.expiry || "";
+    const invoiceStatus = this.dataset.invoice || "";
+    const packageStatus = this.dataset.status || "";
+    const expiryDate = this.dataset.expiry || "";  // No default for expiryDate
 
-      const invoiceDropdown = document.getElementById("invoice_status");
-      const packageDropdown = document.getElementById("package_status");
+    const invoiceDropdown = document.getElementById("invoice_status");
+    const packageDropdown = document.getElementById("package_status");
 
-      // ✅ Set invoice status safely (must match casing exactly)
-      if (["Paid", "Unpaid"].includes(invoiceStatus)) {
-        invoiceDropdown.value = invoiceStatus;
-      } else {
-        invoiceDropdown.value = "Unpaid"; // fallback
-      }
+    // ✅ Set invoice status safely (must match casing exactly)
+    if (["Paid", "Unpaid"].includes(invoiceStatus)) {
+      invoiceDropdown.value = invoiceStatus;
+    } else {
+      invoiceDropdown.value = "Unpaid"; // fallback
+    }
 
-      // ✅ Set package status safely (casing: "Active", "Pending", "Expired")
-      if (["Active", "Pending", "Expired"].includes(packageStatus)) {
-        packageDropdown.value = packageStatus;
-      } else {
-        packageDropdown.value = "Pending"; // fallback
-      }
+    // ✅ Set package status safely (casing: "Active", "Pending", "Expired")
+    if (["Active", "Pending", "Expired"].includes(packageStatus)) {
+      packageDropdown.value = packageStatus;
+    } else {
+      packageDropdown.value = "Pending"; // fallback
+    }
 
-      // ✅ Set expiry date
-      document.getElementById("expiry").value = expiryDate;
+    // ✅ Set expiry date, no fallback, will leave it empty if no expiry
+    document.getElementById("expiry").value = expiryDate;
   });
 });
 

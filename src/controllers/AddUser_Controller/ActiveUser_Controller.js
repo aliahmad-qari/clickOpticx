@@ -5,18 +5,21 @@ exports.ActiveUser = (req, res) => {
   const userId = req.session.userId;
   const { startDate, endDate } = req.query;
 
-  // Build the SQL query with optional date filters
+  // Build the SQL query for active users
   let sql = `
     SELECT 
-      u.id AS user_id, 
+      p.user_id, 
       u.Username, 
-      u.invoice, 
-      u.plan,
+      p.invoice_status AS invoice, 
+      p.package_status AS plan, 
       u.user_img,
+      p.expiry_date AS expiry,
       MAX(p.created_at) AS latest_payment
-    FROM users u
-    JOIN payments p ON u.id = p.user_id
-    WHERE u.invoice = 'Paid' AND u.role = 'user'
+    FROM payments p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.invoice_status = 'Paid' 
+      AND p.package_status = 'Active'
+      AND u.role = 'user'
   `;
   const queryParams = [];
 
@@ -31,7 +34,7 @@ exports.ActiveUser = (req, res) => {
   }
 
   sql += `
-    GROUP BY u.id
+    GROUP BY p.user_id
     ORDER BY latest_payment DESC
   `;
 
@@ -47,6 +50,7 @@ exports.ActiveUser = (req, res) => {
       invoice: user.invoice,
       user_img: user.user_img,
       plan: user.plan,
+      expiry: user.expiry ? moment(user.expiry).format("DD-MM-YYYY") : null,
       latest_payment: user.latest_payment
         ? moment(user.latest_payment).format("DD-MM-YYYY")
         : null,
@@ -109,6 +113,7 @@ exports.ActiveUser = (req, res) => {
                 const isUser =
                   req.session.user && req.session.user.role === "user";
 
+                // Render the active users page
                 res.render("AddUsers/ActiveUser", {
                   user: users,
                   message: null,

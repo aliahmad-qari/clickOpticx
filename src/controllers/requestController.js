@@ -259,15 +259,22 @@ exports.updatePlan = (req, res) => {
   const validInvoiceStatuses = ["paid", "unpaid"];
   const validPackageStatuses = ["active", "pending", "expired"];
 
+  // Validation checks
   if (!user_id || !invoice_status || !package_status || !expiry) {
     return res.status(400).json({
       message: "User ID, Invoice Status, Package Status, and Expiry are required.",
     });
   }
 
-  if (!validInvoiceStatuses.includes(invoice_status) || !validPackageStatuses.includes(package_status)) {
+  if (!validInvoiceStatuses.includes(invoice_status)) {
     return res.status(400).json({
-      message: "Invalid invoice or package status.",
+      message: "Invalid invoice status. Valid options are 'paid' or 'unpaid'.",
+    });
+  }
+
+  if (!validPackageStatuses.includes(package_status)) {
+    return res.status(400).json({
+      message: "Invalid package status. Valid options are 'active', 'pending', or 'expired'.",
     });
   }
 
@@ -303,6 +310,7 @@ exports.updatePlan = (req, res) => {
     return res.redirect("/request");
   });
 };
+
 
 
 

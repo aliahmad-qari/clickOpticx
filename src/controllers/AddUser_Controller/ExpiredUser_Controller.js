@@ -4,29 +4,28 @@ const sql = require("../../models/users");
 // Select all AdminUsers
 exports.ExpiredUser = (req, res) => {
   const userId = req.session.userId;
+
+  // SQL to fetch expired users based on the package status
   const sql = `
     SELECT 
-      u.id AS user_id,
-      u.Username,
-      u.invoice,
-      u.plan,
+      p.user_id, 
+      u.Username, 
+      p.invoice_status AS invoice, 
+      p.package_status AS plan, 
       u.user_img,
-      p.expiry_date AS expiry
-    FROM users u
-    JOIN (
-      SELECT *
-      FROM payments
-      WHERE package_status = 'Expired'
-      ORDER BY id DESC
-    ) p ON u.id = p.user_id
-    WHERE u.role = 'user'
-    GROUP BY u.id
+      p.expiry_date AS expiry,
+      MAX(p.created_at) AS latest_payment
+    FROM payments p
+    JOIN users u ON p.user_id = u.id
+    WHERE (p.invoice_status = 'Unpaid' OR p.package_status = 'Expired') 
+      AND u.role = 'user'
+    GROUP BY p.user_id
     ORDER BY p.expiry_date DESC
   `;
 
   const backgroundSql = "SELECT * FROM nav_table";
 
-  // âœ… Total notifications count (used in badge)
+  // Total notifications count (used in badge)
   const NotifactionSql = `
       SELECT COUNT(*) AS totalNotifactions 
       FROM notifications 
@@ -34,7 +33,7 @@ exports.ExpiredUser = (req, res) => {
         AND created_at >= NOW() - INTERVAL 2 DAY
     `;
 
-  // âœ… Only unread notifications from the last 2 days
+  // Only unread notifications from the last 2 days
   const passwordSql = `
       SELECT * FROM notifications 
       WHERE is_read = 0 
@@ -68,13 +67,13 @@ exports.ExpiredUser = (req, res) => {
             return res.status(500).send("Internal Server Error");
           }
 
-          const notifications_users = `
+          const notifications_users_sql = `
                         SELECT COUNT(*) AS Notifactions 
                         FROM notifications_user 
                         WHERE user_id = ?
                       `;
 
-          db.query(notifications_users, [userId], (err, Notifaction) => {
+          db.query(notifications_users_sql, [userId], (err, Notifaction) => {
             if (err) {
               console.error("Error fetching user notifications count:", err);
               return res.status(500).send("Database error");
@@ -82,26 +81,27 @@ exports.ExpiredUser = (req, res) => {
 
             const Notifactions = Notifaction[0].Notifactions;
 
-           const unreadSql = `
+            const unreadSql = `
               SELECT * FROM notifications_user 
               WHERE user_id = ? 
               AND is_read = 0 
               AND created_at >= NOW() - INTERVAL 2 DAY 
               ORDER BY id DESC;
-            `
+            `;
+
             db.query(unreadSql, [userId], (err, notifications_users) => {
               if (err) {
                 console.error("Error fetching notification details:", err);
                 return res.status(500).send("Server Error");
               }
 
-              // ðŸ‘‡ Flash messages here
+              // Flash messages here
               const successMsg = req.flash("success");
 
               const isAdmin = "admin";
-              const isUser =
-                req.session.user && req.session.user.role === "user";
+              const isUser = req.session.user && req.session.user.role === "user";
 
+              // Render the expired users page
               res.render("AddUsers/ExpiredUser", {
                 user: results,
                 message: null,
@@ -123,3 +123,4 @@ exports.ExpiredUser = (req, res) => {
     });
   });
 };
+

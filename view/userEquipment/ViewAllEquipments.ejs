@@ -1541,7 +1541,8 @@
                                             <td class="name-col">
                                               <div class="equipment-info">
                                                 <img class="equipment-image"
-                                                  src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>">
+                                                  src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/router-img.png' %>" 
+                                                  onerror="this.src='/images/router-img.png'; this.onerror=null;">
                                                 <div>
                                                   <div class="equipment-name">
                                                     <%= item.name || 'Unnamed' %>
@@ -1656,8 +1657,9 @@
                                     <div class="equipment-card">
                                       <div class="equipment-card-header">
                                         <img class="equipment-card-image" 
-                                             src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>" 
-                                             alt="<%= item.name || 'Unnamed' %>">
+                                             src="<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/router-img.png' %>" 
+                                             alt="<%= item.name || 'Unnamed' %>"
+                                             onerror="this.src='/images/router-img.png'; this.onerror=null;">
                                         <div class="equipment-card-name">
                                           <h6><%= item.name || 'Unnamed' %></h6>
                                           <p>ID: <%= item.id || 'N/A' %></p>
@@ -1697,7 +1699,7 @@
                                       </div>
                                       
                                       <div class="equipment-card-actions">
-                                        <button class="mobile-btn view" onclick="viewEquipmentDetails('<%= item.id %>', '<%= item.name || 'Unnamed' %>', '<%= item.type || 'N/A' %>', '<%= item.category || 'N/A' %>', '<%= item.quantity || '0' %>', '<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/default-equipment.png' %>')">
+                                        <button class="mobile-btn view" onclick="viewEquipmentDetails('<%= item.id %>', '<%= item.name || 'Unnamed' %>', '<%= item.type || 'N/A' %>', '<%= item.category || 'N/A' %>', '<%= item.quantity || '0' %>', '<%= item.image ? (item.image.startsWith('http') ? item.image : '/' + item.image) : '/images/router-img.png' %>')">
                                           <i class="fas fa-eye"></i> View
                                         </button>
                                         
@@ -1875,7 +1877,7 @@
                       <div class="modal-body">
                         <div class="row">
                           <div class="col-md-4 text-center mb-3">
-                            <img id="view-equipment-image" src="" alt="Equipment Image" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">
+                            <img id="view-equipment-image" src="" alt="Equipment Image" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;" onerror="this.src='/images/router-img.png'; this.onerror=null;">
                           </div>
                           <div class="col-md-8">
                             <table class="table table-borderless">
