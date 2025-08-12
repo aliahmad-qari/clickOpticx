@@ -846,6 +846,19 @@
 
 
         </ul>
+        <style>
+          /* Dark mode hover styles for user panel sidebar links */
+[data-theme="dark"] .sidebar .nav-link:hover {
+  background-color: #4B49AC !important; /* Dark hover background */
+  color: #ffffff !important; /* White text on hover */
+}
+
+/* Also change icon color on hover in dark mode */
+[data-theme="dark"] .sidebar .nav-link:hover .dynamic-color-icon {
+  color: #ffffff !important;
+}
+
+        </style>
       </nav>
       <% } %>
 

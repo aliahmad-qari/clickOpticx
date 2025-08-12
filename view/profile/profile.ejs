@@ -674,6 +674,17 @@
       border: 4px solid var(--card-bg);
       box-shadow: 0 8px 25px var(--shadow-light);
       object-fit: cover;
+      object-position: center;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      image-rendering: high-quality;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      max-width: 100%;
+      height: auto;
     }
 
     .custom-file-btn {
@@ -803,18 +814,27 @@
 
     .profile-avatar-section {
       position: absolute;
-      bottom: -40px;
+      bottom: -60px;
       left: 50%;
       transform: translateX(-50%);
     }
 
     .profile-avatar {
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       border: 4px solid white;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       object-fit: cover;
+      object-position: center;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      image-rendering: high-quality;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
 
     .profile-status {
@@ -829,7 +849,7 @@
     }
 
     .profile-body {
-      padding: 50px 24px 24px;
+      padding: 70px 24px 24px;
       text-align: center;
     }
 
@@ -1272,6 +1292,38 @@
         transform: translateY(0);
       }
     }
+
+    /* ===== DARK MODE QUICK ACTIONS ===== */
+    [data-theme="dark"] .quick-actions-card {
+      background: var(--card-bg) !important;
+      border: 1px solid var(--border-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .quick-actions-card .card-title {
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .quick-action-item {
+      border-bottom: 1px solid var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .quick-action-item:hover {
+      background: var(--bg-tertiary) !important;
+    }
+
+    [data-theme="dark"] .quick-action-item i:first-child {
+      color: var(--primary-color) !important;
+    }
+
+    [data-theme="dark"] .quick-action-item span {
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .quick-action-item i:last-child {
+      color: var(--text-tertiary) !important;
+    }
+
   </style>
 
 </head>
