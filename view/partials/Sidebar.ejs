@@ -103,7 +103,7 @@
 }
 
 [data-theme="dark"] .sidebar .nav.sub-menu .nav-link {
-  color: var(--text-secondary, #94A3B8) !important;
+  color: var(--text-secondary, white) !important;
 }
 
 [data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover {
@@ -171,6 +171,7 @@
   border-radius: 6px;
   font-size: 0.85rem;
   padding: 8px 16px !important;
+  color: white !important;
 }
 
 [data-theme="dark"] .sidebar .nav.sub-menu .nav-link:hover {
@@ -323,6 +324,16 @@
   outline: 2px solid var(--primary-color, #4F46E5);
   outline-offset: 2px;
   border-radius: 8px;
+}
+
+.sidebar .nav.sub-menu .nav-link {
+    margin-bottom: 0;
+    margin-top: 0;
+    list-style: none;
+    padding: 0.25rem 0 0 3.07rem;
+    background: none;
+    padding-bottom: 12px;
+    color: black;
 }
 
 /* Responsive dropdown improvements */
@@ -542,7 +553,31 @@
           </ul>
         </div>
       </li>
+<style>
+  /* Custom styles for the Equipment dropdown (Dark Mode only) */
+[data-theme="dark"] #equipmentMenu {
+  background-color: #2C3E50; /* Set your desired background color */
+}
 
+[data-theme="dark"] #equipmentMenu .nav-link {
+  color: black; /* Set the text color */
+}
+
+[data-theme="dark"] #equipmentMenu .nav-link:hover {
+  background-color: #3498db; /* Set hover color */
+}
+
+/* Optional: Style the collapsed dropdown items when active */
+[data-theme="dark"] #equipmentMenu .collapse.show {
+  background-color: #34495e; /* Set background when dropdown is open */
+}
+
+/* Optional: Style the arrow icon */
+[data-theme="dark"] .menu-arrow {
+  color: #ecf0f1; /* Arrow icon color */
+}
+
+</style>
       <!-- User equipment -->
 
       <!-- ssssssss --> <!-- ssssssss --> <!-- ssssssss --> <!-- ssssssss -->
@@ -707,6 +742,30 @@
           </ul>
         </div>
       </li>
+
+      <style>
+        /* Custom styles for the Billing-Payments dropdown (Dark Mode only) */
+[data-theme="dark"] #billing-payments {
+  background-color: #2C3E50; /* Set your desired background color */
+}
+
+[data-theme="dark"] #billing-payments .nav-link {
+  color:white; /* Set the text color */
+}
+
+
+
+/* Optional: Style the collapsed dropdown items when active */
+[data-theme="dark"] #billing-payments .collapse.show {
+  background-color: #34495e; /* Set background when dropdown is open */
+}
+
+/* Optional: Style the arrow icon */
+[data-theme="dark"] #billing-payments .menu-arrow {
+  color: #ecf0f1; /* Arrow icon color */
+}
+
+      </style>
       <li class="nav-item">
         <a class="nav-link" href="/">
           <i class="mdi mdi-logout dynamic-color-icon"></i>

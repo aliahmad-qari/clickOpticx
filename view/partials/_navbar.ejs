@@ -331,12 +331,22 @@
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 <% 
   const timestamp = Date.now(); 
-  const logoUrl = (typeof navImg !== 'undefined' && navImg) ? 
-    (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
-    '/images/blacklogo.png';
-  const darkLogoUrl = (typeof navImg !== 'undefined' && navImg) ? 
-    (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
-    '/images/ClickTake.png';
+  // Admin always uses company default logos, Users get custom logos
+  let logoUrl, darkLogoUrl;
+  
+  if (isAdmin) {
+    // Admin panel: Always use company default logos
+    logoUrl = '/images/blacklogo.png';
+    darkLogoUrl = '/images/ClickTake.png';
+  } else {
+    // User panel: Use custom uploaded logo or fallback to defaults
+    logoUrl = (typeof navImg !== 'undefined' && navImg) ? 
+      (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
+      '/images/blacklogo.png';
+    darkLogoUrl = (typeof navImg !== 'undefined' && navImg) ? 
+      (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
+      '/images/ClickTake.png';
+  }
 %>
 <img 
   src="<%= logoUrl %>" 
@@ -1054,12 +1064,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const lightLogo = logo.getAttribute('data-theme-logo-light');
     const darkLogo = logo.getAttribute('data-theme-logo-dark');
+    
+    console.log('Updating logo for theme:', theme);
+    console.log('Light logo:', lightLogo);
+    console.log('Dark logo:', darkLogo);
 
-    logo.src = theme === 'dark' ? darkLogo : lightLogo;
+    if (theme === 'dark' && darkLogo) {
+      logo.src = darkLogo;
+    } else if (theme === 'light' && lightLogo) {
+      logo.src = lightLogo;
+    }
   }
 
   // On first load
-  updateLogoForTheme(themeManager.getCurrentTheme());
+  setTimeout(() => {
+    updateLogoForTheme(themeManager.getCurrentTheme());
+  }, 100);
 
   // When theme changes
   window.addEventListener('themeChanged', (e) => {
