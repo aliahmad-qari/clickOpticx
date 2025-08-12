@@ -14,82 +14,74 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
   const expiryStatus = req.query.expiryStatus || "";
   const invoiceFilter = req.query.invoice || "";
 
+ // 🔥 SIMPLIFIED: Query directly from payments table since it has all data
  let sql = `
-  SELECT u.Username, u.Email, u.user_img, u.Number, u.plan, u.password, u.role, u.id,
-         COALESCE(latest_p.expiry_date, u.expiry) as expiry,
-         COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') as invoice,
-         latest_p.package_status, latest_p.package_name, latest_p.amount, latest_p.created_at as payment_date
-  FROM users u 
-  LEFT JOIN (
-    SELECT p1.user_id, p1.expiry_date, p1.package_status, p1.invoice_status, p1.package_name, p1.amount, p1.created_at
-    FROM payments p1
-    WHERE p1.created_at = (
-      SELECT MAX(p2.created_at) 
-      FROM payments p2 
-      WHERE p2.user_id = p1.user_id
-    )
-  ) latest_p ON u.id = latest_p.user_id
-  WHERE u.role = 'user'
+  SELECT u.Username, u.Email, u.user_img, u.Number, p.package_name as plan, u.password, u.role, p.user_id as id,
+         p.expiry_date as expiry, p.invoice_status as invoice, p.package_status, p.amount, p.created_at as payment_date
+  FROM payments p
+  LEFT JOIN users u ON p.user_id = u.id 
+  WHERE u.role = 'user' AND p.created_at = (
+    SELECT MAX(p2.created_at) 
+    FROM payments p2 
+    WHERE p2.user_id = p.user_id
+  )
 `;
 
   let countSql = `
-    SELECT COUNT(DISTINCT u.id) as total 
-    FROM users u
-    LEFT JOIN (
-      SELECT p1.user_id, p1.expiry_date, p1.package_status, p1.invoice_status, p1.package_name, p1.amount, p1.created_at
-      FROM payments p1
-      WHERE p1.created_at = (
-        SELECT MAX(p2.created_at) 
-        FROM payments p2 
-        WHERE p2.user_id = p1.user_id
-      )
-    ) latest_p ON u.id = latest_p.user_id
-    WHERE u.role = 'user'
+    SELECT COUNT(DISTINCT p.user_id) as total 
+    FROM payments p
+    LEFT JOIN users u ON p.user_id = u.id
+    WHERE u.role = 'user' AND p.created_at = (
+      SELECT MAX(p2.created_at) 
+      FROM payments p2 
+      WHERE p2.user_id = p.user_id
+    )
   `;
 
   const queryParams = [];
 
-  // 🗓 Expiry Filters
+  // 🗓 Expiry Filters - Using payments table fields directly
   if (expiryStatus === "expired") {
-    sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) < CURDATE()`;
-    countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) < CURDATE()`;
+    sql += ` AND p.expiry_date < CURDATE()`;
+    countSql += ` AND p.expiry_date < CURDATE()`;
   } else if (expiryStatus === "near_expiry") {
-    sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
-    countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    sql += ` AND p.expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
+    countSql += ` AND p.expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)`;
   } else if (expiryStatus === "active") {
-  sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'unpaid'`;
-  countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'unpaid'`;
-} else if (expiryStatus === "paid") {
-  sql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
-  countSql += ` AND COALESCE(latest_p.expiry_date, u.expiry) > CURDATE() AND COALESCE(latest_p.package_status, 'expired') = 'active' AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
-}
-
-
-
-  // 🔍 Search
-  if (search) {
-    sql += ` AND u.Username LIKE ?`;
-    countSql += ` AND u.Username LIKE ?`;
-    queryParams.push(`%${search}%`);
+    sql += ` AND p.expiry_date > CURDATE() AND p.package_status = 'active' AND p.invoice_status = 'unpaid'`;
+    countSql += ` AND p.expiry_date > CURDATE() AND p.package_status = 'active' AND p.invoice_status = 'unpaid'`;
+  } else if (expiryStatus === "paid") {
+    sql += ` AND p.expiry_date > CURDATE() AND p.package_status = 'active' AND p.invoice_status = 'paid'`;
+    countSql += ` AND p.expiry_date > CURDATE() AND p.package_status = 'active' AND p.invoice_status = 'paid'`;
   }
 
-  // 📦 Package Filter
+
+
+  // 🔍 Enhanced Professional Search - Search across multiple fields using payments table
+  if (search) {
+    sql += ` AND (u.Username LIKE ? OR u.Email LIKE ? OR u.Number LIKE ? OR p.user_id LIKE ? OR p.package_name LIKE ?)`;
+    countSql += ` AND (u.Username LIKE ? OR u.Email LIKE ? OR u.Number LIKE ? OR p.user_id LIKE ? OR p.package_name LIKE ?)`;
+    const searchPattern = `%${search}%`;
+    queryParams.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
+  }
+
+  // 📦 Package Filter - Using payments table
   if (packageFilter) {
-    sql += ` AND u.plan = ?`;
-    countSql += ` AND u.plan = ?`;
+    sql += ` AND p.package_name = ?`;
+    countSql += ` AND p.package_name = ?`;
     queryParams.push(packageFilter);
   }
 
-  // 💰 Invoice Filter - Updated to use payments table
+  // 💰 Invoice Filter - Using payments table directly
   if (invoiceFilter === "paid") {
-    sql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
-    countSql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') = 'paid'`;
+    sql += ` AND p.invoice_status = 'paid'`;
+    countSql += ` AND p.invoice_status = 'paid'`;
   } else if (invoiceFilter === "unpaid") {
-    sql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
-    countSql += ` AND COALESCE(latest_p.invoice_status, u.invoice, 'unpaid') IN ('unpaid', 'pending')`;
+    sql += ` AND p.invoice_status IN ('unpaid', 'Unpaid', 'pending')`;
+    countSql += ` AND p.invoice_status IN ('unpaid', 'Unpaid', 'pending')`;
   }
 
-  // 📄 Order and pagination
+  // 📄 Order and pagination - Using users table Username
   sql += ` ORDER BY u.Username LIMIT ? OFFSET ?`;
   queryParams.push(perPage, (page - 1) * perPage);
 
@@ -101,19 +93,42 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
   const backgroundSql = "SELECT * FROM nav_table";
   const notifSql = `SELECT COUNT(*) AS totalNotifactions FROM notifications WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY`;
   const passwordSql = `SELECT * FROM notifications WHERE is_read = 0 AND created_at >= NOW() - INTERVAL 2 DAY ORDER BY id DESC`;
-  const paidSql = `
-    SELECT Username, Email, user_img, created_at FROM users 
-    WHERE role = 'user' AND invoice = 'paid' 
-    AND MONTH(created_at) = ? AND YEAR(created_at) = ?
+  // 🔥 SIMPLIFIED counting queries - Direct from payments table
+  const paidCountSql = `
+    SELECT COUNT(DISTINCT p.user_id) as total 
+    FROM payments p
+    LEFT JOIN users u ON p.user_id = u.id
+    WHERE u.role = 'user' 
+    AND p.invoice_status = 'paid'
+    AND p.package_status = 'active'
+    AND p.expiry_date > CURDATE()
+    AND p.created_at = (
+      SELECT MAX(p2.created_at) 
+      FROM payments p2 
+      WHERE p2.user_id = p.user_id
+    )
   `;
-  const unpaidSql = `
-    SELECT Username, Email, user_img, created_at FROM users 
-    WHERE role = 'user' AND (invoice IS NULL OR invoice = 'unpaid') 
-    AND MONTH(created_at) = ? AND YEAR(created_at) = ?
+  
+  const unpaidCountSql = `
+    SELECT COUNT(DISTINCT p.user_id) as total 
+    FROM payments p
+    LEFT JOIN users u ON p.user_id = u.id
+    WHERE u.role = 'user' 
+    AND p.invoice_status IN ('unpaid', 'Unpaid', 'pending')
+    AND p.package_status = 'active'
+    AND p.expiry_date > CURDATE()
+    AND p.created_at = (
+      SELECT MAX(p2.created_at) 
+      FROM payments p2 
+      WHERE p2.user_id = p.user_id
+    )
   `;
 
-  // 🧠 Main Execution
-  db.query(countSql, queryParams.slice(0, -2), (err, countResult) => {
+  // 🧠 Main Execution - Prepare count query parameters
+  const countQueryParams = [...queryParams];
+  countQueryParams.splice(-2); // Remove LIMIT and OFFSET for count query
+  
+  db.query(countSql, countQueryParams, (err, countResult) => {
     if (err) return res.status(500).send("Internal Server Error");
     const totalUsers = countResult[0].total;
 
@@ -152,11 +167,15 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
                   db.query("SELECT * FROM packages", (err, Package_results) => {
                     if (err) return res.status(500).send("Internal Server Error");
 
-                    db.query(paidSql, [currentMonth, currentYear], (err, paidUsers) => {
+                    // Get accurate paid user count from payments table
+                    db.query(paidCountSql, (err, paidCountResult) => {
                       if (err) return res.status(500).send("Internal Server Error");
+                      const paidCount = paidCountResult[0].total;
 
-                      db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidUsers) => {
+                      // Get accurate unpaid user count from payments table
+                      db.query(unpaidCountSql, (err, unpaidCountResult) => {
                         if (err) return res.status(500).send("Internal Server Error");
+                        const unpaidCount = unpaidCountResult[0].total;
 
                       res.render(viewName, {
 
@@ -180,10 +199,8 @@ exports.AllUsers = (req, res, viewName = "AddUsers/User") => {
                           search,
                           package: packageFilter,
                           payments_results: payments,
-                          paidCount: paidUsers.length,
-                          unpaidCount: unpaidUsers.length,
-                          paidUsers,
-                          unpaidUsers,
+                          paidCount: paidCount,
+                          unpaidCount: unpaidCount,
                           expiryStatus,
                           invoice: invoiceFilter
                         });
