@@ -2442,6 +2442,117 @@ body {
         visibility: visible;
       }
 
+      /* ===== SLIDER CAROUSEL STYLES ===== */
+      .slider-slide, .promotion-slide {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: all 0.5s ease-in-out;
+      }
+      
+      .slider-slide.active, .promotion-slide.active {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+      }
+      
+      .slider-slide img, .promotion-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      
+      /* Navigation arrows */
+      .slider-nav, .promotion-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .slider-nav:hover, .promotion-nav:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: translateY(-50%) scale(1.1);
+      }
+      
+      .slider-prev, .promotion-prev {
+        left: 15px;
+      }
+      
+      .slider-next, .promotion-next {
+        right: 15px;
+      }
+      
+      /* Dots indicator */
+      .slider-dots, .promotion-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+      }
+      
+      .slider-dot, .promotion-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+      }
+      
+      .slider-dot.active, .promotion-dot.active {
+        background: white;
+        transform: scale(1.2);
+      }
+      
+      .slider-dot:hover, .promotion-dot:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Auto-play indicator */
+      .slider-container, .promotion-container {
+        position: relative;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .slider-nav, .promotion-nav {
+          width: 35px;
+          height: 35px;
+          font-size: 14px;
+        }
+        
+        .slider-dot, .promotion-dot {
+          width: 10px;
+          height: 10px;
+        }
+        
+        .slider-dots, .promotion-dots {
+          bottom: 15px;
+        }
+      }
+
     </style>
   </head>
 
@@ -2919,15 +3030,37 @@ body {
     <!-- Promotion Image Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 p-0 overflow-hidden rounded"
+        <div class="modal-content border-0 p-0 overflow-hidden rounded position-relative"
           style="max-height: 600px; margin: auto; width: 72%; height: 500px;">
           <!-- Close button with black icon -->
           <button type="button" class="btn-close black position-absolute top-0 end-0 m-2 z-3"
             data-bs-dismiss="modal" aria-label="Close" style="font-size: 2rem;"></button>
-          <% if (typeof promotresult !=='undefined' && promotresult.length> 0 && promotresult[0].img1) { %>
-            <div class="w-100 h-100 position-relative">
-              <img src="Uploads/<%= promotresult[0].img1 %>" alt="Promotion Image"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
+          
+          <% if (typeof promotresult !=='undefined' && promotresult.length> 0) { %>
+            <div class="w-100 h-100 position-relative" id="promotion-container">
+              <% promotresult.forEach((item, index) => { %>
+                <div class="promotion-slide <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>">
+                  <img src="<%= item.img1.startsWith('http') ? item.img1 : '/uploads/' + item.img1 %>" alt="Promotion <%= index + 1 %>"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill;">
+                </div>
+              <% }); %>
+              
+              <% if (promotresult.length > 1) { %>
+                <!-- Navigation arrows for promotion -->
+                <button class="promotion-nav promotion-prev" onclick="changePromotion(-1)">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="promotion-nav promotion-next" onclick="changePromotion(1)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Dots indicator for promotion -->
+                <div class="promotion-dots">
+                  <% promotresult.forEach((item, index) => { %>
+                    <span class="promotion-dot <%= index === 0 ? 'active' : '' %>" onclick="currentPromotion(<%= index + 1 %>)"></span>
+                  <% }); %>
+                </div>
+              <% } %>
             </div>
           <% } else { %>
             <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
@@ -3026,9 +3159,30 @@ body {
     <% if (slider && slider.length > 0) { %>
       <div class="row g-0 justify-content-center">
         <div class="col-12">
-          <div class="container-fluid shadow-sm border-0">
-            <div class="offer-image-wrapper full-width-offer">
-              <img src="<%= slider[0].Slider_1.startsWith('http') ? slider[0].Slider_1 : '/uploads/' + slider[0].Slider_1 %>" alt="Featured Offer" >
+          <div class="container-fluid shadow-sm border-0 position-relative">
+            <div class="offer-image-wrapper full-width-offer position-relative" id="slider-container">
+              <% slider.forEach((item, index) => { %>
+                <div class="slider-slide <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>">
+                  <img src="<%= item.Slider_1.startsWith('http') ? item.Slider_1 : '/uploads/' + item.Slider_1 %>" alt="Featured Offer <%= index + 1 %>">
+                </div>
+              <% }); %>
+              
+              <% if (slider.length > 1) { %>
+                <!-- Navigation arrows -->
+                <button class="slider-nav slider-prev" onclick="changeSlide(-1)">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-nav slider-next" onclick="changeSlide(1)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Dots indicator -->
+                <div class="slider-dots">
+                  <% slider.forEach((item, index) => { %>
+                    <span class="slider-dot <%= index === 0 ? 'active' : '' %>" onclick="currentSlide(<%= index + 1 %>)"></span>
+                  <% }); %>
+                </div>
+              <% } %>
             </div>
             <div class="card-body text-center">
              <h5 class="card-title fw-semibold">Live Alert</h5>
@@ -3755,6 +3909,217 @@ body {
   window.setTheme = setTheme;
   window.toggleTheme = toggleTheme;
   window.getCurrentTheme = getCurrentTheme;
+
+  // ===== SLIDER CAROUSEL FUNCTIONALITY =====
+  let currentSlideIndex = 0;
+  let currentPromotionIndex = 0;
+  let sliderAutoPlay;
+  let promotionAutoPlay;
+
+  // Slider carousel functions
+  function changeSlide(direction) {
+    const slides = document.querySelectorAll('.slider-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    if (slides.length === 0) return;
+    
+    // Remove active class from current slide and dot
+    slides[currentSlideIndex].classList.remove('active');
+    if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.remove('active');
+    
+    // Calculate new index
+    currentSlideIndex += direction;
+    if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
+    if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
+    
+    // Add active class to new slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.add('active');
+    
+    // Reset auto-play timer
+    resetSliderAutoPlay();
+  }
+
+  function currentSlide(n) {
+    const slides = document.querySelectorAll('.slider-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    if (slides.length === 0) return;
+    
+    // Remove active class from current
+    slides[currentSlideIndex].classList.remove('active');
+    if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.remove('active');
+    
+    // Set new index
+    currentSlideIndex = n - 1;
+    
+    // Add active class to new
+    slides[currentSlideIndex].classList.add('active');
+    if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.add('active');
+    
+    // Reset auto-play timer
+    resetSliderAutoPlay();
+  }
+
+  // Promotion carousel functions
+  function changePromotion(direction) {
+    const slides = document.querySelectorAll('.promotion-slide');
+    const dots = document.querySelectorAll('.promotion-dot');
+    
+    if (slides.length === 0) return;
+    
+    // Remove active class from current slide and dot
+    slides[currentPromotionIndex].classList.remove('active');
+    if (dots[currentPromotionIndex]) dots[currentPromotionIndex].classList.remove('active');
+    
+    // Calculate new index
+    currentPromotionIndex += direction;
+    if (currentPromotionIndex >= slides.length) currentPromotionIndex = 0;
+    if (currentPromotionIndex < 0) currentPromotionIndex = slides.length - 1;
+    
+    // Add active class to new slide and dot
+    slides[currentPromotionIndex].classList.add('active');
+    if (dots[currentPromotionIndex]) dots[currentPromotionIndex].classList.add('active');
+    
+    // Reset auto-play timer
+    resetPromotionAutoPlay();
+  }
+
+  function currentPromotion(n) {
+    const slides = document.querySelectorAll('.promotion-slide');
+    const dots = document.querySelectorAll('.promotion-dot');
+    
+    if (slides.length === 0) return;
+    
+    // Remove active class from current
+    slides[currentPromotionIndex].classList.remove('active');
+    if (dots[currentPromotionIndex]) dots[currentPromotionIndex].classList.remove('active');
+    
+    // Set new index
+    currentPromotionIndex = n - 1;
+    
+    // Add active class to new
+    slides[currentPromotionIndex].classList.add('active');
+    if (dots[currentPromotionIndex]) dots[currentPromotionIndex].classList.add('active');
+    
+    // Reset auto-play timer
+    resetPromotionAutoPlay();
+  }
+
+  // Auto-play functionality
+  function startSliderAutoPlay() {
+    const slides = document.querySelectorAll('.slider-slide');
+    console.log('startSliderAutoPlay called, slides found:', slides.length);
+    if (slides.length > 1) {
+      clearInterval(sliderAutoPlay); // Clear any existing interval
+      sliderAutoPlay = setInterval(() => {
+        console.log('Auto-changing slider...');
+        changeSlide(1);
+      }, 3000); // Change slide every 3 seconds (reduced for faster testing)
+      console.log('Slider auto-play started');
+    }
+  }
+
+  function resetSliderAutoPlay() {
+    console.log('Resetting slider auto-play');
+    clearInterval(sliderAutoPlay);
+    startSliderAutoPlay();
+  }
+
+  function startPromotionAutoPlay() {
+    const slides = document.querySelectorAll('.promotion-slide');
+    console.log('startPromotionAutoPlay called, slides found:', slides.length);
+    if (slides.length > 1) {
+      clearInterval(promotionAutoPlay); // Clear any existing interval
+      promotionAutoPlay = setInterval(() => {
+        console.log('Auto-changing promotion...');
+        changePromotion(1);
+      }, 2500); // Change promotion every 2.5 seconds (reduced for faster testing)
+      console.log('Promotion auto-play started');
+    }
+  }
+
+  function resetPromotionAutoPlay() {
+    console.log('Resetting promotion auto-play');
+    clearInterval(promotionAutoPlay);
+    startPromotionAutoPlay();
+  }
+
+  // Initialize carousels when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing carousels...');
+    
+    // Wait a bit for DOM to be fully ready, then start auto-play for slider
+    setTimeout(() => {
+      const sliderSlides = document.querySelectorAll('.slider-slide');
+      console.log('Found slider slides:', sliderSlides.length);
+      if (sliderSlides.length > 1) {
+        console.log('Starting slider auto-play');
+        startSliderAutoPlay();
+      }
+    }, 500);
+    
+    // Start auto-play for promotion when modal is opened
+    const imageModal = document.getElementById('imageModal');
+    if (imageModal) {
+      imageModal.addEventListener('shown.bs.modal', function () {
+        console.log('Promotion modal opened');
+        setTimeout(() => {
+          const promotionSlides = document.querySelectorAll('.promotion-slide');
+          console.log('Found promotion slides:', promotionSlides.length);
+          if (promotionSlides.length > 1) {
+            console.log('Starting promotion auto-play');
+            startPromotionAutoPlay();
+          }
+        }, 100);
+      });
+      
+      imageModal.addEventListener('hidden.bs.modal', function () {
+        console.log('Promotion modal closed');
+        clearInterval(promotionAutoPlay);
+        currentPromotionIndex = 0;
+        // Reset to first promotion when modal closes
+        const slides = document.querySelectorAll('.promotion-slide');
+        const dots = document.querySelectorAll('.promotion-dot');
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        if (slides[0]) slides[0].classList.add('active');
+        if (dots[0]) dots[0].classList.add('active');
+      });
+    }
+
+    // Pause auto-play on hover
+    const sliderContainer = document.getElementById('slider-container');
+    const promotionContainer = document.getElementById('promotion-container');
+    
+    if (sliderContainer) {
+      sliderContainer.addEventListener('mouseenter', () => {
+        console.log('Pausing slider auto-play');
+        clearInterval(sliderAutoPlay);
+      });
+      sliderContainer.addEventListener('mouseleave', () => {
+        console.log('Resuming slider auto-play');
+        startSliderAutoPlay();
+      });
+    }
+    
+    if (promotionContainer) {
+      promotionContainer.addEventListener('mouseenter', () => {
+        console.log('Pausing promotion auto-play');
+        clearInterval(promotionAutoPlay);
+      });
+      promotionContainer.addEventListener('mouseleave', () => {
+        console.log('Resuming promotion auto-play');
+        startPromotionAutoPlay();
+      });
+    }
+  });
+
+  // Make functions globally available
+  window.changeSlide = changeSlide;
+  window.currentSlide = currentSlide;
+  window.changePromotion = changePromotion;
+  window.currentPromotion = currentPromotion;
   
 </script>
 
