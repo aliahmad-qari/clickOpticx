@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const indexController = require("../controllers/indexController");
-const { upload } = require("../config/cloudinary");
+const { upload, uploadLogo } = require("../config/cloudinary");
+const { isAuthenticated, isAdmin } = require("../middlewares/authMiddleware");
 
-router.get("/index", indexController.plan);
+router.get("/index", isAuthenticated, indexController.plan);
 
-// Upload Nav_img picture
-router.post("/index", upload.single("navImg"), indexController.updateNav_img);
+// Upload Nav_img picture (Admin only) - Use high-quality logo upload
+router.post("/index", isAuthenticated, isAdmin, uploadLogo.single("navImg"), indexController.updateNav_img);
 // Upload Nav_img picture
 
 router.post("/process-payment", indexController.updateSubscription);

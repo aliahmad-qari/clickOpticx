@@ -107,6 +107,7 @@ db.query(unpaidSql, [currentMonth, currentYear], (err, unpaidResult) => {
                                       totalUsers: userResult[0].totalUsers,
                                       password_data: password_datass,
                                       bg_result,
+                                      navImg: bg_result[0]?.nav_imgs || null,
                                       totalTeam: teamResult[0].totalTeam,
                                       totalRequests: requestResult[0].totalRequests,
                                       totalComplaints: complaintResult[0].totalComplaints,

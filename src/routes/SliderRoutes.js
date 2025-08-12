@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const SliderController = require("../controllers/SliderController");
-const { upload } = require("../config/cloudinary");
+const { uploadSlider } = require("../config/cloudinary");
 
-// ssss
+// High-quality slider upload routes
 router.get("/Slider_img", SliderController.Slider_imgs);
 
 router.post(
   "/Slider_img",
-  upload.fields([{ name: "Slider_1" }, { name: "Slider_2" }]),
+  uploadSlider.fields([{ name: "Slider_1" }, { name: "Slider_2" }]),
   SliderController.Slider_img
 );
 

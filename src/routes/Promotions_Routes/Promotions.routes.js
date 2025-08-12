@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { upload } = require("../../config/cloudinary");
+const { uploadPromotion } = require("../../config/cloudinary");
 
 const PromotionsAdd = require("../../controllers/Promotions_Controller/Promotions_Controller");
 
 router.get("/Promotions", PromotionsAdd.Promotions);
 
+// Use high-quality upload for promotions
 router.post(
   "/Promotions",
-  upload.single("img1"),
+  uploadPromotion.single("img1"),
   PromotionsAdd.InsertPromotions
 );
 // ⛔ MISSING - Add this!

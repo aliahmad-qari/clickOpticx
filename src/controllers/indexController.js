@@ -173,8 +173,15 @@ exports.updateNav_img = (req, res) => {
   const userId = req.session.userId;
   const userRole = req.session.userRole;
 
-  if (!userId || userRole !== "admin") {
-    return res.redirect("/index");
+  console.log('🚀 Logo upload request received');
+  console.log('📊 User ID:', userId);
+  console.log('👤 User Role:', userRole);
+  console.log('📁 File received:', !!req.file);
+
+  // Note: isAdmin middleware already checks this, but double-check for security
+  if (!userId) {
+    console.log('❌ No user ID in session - redirecting to /');
+    return res.redirect("/");
   }
 
   if (!req.file) {
@@ -184,22 +191,53 @@ exports.updateNav_img = (req, res) => {
 
   const newNavImg = req.file.path;
 
-  const sqlUpdate = "UPDATE nav_table SET nav_imgs = ?";
-  db.query(sqlUpdate, [newNavImg], (err, result) => {
+  const sqlUpdate = "UPDATE nav_table SET nav_imgs = ? WHERE user_id IS NULL OR user_id = ?";
+  
+  function handleRedirect() {
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({ success: true, newNavImg: newNavImg });
+    }
+    req.session.navImg = newNavImg;
+    
+    // Smart redirect based on referrer
+    const referrer = req.get('Referrer') || req.headers.referer;
+    console.log('🔄 Logo upload referrer:', referrer);
+    
+    if (referrer && referrer.includes('/NavbarSetting')) {
+      res.redirect("/NavbarSetting?logo_updated=1");
+    } else if (referrer && referrer.includes('/HeaderFooter')) {
+      res.redirect("/HeaderFooter?tab=navbar&logo_updated=1");
+    } else if (referrer && (referrer.includes('/adminIndex') || referrer.includes('/index'))) {
+      res.redirect("/adminIndex?logo_updated=1");
+    } else {
+      res.redirect("/HeaderFooter?logo_updated=1");
+    }
+  }
+
+  db.query(sqlUpdate, [newNavImg, userId], (err, result) => {
     if (err) {
       console.error("Database query error:", err);
       return res.status(500).send("Internal Server Error");
     }
 
+    console.log('✅ Logo updated in database:', newNavImg);
+    console.log('📊 Database rows affected:', result.affectedRows);
+
     if (result.affectedRows === 0) {
-      console.error("No admin user found to update.");
-      return res.status(404).send("No admin user found.");
+      // If no rows affected, insert a new row
+      const sqlInsert = "INSERT INTO nav_table (nav_imgs, user_id) VALUES (?, NULL)";
+      db.query(sqlInsert, [newNavImg], (insertErr, insertResult) => {
+        if (insertErr) {
+          console.error("Database insert error:", insertErr);
+          return res.status(500).send("Internal Server Error");
+        }
+        console.log('✅ New logo row inserted:', insertResult.insertId);
+        handleRedirect();
+      });
+      return;
     }
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      return res.json({ success: true, newNavImg: newNavImg });
-    }
-    req.session.navImg = newNavImg;
-    res.redirect("/HeaderFooter");
+    
+    handleRedirect();
   });
 };
 

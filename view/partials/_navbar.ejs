@@ -329,13 +329,22 @@
 </style>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
- <img 
-  src="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/blacklogo.png' %>" 
+<% 
+  const timestamp = Date.now(); 
+  const logoUrl = (typeof navImg !== 'undefined' && navImg) ? 
+    (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
+    '/images/blacklogo.png';
+  const darkLogoUrl = (typeof navImg !== 'undefined' && navImg) ? 
+    (navImg.startsWith('http') ? navImg + '?v=' + timestamp : '/uploads/' + navImg + '?v=' + timestamp) : 
+    '/images/ClickTake.png';
+%>
+<img 
+  src="<%= logoUrl %>" 
   alt="logo" 
   id="navImgPreview" 
   class="img-fluid logo-img theme-light-logo"
-  data-theme-logo-light="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/blacklogo.png' %>"
-  data-theme-logo-dark="<%= (typeof navImg !== 'undefined' && navImg) ? (navImg.startsWith('http') ? navImg : '/uploads/' + navImg) : '/images/ClickTake.png' %>"
+  data-theme-logo-light="<%= logoUrl %>"
+  data-theme-logo-dark="<%= darkLogoUrl %>"
 />
 
     <% if (isAdmin) { %>
@@ -915,10 +924,23 @@ class ThemeManager {
         }
       });
     }
+    
+    // Listen for enhanced theme changes from index.ejs
+    window.addEventListener('themeChanged', (e) => {
+      this.currentTheme = e.detail.theme;
+      this.updateThemeButton();
+    });
   }
 
   setTheme(theme, save = true) {
-    // Set theme on document
+    // Use the enhanced setTheme function from index.ejs if available
+    if (window.setTheme && save) {
+      window.setTheme(theme);
+      this.updateThemeButton();
+      return;
+    }
+    
+    // Fallback: Set theme on document
     document.documentElement.setAttribute('data-theme', theme);
     document.body.setAttribute('data-theme', theme);
     
@@ -987,7 +1009,14 @@ const themeManager = new ThemeManager();
 
 // Global function for button onclick
 function toggleTheme() {
-  themeManager.toggleTheme();
+  // Use enhanced toggle function if available
+  if (window.toggleTheme && window.toggleTheme !== toggleTheme) {
+    window.toggleTheme();
+    // Update button after enhanced transition
+    setTimeout(() => themeManager.updateThemeButton(), 100);
+  } else {
+    themeManager.toggleTheme();
+  }
 }
 
 // Make theme manager globally available
@@ -1036,6 +1065,34 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('themeChanged', (e) => {
     updateLogoForTheme(e.detail.theme);
   });
+
+  // Force logo refresh from URL parameters (for logo updates)
+  function forceLogoRefresh() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('logo_updated')) {
+      const navbarLogo = document.getElementById('navImgPreview');
+      if (navbarLogo) {
+        const timestamp = Date.now();
+        const currentSrc = navbarLogo.src;
+        const baseSrc = currentSrc.split('?')[0];
+        navbarLogo.src = baseSrc + '?v=' + timestamp;
+        
+        // Also update theme logo attributes
+        navbarLogo.setAttribute('data-theme-logo-light', baseSrc + '?v=' + timestamp);
+        navbarLogo.setAttribute('data-theme-logo-dark', baseSrc + '?v=' + timestamp);
+        
+        console.log('🔄 Logo force refreshed from URL parameter');
+        
+        // Remove the parameter from URL to prevent repeated refreshes
+        urlParams.delete('logo_updated');
+        const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+        window.history.replaceState({}, document.title, newUrl);
+      }
+    }
+  }
+
+  // Auto-refresh on page load
+  document.addEventListener('DOMContentLoaded', forceLogoRefresh);
 
   // Global Profile Photo Update System
   window.globalUpdateNavbarPhoto = function(imageUrl) {

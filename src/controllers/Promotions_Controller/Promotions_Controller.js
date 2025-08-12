@@ -166,6 +166,12 @@ exports.InsertPromotions = async (req, res) => {
     }
 
     const promot = req.file.path;
+    
+    // Log upload details for quality verification
+    console.log('🖼️ High-Quality Promotion Image Uploaded:');
+    console.log('📁 File Path:', promot);
+    console.log('📊 Original Size:', `${req.file.size} bytes`);
+    console.log('📐 Cloudinary URL:', promot);
     const sql = `
       INSERT INTO promotions (img1, link, valid_till, created_at) 
       VALUES (?, ?, ?, NOW())

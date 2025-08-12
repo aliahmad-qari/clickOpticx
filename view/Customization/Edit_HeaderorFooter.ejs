@@ -849,6 +849,46 @@
             previewText.style.display = 'block';
           }
         });
+
+        // ===== IMMEDIATE NAVBAR LOGO REFRESH SYSTEM =====
+        // Force navbar logo to update immediately after upload
+        function refreshNavbarLogo() {
+          const navbarLogo = document.querySelector('#navImgPreview, .navbar .logo-img');
+          if (navbarLogo) {
+            const timestamp = Date.now();
+            const currentSrc = navbarLogo.src;
+            // Remove existing timestamp and add new one
+            const baseSrc = currentSrc.split('?')[0];
+            navbarLogo.src = baseSrc + '?v=' + timestamp;
+            console.log('🔄 Navbar logo refreshed with timestamp:', timestamp);
+          }
+        }
+
+        // Auto-refresh navbar when page loads (in case of redirect after upload)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('logo_updated') || urlParams.get('tab') === 'navbar') {
+          setTimeout(refreshNavbarLogo, 500);
+        }
+
+        // Intercept form submission to add immediate feedback
+        const logoForm = document.querySelector('form[action="/index"]');
+        if (logoForm) {
+          logoForm.addEventListener('submit', function(e) {
+            // Show loading state
+            const submitBtn = logoForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              const originalText = submitBtn.innerHTML;
+              submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+              submitBtn.disabled = true;
+              
+              // Re-enable after 3 seconds (fallback)
+              setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+              }, 3000);
+            }
+          });
+        }
       </script>
       <script src="vendors\js\vendor.bundle.base.js"></script>
       <!-- endinject -->

@@ -18,6 +18,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(methodOverride("_method"));
 app.use(cookieParser());
 
+
 // Controllers
 const authController = require("./src/routes/authRoutes");
 const indexController = require("./src/routes/indexRoutes");
@@ -72,6 +73,11 @@ app.use(
 );
 
 app.use(flash());
+
+// Add navbar middleware to fetch logo data for all pages (after session setup)
+const { fetchNavbarData } = require("./src/middlewares/navbarMiddleware");
+app.use(fetchNavbarData);
+
 //
 app.use((req, res, next) => {
   res.setHeader(

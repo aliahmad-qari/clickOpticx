@@ -462,7 +462,8 @@ exports.signin = [
 
           // ✅ Email is verified, proceed with login
         req.session.userId = user.id;
-req.session.user = user; // ✅ This is what your other code expects
+        req.session.userRole = user.role; // ✅ Store role explicitly
+        req.session.user = user; // ✅ This is what your other code expects
 
 
           const token = jwt.sign({ id: user.id }, "your_jwt_secret", {

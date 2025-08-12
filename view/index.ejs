@@ -2352,23 +2352,83 @@ body {
         white-space: nowrap;
         border: 0;
       }
-      /* Ultra-smooth theme switch */
-#theme-fader{
-  position:fixed; inset:0; pointer-events:none; z-index:2147483647;
-  opacity:0; transition:opacity .45s ease; background:transparent;
-}
+      /* ===== ULTRA-SMOOTH THEME TRANSITIONS ===== */
+      
+      /* Theme Fader Overlay */
+      #theme-fader {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2147483647;
+        opacity: 0;
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+      }
 
-/* Animate colors only during toggle */
-.theme-transition, .theme-transition *{
-  transition: background-color .45s ease, color .45s ease,
-              border-color .45s ease, box-shadow .45s ease, outline-color .45s ease;
-}
+      /* Base Transitions for All Elements */
+      * {
+        transition-property: background-color, color, border-color, box-shadow, fill, stroke, opacity;
+        transition-duration: 0.5s;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-body, .content-wrapper{ will-change: background-color; }
+      /* Enhanced Theme Transition Class */
+      .theme-transition,
+      .theme-transition *,
+      .theme-transition *::before,
+      .theme-transition *::after {
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
 
-@media (prefers-reduced-motion: reduce){
-  .theme-transition, .theme-transition *{ transition:none !important; }
-}
+      /* Specific Element Transitions */
+      .card, .service-card, .navbar, .sidebar, .content-wrapper,
+      .modal, .dropdown-menu, .btn, .form-control, .table,
+      .badge, .alert, .progress, .list-group-item,
+      .nav-link, .breadcrumb, .pagination .page-link {
+        transition: background-color 0.5s ease, color 0.5s ease,
+                   border-color 0.5s ease, box-shadow 0.5s ease !important;
+      }
+
+      /* Icon Transitions */
+      .mdi, .fa, .fas, .far, .fab, .bi, i[class*="icon"] {
+        transition: color 0.4s ease, fill 0.4s ease, stroke 0.4s ease;
+      }
+
+      /* Text Transitions */
+      h1, h2, h3, h4, h5, h6, p, span, div, a, label, .text {
+        transition: color 0.4s ease;
+      }
+
+      /* Background Transitions */
+      body, .content-wrapper, .main-panel, .container-scroller {
+        will-change: background-color, color;
+        transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                   color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Chart and Graph Transitions */
+      .chart-container, canvas, svg {
+        transition: opacity 0.3s ease, filter 0.5s ease;
+      }
+
+      /* Reduced Motion Support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        .theme-transition,
+        .theme-transition * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+
+      /* Prevent Flash of Unstyled Content */
+      html:not([data-theme]) {
+        visibility: hidden;
+      }
+      
+      html[data-theme] {
+        visibility: visible;
+      }
 
     </style>
   </head>
@@ -3597,28 +3657,93 @@ body, .content-wrapper{ will-change: background-color; }
     <!-- Include Footer -->
     <%- include('./partials/_footer.ejs') %>
     <div id="theme-fader"></div>
+
 <script>
-  function setTheme(theme){
+  // ===== ENHANCED SMOOTH THEME TOGGLE SYSTEM =====
+  
+  function setTheme(theme) {
     const root = document.documentElement;
+    const body = document.body;
     const fader = document.getElementById('theme-fader');
-
-    // fade from current bg
-    fader.style.background = getComputedStyle(document.body).backgroundColor || '#fff';
+    
+    console.log(`🎨 Switching to ${theme} theme...`);
+    
+    // Get current background color for smooth transition
+    const currentBg = getComputedStyle(body).backgroundColor || (theme === 'dark' ? '#ffffff' : '#0F172A');
+    
+    // Set up the fader with current background
+    fader.style.background = currentBg;
     fader.style.opacity = '1';
-
+    
+    // Add transition class to enable smooth animations
     root.classList.add('theme-transition');
-
+    body.classList.add('theme-transition');
+    
+    // Use double requestAnimationFrame for smoother transition
     requestAnimationFrame(() => {
-      localStorage.setItem('clicktake-theme', theme);
-      root.setAttribute('data-theme', theme);
-      document.body.setAttribute('data-theme', theme);
-
       requestAnimationFrame(() => {
-        fader.style.opacity = '0';
-        setTimeout(() => root.classList.remove('theme-transition'), 500);
+        // Save theme preference
+        localStorage.setItem('clicktake-theme', theme);
+        
+        // Apply theme attributes
+        root.setAttribute('data-theme', theme);
+        body.setAttribute('data-theme', theme);
+        
+        // Dispatch custom theme change event for components that need it
+        window.dispatchEvent(new CustomEvent('themeChanged', { 
+          detail: { theme, previousTheme: root.getAttribute('data-theme') } 
+        }));
+        
+        // Start fade out
+        requestAnimationFrame(() => {
+          fader.style.opacity = '0';
+          
+          // Clean up after transition completes
+          setTimeout(() => {
+            root.classList.remove('theme-transition');
+            body.classList.remove('theme-transition');
+            fader.style.background = 'transparent';
+            console.log(`✅ ${theme} theme applied successfully`);
+          }, 600); // Match transition duration
+        });
       });
     });
   }
+  
+  // ===== THEME INITIALIZATION =====
+  
+  // Apply theme immediately on page load to prevent FOUC
+  (function initializeTheme() {
+    const savedTheme = localStorage.getItem('clicktake-theme') || 'light';
+    const root = document.documentElement;
+    const body = document.body;
+    
+    // Apply theme instantly (no transition on page load)
+    root.setAttribute('data-theme', savedTheme);
+    body.setAttribute('data-theme', savedTheme);
+    
+    console.log(`🚀 Initialized with ${savedTheme} theme`);
+  })();
+  
+  // ===== THEME TOGGLE HELPER FUNCTIONS =====
+  
+  // Function to toggle between themes
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  }
+  
+  // Function to get current theme
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+  
+  // Make functions globally available
+  window.setTheme = setTheme;
+  window.toggleTheme = toggleTheme;
+  window.getCurrentTheme = getCurrentTheme;
+  
 </script>
 
   </body>

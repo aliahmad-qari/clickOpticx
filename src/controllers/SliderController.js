@@ -89,6 +89,11 @@ exports.Slider_img = (req, res) => {
   const Slider_1 = req.files?.Slider_1 ? req.files.Slider_1[0].path : null;
 
   if (Slider_1) {
+    // Log high-quality upload details
+    console.log('🖼️ High-Quality Slider Image Uploaded:');
+    console.log('📁 File Path:', Slider_1);
+    console.log('📊 Original Size:', `${req.files.Slider_1[0].size} bytes`);
+    console.log('📐 Cloudinary URL:', Slider_1);
     const SqlInsert = "INSERT INTO slider ( Slider_1) VALUES (?)";
 
     db.query(SqlInsert, [Slider_1], (err, result) => {

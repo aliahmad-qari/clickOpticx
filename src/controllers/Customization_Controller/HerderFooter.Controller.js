@@ -87,6 +87,7 @@ exports.HeaderFooter = (req, res) => {
       message: null,
       isAdmin: "admin",
       isUser: req.session.user && req.session.user.role === "user",
+      navImg: data.bg_result[0]?.nav_imgs || null,
       messages: { success: successMsg.length > 0 ? successMsg[0] : null },
       activeTab
     });
@@ -106,6 +107,7 @@ exports.NavbarSetting = (req, res) => {
       ...data,
       isAdmin: "admin",
       isUser: req.session.user && req.session.user.role === "user",
+      navImg: data.bg_result[0]?.nav_imgs || null,
       activeTab: "navbar"
     });
   });
@@ -120,6 +122,7 @@ exports.FooterSetting = (req, res) => {
       ...data,
       isAdmin: "admin",
       isUser: req.session.user && req.session.user.role === "user",
+      navImg: data.bg_result[0]?.nav_imgs || null,
       activeTab: "footer"
     });
   });
