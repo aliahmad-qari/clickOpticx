@@ -17,7 +17,7 @@ exports.ExpiredUser = (req, res) => {
       MAX(p.created_at) AS latest_payment
     FROM payments p
     JOIN users u ON p.user_id = u.id
-    WHERE (p.invoice_status = 'Unpaid' OR p.package_status = 'Expired') 
+    WHERE (p.invoice_status = 'Unpaid' AND p.package_status = 'Expired') 
       AND u.role = 'user'
     GROUP BY p.user_id
     ORDER BY p.expiry_date DESC
