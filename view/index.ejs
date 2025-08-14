@@ -2744,7 +2744,7 @@ body {
       <div class="rs">
         <h4 style="font-weight: 900;">
           <span class="ag-courses-item_date expiry_date">
-      <%= new Date(subscription.expiry_date).toLocaleDateString("en-GB") %>
+      <%= subscription.expiry_date ? new Date(subscription.expiry_date).toLocaleDateString("en-GB") : "Not Available" %>
        </span>
     <span class="badge bg-success ms-2">Active</span>
         </h4>
@@ -2783,7 +2783,7 @@ body {
       <div class="rs">
         <h4 style="font-weight: 900;">
           <span class="ag-courses-item_date expiry_date">
-      <%= new Date(subscription.expiry_date).toLocaleDateString("en-GB") %>
+      <%= subscription.expiry_date ? new Date(subscription.expiry_date).toLocaleDateString("en-GB") : "Not Available" %>
        </span>
     <span class="badge bg-success ms-2">Active</span>
         </h4>
@@ -2819,7 +2819,7 @@ body {
       <div class="rs">
         <h4 style="font-weight: 900;">
           <span class="ag-courses-item_date expiry_date">
-      <%= new Date(subscription.expiry_date).toLocaleDateString("en-GB") %>
+      <%= subscription.expiry_date ? new Date(subscription.expiry_date).toLocaleDateString("en-GB") : "Not Available" %>
        </span>
     <span class="badge bg-success ms-2">Active</span>
         </h4>
