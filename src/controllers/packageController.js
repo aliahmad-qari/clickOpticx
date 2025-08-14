@@ -327,12 +327,17 @@ exports.updateSubscriptionSuccess = async (req, res) => {
         return res.redirect("/failure");
       }
 
+      // Calculate expiry date (1 month from now)
+      const expiryDate = new Date();
+      expiryDate.setMonth(expiryDate.getMonth() + 1);
+      const formattedExpiry = expiryDate.toISOString().split('T')[0];
+
       const updatePaymentQuery = `
         UPDATE payments 
-        SET active = 'Activated' 
+        SET package_status = 'active', invoice_status = 'Paid', expiry_date = ?
         WHERE transaction_id = ?
       `;
-      db.query(updatePaymentQuery, [BASKET_ID], (err) => {
+      db.query(updatePaymentQuery, [formattedExpiry, BASKET_ID], (err) => {
         if (err) {
           console.error("❌ Error activating package:", err);
           req.flash("error", "Failed to activate package.");
@@ -460,14 +465,19 @@ exports.handlePayFastITN = async (req, res) => {
       }
 
       // Step 4: Update payment to active
+      
+      // Calculate expiry date (1 month from now)
+      const expiryDate = new Date();
+      expiryDate.setMonth(expiryDate.getMonth() + 1);
+      const formattedExpiry = expiryDate.toISOString().split('T')[0];
 
       const updatePaymentQuery = `
   UPDATE payments 
-  SET package_status = 'active' 
+  SET package_status = 'active', invoice_status = 'Paid', expiry_date = ?
   WHERE transaction_id = ?
 `;
 
-      db.query(updatePaymentQuery, [m_payment_id], (err) => {
+      db.query(updatePaymentQuery, [formattedExpiry, m_payment_id], (err) => {
         if (err) {
           console.error("❌ Error activating package in ITN:", err);
           return res.status(200).send("OK");

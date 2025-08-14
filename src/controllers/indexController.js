@@ -87,18 +87,18 @@ exports.plan = (req, res) => {
                     }
 
                     // Format expiry
-                    const formattedDate = subscription?.expiry
-                      ? new Date(subscription.expiry).toLocaleDateString("en-GB")
+                    const formattedDate = subscription?.expiry_date
+                      ? new Date(subscription.expiry_date).toLocaleDateString("en-GB")
                       : "--";
 
                     if (subscription) {
                       user.invoice_status = subscription.invoice_status || "Unpaid";
                       user.package_status = subscription.package_status || "Pending";
-                      user.expiry = subscription.expiry || null;
+                      user.expiry = subscription.expiry_date || null;
 
                       // Check expiry status
                       const today = moment();
-                      const expiryDate = moment(subscription.expiry);
+                      const expiryDate = moment(subscription.expiry_date);
                       const isExpired =
                         user.package_status.toLowerCase() === "active" &&
                         user.invoice_status.toLowerCase() === "paid" &&
@@ -238,6 +238,31 @@ exports.updateNav_img = (req, res) => {
     }
     
     handleRedirect();
+  });
+};
+
+// API route to get user payments for modal
+exports.getUserPayments = (req, res) => {
+  const userId = req.session.userId;
+  
+  if (!userId) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
+
+  const paymentsSql = `
+    SELECT id, package_name, amount, transaction_id, created_at, 
+           invoice_status, package_status, home_collection
+    FROM payments 
+    WHERE user_id = ? 
+    ORDER BY created_at DESC
+  `;
+  
+  db.query(paymentsSql, [userId], (err, payments) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    
+    res.json({ payments });
   });
 };
 

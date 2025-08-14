@@ -6,6 +6,9 @@ const { isAuthenticated, isAdmin } = require("../middlewares/authMiddleware");
 
 router.get("/index", isAuthenticated, indexController.plan);
 
+// API route to get user payments
+router.get("/api/user-payments", isAuthenticated, indexController.getUserPayments);
+
 // Upload Nav_img picture (Admin only) - Use high-quality logo upload
 router.post("/index", isAuthenticated, isAdmin, uploadLogo.single("navImg"), indexController.updateNav_img);
 // Upload Nav_img picture

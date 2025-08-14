@@ -2732,16 +2732,50 @@
                 document.getElementById('customPaySection').style.display = 'block';
             });
 
-            document.getElementById('PayFast_payment_form').addEventListener('submit', (e) => {
-                console.log('Submitting PayFast form with data:', {
-                    currency_code: document.getElementById('currency_code').value,
-                    merchant_id: document.getElementById('merchant_id').value,
-                    token: document.getElementById('token').value,
-                    basket_id: document.getElementById('basket_id').value,
-                    txnAmt: document.getElementById('txnAmtInput').value,
-                    order_date: document.getElementById('order_date').value,
-                    signature: document.getElementById('signature').value,
-                });
+            document.getElementById('PayFast_payment_form').addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent direct submission to PayFast
+                
+                console.log('Creating payment record first, then submitting to PayFast...');
+                
+                try {
+                    // First create payment record in database
+                    const formData = new FormData();
+                    formData.append('user_id', '<%= user.id %>');
+                    formData.append('username', '<%= user.Username %>');
+                    formData.append('package_name', document.getElementById('package_name').value);
+                    formData.append('amount', document.getElementById('txnAmtInput').value);
+                    formData.append('transaction_id', document.getElementById('basket_id').value);
+                    formData.append('active', 'Pending');
+                    
+                    const response = await fetch('/subscription', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (response.redirected) {
+                        // Payment record created successfully, now submit to PayFast
+                        console.log('Payment record created, submitting to PayFast...');
+                        
+                        console.log('Submitting PayFast form with data:', {
+                            currency_code: document.getElementById('currency_code').value,
+                            merchant_id: document.getElementById('merchant_id').value,
+                            token: document.getElementById('token').value,
+                            basket_id: document.getElementById('basket_id').value,
+                            txnAmt: document.getElementById('txnAmtInput').value,
+                            order_date: document.getElementById('order_date').value,
+                            signature: document.getElementById('signature').value,
+                        });
+                        
+                        // Now submit to PayFast
+                        e.target.submit();
+                    } else {
+                        console.error('Failed to create payment record');
+                        alert('Failed to create payment record. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error creating payment record:', error);
+                    alert('An error occurred while processing your payment. Please try again.');
+                }
             });
         });
 

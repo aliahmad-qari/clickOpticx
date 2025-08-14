@@ -210,10 +210,38 @@ exports.renderPaymentHistoryPage = (req, res) => {
 
 
 exports.getManualPackageRequests = (req, res) => {
-  const sql = `SELECT * FROM packages WHERE request_type = 'manual'`;
+  const sql = `
+    SELECT 
+      p.id,
+      p.package_name,
+      p.username,
+      p.transaction_id,
+      p.amount,
+      p.created_at,
+      p.expiry_date,
+      p.custom_amount,
+      p.discount,
+      p.remaining_amount,
+      p.package_status,
+      p.invoice_status,
+      p.home_collection,
+      p.collection_address,
+      p.contact_number,
+      p.preferred_time,
+      p.special_instructions,
+      u.Username as user_name,
+      u.Email as user_email
+    FROM payments p
+    LEFT JOIN users u ON p.user_id = u.id
+    WHERE p.home_collection = 1 OR p.special_instructions IS NOT NULL
+    ORDER BY p.created_at DESC
+  `;
 
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error retrieving manual requests' });
+    if (err) {
+      console.error('Error retrieving manual requests:', err);
+      return res.status(500).json({ message: 'Error retrieving manual requests' });
+    }
     res.json(results);
   });
 };

@@ -137,6 +137,23 @@ app.use("/", RecoveryManagementRoutes);
 
 
 // Start the server
-server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on:`);
+  console.log(`Local:   http://localhost:${port}`);
+  console.log(`Network: http://192.168.18.113:${port}`);
 });
+
+
+function getLocalIp() {
+  const os = require("os");
+  const interfaces = os.networkInterfaces();
+  for (let name in interfaces) {
+    for (let iface of interfaces[name]) {
+      if (iface.family === "IPv4" && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return "127.0.0.1";
+}
+
