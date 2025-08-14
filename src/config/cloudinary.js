@@ -99,3 +99,5 @@ module.exports = {
   uploadLogo,       // Optimized for logos
   uploadSlider      // High-quality for sliders
 };
+
+
