@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const NotificationService = require("../services/notificationService");
 
 exports.loginPage = (req, res) => {
-  const query = 'SELECT nav_imgs FROM your_table_name LIMIT 1';
+  const query = 'SELECT nav_imgs FROM nav_table LIMIT 1';
 
   db.query(query, (err, bg_result) => {
     if (err) {

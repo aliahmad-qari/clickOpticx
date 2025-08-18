@@ -8,7 +8,7 @@ const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Set up middleware
 app.use(bodyParser.json());
@@ -137,10 +137,10 @@ app.use("/", RecoveryManagementRoutes);
 
 
 // Start the server
-server.listen(port, '0.0.0.0', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on:`);
-  console.log(`Local:   http://localhost:${port}`);
-  console.log(`Network: http://192.168.18.113:${port}`);
+  console.log(`Local:   http://localhost:${PORT}`);
+  console.log(`Network: http://192.168.18.113:${PORT}`);
 });
 
 
