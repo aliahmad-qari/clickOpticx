@@ -78,17 +78,18 @@ exports.updateSubscription = (req, res) => {
       const coinBalance = parseFloat(result[0].coin_balance) || 0;
       proceedWithPayment(coinBalance);
     } else {
-      const insertDailyTask = `INSERT INTO daily_tasks (user_id, coin_balance) VALUES (?, 0)`;
-      db.query(insertDailyTask, [user_id], (err) => {
-        if (err && err.code !== "ER_DUP_ENTRY") {
-          return res.status(500).json({
-            success: false,
-            message: "Error initializing daily task record",
-          });
-        }
-        proceedWithPayment(0);
-      });
-    }
+      const insertDailyTask = `
+  INSERT INTO daily_tasks (user_id, user_name, coin_balance, created_at) 
+  VALUES (?, ?, 0, NOW())
+`;
+      db.query(insertDailyTask, [user_id, username], (err) => {
+  if (err && err.code !== "ER_DUP_ENTRY") {
+    console.error("❌ Error inserting daily_task:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error initializing daily task record",
+    });
+  }
   });
 
   function proceedWithPayment(coinBalance) {
@@ -775,4 +776,5 @@ exports.adminDiscount = (req, res) => {
       res.redirect("/package");
     });
   }
-};
+}
+  
