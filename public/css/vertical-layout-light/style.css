@@ -32798,9 +32798,7 @@ div.tagsinput span.tag a {
   -webkit-transition-property: color;
 }
 
-.sidebar .nav .nav-item .nav-link i {
-  color: inherit;
-}
+
 
 .sidebar .nav .nav-item .nav-link i.menu-icon {
   font-size: 1rem;
@@ -32979,9 +32977,7 @@ div.tagsinput span.tag a {
   color: #FFFFFF;
 } */
 
-.sidebar-dark .sidebar .nav .nav-item .nav-link i {
-  color: inherit;
-}
+
 
 .sidebar-dark .sidebar .nav .nav-item .nav-link i.menu-icon {
   color: #FFFFFF;
