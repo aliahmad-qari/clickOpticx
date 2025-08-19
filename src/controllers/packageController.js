@@ -15,8 +15,210 @@ function generateRandomString(length = 4) {
   return randomString;
 }
 
-exports.updateSubscription = (req, res) => {
+// exports.updateSubscription = (req, res) => {
   
+//   const {
+//     user_id,
+//     username,
+//     transaction_id,
+//     amount,
+//     package_name,
+//     discount,
+//     custom_amount,
+//     home_collection,
+//     home_collection_final,
+//     collection_address,
+//     contact_number,
+//     preferred_time,
+//     special_instructions,
+//   } = req.body;
+
+//   // Handle uploaded screenshot file - use Cloudinary URL
+//   const screenshotPath = req.file ? req.file.path : null;
+
+//   // For home collection, transaction_id is not required  
+//   // Check both the checkbox and the final hidden input
+//   const isHomeCollection = home_collection === 'yes' || home_collection === true || home_collection === '1' || home_collection === 1 ||
+//                            home_collection_final === 'yes' || home_collection_final === true || home_collection_final === '1' || home_collection_final === 1;
+  
+  
+  
+//   if (!user_id || !username || !amount || !package_name) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "Missing required fields" });
+//   }
+
+//   if (!isHomeCollection && !transaction_id) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "Transaction ID is required for non-home collection payments" });
+//   }
+
+//   if (isHomeCollection && (!collection_address || !contact_number)) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "Address and contact number are required for home collection" });
+//   }
+
+//   const packagePrice = parseFloat(amount) || 0;
+//   const customAmountFloat = parseFloat(custom_amount) || 0;
+
+//   const getCoinBalanceQuery = `SELECT coin_balance FROM daily_tasks WHERE user_id = ?`;
+
+//   db.query(getCoinBalanceQuery, [user_id], (err, result) => {
+//     if (err) {
+//       console.error("❌ Error fetching coin_balance:", err);
+//       return res
+//         .status(500)
+//         .json({ success: false, message: "Database error" });
+//     }
+//   })
+
+//     if (result.length > 0) {
+//       const coinBalance = parseFloat(result[0].coin_balance) || 0;
+//       proceedWithPayment(coinBalance);
+//     } else {
+//       const insertDailyTask = `
+//   INSERT INTO daily_tasks (user_id, user_name, coin_balance, created_at) 
+//   VALUES (?, ?, 0, NOW())
+// `;
+//       db.query(insertDailyTask, [user_id, username], (err) => {
+//   if (err && err.code !== "ER_DUP_ENTRY") {
+//     console.error("❌ Error inserting daily_task:", err);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error initializing daily task record",
+//     });
+//   }
+//   });
+
+//   function proceedWithPayment(coinBalance) {
+//     const remainingAmount = packagePrice - customAmountFloat - coinBalance;
+
+//     const insertQuery = `
+//       INSERT INTO payments (
+//         user_id,
+//         username,
+//         transaction_id,
+//         amount,
+//         package_name,
+//         discount,
+//         custom_amount,
+//         remaining_amount,
+//         created_at,
+//         package_status,
+//         invoice_status,
+//         home_collection,
+//         collection_address,
+//         contact_number,
+//         preferred_time,
+//         special_instructions,
+//         payment_screenshot
+//       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 'active', 'Unpaid', ?, ?, ?, ?, ?, ?)
+//     `;
+
+//     db.query(
+//       insertQuery,
+//       [
+//         user_id,
+//         username,
+//         isHomeCollection ? `HOME_COLLECTION_${Date.now()}` : transaction_id,
+//         packagePrice,
+//         package_name,
+//         discount,
+//         customAmountFloat,
+//         remainingAmount,
+//         isHomeCollection ? 1 : 0,
+//         collection_address || null,
+//         contact_number || null,
+//         preferred_time || null,
+//         special_instructions || null,
+//         screenshotPath || null,
+//       ],
+//       (err) => {
+//         if (err) {
+//           console.error("❌ Error inserting into payments:", err);
+//           return res
+//             .status(500)
+//             .json({ success: false, message: "Insert error" });
+//         }
+
+//         db.query(
+//           `UPDATE daily_tasks SET coin_balance = 0 WHERE user_id = ?`,
+//           [user_id],
+//           (err) => {
+//             if (err) {
+//               console.error("❌ Error resetting coin_balance:", err);
+//               return res
+//                 .status(500)
+//                 .json({ success: false, message: "Coin reset error" });
+//             }
+
+//             db.query(
+//               `SELECT Email FROM users WHERE id = ?`,
+//               [user_id],
+//               async (err, userResult) => {
+//                 if (err) {
+//                   console.error("❌ Error fetching user email:", err);
+//                   return res
+//                     .status(500)
+//                     .json({ success: false, message: "User fetch error" });
+//                 }
+
+//                 try {
+//                   await NotificationService.handlePackageRequest({
+//                     username,
+//                     email: userResult.length > 0 ? userResult[0].Email : null,
+//                     package_name,
+//                     amount: packagePrice,
+//                     home_collection: isHomeCollection,
+//                     collection_address,
+//                     contact_number,
+//                     preferred_time,
+//                     special_instructions,
+//                   });
+
+//                   if (isHomeCollection) {
+//                     req.flash(
+//                       "success",
+//                       "Home collection request submitted successfully. Our agent will contact you soon."
+//                     );
+//                   } else {
+//                     req.flash(
+//                       "success",
+//                       "Your package request submitted successfully."
+//                     );
+//                   }
+//                   res.redirect("/package");
+//                 } catch (notificationError) {
+//                   console.error(
+//                     "❌ Error sending notifications:",
+//                     notificationError
+//                   );
+//                   if (isHomeCollection) {
+//                     req.flash(
+//                       "success",
+//                       "Home collection request submitted successfully. Our agent will contact you soon."
+//                     );
+//                   } else {
+//                     req.flash(
+//                       "success",
+//                       "Your package request submitted successfully."
+//                     );
+//                   }
+//                   res.redirect("/package");
+//                 }
+//               }
+//             );
+//           }
+//         );
+//       }
+//     );
+//   }
+// }
+// }
+exports.updateSubscription = (req, res) => {
   const {
     user_id,
     username,
@@ -33,32 +235,21 @@ exports.updateSubscription = (req, res) => {
     special_instructions,
   } = req.body;
 
-  // Handle uploaded screenshot file - use Cloudinary URL
   const screenshotPath = req.file ? req.file.path : null;
 
-  // For home collection, transaction_id is not required  
-  // Check both the checkbox and the final hidden input
   const isHomeCollection = home_collection === 'yes' || home_collection === true || home_collection === '1' || home_collection === 1 ||
-                           home_collection_final === 'yes' || home_collection_final === true || home_collection_final === '1' || home_collection_final === 1;
-  
-  
-  
+                         home_collection_final === 'yes' || home_collection_final === true || home_collection_final === '1' || home_collection_final === 1;
+
   if (!user_id || !username || !amount || !package_name) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Missing required fields" });
+    return res.status(400).json({ success: false, message: "Missing required fields" });
   }
 
   if (!isHomeCollection && !transaction_id) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Transaction ID is required for non-home collection payments" });
+    return res.status(400).json({ success: false, message: "Transaction ID is required for non-home collection payments" });
   }
 
   if (isHomeCollection && (!collection_address || !contact_number)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Address and contact number are required for home collection" });
+    return res.status(400).json({ success: false, message: "Address and contact number are required for home collection" });
   }
 
   const packagePrice = parseFloat(amount) || 0;
@@ -69,34 +260,71 @@ exports.updateSubscription = (req, res) => {
   db.query(getCoinBalanceQuery, [user_id], (err, result) => {
     if (err) {
       console.error("❌ Error fetching coin_balance:", err);
-      return res
-        .status(500)
-        .json({ success: false, message: "Database error" });
+      return res.status(500).json({ success: false, message: "Database error" });
     }
 
     if (result.length > 0) {
       const coinBalance = parseFloat(result[0].coin_balance) || 0;
       proceedWithPayment(coinBalance);
     } else {
+      // Solution 1: Use NULL to trigger auto-increment
       const insertDailyTask = `
-  INSERT INTO daily_tasks (user_id, user_name, coin_balance, created_at) 
-  VALUES (?, ?, 0, NOW())
-`;
+        INSERT INTO daily_tasks (user_id, user_name, coin_balance, created_at) 
+        VALUES (?, ?, 0, NOW())
+      `;
+      
+      // Solution 2: Or generate a unique ID yourself
+      // const newId = Date.now(); // or uuid.v4()
+      // const insertDailyTask = `
+      //   INSERT INTO daily_tasks (id, user_id, user_name, coin_balance, created_at) 
+      //   VALUES (?, ?, ?, 0, NOW())
+      // `;
+
       db.query(insertDailyTask, [user_id, username], (err) => {
-  if (err && err.code !== "ER_DUP_ENTRY") {
+        if (err) {
+          // If auto-increment isn't setup, alter the table first
+          if (err.code === 'ER_NO_DEFAULT_FOR_FIELD') {
+            db.query(`
+              ALTER TABLE daily_tasks 
+              MODIFY COLUMN id INT AUTO_INCREMENT PRIMARY KEY
+            `, (alterErr) => {
+              if (alterErr) {
+                console.error("❌ Error altering table:", alterErr);
+                return res.status(500).json({
+                  success: false,
+                  message: "Database configuration error"
+                });
+              }
+              // Retry the insert after altering table
+              db.query(insertDailyTask, [user_id, username], (err) => {
+                if (err) return handleInsertError(err);
+                proceedWithPayment(0);
+              });
+            });
+          } else if (err.code !== "ER_DUP_ENTRY") {
+            handleInsertError(err);
+          }
+        } else {
+          proceedWithPayment(0);
+        }
+      });
+    }
+  });
+
+  function handleInsertError(err) {
     console.error("❌ Error inserting daily_task:", err);
     return res.status(500).json({
       success: false,
-      message: "Error initializing daily task record",
+      message: "Error initializing daily task record"
     });
   }
-  });
 
   function proceedWithPayment(coinBalance) {
     const remainingAmount = packagePrice - customAmountFloat - coinBalance;
 
     const insertQuery = `
       INSERT INTO payments (
+      
         user_id,
         username,
         transaction_id,
@@ -138,9 +366,7 @@ exports.updateSubscription = (req, res) => {
       (err) => {
         if (err) {
           console.error("❌ Error inserting into payments:", err);
-          return res
-            .status(500)
-            .json({ success: false, message: "Insert error" });
+          return res.status(500).json({ success: false, message: "Insert error" });
         }
 
         db.query(
@@ -149,9 +375,7 @@ exports.updateSubscription = (req, res) => {
           (err) => {
             if (err) {
               console.error("❌ Error resetting coin_balance:", err);
-              return res
-                .status(500)
-                .json({ success: false, message: "Coin reset error" });
+              return res.status(500).json({ success: false, message: "Coin reset error" });
             }
 
             db.query(
@@ -160,9 +384,7 @@ exports.updateSubscription = (req, res) => {
               async (err, userResult) => {
                 if (err) {
                   console.error("❌ Error fetching user email:", err);
-                  return res
-                    .status(500)
-                    .json({ success: false, message: "User fetch error" });
+                  return res.status(500).json({ success: false, message: "User fetch error" });
                 }
 
                 try {
@@ -191,10 +413,7 @@ exports.updateSubscription = (req, res) => {
                   }
                   res.redirect("/package");
                 } catch (notificationError) {
-                  console.error(
-                    "❌ Error sending notifications:",
-                    notificationError
-                  );
+                  console.error("❌ Error sending notifications:", notificationError);
                   if (isHomeCollection) {
                     req.flash(
                       "success",
@@ -216,7 +435,6 @@ exports.updateSubscription = (req, res) => {
     );
   }
 };
-
 exports.getPayFastToken = async (req, res) => {
   const { packagePrice } = req.body;
 
