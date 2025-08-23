@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin Profile</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors\ti-icons\css\themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <!-- Material Design Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Global Theme Variables */
+    :root {
+      /* Brand Colors - Same for both themes */
+      --primary-color: #4F46E5;
+      --primary-dark: #3730A3;
+      --primary-light: #8B5CF6;
+      --secondary-color: #10B981;
+      --secondary-dark: #059669;
+      --accent-color: #F59E0B;
+      --accent-dark: #D97706;
+      --danger-color: #EF4444;
+      --success-color: #22C55E;
+      --warning-color: #F59E0B;
+      --info-color: #3B82F6;
+
+      /* Light Theme Colors */
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8FAFC;
+      --bg-tertiary: #F1F5F9;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-tertiary: #64748B;
+      --border-primary: #E2E8F0;
+      --border-secondary: #CBD5E1;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.15);
+      --shadow-heavy: rgba(0, 0, 0, 0.25);
+      --card-bg: #FFFFFF;
+      --navbar-bg: #FFFFFF;
+      --sidebar-bg: #FFFFFF;
+    }
+
+    /* Professional Dark Theme Colors */
+    [data-theme="dark"] {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #334155;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --border-primary: #475569;
+      --border-secondary: #64748B;
+      --shadow-light: rgba(0, 0, 0, 0.4);
+      --shadow-medium: rgba(0, 0, 0, 0.6);
+      --shadow-heavy: rgba(0, 0, 0, 0.8);
+      --card-bg: #1E293B;
+      --navbar-bg: #0F172A;
+      --sidebar-bg: #1E293B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      background: var(--bg-secondary) !important;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-primary) !important;
+      line-height: 1.6;
+    }
+
+    .container-scroller {
+      background: var(--bg-secondary) !important;
+    }
+
+    .page-body-wrapper {
+      background: var(--bg-secondary) !important;
+    }
+
+    .main-panel {
+      background: var(--bg-secondary) !important;
+    }
+
+    .user-profile {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats Cards */
+    .stats-card {
+      background: var(--card-bg) !important;
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 8px 30px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .stats-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--shadow-medium);
+    }
+
+    .stats-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+    }
+
+    .stats-icon.security {
+      background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    .stats-icon.equipment {
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    }
+
+    .stats-icon.status {
+      background: linear-gradient(135deg, var(--info-color), #1D4ED8);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .stats-info h3 {
+      color: var(--text-primary) !important;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .stats-info p {
+      color: var(--text-secondary) !important;
+      font-size: 0.9rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* Profile Main Card */
+    .profile-main-card {
+      background: var(--card-bg) !important;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
+      margin-bottom: 25px;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-header {
+      position: relative;
+      height: 120px;
+    }
+
+    .profile-bg {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      height: 100%;
+      position: relative;
+    }
+
+    .profile-avatar-section {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid white;
+      object-fit: cover;
+      box-shadow: 0 8px 30px var(--shadow-medium);
+    }
+
+    .profile-status {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 16px;
+      height: 16px;
+      background: var(--success-color);
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+
+    .profile-body {
+      padding: 50px 25px 25px;
+      text-align: center;
+    }
+
+    .profile-name {
+      color: var(--text-primary) !important;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 5px;
+    }
+
+    .profile-role {
+      color: var(--text-secondary) !important;
+      font-size: 0.9rem;
+      margin: 0 0 20px;
+      font-weight: 500;
+    }
+
+    .profile-stats-mini {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      padding: 15px 0;
+      border-top: 1px solid var(--border-primary);
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .stat-mini {
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      color: var(--text-primary) !important;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .stat-label {
+      color: var(--text-secondary) !important;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .btn-edit-profile {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-edit-profile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(79, 70, 229, 0.4);
+      color: white;
+    }
+
+    /* Quick Actions Card */
+    .quick-actions-card {
+      background: var(--card-bg) !important;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 30px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    .quick-actions-card .card-title {
+      color: var(--text-primary) !important;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .quick-action-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quick-action-item:last-child {
+      border-bottom: none;
+    }
+
+    .quick-action-item:hover {
+      background: var(--bg-tertiary);
+      padding-left: 10px;
+      border-radius: 10px;
+    }
+
+    .quick-action-item i:first-child {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      width: 30px;
+    }
+
+    .quick-action-item span {
+      flex: 1;
+      color: var(--text-primary) !important;
+      font-weight: 500;
+      margin-left: 15px;
+    }
+
+    .quick-action-item i:last-child {
+      color: var(--text-tertiary);
+      font-size: 1rem;
+    }
+
+    /* Professional Tabs */
+    .professional-tabs {
+      background: var(--card-bg) !important;
+      border-radius: 20px;
+      padding: 8px;
+      box-shadow: 0 5px 20px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
+      margin-bottom: 25px;
+    }
+
+    .nav-pills-custom {
+      display: flex;
+      gap: 5px;
+    }
+
+    .nav-pills-custom .nav-link {
+      border-radius: 15px;
+      padding: 15px 25px;
+      font-weight: 600;
+      color: var(--text-secondary) !important;
+      transition: all 0.3s ease;
+      border: none;
+      background: transparent;
+      font-size: 0.9rem;
+    }
+
+    .nav-pills-custom .nav-link:hover {
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary-color) !important;
+      transform: translateY(-2px);
+    }
+
+    .nav-pills-custom .nav-link.active {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white !important;
+      box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Content Cards */
+    .content-card {
+      background: var(--card-bg) !important;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px var(--shadow-light);
+      border: 1px solid var(--border-primary) !important;
+      overflow: hidden;
+    }
+
+    .content-card .card-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 25px 30px;
+      border: none;
+    }
+
+    .content-card .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .content-card .card-body {
+      padding: 30px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--text-primary) !important;
+      min-width: 150px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .detail-label i {
+      color: var(--primary-color);
+      margin-right: 10px;
+      font-size: 1.1rem;
+      width: 20px;
+    }
+
+    .detail-value {
+      background: var(--bg-tertiary) !important;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 500;
+      flex: 1;
+      margin-left: 15px;
+      color: var(--text-primary) !important;
+      font-size: 0.9rem;
+      border: 1px solid var(--border-primary) !important;
+    }
+
+    /* Modal Styling */
+    .modal-custom {
+      background: var(--card-bg) !important;
+      border-radius: 20px;
+      border: 1px solid var(--border-primary) !important;
+      box-shadow: 0 20px 60px var(--shadow-heavy);
+    }
+
+    .modal-custom .modal-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      border-radius: 20px 20px 0 0;
+      padding: 25px 30px;
+      border-bottom: none;
+    }
+
+    .modal-custom .modal-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .modal-custom .modal-body {
+      padding: 30px;
+      background: var(--card-bg) !important;
+    }
+
+    .profile-img {
+      width: 77px;
+      height: 77px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border-primary);
+    }
+
+    .custom-file-btn {
+      cursor: pointer;
+      border-radius: 10px !important;
+      padding: 8px 16px;
+      font-weight: 600;
+    }
+
+    /* Form Elements */
+    .form-control {
+      background: var(--bg-tertiary) !important;
+      border: 2px solid var(--border-primary) !important;
+      border-radius: 12px;
+      padding: 15px 20px;
+      color: var(--text-primary) !important;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: var(--card-bg) !important;
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      color: var(--text-primary) !important;
+    }
+
+    .form-label {
+      color: var(--text-primary) !important;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    /* Dark Theme Styles */
+    [data-theme="dark"] .stats-card {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .profile-main-card {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .quick-actions-card {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .professional-tabs {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .content-card {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-custom {
+      background: var(--card-bg) !important;
+      border-color: var(--border-primary) !important;
+    }
+
+    [data-theme="dark"] .modal-custom .modal-body {
+      background: var(--card-bg) !important;
+    }
+
+    [data-theme="dark"] .form-control {
+      background: var(--bg-tertiary) !important;
+      border-color: var(--border-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .form-control:focus {
+      background: var(--bg-primary) !important;
+      border-color: var(--primary-light) !important;
+      color: var(--text-primary) !important;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    /* Success Message */
+    .alert {
+      border-radius: 15px;
+      padding: 20px;
+      border: none;
+      box-shadow: 0 5px 15px var(--shadow-light);
+      margin-bottom: 25px;
+    }
+
+    .alert-success {
+      background: linear-gradient(135deg, var(--success-color), var(--secondary-dark));
+      color: white;
+    }
+
+    .alert-danger {
+      background: linear-gradient(135deg, var(--danger-color), #dc2626);
+      color: white;
+    }
+
+    /* Enhanced Responsive Design */
+    @media (max-width: 768px) {
+      .container-fluid {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+      }
+
+      /* Stats Cards Mobile */
+      .stats-card {
+        padding: 15px;
+        margin-bottom: 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .stats-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        margin: 0 auto;
+      }
+
+      .stats-info h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .stats-info p {
+        font-size: 0.8rem;
+      }
+
+      /* Profile Card Mobile */
+      .profile-main-card {
+        margin-bottom: 20px;
+      }
+
+      .profile-header {
+        height: 100px;
+      }
+
+      .profile-avatar {
+        width: 70px;
+        height: 70px;
+      }
+
+      .profile-avatar-section {
+        bottom: -35px;
+      }
+
+      .profile-body {
+        padding: 45px 15px 20px;
+      }
+
+      .profile-name {
+        font-size: 1.2rem;
+      }
+
+      .profile-role {
+        font-size: 0.85rem;
+      }
+
+      .profile-stats-mini {
+        margin: 15px 0;
+        padding: 12px 0;
+      }
+
+      .stat-value {
+        font-size: 0.9rem;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+      }
+
+      .btn-edit-profile {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+      }
+
+      /* Quick Actions Mobile */
+      .quick-actions-card {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .quick-actions-card .card-title {
+        font-size: 1rem;
+        margin-bottom: 15px;
+      }
+
+      .quick-action-item {
+        padding: 12px 0;
+      }
+
+      .quick-action-item:hover {
+        padding-left: 5px;
+      }
+
+      .quick-action-item span {
+        font-size: 0.9rem;
+      }
+
+      /* Navigation Tabs Mobile */
+      .professional-tabs {
+        padding: 5px;
+        margin-bottom: 20px;
+      }
+
+      .nav-pills-custom {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 3px;
+        padding-bottom: 5px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .nav-pills-custom::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-pills-custom .nav-link {
+        padding: 12px 15px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        min-width: auto;
+        flex-shrink: 0;
+      }
+
+      /* Content Cards Mobile */
+      .content-card .card-header {
+        padding: 20px 15px;
+      }
+
+      .content-card .card-title {
+        font-size: 1.1rem;
+      }
+
+      .content-card .card-body {
+        padding: 15px;
+      }
+
+      .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 15px 0;
+      }
+
+      .detail-label {
+        min-width: auto;
+        font-size: 0.85rem;
+      }
+
+      .detail-value {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 0.85rem;
+      }
+
+      /* Modal Mobile */
+      .modal-dialog {
+        margin: 10px;
+        max-width: calc(100vw - 20px);
+      }
+
+      .modal-custom .modal-header {
+        padding: 20px 15px;
+      }
+
+      .modal-custom .modal-title {
+        font-size: 1.1rem;
+      }
+
+      .modal-custom .modal-body {
+        padding: 20px 15px;
+      }
+
+      .profile-img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .custom-file-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+      }
+
+      .form-control {
+        padding: 12px 15px;
+        font-size: 14px;
+      }
+
+      .form-label {
+        font-size: 13px;
+      }
+
+      /* Button adjustments */
+      .btn {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+      }
+
+      /* Alert Messages Mobile */
+      .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      #pusher-message-box {
+        font-size: 14px !important;
+        height: 60px !important;
+        padding: 0 15px;
+      }
+    }
+
+    /* Extra Small Devices */
+    @media (max-width: 576px) {
+      .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+
+      /* Further reduce spacing */
+      .stats-card {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .stats-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .stats-info h3 {
+        font-size: 0.9rem;
+      }
+
+      .stats-info p {
+        font-size: 0.75rem;
+      }
+
+      .profile-body {
+        padding: 40px 10px 15px;
+      }
+
+      .profile-name {
+        font-size: 1.1rem;
+      }
+
+      .quick-actions-card,
+      .content-card .card-body {
+        padding: 12px;
+      }
+
+      .nav-pills-custom .nav-link {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+      }
+
+      .detail-row {
+        padding: 12px 0;
+      }
+
+      .detail-label {
+        font-size: 0.8rem;
+      }
+
+      .detail-value {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+
+      .modal-custom .modal-header,
+      .modal-custom .modal-body {
+        padding: 15px 10px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+
+      .form-control {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+    }
+
+    /* Very Small Devices */
+    @media (max-width: 480px) {
+      .user-profile {
+        margin: 0;
+      }
+
+      .row {
+        margin-left: -5px;
+        margin-right: -5px;
+      }
+
+      .col-lg-3, .col-lg-4, .col-lg-8, .col-lg-9,
+      .col-xl-3, .col-xl-9, .col-md-6 {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .stats-card {
+        padding: 10px;
+        border-radius: 15px;
+        gap: 10px;
+      }
+
+      .stats-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        border-radius: 12px;
+      }
+
+      .stats-info h3 {
+        font-size: 0.85rem;
+      }
+
+      .stats-info p {
+        font-size: 0.7rem;
+      }
+
+      .profile-main-card,
+      .quick-actions-card,
+      .content-card,
+      .professional-tabs {
+        border-radius: 15px;
+      }
+
+      .profile-header {
+        height: 80px;
+      }
+
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      .profile-avatar-section {
+        bottom: -30px;
+      }
+
+      .profile-body {
+        padding: 35px 8px 12px;
+      }
+
+      .profile-name {
+        font-size: 1rem;
+      }
+
+      .profile-role {
+        font-size: 0.8rem;
+      }
+
+      .nav-pills-custom .nav-link {
+        padding: 8px 10px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+      }
+
+      .btn-edit-profile {
+        padding: 8px 15px;
+        border-radius: 25px;
+        font-size: 0.8rem;
+      }
+
+      .quick-actions-card .card-title {
+        font-size: 0.9rem;
+      }
+
+      .quick-action-item {
+        padding: 10px 0;
+      }
+
+      .quick-action-item i:first-child {
+        font-size: 1rem;
+        width: 25px;
+      }
+
+      .quick-action-item span {
+        font-size: 0.85rem;
+        margin-left: 10px;
+      }
+
+      .content-card .card-header {
+        padding: 15px 10px;
+      }
+
+      .content-card .card-title {
+        font-size: 1rem;
+      }
+
+      .content-card .card-body {
+        padding: 10px;
+      }
+
+      .detail-row {
+        padding: 10px 0;
+      }
+
+      .detail-label {
+        font-size: 0.75rem;
+      }
+
+      .detail-label i {
+        font-size: 0.9rem;
+        margin-right: 8px;
+        width: 18px;
+      }
+
+      .detail-value {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+        border-radius: 8px;
+      }
+
+      #pusher-message-box {
+        font-size: 12px !important;
+        height: 50px !important;
+        padding: 0 10px;
+      }
+
+      .modal-dialog {
+        margin: 5px;
+        max-width: calc(100vw - 10px);
+      }
+
+      .modal-custom .modal-header {
+        padding: 15px 10px;
+      }
+
+      .modal-custom .modal-title {
+        font-size: 1rem;
+      }
+
+      .modal-custom .modal-body {
+        padding: 15px 10px;
+      }
+
+      .profile-img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .form-control {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .form-label {
+        font-size: 12px;
+      }
+
+      .btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Landscape Mobile Optimization */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .profile-header {
+        height: 80px;
+      }
+
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      .profile-avatar-section {
+        bottom: -30px;
+      }
+
+      .profile-body {
+        padding: 35px 15px 15px;
+      }
+
+      .stats-card {
+        padding: 12px;
+      }
+
+      .nav-pills-custom .nav-link {
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%- include ('../partials/_navbar.ejs') %>
+    
+    <div class="container-fluid page-body-wrapper">
+      <%- include ('../partials/SettingsDow.ejs') %>
+      <%- include ('../partials/Sidebar.ejs') %>
+      
+      <!-- Admin Profile -->
+      <div class="card-body">
+        
+        <!-- Success/Error Messages -->
+        <% if (typeof messages !== 'undefined') { %>
+          <% if (messages.success) { %>
+            <div style="display: flex; justify-content: end;">
+              <div id="pusher-message-box" style="
+                display: flex;
+                border-left: 8px solid #45439e;
+                color: green;
+                font-weight: bold;
+                font-size: 16px;
+                justify-content: end;
+                align-items: center;
+                height: 70px;
+              " class="mt-3 alert alert-primary">
+                <%= messages.success %>
+              </div>
+            </div>
+          <% } %>
+          <% if (messages.error) { %>
+            <div style="display: flex; justify-content: end;">
+              <div id="pusher-message-box" style="
+                display: flex;
+                border-left: 8px solid #dc2626;
+                color: red;
+                font-weight: bold;
+                font-size: 16px;
+                justify-content: end;
+                align-items: center;
+                height: 70px;
+              " class="mt-3 alert alert-danger">
+                <%= messages.error %>
+              </div>
+            </div>
+          <% } %>
+        <% } %>
+
+        <script>
+          window.addEventListener('DOMContentLoaded', () => {
+            const msgBox = document.getElementById('pusher-message-box');
+            if (msgBox) {
+              setTimeout(() => {
+                msgBox.style.transition = "opacity 0.5s";
+                msgBox.style.opacity = 0;
+                setTimeout(() => msgBox.style.display = "none", 500);
+              }, 4000);
+            }
+          });
+        </script>
+
+        <div class="container-fluid px-4">
+          <div class="user-profile fade-in">
+            <!-- Top Stats Row -->
+            <div class="row mb-4">
+              <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card">
+                  <div class="stats-icon">
+                    <i class="bi bi-shield-check"></i>
+                  </div>
+                  <div class="stats-info">
+                    <h3>Admin</h3>
+                    <p>Access Level</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card">
+                  <div class="stats-icon security">
+                    <i class="bi bi-gear-fill"></i>
+                  </div>
+                  <div class="stats-info">
+                    <h3>System</h3>
+                    <p>Management</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card">
+                  <div class="stats-icon equipment">
+                    <i class="bi bi-people-fill"></i>
+                  </div>
+                  <div class="stats-info">
+                    <h3>Users</h3>
+                    <p>Control</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card">
+                  <div class="stats-icon status">
+                    <i class="bi bi-crown-fill"></i>
+                  </div>
+                  <div class="stats-info">
+                    <h3>Status</h3>
+                    <p>Administrator</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Content Row -->
+            <div class="row">
+              <!-- Left Column: Profile Info -->
+              <div class="col-lg-4 col-xl-3 mb-4">
+                <!-- Profile Card -->
+                <div class="profile-main-card slide-up">
+                  <div class="profile-header">
+                    <div class="profile-bg"></div>
+                    <div class="profile-avatar-section">
+                      <% if (adminUser && adminUser.user_img) { %>
+                        <img src="<%= adminUser.user_img.startsWith('http') ? adminUser.user_img : '/uploads/' + adminUser.user_img %>" alt="Avatar" class="profile-avatar" />
+                      <% } else { %>
+                        <img src="/images/profile-1740414577370.webp" alt="Avatar" class="profile-avatar" />
+                      <% } %>
+                      <div class="profile-status"></div>
+                    </div>
+                  </div>
+                  <div class="profile-body">
+                    <h3 class="profile-name">
+                      <%= adminUser ? (adminUser.Username || 'Administrator') : 'Administrator' %>
+                    </h3>
+                    <p class="profile-role">System Administrator</p>
+                    <div class="profile-stats-mini">
+                      <div class="stat-mini">
+                        <span class="stat-value">100%</span>
+                        <span class="stat-label">Complete</span>
+                      </div>
+                      <div class="stat-mini">
+                        <span class="stat-value">Active</span>
+                        <span class="stat-label">Status</span>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary btn-edit-profile" data-bs-toggle="modal" data-bs-target="#updateModal">
+                      <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Quick Actions Card -->
+                <div class="quick-actions-card slide-up">
+                  <h5 class="card-title">
+                    <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+                  </h5>
+                  <div class="quick-action-item" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                    <i class="bi bi-key"></i>
+                    <span>Change Password</span>
+                    <i class="bi bi-chevron-right"></i>
+                  </div>
+                  <div class="quick-action-item" onclick="window.location.href='/adminIndex'">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Admin Dashboard</span>
+                    <i class="bi bi-chevron-right"></i>
+                  </div>
+                  <div class="quick-action-item" onclick="window.location.href='/AdminUser'">
+                    <i class="bi bi-people"></i>
+                    <span>Manage Users</span>
+                    <i class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Main Content -->
+              <div class="col-lg-8 col-xl-9">
+                <!-- Navigation Tabs -->
+                <div class="professional-tabs">
+                  <ul class="nav nav-pills nav-pills-custom" id="adminProfileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">
+                        <i class="bi bi-person me-2"></i>Overview
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="details-tab" data-bs-toggle="pill" data-bs-target="#details" type="button" role="tab">
+                        <i class="bi bi-info-circle me-2"></i>Details
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="activity-tab" data-bs-toggle="pill" data-bs-target="#activity" type="button" role="tab">
+                        <i class="bi bi-activity me-2"></i>Activity
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="adminProfileTabsContent">
+                  <!-- Overview Tab -->
+                  <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                    <div class="content-card">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="bi bi-person-badge me-2"></i>Administrator Information</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-person"></i>Full Name
+                          </div>
+                          <div class="detail-value"><%= adminUser ? (adminUser.Username || 'Not specified') : 'Not specified' %></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-envelope"></i>Email Address
+                          </div>
+                          <div class="detail-value"><%= adminUser ? (adminUser.Email || 'Not specified') : 'Not specified' %></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-shield-check"></i>Role
+                          </div>
+                          <div class="detail-value">System Administrator</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-calendar-check"></i>Last Login
+                          </div>
+                          <div class="detail-value">Today, <%= new Date().toLocaleDateString() %></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Details Tab -->
+                  <div class="tab-pane fade" id="details" role="tabpanel">
+                    <div class="content-card">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="bi bi-gear me-2"></i>System Information</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-hash"></i>Admin ID
+                          </div>
+                          <div class="detail-value"><%= adminUser ? adminUser.id : 'N/A' %></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-hdd"></i>System Version
+                          </div>
+                          <div class="detail-value">ClickOpticx v2.0</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-database"></i>Database Status
+                          </div>
+                          <div class="detail-value">Connected</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-people"></i>Total Users
+                          </div>
+                          <div class="detail-value">Loading...</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Activity Tab -->
+                  <div class="tab-pane fade" id="activity" role="tabpanel">
+                    <div class="content-card">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="bi bi-clock-history me-2"></i>Recent Activity</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-box-arrow-in-right"></i>Login Sessions
+                          </div>
+                          <div class="detail-value">Active</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-check2-square"></i>Actions Today
+                          </div>
+                          <div class="detail-value">12 administrative actions</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-stopwatch"></i>Session Duration
+                          </div>
+                          <div class="detail-value">2 hours 15 minutes</div>
+                        </div>
+
+                        <div class="detail-row">
+                          <div class="detail-label">
+                            <i class="bi bi-bell"></i>Notifications
+                          </div>
+                          <div class="detail-value"><%= totalNotifactions || 0 %> unread</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Profile Modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-custom">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Update Admin Profile</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/admin/update-profile" method="POST" enctype="multipart/form-data">
+            <!-- Hidden field for existing image -->
+            <input type="hidden" name="existing_img" value="<%= adminUser ? adminUser.user_img : '' %>">
+            
+            <!-- Profile Picture Section -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <img src="<%= adminUser && adminUser.user_img ? (adminUser.user_img.startsWith('http') ? adminUser.user_img : '/uploads/' + adminUser.user_img) : '/images/profile-1740414577370.webp' %>"
+                alt="Profile" class="profile-img">
+              <label class="custom-file-btn bg-primary text-white btn btn-outline-secondary">
+                Choose file
+                <input type="file" name="user_img" id="profilePicInput" accept="image/*" hidden>
+              </label>
+              <span class="text-secondary" id="fileNameDisplay">No file chosen</span>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Full Name</label>
+              <input type="text" class="form-control" name="username" id="username" 
+                     value="<%= adminUser ? (adminUser.Username || '') : '' %>">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" name="email" id="email" 
+                     value="<%= adminUser ? (adminUser.Email || '') : '' %>">
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Update Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-custom">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Change Password</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/admin/change-password" method="POST">
+            <div class="mb-3">
+              <label for="current_password" class="form-label">Current Password</label>
+              <input type="password" class="form-control" name="current_password" id="current_password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="new_password" class="form-label">New Password</label>
+              <input type="password" class="form-control" name="new_password" id="new_password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirm_password" class="form-label">Confirm New Password</label>
+              <input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Change Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="vendors\js\vendor.bundle.base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // File upload preview (matches user profile functionality)
+    document.getElementById('profilePicInput').addEventListener('change', function(event) {
+      const fileInput = event.target;
+      const fileNameDisplay = document.getElementById('fileNameDisplay');
+      const profileImg = document.querySelector('.profile-img');
+
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        fileNameDisplay.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          profileImg.src = e.target.result;
+          // Also update the main profile avatar
+          const mainAvatar = document.querySelector('.profile-avatar');
+          if (mainAvatar) {
+            mainAvatar.src = e.target.result;
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        fileNameDisplay.textContent = 'No file chosen';
+      }
+    });
+
+    // Password confirmation validation
+    document.querySelector('form[action="/admin/change-password"]').addEventListener('submit', function(e) {
+      const newPassword = document.getElementById('new_password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+      
+      if (newPassword !== confirmPassword) {
+        e.preventDefault();
+        alert('New password and confirmation password do not match!');
+        return false;
+      }
+    });
+
+    // Update profile form handler (matches user profile)
+    document.querySelector('form[action="/admin/update-profile"]').addEventListener('submit', function(e) {
+      const fileInput = document.getElementById('profilePicInput');
+      if (fileInput.files && fileInput.files[0]) {
+        // Store selected image for immediate preview update
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          sessionStorage.setItem('pendingAdminProfileImage', e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    });
+
+    // Handle success messages and image updates
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check for pending profile image update
+      const pendingImage = sessionStorage.getItem('pendingAdminProfileImage');
+      const successMessage = document.getElementById('pusher-message-box');
+      const hasSuccessMessage = successMessage && successMessage.textContent.includes('successfully');
+
+      if (hasSuccessMessage && pendingImage) {
+        // Update all profile images on successful update
+        const allProfileImages = document.querySelectorAll('.profile-avatar, .profile-img');
+        allProfileImages.forEach((img) => {
+          if (img && img.tagName === 'IMG') {
+            img.src = pendingImage;
+          }
+        });
+        
+        // Clear pending image
+        sessionStorage.removeItem('pendingAdminProfileImage');
+      }
+    });
+  </script>
+</body>
+
+</html>
